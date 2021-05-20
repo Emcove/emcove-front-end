@@ -9,20 +9,20 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Registry from "./pages/Registry";
 
-import "./index.scss";
+import "./styles/index.scss";
 
 const Main = () => (
   <HashRouter>
-    <div>
+    <div className="main">
       <div className="routing-settings">
-        <span key="home"><NavLink exact to="/">Home</NavLink></span>
-        <span key="login"><NavLink to="/login">Login</NavLink></span>
-        <span key="registry"><NavLink to="/registry">Registry</NavLink></span>
+        <span key="home"><NavLink exact to="/home">Home</NavLink></span>
+        <span key="login"><NavLink exact to="/">Login</NavLink></span>
+        <span key="registry"><NavLink exact to="/registry">Registry</NavLink></span>
       </div>
       <>
-        <Route exact path="/" component={Home}/>
-        <Route path="/login" component={Login}/>
-        <Route path="/registry" component={Registry}/>
+        <Route exact path="/home" component={Home}/>
+        <Route exact path="/" component={Login}/>
+        <Route exact path="/registry" component={Registry}/>
       </>
     </div>
   </HashRouter>
