@@ -16,7 +16,6 @@ const Input = styled.input`
   
   ${props => props.required && css `
     border: solid 1px ${colors.redOrange};
-
   `}
 `;
 

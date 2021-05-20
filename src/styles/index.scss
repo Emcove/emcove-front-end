@@ -1,5 +1,11 @@
 @import "@fontsource/roboto";
 
+// Views
+@import "../pages/Login/styles.scss";
+
+// Components 
+@import "../components/Layout/styles.scss";
+
 body {
   margin: 0;
 }
