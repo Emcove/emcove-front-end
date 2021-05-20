@@ -29,7 +29,7 @@ const Content = styled.div`
 
   ${props => props.loginContent && css `
       height: calc(100% - 52px);
-      background-color: #f9f9f9;
+      background-color: ${colors.background};
   `}
 `;
 

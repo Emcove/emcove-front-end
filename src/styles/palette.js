@@ -10,5 +10,6 @@ module.exports = {
     textColor: '#333',
     cyanTen: 'rgba(91, 192, 235, 0.1)',
     white: '#fff',
+    background: '#f5f5f5',
   },
 }
