@@ -2,8 +2,10 @@
 import React from 'react';
 import styled, { css } from 'styled-components'
 
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 import { colors } from '../../styles/palette';
+
+import Link from '../Link';
 
 const Container = styled.div`
   background-color: ${colors.white};
@@ -36,6 +38,10 @@ const Content = styled.div`
 const Footer = styled.div`
   height: 52px;
   box-shadow: 0px -1px 10px 4px rgba(0,0,0,0.09);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 8%;
 `;
 
 const Logo = styled.div`
@@ -82,7 +88,9 @@ const Layout = ({ children, login }) => {
       <Content loginContent={login}>
         {children}
       </Content>
-      <Footer />
+      <Footer>
+        <Link>Términos y condiciones</Link>
+      </Footer>
     </Container>
   )
 }
