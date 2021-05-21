@@ -1,0 +1,22 @@
+@import "@fontsource/roboto";
+
+// Views
+@import "../pages/Home/styles.scss";
+@import "../pages/Login/styles.scss";
+@import "../pages/Registry/styles.scss";
+
+// Components 
+@import "../components/Layout/styles.scss";
+@import "../components/TextInput/styles.scss";
+
+body {
+  margin: 0;
+}
+
+.main {
+  font-family: 'Roboto';
+  
+  .routing-settings {
+    display: none;
+  }
+}
