@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <Layout>
       <div>
-        <h1>HOLA TINTIN</h1>
+        <h1>Listado</h1>
       </div>
     </Layout>
   );
