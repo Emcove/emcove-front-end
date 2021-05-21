@@ -73,7 +73,7 @@ const Registry = () => {
   }
 
   return (
-    <Layout>
+    <Layout registry>
       <div className="registry-page">
         <Title>Registro</Title>
         <div className="registry-container">
