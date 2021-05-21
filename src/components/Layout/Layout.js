@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { colors } from '../../styles/palette';
 
 import Link from '../Link';
+import Icons from '../Icons';
 
 const Container = styled.div`
   background-color: ${colors.white};
@@ -46,6 +47,9 @@ const Footer = styled.div`
 `;
 
 const Logo = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 48px;
   height: 48px;
   border-radius: 100%;
@@ -80,10 +84,10 @@ const Layout = ({ children, login }) => {
       {!login &&
         <Header>
           <div className="components-container" onClick={redirectHome}>
-            <Logo/>
+            <Logo><Icons type="logo" /></Logo>
             <CompanyName>Emcove</CompanyName>
           </div>
-          <ProfileAccess>Perfil</ProfileAccess>
+          <ProfileAccess><Icons type="user" /></ProfileAccess>
         </Header>
       }
       <Content loginContent={login}>

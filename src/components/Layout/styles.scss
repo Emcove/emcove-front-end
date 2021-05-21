@@ -4,6 +4,11 @@
   justify-content: space-between;
   padding: 0 8%;
 
+  .logo-svg {
+    width: 40px;
+    height: 40px;
+  }
+
   :hover {
     cursor: pointer;
   }
