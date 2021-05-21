@@ -9,7 +9,7 @@ import Link from '../Link';
 import Icons from '../Icons';
 
 const Container = styled.div`
-  background-color: ${colors.white};
+  background-color: ${colors.background};
   height: 100vh;
   width: 100%;
 `;
@@ -27,19 +27,20 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: calc(100% - 64px - 52px);
+  justify-content: flex-start;
+  height: calc(100% - 64px - 92px);
   overflow: scroll;
-
+  padding: 20px 8%;
   ${props => props.loginContent && css `
       height: calc(100% - 52px);
-      background-color: ${colors.background};
   `}
 `;
 
 const Footer = styled.div`
   height: 52px;
-  box-shadow: 0px -1px 10px 4px rgba(0,0,0,0.09);
+  border-top: solid 1px rgba(0,0,0,0.09);
+  -webkit-box-shadow: 0px -2px 8px 5px rgba(0,0,0,0.1); 
+  box-shadow: 0px -2px 8px 5px rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   justify-content: flex-start;

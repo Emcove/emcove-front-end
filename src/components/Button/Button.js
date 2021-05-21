@@ -16,7 +16,6 @@ const Button = styled.button`
     color: white;
     &:hover {
       cursor: pointer;
-      d
     }
   `}
   ${props => props.secondary && css `
