@@ -33,6 +33,8 @@ const Content = styled.div`
   padding: 20px 8%;
   ${props => props.loginContent && css `
       height: calc(100% - 52px);
+      justify-content: center;
+      padding: 0;
   `}
 `;
 
