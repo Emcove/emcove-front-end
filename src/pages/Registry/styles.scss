@@ -1,17 +1,28 @@
 .registry {
   &-page {
-    width: 80%;
+    max-width: 1280px;
+    width: 40%;
   }
 
   &-container {
-    width: 100%;
     display: flex;
-    background-color: blue;
+    justify-content: space-between;
   }
 
   &-data {
     display: flex;
     flex-direction: column;
-    background-color: red;
+    width: 100%;
+    margin-right: 32px;
+  }
+
+  &-button {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 25%;
+
+    .login-button {
+      margin-top: 16px;
+    }
   }
 }

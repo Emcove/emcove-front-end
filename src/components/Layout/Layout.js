@@ -28,6 +28,7 @@ const Content = styled.div`
   align-items: center;
   justify-content: center;
   height: calc(100% - 64px - 52px);
+  overflow: scroll;
 
   ${props => props.loginContent && css `
       height: calc(100% - 52px);

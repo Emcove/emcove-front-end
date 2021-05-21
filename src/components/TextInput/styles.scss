@@ -12,12 +12,13 @@
 }
 
 .text-input:focus-visible {
-  border: solid 3px #9BC53D;
-  outline-color: transparent;
+  border: solid 1px #9BC53D;
+  outline: none;
 }
 
 .text-input__required:focus-visible {
-  border: solid 3px #E55934;
+  border: solid 2px #E55934;
+  outline: none;
 }
 
 .label-space {
