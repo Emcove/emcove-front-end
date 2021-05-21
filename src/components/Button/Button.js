@@ -6,10 +6,11 @@ import { colors } from '../../styles/palette';
 const Button = styled.button`
   background: transparent;
   border-radius: 3px;
-  margin: 0.5em 1em;
   padding: 8px 10px;
   border: none;
-
+  width: 100%;
+  font-size: 14px;
+  
   ${props => props.primary && css`
     background: ${colors.cyan};
     color: white;

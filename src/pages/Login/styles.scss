@@ -1,7 +1,11 @@
 .login {
+  font-family: 'Roboto';
+
   &-container {
+    min-width: 290px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     background-color: white;
     padding: 32px;
     border-radius: 6px;
@@ -9,6 +13,20 @@
   }
 
   &-inputs {
-    margin-top: 16px;
+    width: 100%;
+    margin-top: 48px;
+  }
+
+  &-button {
+    width: 100%;
+    margin-top: 40px;
+  }
+
+  &-registry-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 18px;
   }
 }
