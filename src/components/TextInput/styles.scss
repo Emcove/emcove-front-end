@@ -5,6 +5,10 @@
   outline-color: transparent;
   font-size: 14px;
   font-family: 'Roboto';
+
+  &__required {
+    border: solid 1px #E55934;
+  }
 }
 
 .text-input:focus-visible {
@@ -12,6 +16,14 @@
   outline-color: transparent;
 }
 
+.text-input__required:focus-visible {
+  border: solid 3px #E55934;
+}
+
 .label-space {
   height: 23px;
+}
+
+.warning-space {
+  height: 15px;
 }

@@ -1,20 +1,21 @@
 
 import React from 'react';
 import styled, { css } from 'styled-components'
+import classNames from 'classnames';
 
 import { colors } from '../../styles/palette';
 
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 `;
 
 const WarningMessage = styled.span`
   font-family: 'Roboto';
-  font-size: 12px;
+  font-size: 10px;
   color: ${colors.redOrange};
-  margin-top: 8px;
+  margin-top: 4px;
 `;
 
 const Label = styled.span`
@@ -24,7 +25,7 @@ const Label = styled.span`
   margin-bottom: 4px;
 `;
 
-const TextInput = ({ label, required, value, placeholder, type, id, onChange }) => {
+const TextInput = ({ id, label, value, required, placeholder, type, onChange }) => {
 
   const handleFieldChange = (e) => {
     onChange(e.currentTarget.value);
@@ -32,16 +33,17 @@ const TextInput = ({ label, required, value, placeholder, type, id, onChange }) 
 
   return (
     <InputContainer>
-      { label && value && <Label>{label}</Label> }
-      { label && !value && <div className="label-space" />}
+      {label && value && <Label>{label}</Label>}
+      {label && !value && <div className="label-space" />}
       <input
-        className="text-input"
+        className={classNames("text-input", {"text-input__required": required})}
         id={id}
         type={type}
         value={value}
         placeholder={placeholder}
         onChange={(e) => handleFieldChange(e)}
       />
+      {required && <WarningMessage>Campo requerido</WarningMessage>}
     </InputContainer>
   )
 }

@@ -13,9 +13,24 @@ const Login = () => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [requiredEmail, setRequiredEmail] = useState(false);
+  const [requiredPass, setRequiredPass] = useState(false);
 
   const redirect = (view) => {
     history.push(view);
+  }
+
+  const submitForm = () => {
+    if (email !== '' && password !== '') {
+      redirect('/home');
+    }
+    
+    if (email === '') {
+      setRequiredEmail(true);
+    }
+    if (password === '') {
+      setRequiredPass(true);
+    }
   }
 
   return (
@@ -28,18 +43,22 @@ const Login = () => {
             placeholder="Correo electrónico"
             type="text"
             value={email}
-            onChange={(e) => setEmail(e.currentTarget.value)}
+            required={requiredEmail}
+            id="email"
+            onChange={setEmail}
           />
           <TextInput
             label="Contraseña"
             placeholder="Contraseña"
             type="password"
+            id="password"
             value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
+            required={requiredPass}
+            onChange={setPassword}
           />
         </div>
         <div className="login-button">
-          <Button primary onClick={() => redirect('/home')}>Iniciar Sesión</Button>
+          <Button primary onClick={submitForm}>Iniciar Sesión</Button>
         </div>
         <div className="login-registry-section">
           <Link onClick={() => redirect('/registry')}>¿No tenés cuenta? Registrate</Link>
