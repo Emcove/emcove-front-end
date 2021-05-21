@@ -1,0 +1,17 @@
+.registry {
+  &-page {
+    width: 80%;
+  }
+
+  &-container {
+    width: 100%;
+    display: flex;
+    background-color: blue;
+  }
+
+  &-data {
+    display: flex;
+    flex-direction: column;
+    background-color: red;
+  }
+}

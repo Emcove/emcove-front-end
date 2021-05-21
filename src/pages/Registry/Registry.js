@@ -1,7 +1,31 @@
-import React from 'react';;
+import React from 'react';
 
-const Registry = () => (
-  <div><h1>Registry</h1></div>
-);
+import Layout from '../../components/Layout';
+import Title from '../../components/Title';
+import Subtitle from '../../components/Subtitle';
+
+const Registry = () => {
+  return (
+    <Layout>
+      <div className="registry-page">
+        <Title>Registro</Title>
+        <div className="registry-container">
+          <div className="registry-data">
+            <Subtitle>Datos de la cuenta</Subtitle>
+            <div className="registry-account-data__inputs">
+
+            </div>
+          </div>
+          <div className="registry-data">
+            <Subtitle>Datos personales</Subtitle>
+            <div className="registry-personal-data__inputs">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
+}
 
 export default Registry;
