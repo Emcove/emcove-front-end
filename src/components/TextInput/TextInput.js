@@ -25,6 +25,11 @@ const Label = styled.span`
 `;
 
 const TextInput = ({ label, required, value, placeholder, type, id, onChange }) => {
+
+  const handleFieldChange = (e) => {
+    onChange(e.currentTarget.value);
+  }
+
   return (
     <InputContainer>
       { label && value && <Label>{label}</Label> }
@@ -35,7 +40,7 @@ const TextInput = ({ label, required, value, placeholder, type, id, onChange }) 
         type={type}
         value={value}
         placeholder={placeholder}
-        onChange={(e) => onChange(e)}
+        onChange={(e) => handleFieldChange(e)}
       />
     </InputContainer>
   )
