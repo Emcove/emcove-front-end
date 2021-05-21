@@ -15,14 +15,14 @@ const WarningMessage = styled.span`
   font-family: 'Roboto';
   font-size: 10px;
   color: ${colors.redOrange};
-  margin-top: 4px;
+  margin: .61538em 0 0 .46154em;
 `;
 
 const Label = styled.span`
   font-family: 'Roboto';
   color: #808080;
   font-size: 14px;
-  margin-bottom: 4px;
+  margin: 0 0 .42857em .42857em;
 `;
 
 const TextInput = ({ id, label, value, required, placeholder, type, onChange }) => {
