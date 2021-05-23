@@ -85,7 +85,7 @@ const Registry = () => {
                 label="Correo electrónico"
                 value={email}
                 placeholder="Correo electrónico"
-                type="text"
+                type="email"
                 onChange={setEmail}
                 required={requiredEmail}
               />
@@ -94,7 +94,7 @@ const Registry = () => {
                 label="Confirmar correo electrónico"
                 value={emailConfirmation}
                 placeholder="Confirmar correo electrónico"
-                type="text"
+                type="email"
                 onChange={setEmailConfirmation}
                 required={requiredEmailConf}
               />

@@ -41,7 +41,7 @@ const Login = () => {
           <TextInput
             label="Correo electrónico"
             placeholder="Correo electrónico"
-            type="text"
+            type="email"
             value={email}
             required={requiredEmail}
             id="email"

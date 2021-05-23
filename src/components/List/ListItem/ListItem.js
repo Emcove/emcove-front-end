@@ -10,9 +10,9 @@ const Card = styled.div`
   padding: 20px;
   margin-bottom: 8px;
   border-radius: 4px;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
   background-color: #fff;
   transition: box-shadow 0.2s ease-in-out;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
   &:hover {
     cursor: pointer;
     box-shadow: 0 8px 16px 0 rgb(0 0 0 / 10%);
