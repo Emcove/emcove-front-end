@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components'
 
+import { useHistory } from "react-router-dom";
+
 import Layout from '../../components/Layout';
 import Title from '../../components/Title';
 import List from '../../components/List';
@@ -42,6 +44,8 @@ const AddBusinessButton = styled.button`
 `;
 
 const Home = () => {
+  const history = useHistory();
+
   return (
     <Layout>
       <Content>
@@ -64,7 +68,7 @@ const Home = () => {
           <ListItem animated title="Emprendimiento 4" description="Descripción" />
           <ListItem animated title="Emprendimiento 4" description="Descripción" />
         </List>
-        <AddBusinessButton>
+        <AddBusinessButton onClick={() => history.push('/createBusiness')}>
           <Icon type="add" className="add-button__icon" />
         </AddBusinessButton>
       </Content>
