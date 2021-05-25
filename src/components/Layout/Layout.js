@@ -15,7 +15,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-  background-color: ${colors.redOrange};
+  background-color: ${colors.error};
   height: 64px;
   box-shadow: 0px 4px 10px 2px rgb(0 0 0 / 19%);
   display: flex;

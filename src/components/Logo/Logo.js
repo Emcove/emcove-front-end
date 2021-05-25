@@ -10,7 +10,7 @@ const LogoContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${colors.orange};
+  background-color: ${colors.warning};
   border-radius: 100%;
   height: 186px;
   width: 186px;

@@ -31,7 +31,7 @@ const AddBusinessButton = styled.button`
   border: none;
   width: 60px;
   height: 60px;
-  background-color: ${colors.cyan};
+  background-color: ${colors.primary};
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
   &:hover {
     cursor: pointer;

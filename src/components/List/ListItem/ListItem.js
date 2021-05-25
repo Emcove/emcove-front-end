@@ -23,7 +23,7 @@ const Image = styled.div`
   width: 52px;
   height: 52px;
   border-radius: 100%;
-  background-color: ${colors.green};
+  background-color: ${colors.success};
 `;
 
 const Content = styled.div`
