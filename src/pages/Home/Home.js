@@ -5,6 +5,7 @@ import Layout from '../../components/Layout';
 import Title from '../../components/Title';
 import List from '../../components/List';
 import ListItem from '../../components/List/ListItem';
+import Icon from '../../components/Icons';
 
 import { colors } from '../../styles/palette';
 
@@ -31,12 +32,12 @@ const AddBusinessButton = styled.button`
   border: none;
   width: 60px;
   height: 60px;
-  background-color: ${colors.primary};
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
+  background-color: ${colors.white};
+  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+  transition: box-shadow .08s linear,min-width .15s cubic-bezier(0.4,0.0,0.2,1);
   &:hover {
     cursor: pointer;
-    background-color: #37A3D1;
-    transition: background-color 0.2s ease-in;
+    box-shadow: 0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%);
   }
 `;
 
@@ -63,7 +64,9 @@ const Home = () => {
           <ListItem animated title="Emprendimiento 4" description="Descripción" />
           <ListItem animated title="Emprendimiento 4" description="Descripción" />
         </List>
-        <AddBusinessButton />
+        <AddBusinessButton>
+          <Icon type="add" className="add-button__icon" />
+        </AddBusinessButton>
       </Content>
     </Layout>
   );

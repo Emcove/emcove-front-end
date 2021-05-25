@@ -24,6 +24,7 @@ const Image = styled.div`
   height: 52px;
   border-radius: 100%;
   background-color: ${colors.success};
+  display: inline-table;
 `;
 
 const Content = styled.div`
