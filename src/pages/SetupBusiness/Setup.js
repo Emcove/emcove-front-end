@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 
 import { useHistory } from 'react-router-dom';
 
+import Checkbox from '../../components/Checkbox';
 import Layout from '../../components/Layout';
 import Icon from '../../components/Icons';
 import Link from '../../components/Link';
@@ -70,11 +71,13 @@ const NameInput = styled.input`
 `;
 
 
+
 const Setup = () => {
   const history = useHistory();
   const inputLogoRef = useRef("logoInput");
   const [name, setName] = useState('');
   const [logo, setLogo] = useState();
+  const [doesShipments, setDoesShipments] = useState(false);
 
   const handleLogoClick = (e) => {
     e.preventDefault();
@@ -125,6 +128,12 @@ const Setup = () => {
               value={name}
               onChange={(e) => setName(e.currentTarget.value)}
               placeholder="Nombre de emprendimiento"
+            />
+            <Checkbox
+              id="shipmentInput"
+              label="Hago envíos"
+              checked={doesShipments}
+              onClick={() => setDoesShipments(!doesShipments)}
             />
           </div>
         </div>

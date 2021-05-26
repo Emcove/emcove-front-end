@@ -15,6 +15,12 @@ const Icons = ({ type, className }) => {
       return (
         <svg className={className} height="512pt" viewBox="0 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg"><path d="m304 512h-96c-17.679688 0-32-14.320312-32-32v-144h-144c-17.679688 0-32-14.320312-32-32v-96c0-17.679688 14.320312-32 32-32h144v-144c0-17.679688 14.320312-32 32-32h96c17.679688 0 32 14.320312 32 32v144h144c17.679688 0 32 14.320312 32 32v96c0 17.679688-14.320312 32-32 32h-144v144c0 17.679688-14.320312 32-32 32zm0 0" fill="#48c8ef"/></svg>
       );
+    case 'check':
+      return (
+        <svg className={className} xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" svgjs="http://svgjs.com/svgjs" version="1.1" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" space="preserve"><g>
+          <polygon xmlns="http://www.w3.org/2000/svg" points="202.624,478.016 0,291.36 70.512,214.8 191.968,326.656 431.44,33.984 512,99.904 " fill="#ffffff" data-original="#0ba4e0" class=""/></g>
+        </svg>
+      );
     case 'upload':
       return (
         <svg className={className} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -33,7 +39,6 @@ const Icons = ({ type, className }) => {
               l42.667,42.667c4.159,4.172,4.149,10.926-0.024,15.085C293.63,361.35,290.923,362.469,288.1,362.47z"/>
           </g>
         </svg>
-
       );
     default:
       return null;
