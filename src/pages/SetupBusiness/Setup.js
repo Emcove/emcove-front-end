@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { useHistory } from 'react-router-dom';
 
@@ -15,19 +15,27 @@ const Content = styled.div`
 `;
 
 const Logo = styled.button`
-  min-width: 100px;
-  height: 100px;
+  min-width: 132px;
+  height: 132px;
   border-radius: 100%;
-  border: dashed 1px ${colors.lightGray};
-  background-color: ${colors.white};
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: center; 
+  position: relative;
+  overflow: hidden;
+  border: dashed 1px ${colors.lightGray};
+  background-color: ${colors.white};
+  transition: background-color 0.2s ease-in-out;
 
-    &:hover {
-      cursor: pointer;
-    }
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(0,0,0,0.015);
+  }
+
+  ${props => props.withImage && css `
+    border: solid 1px ${colors.lightGray};
+  `}
 `;
 
 const LogoUploader = styled.input`
@@ -59,8 +67,9 @@ const NameInput = styled.input`
 
 const Setup = () => {
   const history = useHistory();
-  const inputLogoRef = useRef("logo");
+  const inputLogoRef = useRef("logoInput");
   const [name, setName] = useState('');
+  const [logo, setLogo] = useState();
 
   const handleLogoClick = (e) => {
     e.preventDefault();
@@ -74,7 +83,12 @@ const Setup = () => {
   }
 
   const updateLogo = (event) => {
-    console.log(event.currentTarget.value);
+    const file = event.currentTarget.files[0];
+    if (file) {
+      // Agregar filereader para guardar el archivo en base 64
+      setLogo(URL.createObjectURL(file));
+      //logoImageRef.src = URL.createObjectURL(file)
+    }
   }
 
   return (
@@ -82,14 +96,19 @@ const Setup = () => {
       <Content>
         <Link onClick={() => history.push("/home")}>Volver al listado</Link>
         <div className="setup-business__essentials">
-          <Logo onClick={(e) => handleLogoClick(e)}>
-            <Icon type="upload" className="upload-logo__icon" />
-            <MiniLabel>Logo</MiniLabel>
+          <Logo onClick={(e) => handleLogoClick(e)} withImage={!!logo}>
+            {!logo && 
+            <>
+              <Icon type="upload" className="upload-logo__icon" />
+              <MiniLabel>Logo</MiniLabel>
+            </>
+            }
+            {logo && <img id="logoImage" src={logo} alt="business logo" className="logo-image" />}
           </Logo>
           <LogoUploader 
             type="file"
             accept="image/*"
-            id="logo"
+            id="logoInput"
             data-required={false}
             onChange={updateLogo}
             ref={inputLogoRef}  
