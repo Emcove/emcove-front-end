@@ -15,7 +15,7 @@ const Content = styled.div`
 `;
 
 const Logo = styled.button`
-  width: 100px;
+  min-width: 100px;
   height: 100px;
   border-radius: 100%;
   border: dashed 1px ${colors.lightGray};
@@ -42,6 +42,7 @@ const MiniLabel = styled.span`
 `;
 
 const NameInput = styled.input`
+  width: 50%;
   border: none;
   border-bottom: solid 1px ${colors.lightGray};
   background-color: transparent;
@@ -98,6 +99,7 @@ const Setup = () => {
               type="text"
               value={name}
               onChange={(e) => setName(e.currentTarget.value)}
+              placeholder="Nombre de emprendimiento"
             />
           </div>
         </div>
