@@ -8,7 +8,6 @@ import Icon from '../Icons';
 const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 24px;
   margin-top: 16px;
 `;
 
@@ -28,6 +27,10 @@ const CheckboxInput = styled.div`
   align-items: center;
   justify-content: center;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   ${props => props.checked && css `
     width: 18px;
     height: 18px;
@@ -36,9 +39,9 @@ const CheckboxInput = styled.div`
   `}
 `;
 
-const Checkbox = ({ id, label, checked, onClick }) => {
+const Checkbox = ({ id, label, checked, onClick, className }) => {
   return (
-    <CheckboxContainer>
+    <CheckboxContainer className={className}>
       <CheckboxInput id={id} type="checkbox" checked={checked} onClick={onClick}>
         {checked && <Icon type="check" className="input-check" />}
       </CheckboxInput>

@@ -8,6 +8,7 @@ import Subtitle from '../../components/Subtitle';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import Link from '../../components/Link';
+import Checkbox from '../../components/Checkbox';
 
 const Registry = () => {
   const history = useHistory();
@@ -28,6 +29,7 @@ const Registry = () => {
   const [lastName, setLastName] = useState('');
   const [requiredLastName, setRequiredLastName] = useState('');
   const [city, setCity] = useState('');
+  const [adult, setAdult] = useState(false);
 
   const allRequiredFieldsComplete = () => {
     return email !== '' && emailConfirmation !== '' && password !== '' && passwordConfirmation !== '' &&
@@ -147,6 +149,12 @@ const Registry = () => {
                 placeholder="Localidad"
                 type="text"
                 onChange={setCity}
+              />
+              <Checkbox
+                id="adultCheckbox"
+                label="Soy mayor de 18 años"
+                checked={adult}
+                onClick={() => setAdult(!adult)}
               />
             </div>
           </div>

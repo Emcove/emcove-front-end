@@ -62,7 +62,6 @@ const NameInput = styled.input`
   background-color: transparent;
   font-size: 32px;
   color: ${colors.textColor};
-  margin-left: 24px;
 
   &:focus-visible {
     outline: none;
@@ -92,10 +91,10 @@ const Setup = () => {
 
   const updateLogo = (event) => {
     const file = event.currentTarget.files[0];
+
     if (file) {
       // Agregar filereader para guardar el archivo en base 64
       setLogo(URL.createObjectURL(file));
-      //logoImageRef.src = URL.createObjectURL(file)
     }
   }
 
