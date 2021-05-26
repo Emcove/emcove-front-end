@@ -34,7 +34,12 @@ const Logo = styled.button`
   }
 
   ${props => props.withImage && css `
-    border: solid 1px ${colors.lightGray};
+    border: solid 1px rgba(0,0,0,0.05);
+    transition: box-shadow .08s linear,min-width .15s cubic-bezier(0.4,0.0,0.2,1);
+    
+    &:hover {
+      box-shadow:  0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+    }
   `}
 `;
 
@@ -57,13 +62,13 @@ const NameInput = styled.input`
   font-size: 32px;
   color: ${colors.textColor};
   margin-left: 24px;
-  align-self: center;
 
   &:focus-visible {
     outline: none;
     border-bottom-color: #9BC53D;
   }
-`; 
+`;
+
 
 const Setup = () => {
   const history = useHistory();
@@ -116,6 +121,7 @@ const Setup = () => {
           <div className="setup-business__name">
             <NameInput
               type="text"
+              id="businessName"
               value={name}
               onChange={(e) => setName(e.currentTarget.value)}
               placeholder="Nombre de emprendimiento"

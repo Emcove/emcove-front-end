@@ -9,13 +9,17 @@
     }
 
     .logo-image {
-      display: inline;
       height: 100%;
-      width: auto;
+      width: fit-content;
+      max-width: 132px;
+      display: inline;
     }
   }
   &__name {
     width: 100%;
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
   }
 }
