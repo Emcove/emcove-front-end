@@ -17,7 +17,7 @@ const Icons = ({ type, className }) => {
       );
     case 'upload':
       return (
-        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        <svg className={className} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
           viewBox="0 0 512.293 512.293" style={{ "enable-background": "new 0 0 512.293 512.293"}} space="preserve">
           <path style={{"fill": "#BBDEFB"}} d="M402.148,149.606C384.338,63.054,299.735,7.328,213.183,25.138
             C139.07,40.389,85.774,105.472,85.434,181.136c0,3.605,0.149,7.296,0.469,11.2C33.178,197.917-5.04,245.183,0.541,297.908

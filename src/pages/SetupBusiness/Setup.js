@@ -18,16 +18,13 @@ const Logo = styled.button`
   width: 100px;
   height: 100px;
   border-radius: 100%;
+  border: dashed 1px ${colors.lightGray};
   background-color: ${colors.white};
-  border: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-    &:active {
-      border: none;
-    }
     &:hover {
       cursor: pointer;
     }
@@ -43,6 +40,21 @@ const MiniLabel = styled.span`
   font-size: 12px;
   color: ${colors.lightGray};
 `;
+
+const NameInput = styled.input`
+  border: none;
+  border-bottom: solid 1px ${colors.lightGray};
+  background-color: transparent;
+  font-size: 32px;
+  color: ${colors.textColor};
+  margin-left: 24px;
+  align-self: center;
+
+  &:focus-visible {
+    outline: none;
+    border-bottom-color: #9BC53D;
+  }
+`; 
 
 const Setup = () => {
   const history = useHistory();
@@ -81,11 +93,13 @@ const Setup = () => {
             onChange={updateLogo}
             ref={inputLogoRef}  
           />
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.currentTarget.value)}
-          />
+          <div className="setup-business__name">
+            <NameInput
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.currentTarget.value)}
+            />
+          </div>
         </div>
       </Content>
     </Layout>
