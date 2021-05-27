@@ -7,8 +7,10 @@ import Checkbox from '../../components/Checkbox';
 import Layout from '../../components/Layout';
 import Icon from '../../components/Icons';
 import Link from '../../components/Link';
+import ProductsCard from './components/Products';
 
 import { colors } from '../../styles/palette';
+import Subtitle from '../../components/Subtitle';
 
 const Content = styled.div`
   padding: 8px 8%;
@@ -135,6 +137,10 @@ const Setup = () => {
               onClick={() => setDoesShipments(!doesShipments)}
             />
           </div>
+        </div>
+        <div className="setup-business__properties">
+          <ProductsCard />
+          <div><Subtitle>Categorías</Subtitle></div>
         </div>
       </Content>
     </Layout>

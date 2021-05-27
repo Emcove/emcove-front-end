@@ -4,20 +4,7 @@ import styled, { css } from 'styled-components'
 
 import { colors } from '../../../styles/palette';
 
-const Card = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  background-color: #fff;
-  transition: box-shadow 0.2s ease-in-out;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
-  &:hover {
-    cursor: pointer;
-    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 10%);
-  }
-`;
+import Card from '../../Card';
 
 const Image = styled.div`
   width: 52px;
@@ -57,7 +44,7 @@ const ListGroup = styled.div`
 
 const ListItem = ({ children, title, description }) => {
   return (
-    <Card>
+    <Card animated>
       <Image>
       </Image>
       <ListGroup>
