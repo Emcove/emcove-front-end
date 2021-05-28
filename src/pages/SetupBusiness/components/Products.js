@@ -23,11 +23,19 @@ const Container = styled.div`
 `;
 
 const ProductsCard = ({ products }) => {
+  const properties = {
+    Color: ['Azul', 'Rojo', 'Amarillo'],
+    Sabor: ['Limón', 'Chocolate', 'Vainilla'], 
+  };
   return (
     <Container>
       <Subtitle>Productos</Subtitle>
       <Card>
-        <ProductCard name="Producto Ejemplo" description="esta es la descripcion" />
+        <ProductCard
+          name="Producto Ejemplo"
+          description="esta es la descripcion"
+          properties={properties}
+        />
         <NewProduct />
       </Card>
     </Container>

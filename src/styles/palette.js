@@ -11,5 +11,6 @@ module.exports = {
     primaryTen: 'rgba(91, 192, 235, 0.1)',
     white: '#fff',
     background: '#f5f5f5',
+    grayBorder: '#b3aeae82',
   },
 }

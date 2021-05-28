@@ -1,9 +1,11 @@
 import React from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 import { colors } from '../../../styles/palette';
 
 import Icon from '../../../components/Icons';
+import Dropdown from '../../../components/Dropdown';
+
 
 const Container = styled.div`
   display: flex;
@@ -22,7 +24,7 @@ const ImageUploader = styled.div`
   min-width: 100px;
   max-width: 100px;
   height: 80px;
-  border: solid 1px #b3aeae82;
+  border: solid 1px ${colors.grayBorder};
   border-radius: 3px;
   background-color: transparent;
   transition: box-shadow .08s linear,min-width .15s cubic-bezier(0.4,0.0,0.2,1);
@@ -36,17 +38,19 @@ const SmallContainer = styled.div`
   padding: 0 0 0 12px;
   display: flex;
   flex-direction: column;
-  align-self: flex-start;
   width: 50%;
 `;
 
 const Name = styled.span`
+  margin-bottom: 4px;
   font-weight: 600;
   color: ${colors.text};
 `;
 
 const Description = styled.span`
+  margin-bottom: 4px;
   color: rgba(0,0,0,0.4);
+  font-size: 14px;
 `;
 
 const ProductCard = ({ image, name, description, properties }) => {
@@ -61,7 +65,9 @@ const ProductCard = ({ image, name, description, properties }) => {
         <Description>{description}</Description>
       </SmallContainer>
       <SmallContainer>
-        
+        { Object.keys(properties).map(k => 
+          <Dropdown placeholder="Elegí una opción" options={properties[k]} label={k} />
+        )}
       </SmallContainer>
     </Container>
   );
