@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 
 import { colors } from '../../../styles/palette';
 
-import Icon from '../../../components/Icons';
 import Dropdown from '../../../components/Dropdown';
-
+import ImageUploader from '../../../components/ImageUploader';
 
 const Container = styled.div`
   display: flex;
@@ -15,23 +14,6 @@ const Container = styled.div`
   border-radius: 3px;
   align-items: center;
   border-bottom: solid 1px rgba(0, 0, 0, 0.1);
-`;
-
-const ImageUploader = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 100px;
-  max-width: 100px;
-  height: 80px;
-  border: solid 1px ${colors.grayBorder};
-  border-radius: 3px;
-  background-color: transparent;
-  transition: box-shadow .08s linear,min-width .15s cubic-bezier(0.4,0.0,0.2,1);
-  &:hover {
-    cursor: pointer;
-    box-shadow:  0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
-  }
 `;
 
 const SmallContainer = styled.div`
@@ -53,13 +35,20 @@ const Description = styled.span`
   font-size: 14px;
 `;
 
+
 const ProductCard = ({ image, name, description, properties }) => {
+  const [logo, setLogo] = useState(image);
+
   return (
     <Container>
-      <ImageUploader>
-        { !image && <Icon type="upload" className="upload-product__icon" /> }
-        { image &&  <img id="productImage" src={image} alt="business product" className="product-image" />}
-      </ImageUploader>
+      {/* El id lo hice así para cuando tengamos muchos productos no haya ids repetidos */}
+      <ImageUploader
+        iconClass="upload-product__icon"
+        id={`product-${name}-image`}
+        shape="squared"
+        onChange={setLogo}
+        image={logo}
+      />
       <SmallContainer>
         <Name>{name}</Name>
         <Description>{description}</Description>
