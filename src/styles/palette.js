@@ -12,5 +12,6 @@ module.exports = {
     white: '#fff',
     background: '#f5f5f5',
     grayBorder: '#b3aeae82',
+    primaryHover: '#5bc0eb3d',
   },
 }

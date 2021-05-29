@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
 
 import { colors } from '../../styles/palette';
@@ -13,7 +13,6 @@ const Container = styled.div`
 `;
 
 const DropdownDispatcher = styled.button`
-  min-width: 170px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,16 +36,36 @@ const Label = styled.span`
 `;
 
 const Options = styled.div`
+  position: absolute;
+  margin-top: 14px;
   border: solid 1px ${colors.grayBorder};
   border-radius: 3px;
   background-color: ${colors.white};
-  width: 170px;
-  height: 40px;
 `;
 
-const Dropdown = ({ label, options, placeholder }) => {
+const Option = styled.button`
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  background-color: transparent;
+  text-align: left;
+
+  :hover {
+    cursor: pointer;
+    background-color: ${colors.primaryHover};
+  }
+`;
+
+const Dropdown = ({ label, options, placeholder, onClickOption }) => {
   const [showingPlaceholder, setPlaceholder] = useState(placeholder);
   const [showOptions, setShowOptions] = useState(false);
+
+  const optionClicked = (option) => {
+    setPlaceholder(option);
+    onClickOption && onClickOption(option);
+    setShowOptions(false);
+  };
+
   return (
     <Container className="dropdown-component">
       <Label>{label}</Label>
@@ -57,8 +76,8 @@ const Dropdown = ({ label, options, placeholder }) => {
         </IconContainer>
       </DropdownDispatcher>
       {showOptions &&
-        <Options>
-
+        <Options id="dropdownOption">
+          {options.map(option => <Option onClick={() => optionClicked(option)}>{option}</Option>)}
         </Options>
       }
     </Container>
