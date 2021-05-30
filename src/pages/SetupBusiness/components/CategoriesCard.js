@@ -6,6 +6,7 @@ import Checkbox from '../../../components/Checkbox';
 import CategoriesList from '../../../components/CategoriesList';
 
 const Card = styled.div`
+  min-height: 314px;
   padding: 20px;
   margin-bottom: 8px;
   border-radius: 4px;
