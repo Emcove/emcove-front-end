@@ -49,6 +49,7 @@ const CategoriesCard = ({ categories, onClick }) => {
               label={category}
               checked={categories.includes(category)}
               onClick={() => onClick(category)}
+              className="setup-business__category-checkbox"
             />
           )}
         </ChecksContainer>

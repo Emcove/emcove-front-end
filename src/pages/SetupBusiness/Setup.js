@@ -7,13 +7,16 @@ import Checkbox from '../../components/Checkbox';
 import Layout from '../../components/Layout';
 import Link from '../../components/Link';
 import ImageUploader from '../../components/ImageUploader';
+import TextInput from '../../components/TextInput';
+import Button from '../../components/Button';
+
 import ProductsCard from './components/Products';
 import Categories from './components/CategoriesCard';
 
 import { colors } from '../../styles/palette';
 
 const Content = styled.div`
-  padding: 8px 8%;
+  padding: 0 8%;
   width: 100%;
 `;
 
@@ -31,11 +34,17 @@ const NameInput = styled.input`
   }
 `;
 
+const TextInputContainer = styled.div`
+  margin-top: 16px;
+  width: 50%;
+`;
+
 const Setup = () => {
   const history = useHistory();
   
   const [name, setName] = useState('');
   const [logo, setLogo] = useState();
+  const [city, setCity] = useState('');
   const [doesShipments, setDoesShipments] = useState(false);
   const [categories, setCategories] = useState([]);
 
@@ -70,6 +79,16 @@ const Setup = () => {
               onChange={(e) => setName(e.currentTarget.value)}
               placeholder="Nombre de emprendimiento"
             />
+            <TextInputContainer>
+              <TextInput
+                id="city"
+                value={city}
+                required={false}
+                type="text"
+                onChange={setCity}
+                placeholder="Localidad"
+              />
+            </TextInputContainer>
             <Checkbox
               id="shipmentInput"
               label="Hago envíos"
@@ -81,6 +100,11 @@ const Setup = () => {
         <div className="setup-business__properties">
           <ProductsCard />
           <Categories categories={categories} onClick={handleCategoriesClick} />
+        </div>
+        <div className="setup-business__submit-button">
+          <Button primary onClick={() => console.log('Emprendimiento Creado')}>
+            CREAR EMPRENDIMIENTO
+          </Button>
         </div>
       </Content>
     </Layout>

@@ -8,7 +8,6 @@ import Icon from '../Icons';
 const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 16px;
 `;
 
 const CheckboxLabel = styled.span`

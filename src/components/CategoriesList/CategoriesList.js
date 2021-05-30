@@ -38,7 +38,7 @@ const CategoriesList = ({ categories }) => {
   return (
     <Container>
       {categories.map((category, index) => 
-        <CategoryTag className="category-tag" color={categoriesColors[index]}>
+        <CategoryTag key={`${category}-tag`} className="category-tag" color={categoriesColors[index]}>
           {category}
         </CategoryTag>
       )}
