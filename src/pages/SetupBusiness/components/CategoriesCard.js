@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import Subtitle from '../../../components/Subtitle';
 import Checkbox from '../../../components/Checkbox';
+import CategoriesList from '../../../components/CategoriesList';
 
 const Card = styled.div`
   padding: 20px;
@@ -20,9 +21,17 @@ const Container = styled.div`
   margin-right: 8%;
 `;
 
+const ChecksContainer = styled.div`
+  margin-bottom: 12px;
+`;
+
 const Text = styled.span`
     color: rgba(0,0,0,0.4);
     font-size: 14px;
+`;
+
+const CategoriesPlaceholder = styled.div`
+  height: 32px;
 `;
 
 const CategoriesCard = ({ categories, onClick }) => {
@@ -32,15 +41,19 @@ const CategoriesCard = ({ categories, onClick }) => {
       <Subtitle>Categorías</Subtitle>
       <Card>
         <Text>Elegí las categorías que apliquen a tu emprendimiento</Text>
-        {possibleCategories.map( category => 
-          <Checkbox
-            key={`${category}-checkbox`}
-            id={category}
-            label={category}
-            checked={categories.includes(category)}
-            onClick={() => onClick(category)}
-          />
-        )}
+        <ChecksContainer>
+          {possibleCategories.map( category => 
+            <Checkbox
+              key={`${category}-checkbox`}
+              id={category}
+              label={category}
+              checked={categories.includes(category)}
+              onClick={() => onClick(category)}
+            />
+          )}
+        </ChecksContainer>
+        {!categories.length && <CategoriesPlaceholder/>}
+        {categories && <CategoriesList categories={categories} />}
       </Card>
     </Container>
   );
