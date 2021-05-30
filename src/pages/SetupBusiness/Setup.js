@@ -6,11 +6,11 @@ import { useHistory } from 'react-router-dom';
 import Checkbox from '../../components/Checkbox';
 import Layout from '../../components/Layout';
 import Link from '../../components/Link';
+import ImageUploader from '../../components/ImageUploader';
 import ProductsCard from './components/Products';
+import Categories from './components/CategoriesCard';
 
 import { colors } from '../../styles/palette';
-import Subtitle from '../../components/Subtitle';
-import ImageUploader from '../../components/ImageUploader';
 
 const Content = styled.div`
   padding: 8px 8%;
@@ -37,6 +37,16 @@ const Setup = () => {
   const [name, setName] = useState('');
   const [logo, setLogo] = useState();
   const [doesShipments, setDoesShipments] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  const handleCategoriesClick = (category) => {
+    if (categories.includes(category)) {
+      categories.splice(categories.indexOf(category), 1);
+      setCategories([...categories]);
+    } else {
+      setCategories([...categories, category]);
+    }
+  };
 
   return (
     <Layout>
@@ -70,7 +80,7 @@ const Setup = () => {
         </div>
         <div className="setup-business__properties">
           <ProductsCard />
-          <div><Subtitle>Categorías</Subtitle></div>
+          <Categories categories={categories} onClick={handleCategoriesClick} />
         </div>
       </Content>
     </Layout>

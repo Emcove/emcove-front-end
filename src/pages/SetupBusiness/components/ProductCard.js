@@ -40,7 +40,7 @@ const ProductCard = ({ image, name, description, properties }) => {
   const [logo, setLogo] = useState(image);
 
   return (
-    <Container>
+    <Container key={name}>
       {/* El id lo hice así para cuando tengamos muchos productos no haya ids repetidos */}
       <ImageUploader
         iconClass="upload-product__icon"
@@ -55,7 +55,7 @@ const ProductCard = ({ image, name, description, properties }) => {
       </SmallContainer>
       <SmallContainer>
         { Object.keys(properties).map(k => 
-          <Dropdown placeholder="Elegí una opción" options={properties[k]} label={k} />
+          <Dropdown key={`${k}-dropdown`} placeholder="Elegí una opción" options={properties[k]} label={k} />
         )}
       </SmallContainer>
     </Container>
