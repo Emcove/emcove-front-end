@@ -60,7 +60,6 @@ const Setup = () => {
   return (
     <Layout>
       <Content>
-        <Link onClick={() => history.push("/home")}>Volver al listado</Link>
         <div className="setup-business__essentials">
           <ImageUploader
             id="logoBusiness"
@@ -101,10 +100,13 @@ const Setup = () => {
           <ProductsCard />
           <Categories categories={categories} onClick={handleCategoriesClick} />
         </div>
-        <div className="setup-business__submit-button">
-          <Button primary onClick={() => console.log('Emprendimiento Creado')}>
-            CREAR EMPRENDIMIENTO
-          </Button>
+        <div className="setup-business__submit">
+          <div className="setup-business__submit--button">
+            <Button primary onClick={() => console.log('Emprendimiento Creado')}>
+              CREAR EMPRENDIMIENTO
+            </Button>
+          </div>
+          <Link onClick={() => history.push("/home")}>Cancelar</Link>
         </div>
       </Content>
     </Layout>

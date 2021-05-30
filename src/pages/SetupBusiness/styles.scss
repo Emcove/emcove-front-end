@@ -4,7 +4,7 @@
   &__essentials {
     width: 100%;
     display: flex;
-    padding: 32px 0 12px;
+    padding: 8px 0 12px;
     
     .upload-logo__icon {
       height: 55px;
@@ -39,8 +39,14 @@
     margin-top: 16px;
   }
 
-  &__submit-button {
-    width: 40% !important;
+  &__submit {
+    display: flex;
+    justify-content: flex-start;
     margin: 20px auto 12px auto;
+  
+    &--button {
+      width: 25%;
+      margin-right: 8px;
+    }
   }
 }
