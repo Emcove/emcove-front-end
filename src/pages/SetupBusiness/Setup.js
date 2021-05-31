@@ -16,7 +16,7 @@ import Categories from './components/CategoriesCard';
 import { colors } from '../../styles/palette';
 
 const Content = styled.div`
-  padding: 0 8%;
+  padding: 8px 8%;
   width: 100%;
 `;
 
@@ -35,8 +35,8 @@ const NameInput = styled.input`
 `;
 
 const TextInputContainer = styled.div`
-  margin-top: 16px;
-  width: 50%;
+  margin-top: 28px;
+  width: 25%;
 `;
 
 const Setup = () => {
