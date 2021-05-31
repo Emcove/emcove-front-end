@@ -14,7 +14,7 @@ const InputContainer = styled.div`
 const WarningMessage = styled.span`
   font-family: 'Roboto';
   font-size: 10px;
-  color: ${colors.redOrange};
+  color: ${colors.error};
   margin: .61538em 0 0 .46154em;
 `;
 

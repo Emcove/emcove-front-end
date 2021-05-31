@@ -6,7 +6,7 @@ import { colors } from '../../styles/palette';
 const Link = styled.button`
   border: none;
   background-color: transparent;
-  color: ${colors.cyan};
+  color: ${colors.primary};
   &:hover {
     cursor: pointer;
   }

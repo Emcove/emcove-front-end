@@ -12,7 +12,7 @@ const Button = styled.button`
   font-size: 14px;
   
   ${props => props.primary && css`
-    background: ${colors.cyan};
+    background: ${colors.primary};
     color: white;
     &:hover {
       cursor: pointer;
@@ -20,12 +20,12 @@ const Button = styled.button`
   `}
   ${props => props.secondary && css `
     background: transparent;
-    color: ${colors.cyan};
-    border: solid 2px ${colors.cyan};
+    color: ${colors.primary};
+    border: solid 2px ${colors.primary};
 
     &:hover {
       cursor: pointer;
-      background-color: ${colors.cyanTen};
+      background-color: ${colors.primaryTen};
     }
   `}
 `;

@@ -15,7 +15,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-  background-color: ${colors.redOrange};
+  background-color: ${colors.error};
   height: 64px;
   box-shadow: 0px 4px 10px 2px rgb(0 0 0 / 19%);
   display: flex;
@@ -41,8 +41,7 @@ const Content = styled.div`
 const Footer = styled.div`
   height: 52px;
   border-top: solid 1px rgba(0,0,0,0.09);
-  -webkit-box-shadow: 0px -2px 8px 5px rgba(0,0,0,0.1); 
-  box-shadow: 0px -2px 8px 5px rgba(0,0,0,0.1);
+  box-shadow: -1px -4px 11px 2px rgba(0,0,0,0.04);
   display: flex;
   align-items: center;
   justify-content: flex-start;
