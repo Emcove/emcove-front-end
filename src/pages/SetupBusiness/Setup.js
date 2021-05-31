@@ -9,6 +9,7 @@ import Link from '../../components/Link';
 import ImageUploader from '../../components/ImageUploader';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
+import Snackbar from '../../components/Snackbar';
 
 import ProductsCard from './components/Products';
 import Categories from './components/CategoriesCard';
@@ -45,8 +46,17 @@ const Setup = () => {
   const [name, setName] = useState('');
   const [logo, setLogo] = useState();
   const [city, setCity] = useState('');
+  const [showSnackbar, setSnackbarVisibility] = useState(false)
   const [doesShipments, setDoesShipments] = useState(false);
   const [categories, setCategories] = useState([]);
+
+  const createBusiness = () => {
+    setSnackbarVisibility(true);
+
+    setTimeout(() => {
+      setSnackbarVisibility(false);
+    }, 2000);
+  }
 
   const handleCategoriesClick = (category) => {
     if (categories.includes(category)) {
@@ -55,7 +65,7 @@ const Setup = () => {
     } else {
       setCategories([...categories, category]);
     }
-  };
+  }
 
   return (
     <Layout>
@@ -102,12 +112,18 @@ const Setup = () => {
         </div>
         <div className="setup-business__submit">
           <div className="setup-business__submit--button">
-            <Button primary onClick={() => console.log('Emprendimiento Creado')}>
+            <Button primary onClick={() => createBusiness()}>
               CREAR EMPRENDIMIENTO
             </Button>
           </div>
           <Link onClick={() => history.push("/home")}>Cancelar</Link>
         </div>
+
+        <Snackbar
+          message="Emprendimiento creado con éxito"
+          type="success"
+          show={showSnackbar}
+        />
       </Content>
     </Layout>
   );
