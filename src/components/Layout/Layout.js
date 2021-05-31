@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components'
 
 import { useHistory } from 'react-router-dom';
@@ -73,9 +73,39 @@ const ProfileAccess = styled.button`
   :hover {
     cursor: pointer;
   }
-`
+`;
+
+const ProfileOptions = styled.div`
+  position: absolute;
+  right: 5%;
+  top: 36px;
+  display: flex;
+  flex-direction: column;
+  border: solid 1px ${colors.grayBorder};
+  background-color: ${colors.white};
+  border-radius: 3px;
+  transition: box-shadow 0.2s ease-in-out;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
+
+  &:hover {
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 10%);
+  }
+`;
+
+const Option = styled.div`
+  padding: 12px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: ${colors.primary};
+
+  &:hover {
+    cursor: pointer;
+    background-color: ${colors.primaryHover};
+  }
+`;
 
 const Layout = ({ children, login, registry }) => {
+  const [profileOptions, showProfileOptions] = useState(false);
   const history = useHistory();
   const redirectHome = () => {
     history.push("/home");
@@ -89,7 +119,16 @@ const Layout = ({ children, login, registry }) => {
             <Logo><Icons type="logo" /></Logo>
             <CompanyName>Emcove</CompanyName>
           </div>
-          {!registry && <ProfileAccess><Icons type="user" /></ProfileAccess>}
+          {!registry && <ProfileAccess onClick={() => showProfileOptions(!profileOptions)}><Icons type="user" /></ProfileAccess>}
+          {profileOptions &&
+            <ProfileOptions>
+              <Option onClick={() => history.push('/userProfile')}>Mi perfil</Option>
+              <Option>Mi reputación</Option>
+              <Option>Ver pedidos que hice</Option>
+              <Option>Gestionar mi emprendimiento</Option>
+              <Option>Gestionar mis pedidos</Option>
+            </ProfileOptions>
+          }
         </Header>
       }
       <Content loginContent={login}>
