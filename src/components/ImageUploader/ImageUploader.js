@@ -31,6 +31,10 @@ const InputContainer = styled.button`
     }
   `}
 
+  ${props => props.disabled && css `
+    cursor: unset;
+  `}
+
   ${props => props.shape === "round" && css `
       min-width: 132px;
       height: 132px;

@@ -48,6 +48,7 @@ const ProductCard = ({ image, name, description, properties }) => {
         shape="squared"
         onChange={setLogo}
         image={logo}
+        disabled
       />
       <SmallContainer>
         <Name>{name}</Name>
