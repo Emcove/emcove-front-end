@@ -65,8 +65,8 @@ const UserProfile = () => {
   // Personal Data
   const [name, setName] = useState('');
   const [requiredName, setRequiredName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [requiredLastName, setRequiredLastName] = useState('');
+  const [surname, setsurname] = useState('');
+  const [requiredSurname, setRequiredSurname] = useState('');
   const [city, setCity] = useState('');
   const [adult, setAdult] = useState(false);
 
@@ -91,13 +91,13 @@ const UserProfile = () => {
       setRequiredName(true);
     } 
 
-    if (lastName === '') {
-      setRequiredLastName(true);
+    if (surname === '') {
+      setRequiredSurname(true);
     } 
   }
 
   const saveChanges = () => {
-    if (!UserData.hasEmptyRequiredFields([email, emailConfirmation, password, passwordConfirmation, name, lastName])) {
+    if (!UserData.hasEmptyRequiredFields([email, emailConfirmation, password, passwordConfirmation, name, surname])) {
       setEditState(false);
       setShowSnackbar(true);
       setTimeout(() => setShowSnackbar(false), 2000);
@@ -134,13 +134,13 @@ const UserProfile = () => {
             disabled={!editState}
           />
           <TextInput 
-            id="lastname"
+            id="surname"
             label="Apellido"
-            value={lastName}
+            value={surname}
             placeholder="Apellido"
             type="text"
-            required={requiredLastName}
-            onChange={setLastName}
+            required={requiredSurname}
+            onChange={setsurname}
             disabled={!editState}
           />
         </InputGroup>
