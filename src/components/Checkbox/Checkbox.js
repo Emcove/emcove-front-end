@@ -14,6 +14,11 @@ const CheckboxLabel = styled.span`
   font-size: 16px;
   color: ${colors.textColor};
   margin-left: 8px;
+  opacity: 1;
+
+  ${props => props.disabled && css `
+    opacity: 0.7;
+  `}
 `;
 
 const CheckboxInput = styled.div`
@@ -25,6 +30,7 @@ const CheckboxInput = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 1;
 
   &:hover {
     cursor: pointer;
@@ -36,15 +42,23 @@ const CheckboxInput = styled.div`
     background-color: ${colors.primary};
     border: none;
   `}
+
+  ${props => props.disabled && css `
+    opacity: 0.7;
+  `}
 `;
 
-const Checkbox = ({ id, label, checked, onClick, className }) => {
+const Checkbox = ({ id, label, checked, onClick, className, disabled }) => {
+  console.log(disabled);
+  const handleClick = () => {
+    if (!disabled) onClick();
+  }
   return (
     <CheckboxContainer className={className}>
-      <CheckboxInput id={id} type="checkbox" checked={checked} onClick={onClick}>
+      <CheckboxInput disabled={disabled} id={id} type="checkbox" checked={checked} onClick={() => handleClick()}>
         {checked && <Icon type="check" className="input-check" />}
       </CheckboxInput>
-      <CheckboxLabel>{label}</CheckboxLabel>
+      <CheckboxLabel disabled={disabled}>{label}</CheckboxLabel>
     </CheckboxContainer>
   );
 }

@@ -1,0 +1,7 @@
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+  PAGE_ID: 106486384983513,
+  APP_ID: 311274107249492,
+  PAGE_ACCESS_TOKEN: 'EAAEbGiaXI1QBAHzsd60IB3zVTKGmrAirS0Em9wREwZCG3g6uw6IThaU9DRzCxXXmovKskNTIeiSZCYhupCZBW8fVvi0b7WltWreCMQ3e4iCL9OdtSCoG9B1u2ZBZAWZAk8dwlFZCnseDAL1krgGyO7lLowO7G8yW7Sl9ZAsXwmDfqy4BbKEsZAZCF2',
+  APP_SECRET: '6bee59b739c9f967835ece7b55ebe16b',
+};

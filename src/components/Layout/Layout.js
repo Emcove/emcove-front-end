@@ -104,7 +104,7 @@ const Option = styled.div`
   }
 `;
 
-const Layout = ({ children, login, registry }) => {
+const Layout = ({ children, login, registry, className }) => {
   const [profileOptions, showProfileOptions] = useState(false);
   const history = useHistory();
   const redirectHome = () => {
@@ -112,7 +112,7 @@ const Layout = ({ children, login, registry }) => {
   }
 
   return (
-    <Container>
+    <Container className={className}>
       {!login &&
         <Header>
           <div className="components-container" onClick={redirectHome}>

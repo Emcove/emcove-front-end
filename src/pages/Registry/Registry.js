@@ -10,6 +10,8 @@ import Button from '../../components/Button';
 import Link from '../../components/Link';
 import Checkbox from '../../components/Checkbox';
 
+import UserData from '../../utils';
+
 const Registry = () => {
   const history = useHistory();
 
@@ -30,11 +32,6 @@ const Registry = () => {
   const [requiredLastName, setRequiredLastName] = useState('');
   const [city, setCity] = useState('');
   const [adult, setAdult] = useState(false);
-
-  const allRequiredFieldsComplete = () => {
-    return email !== '' && emailConfirmation !== '' && password !== '' && passwordConfirmation !== '' &&
-    name !== '' && lastName !== '';
-  }
 
   const setRequiredFields = () => {
     if (email === '') {
@@ -67,7 +64,7 @@ const Registry = () => {
   }
 
   const submitRegistry = () => {
-    if (allRequiredFieldsComplete()) {
+    if (!UserData.hasEmptyRequiredFields([email, emailConfirmation, password, passwordConfirmation, name, lastName])) {
       redirect('/home');
     }
 
