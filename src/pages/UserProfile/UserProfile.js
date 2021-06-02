@@ -99,6 +99,12 @@ const UserProfile = () => {
   const saveChanges = () => {
     if (!UserData.hasEmptyRequiredFields([email, emailConfirmation, password, passwordConfirmation, name, surname])) {
       setEditState(false);
+      setRequiredEmail(false);
+      setRequiredEmailConf(false);
+      setRequiredPass(false);
+      setRequiredPassConf(false);
+      setRequiredName(false);
+      setRequiredSurname(false);
       setShowSnackbar(true);
       setTimeout(() => setShowSnackbar(false), 2000);
     }
