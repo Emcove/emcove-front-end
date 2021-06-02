@@ -48,7 +48,7 @@ const ButtonContainer = styled.div`
 
 const UserProfile = () => {
   const history = useHistory();
-  const [userProfilePic, setUserProfilePic] = useState('');
+  const [userAvatar, setUserAvatar] = useState('');
   const [editState, setEditState] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
 
@@ -114,11 +114,11 @@ const UserProfile = () => {
       <DataContainer>
         <ImageContainer>
           <ImageUploader
-            image={userProfilePic}
+            image={userAvatar}
             id="user-profile-pic"
             shape="round"
             label="Subir foto de perfil"
-            onChange={setUserProfilePic}
+            onChange={setUserAvatar}
             iconClass="upload-logo__icon"
           />
         </ImageContainer>
