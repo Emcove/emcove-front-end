@@ -9,6 +9,7 @@ const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
+  margin-right: 16px;
 `;
 
 const WarningMessage = styled.span`

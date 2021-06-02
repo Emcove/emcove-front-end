@@ -16,6 +16,10 @@ const Card = styled.div`
         box-shadow: 0 8px 16px 0 rgb(0 0 0 / 10%);
       }
   `}
+
+  ${props => props.vertical && css`
+      flex-direction: column;
+  `}
 `;
 
 

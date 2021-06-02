@@ -9,6 +9,7 @@ import ImageUploader from "../../components/ImageUploader";
 import TextInput from "../../components/TextInput";
 import Checkbox from "../../components/Checkbox";
 import Snackbar from "../../components/Snackbar";
+import Card from "../../components/Card";
 
 import UserData from '../../utils';
 import Button from '../../components/Button';
@@ -20,7 +21,7 @@ const LinkContainer = styled.div`
 `;
 
 const DataContainer = styled.div`
-  width: 40%;
+
 `;
 
 const ImageContainer = styled.div`
@@ -33,6 +34,7 @@ const InputGroup = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%
 `;
 
 const ActionsContainer = styled.div`
@@ -128,92 +130,94 @@ const UserProfile = () => {
             iconClass="upload-logo__icon"
           />
         </ImageContainer>
-        <InputGroup>
-          <TextInput 
-            id="name"
-            label="Nombre"
-            value={name}
-            placeholder="Nombre"
-            type="text"
-            required={requiredName}
-            onChange={setName}
-            disabled={!editState}
-          />
-          <TextInput 
-            id="surname"
-            label="Apellido"
-            value={surname}
-            placeholder="Apellido"
-            type="text"
-            required={requiredSurname}
-            onChange={setsurname}
-            disabled={!editState}
-          />
-        </InputGroup>
-        <InputGroup>
-          <TextInput 
-            id="localization"
-            label="Localidad"
-            value={city}
-            placeholder="Localidad"
-            type="text"
-            onChange={setCity}
-            disabled={!editState}
-          />
-          <Checkbox
-            id="adultCheckbox"
-            label="Soy mayor de 18 años"
-            checked={adult}
-            onClick={() => setAdult(!adult)}
-            disabled={!editState}
-          />
-        </InputGroup>
-        <InputGroup>
-          <TextInput
-            id="email"
-            label="Correo electrónico"
-            value={email}
-            placeholder="Correo electrónico"
-            type="email"
-            onChange={setEmail}
-            required={requiredEmail}
-            disabled={!editState}
-          />
-          <TextInput 
-            id="email-confirmation"
-            label="Confirmar correo electrónico"
-            value={emailConfirmation}
-            placeholder="Confirmar correo electrónico"
-            type="email"
-            onChange={setEmailConfirmation}
-            required={requiredEmailConf}
-            disabled={!editState}
-            className={classNames('confirmation-input', { 'confirmation-input__hidden': !editState, 'confirmation-input__visible': editState })}
-          />
-        </InputGroup>
-        <InputGroup>
-          <TextInput 
-            id="password"
-            label="Contraseña"
-            value={password}
-            placeholder="Contraseña"
-            type="password"
-            onChange={setPassword}
-            required={requiredPassConf}
-            disabled={!editState}
-          />
-          <TextInput 
-            id="password"
-            label="Confirmar contraseña"
-            value={passwordConfirmation}
-            placeholder="Confirmar contraseña"
-            type="password"
-            onChange={setPasswordConfirmation}
-            required={requiredPass}
-            disabled={!editState}
-            className={classNames('confirmation-input', { 'confirmation-input__hidden': !editState, 'confirmation-input__visible': editState })}
-          />
-        </InputGroup>
+        <Card vertical>
+          <InputGroup>
+            <TextInput 
+              id="name"
+              label="Nombre"
+              value={name}
+              placeholder="Nombre"
+              type="text"
+              required={requiredName}
+              onChange={setName}
+              disabled={!editState}
+            />
+            <TextInput 
+              id="surname"
+              label="Apellido"
+              value={surname}
+              placeholder="Apellido"
+              type="text"
+              required={requiredSurname}
+              onChange={setsurname}
+              disabled={!editState}
+            />
+          </InputGroup>
+          <InputGroup>
+            <TextInput 
+              id="localization"
+              label="Localidad"
+              value={city}
+              placeholder="Localidad"
+              type="text"
+              onChange={setCity}
+              disabled={!editState}
+            />
+            <Checkbox
+              id="adultCheckbox"
+              label="Soy mayor de 18 años"
+              checked={adult}
+              onClick={() => setAdult(!adult)}
+              disabled={!editState}
+            />
+          </InputGroup>
+          <InputGroup>
+            <TextInput
+              id="email"
+              label="Correo electrónico"
+              value={email}
+              placeholder="Correo electrónico"
+              type="email"
+              onChange={setEmail}
+              required={requiredEmail}
+              disabled={!editState}
+            />
+            <TextInput 
+              id="email-confirmation"
+              label="Confirmar correo electrónico"
+              value={emailConfirmation}
+              placeholder="Confirmar correo electrónico"
+              type="email"
+              onChange={setEmailConfirmation}
+              required={requiredEmailConf}
+              disabled={!editState}
+              className={classNames('confirmation-input', { 'confirmation-input__hidden': !editState, 'confirmation-input__visible': editState })}
+            />
+          </InputGroup>
+          <InputGroup>
+            <TextInput 
+              id="password"
+              label="Contraseña"
+              value={password}
+              placeholder="Contraseña"
+              type="password"
+              onChange={setPassword}
+              required={requiredPassConf}
+              disabled={!editState}
+            />
+            <TextInput 
+              id="password"
+              label="Confirmar contraseña"
+              value={passwordConfirmation}
+              placeholder="Confirmar contraseña"
+              type="password"
+              onChange={setPasswordConfirmation}
+              required={requiredPass}
+              disabled={!editState}
+              className={classNames('confirmation-input', { 'confirmation-input__hidden': !editState, 'confirmation-input__visible': editState })}
+            />
+          </InputGroup>
+        </Card>
         <ActionsContainer>
           <ButtonContainer>
            {!editState && <Button primary onClick={() => setEditState(true)}>Editar</Button>}
