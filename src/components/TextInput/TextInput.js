@@ -25,14 +25,14 @@ const Label = styled.span`
   margin: 0 0 .42857em .42857em;
 `;
 
-const TextInput = ({ id, label, value, required, placeholder, type, onChange }) => {
+const TextInput = ({ id, label, value, required, placeholder, type, onChange, disabled, className }) => {
 
   const handleFieldChange = (e) => {
     onChange(e.currentTarget.value);
   }
 
   return (
-    <InputContainer>
+    <InputContainer className={className}>
       {label && value && <Label>{label}</Label>}
       {label && !value && <div className="label-space" />}
       <input
@@ -42,6 +42,7 @@ const TextInput = ({ id, label, value, required, placeholder, type, onChange }) 
         value={value}
         placeholder={placeholder}
         onChange={(e) => handleFieldChange(e)}
+        disabled={disabled}
       />
       {required && <WarningMessage>Campo requerido</WarningMessage>}
     </InputContainer>

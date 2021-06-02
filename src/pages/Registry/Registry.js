@@ -10,6 +10,8 @@ import Button from '../../components/Button';
 import Link from '../../components/Link';
 import Checkbox from '../../components/Checkbox';
 
+import UserData from '../../utils';
+
 const Registry = () => {
   const history = useHistory();
 
@@ -26,15 +28,10 @@ const Registry = () => {
   // Personal Data
   const [name, setName] = useState('');
   const [requiredName, setRequiredName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [requiredLastName, setRequiredLastName] = useState('');
+  const [surname, setsurname] = useState('');
+  const [requiredSurname, setRequiredSurname] = useState('');
   const [city, setCity] = useState('');
   const [adult, setAdult] = useState(false);
-
-  const allRequiredFieldsComplete = () => {
-    return email !== '' && emailConfirmation !== '' && password !== '' && passwordConfirmation !== '' &&
-    name !== '' && lastName !== '';
-  }
 
   const setRequiredFields = () => {
     if (email === '') {
@@ -57,8 +54,8 @@ const Registry = () => {
       setRequiredName(true);
     } 
 
-    if (lastName === '') {
-      setRequiredLastName(true);
+    if (surname === '') {
+      setRequiredSurname(true);
     } 
   }
 
@@ -67,7 +64,7 @@ const Registry = () => {
   }
 
   const submitRegistry = () => {
-    if (allRequiredFieldsComplete()) {
+    if (!UserData.hasEmptyRequiredFields([email, emailConfirmation, password, passwordConfirmation, name, surname])) {
       redirect('/home');
     }
 
@@ -134,13 +131,13 @@ const Registry = () => {
                 onChange={setName}
               />
               <TextInput 
-                id="lastname"
+                id="surname"
                 label="Apellido"
-                value={lastName}
+                value={surname}
                 placeholder="Apellido"
                 type="text"
-                required={requiredLastName}
-                onChange={setLastName}
+                required={requiredSurname}
+                onChange={setsurname}
               />
               <TextInput 
                 id="localization"

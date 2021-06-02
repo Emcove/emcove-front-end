@@ -10,7 +10,8 @@ const Button = styled.button`
   border: none;
   width: 100%;
   font-size: 14px;
-  
+  border: solid 2px ${colors.primary};
+
   ${props => props.primary && css`
     background: ${colors.primary};
     color: white;
@@ -21,7 +22,6 @@ const Button = styled.button`
   ${props => props.secondary && css `
     background: transparent;
     color: ${colors.primary};
-    border: solid 2px ${colors.primary};
 
     &:hover {
       cursor: pointer;
