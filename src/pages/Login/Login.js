@@ -8,25 +8,39 @@ import Button from "../../components/Button";
 import Link from "../../components/Link";
 import Logo from "../../components/Logo";
 
+import UserService from "../../services/UserService"
+import Snackbar from '../../components/Snackbar/Snackbar';
+
 
 const Login = () => {
   const history = useHistory();
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [requiredEmail, setRequiredEmail] = useState(false);
+  const [requiredUsername, setRequiredUsername] = useState(false);
   const [requiredPass, setRequiredPass] = useState(false);
-
+  const [snackBarError, setSnackBarError] = useState(false)
+  
   const redirect = (view) => {
     history.push(view);
   }
 
   const submitForm = () => {
-    if (email !== '' && password !== '') {
-      redirect('/home');
+    if (username !== '' && password !== '') {
+      UserService.login(username,password).then( resp =>{
+          if(resp){
+            redirect("/home")
+          }else{
+            setSnackBarError(true)
+            setTimeout(() => {
+              setSnackBarError(false);
+            }, 2000);
+          }
+        }
+      )
     }
     
-    if (email === '') {
-      setRequiredEmail(true);
+    if (username === '') {
+      setRequiredUsername(true);
     }
     if (password === '') {
       setRequiredPass(true);
@@ -35,17 +49,23 @@ const Login = () => {
 
   return (
     <Layout login>
+      <Snackbar
+            type="error"
+            show={snackBarError}
+            message="Usuario o contraseña incorrectos"
+          >
+      </Snackbar>
       <div className="login-container">
         <Logo />
         <div className="login-inputs">
           <TextInput
-            label="Correo electrónico"
-            placeholder="Correo electrónico"
-            type="email"
-            value={email}
-            required={requiredEmail}
-            id="email"
-            onChange={setEmail}
+            label="Nombre de usuario"
+            placeholder="Nombre de usuario"
+            type="username"
+            value={username}
+            required={requiredUsername}
+            id="username"
+            onChange={setUsername}
           />
           <TextInput
             label="Contraseña"

@@ -9,15 +9,19 @@ import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import Link from '../../components/Link';
 import Checkbox from '../../components/Checkbox';
+import UserService from "../../services/UserService"
+import Snackbar from '../../components/Snackbar/Snackbar';
 
 const Registry = () => {
   const history = useHistory();
 
   // Account Data
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [emailConfirmation, setEmailConfirmation] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [requiredUsername, setRequiredUsername] = useState(false);
   const [requiredEmail, setRequiredEmail] = useState(false);
   const [requiredEmailConf, setRequiredEmailConf] = useState(false);
   const [requiredPass, setRequiredPass] = useState(false);
@@ -31,44 +35,62 @@ const Registry = () => {
   const [city, setCity] = useState('');
   const [adult, setAdult] = useState(false);
 
+  // Snackbar
+  const [snackBarError, setSnackBarError] = useState(false)
+  const [SnackBarSuccess, setSnackBarSuccess] = useState(false)
+
+
   const allRequiredFieldsComplete = () => {
-    return email !== '' && emailConfirmation !== '' && password !== '' && passwordConfirmation !== '' &&
-    name !== '' && lastName !== '';
+    return username !== '' && email !== '' && emailConfirmation !== '' && password !== '' && passwordConfirmation !== '' &&
+      name !== '' && lastName !== '';
   }
 
   const setRequiredFields = () => {
-    if (email === '') {
+    if (username === '') {
+      setRequiredUsername(true);
+    }
+
+    if (email === '') {
       setRequiredEmail(true);
     }
 
-    if (emailConfirmation === '') {
+    if (emailConfirmation === '') {
       setRequiredEmailConf(true);
     }
 
-    if (password === '') {
+    if (password === '') {
       setRequiredPass(true);
     }
 
     if (passwordConfirmation === '') {
       setRequiredPassConf(true);
-    } 
+    }
 
     if (name === '') {
       setRequiredName(true);
-    } 
+    }
 
     if (lastName === '') {
       setRequiredLastName(true);
-    } 
+    }
   }
 
   const redirect = (view) => {
     history.push(view);
   }
 
+
   const submitRegistry = () => {
     if (allRequiredFieldsComplete()) {
-      redirect('/home');
+      UserService.register(username, password,email,name,lastName,city,adult)
+      .then(resp => {
+        if (resp.ok) {
+          redirect("/")
+        } else {
+          //acá iría la lógica del snackbar en el login supongo
+        }
+      }
+      )
     }
 
     setRequiredFields();
@@ -82,6 +104,15 @@ const Registry = () => {
           <div className="registry-data">
             <Subtitle>Datos de la cuenta</Subtitle>
             <div className="registry-account-data__inputs">
+            <TextInput
+                id="username"
+                label="Nombre de Usuario"
+                value={username}
+                placeholder="Nombre de Usuario"
+                type="username"
+                onChange={setUsername}
+                required={requiredUsername}
+              />
               <TextInput
                 id="email"
                 label="Correo electrónico"
@@ -91,7 +122,7 @@ const Registry = () => {
                 onChange={setEmail}
                 required={requiredEmail}
               />
-              <TextInput 
+              <TextInput
                 id="email-confirmation"
                 label="Confirmar correo electrónico"
                 value={emailConfirmation}
@@ -101,7 +132,7 @@ const Registry = () => {
                 required={requiredEmailConf}
               />
 
-              <TextInput 
+              <TextInput
                 id="password"
                 label="Contraseña"
                 value={password}
@@ -110,8 +141,8 @@ const Registry = () => {
                 onChange={setPassword}
                 required={requiredPassConf}
               />
-              <TextInput 
-                id="password"
+              <TextInput
+                id="passwordConfirmation"
                 label="Confirmar contraseña"
                 value={passwordConfirmation}
                 placeholder="Confirmar contraseña"
@@ -124,7 +155,7 @@ const Registry = () => {
           <div className="registry-data">
             <Subtitle>Datos personales</Subtitle>
             <div className="registry-personal-data__inputs">
-              <TextInput 
+              <TextInput
                 id="name"
                 label="Nombre"
                 value={name}
@@ -133,7 +164,7 @@ const Registry = () => {
                 required={requiredName}
                 onChange={setName}
               />
-              <TextInput 
+              <TextInput
                 id="lastname"
                 label="Apellido"
                 value={lastName}
@@ -142,8 +173,8 @@ const Registry = () => {
                 required={requiredLastName}
                 onChange={setLastName}
               />
-              <TextInput 
-                id="localization"
+              <TextInput
+                id="city"
                 label="Localidad"
                 value={city}
                 placeholder="Localidad"
@@ -151,7 +182,7 @@ const Registry = () => {
                 onChange={setCity}
               />
               <Checkbox
-                id="adultCheckbox"
+                id="adult"
                 label="Soy mayor de 18 años"
                 checked={adult}
                 onClick={() => setAdult(!adult)}
@@ -164,6 +195,18 @@ const Registry = () => {
           <Link className="login-button" onClick={() => redirect('/')}>Volver al Log In</Link>
         </div>
       </div>
+      <Snackbar
+            type="error"
+            show={snackBarError}
+            message="No se puede registrar en este momento, intente mas tarde"
+          >
+      </Snackbar>
+      <Snackbar
+            type="success"
+            show={snackBarError}
+            message="Registro completado con éxito"
+          >
+      </Snackbar>
     </Layout>
   );
 }
