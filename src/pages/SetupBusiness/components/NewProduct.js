@@ -35,16 +35,13 @@ const Text = styled.span`
   color: rgba(0, 0, 0, 0.4);
 `;
 
-const NewProduct = () => {
-  // Onclick, abrir modal de configurar producto
-  return (
-    <Container>
-      <CreateProduct>
-        <Icon type="add" className="add-icon" />
-      </CreateProduct>
-      <Text>Agregar producto</Text>
-    </Container>
-  );
-}
+const NewProduct = ({ onClickNewProduct }) => (
+  <Container>
+    <CreateProduct onClick={() => onClickNewProduct()}>
+      <Icon type="add" className="add-icon" />
+    </CreateProduct>
+    <Text>Agregar producto</Text>
+  </Container>
+);
 
 export default NewProduct;

@@ -22,7 +22,7 @@ const Container = styled.div`
   margin-right: 8%;
 `;
 
-const ProductsCard = ({ products }) => {
+const ProductsCard = ({ products, onClickNewProduct }) => {
   const properties = {
     Color: ['Azul', 'Rojo', 'Amarillo'],
     Sabor: ['Limón', 'Chocolate', 'Vainilla'], 
@@ -36,7 +36,7 @@ const ProductsCard = ({ products }) => {
           description="esta es la descripcion"
           properties={properties}
         />
-        <NewProduct />
+        <NewProduct onClickNewProduct={onClickNewProduct} />
       </Card>
     </Container>
   );

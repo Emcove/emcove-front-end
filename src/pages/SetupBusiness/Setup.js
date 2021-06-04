@@ -15,6 +15,8 @@ import ProductsCard from './components/Products';
 import Categories from './components/CategoriesCard';
 
 import { colors } from '../../styles/palette';
+import Modal from '../../components/Modal';
+import ProductInput from './components/ProductInput';
 
 const Content = styled.div`
   padding: 8px 8%;
@@ -50,6 +52,8 @@ const Setup = () => {
   const [doesShipments, setDoesShipments] = useState(false);
   const [categories, setCategories] = useState([]);
 
+  const [modalProductVisible, setModalVisible] = useState(false);
+
   const createBusiness = () => {
     setSnackbarVisibility(true);
 
@@ -65,6 +69,10 @@ const Setup = () => {
     } else {
       setCategories([...categories, category]);
     }
+  }
+
+  const clickNewProduct = () => {
+    setModalVisible(true);
   }
 
   return (
@@ -107,7 +115,7 @@ const Setup = () => {
           </div>
         </div>
         <div className="setup-business__properties">
-          <ProductsCard />
+          <ProductsCard onClickNewProduct={clickNewProduct} />
           <Categories categories={categories} onClick={handleCategoriesClick} />
         </div>
         <div className="setup-business__submit">
@@ -125,6 +133,9 @@ const Setup = () => {
           show={showSnackbar}
         />
       </Content>
+      <Modal open={modalProductVisible} setVisibility={setModalVisible}>
+        <ProductInput />
+      </Modal>
     </Layout>
   );
 }
