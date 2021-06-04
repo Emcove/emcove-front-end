@@ -36,16 +36,24 @@ const InputContainer = styled.button`
   `}
 
   ${props => props.shape === "round" && css `
-      min-width: 132px;
-      height: 132px;
-      border-radius: 100%;
+    min-width: 132px;
+    height: 132px;
+    border-radius: 100%;
   `}
 
   ${props => props.shape === "squared" && css `
-      min-width: 100px;
-      max-width: 100px;
-      height: 80px;
-      border-radius: 3px;
+    min-width: 100px;
+    max-width: 100px;
+    height: 80px;
+    border-radius: 3px;
+  `}
+
+  ${props => props.width && css `
+    width: ${props.width};
+  `}
+
+  ${props => props.height && css `
+    height: ${props.height};
   `}
 `;
 
@@ -74,7 +82,7 @@ const Preview = styled.img`
   `}
 `;
 
-const ImageUploader = ({ image, id, shape, label, onChange, disabled, iconClass }) => {
+const ImageUploader = ({ image, id, shape, label, onChange, disabled, iconClass, width, height }) => {
   const inputLogoRef = useRef(id);
 
   const handleInputClick = (e) => {
@@ -103,6 +111,8 @@ const ImageUploader = ({ image, id, shape, label, onChange, disabled, iconClass 
         shape={shape}
         onClick={(e) => handleInputClick(e)}
         withImage={!!image}
+        width={width}
+        height={height}
       >
           { !image && 
           <>
