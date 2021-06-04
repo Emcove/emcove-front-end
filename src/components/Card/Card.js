@@ -20,6 +20,18 @@ const Card = styled.div`
   ${props => props.vertical && css`
       flex-direction: column;
   `}
+
+  ${props => props.minWidth && css`
+      min-width: ${props.minWidth};
+  `}
+
+  ${props => props.minHeight && css`
+      min-height: ${props.minHeight};
+  `}
+
+  ${props => props.paddingSize && css `
+      padding: ${props.paddingSize};
+  `}
 `;
 
 
