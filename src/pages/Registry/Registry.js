@@ -175,7 +175,7 @@ const Registry = () => {
                 onChange={setName}
               />
               <TextInput
-                id="lastname"
+                id="surname"
                 label="Apellido"
                 value={surname}
                 placeholder="Apellido"
