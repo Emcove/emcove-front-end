@@ -9,8 +9,9 @@ import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import Link from '../../components/Link';
 import Checkbox from '../../components/Checkbox';
-import UserService from "../../services/UserService"
 import Snackbar from '../../components/Snackbar/Snackbar';
+
+import UserService from "../../services/UserService"
 
 const Registry = () => {
   const history = useHistory();
@@ -37,7 +38,9 @@ const Registry = () => {
 
   // Snackbar
   const [snackBarError, setSnackBarError] = useState(false)
-  const [SnackBarSuccess, setSnackBarSuccess] = useState(false)
+  const [snackBarErrorMessage, setSnackBarErrorMessage] = useState("")
+  const [snackBarSuccess, setSnackBarSuccess] = useState(false)
+  
 
 
   const allRequiredFieldsComplete = () => {
@@ -80,19 +83,24 @@ const Registry = () => {
   }
 
 
-  const submitRegistry = () => {
+  const submitRegistry = async () => {
     if (allRequiredFieldsComplete()) {
-      UserService.register(username, password,email,name,lastName,city,adult)
-      .then(resp => {
-        if (resp.ok) {
-          redirect("/")
-        } else {
-          //acá iría la lógica del snackbar en el login supongo
+        const resp = await UserService.register(username, password,email,name,lastName,city,adult)
+        if (resp.status === 200) {
+          setSnackBarSuccess(true)
+            setTimeout(() => {
+              setSnackBarSuccess(false);
+              redirect("/")
+            }, 2000);
+        }else{
+        setSnackBarError(true)
+          setSnackBarErrorMessage(resp.data)
+            setTimeout(() => {
+              setSnackBarError(false);
+            }, 2000);
+            return 
         }
-      }
-      )
     }
-
     setRequiredFields();
   }
 
@@ -198,12 +206,12 @@ const Registry = () => {
       <Snackbar
             type="error"
             show={snackBarError}
-            message="No se puede registrar en este momento, intente mas tarde"
+            message={snackBarErrorMessage}
           >
       </Snackbar>
       <Snackbar
             type="success"
-            show={snackBarError}
+            show={snackBarSuccess}
             message="Registro completado con éxito"
           >
       </Snackbar>

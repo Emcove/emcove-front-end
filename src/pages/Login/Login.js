@@ -7,9 +7,10 @@ import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
 import Link from "../../components/Link";
 import Logo from "../../components/Logo";
-
-import UserService from "../../services/UserService"
 import Snackbar from '../../components/Snackbar/Snackbar';
+
+import UserService from "../../services/UserService";
+
 
 
 const Login = () => {
@@ -18,17 +19,17 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [requiredUsername, setRequiredUsername] = useState(false);
   const [requiredPass, setRequiredPass] = useState(false);
-  const [snackBarError, setSnackBarError] = useState(false)
+  const [snackBarError, setSnackBarError] = useState(false);
   
   const redirect = (view) => {
     history.push(view);
   }
 
-  const submitForm = () => {
+  const submitForm = async () => {
     if (username !== '' && password !== '') {
-      UserService.login(username,password).then( resp =>{
-          if(resp){
-            redirect("/home")
+          const resp = await UserService.login(username,password);
+          if(resp.status === 200){
+            redirect("/home");
           }else{
             setSnackBarError(true)
             setTimeout(() => {
@@ -36,9 +37,6 @@ const Login = () => {
             }, 2000);
           }
         }
-      )
-    }
-    
     if (username === '') {
       setRequiredUsername(true);
     }
