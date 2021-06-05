@@ -57,7 +57,7 @@ const Option = styled.button`
 `;
 
 const Dropdown = ({ label, options, placeholder, onClickOption }) => {
-  const [showingPlaceholder, setPlaceholder] = useState(placeholder);
+  const [showingPlaceholder, setPlaceholder] = useState(placeholder || options[0]);
   const [showOptions, setShowOptions] = useState(false);
 
   const optionClicked = (option) => {
