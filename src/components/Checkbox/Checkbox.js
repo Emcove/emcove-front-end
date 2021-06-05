@@ -49,7 +49,6 @@ const CheckboxInput = styled.div`
 `;
 
 const Checkbox = ({ id, label, checked, onClick, className, disabled }) => {
-  console.log(disabled);
   const handleClick = () => {
     if (!disabled) onClick();
   }
