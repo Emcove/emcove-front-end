@@ -183,7 +183,7 @@ const UserProfile = () => {
               disabled={!editState}
             />
             <TextInput 
-              id="email-confirmation"
+              id="emailConfirmation"
               label="Confirmar correo electrónico"
               value={emailConfirmation}
               placeholder="Confirmar correo electrónico"
@@ -206,7 +206,7 @@ const UserProfile = () => {
               disabled={!editState}
             />
             <TextInput 
-              id="password"
+              id="passwordConfirmation"
               label="Confirmar contraseña"
               value={passwordConfirmation}
               placeholder="Confirmar contraseña"
