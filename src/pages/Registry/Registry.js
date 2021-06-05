@@ -47,7 +47,7 @@ const Registry = () => {
 
   const allRequiredFieldsComplete = () => {
     return username !== '' && email !== '' && emailConfirmation !== '' && password !== '' && passwordConfirmation !== '' &&
-      name !== '' && lastName !== '';
+      name !== '' && surname !== '';
   }
 
   const setRequiredFields = () => {
@@ -87,7 +87,7 @@ const Registry = () => {
 
   const submitRegistry = async () => {
     if (allRequiredFieldsComplete()) {
-        const resp = await UserService.register(username, password,email,name,lastName,city,adult)
+        const resp = await UserService.register(username, password,email,name,surname,city,adult)
         if (resp.status === 200) {
           setSnackBarSuccess(true)
             setTimeout(() => {
