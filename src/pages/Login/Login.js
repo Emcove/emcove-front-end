@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useHistory } from "react-router-dom";
 
-import Layout from "../../components/Layout"
+import Layout from "../../components/Layout";
 import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
 import Link from "../../components/Link";

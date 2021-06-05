@@ -13,6 +13,8 @@ import Snackbar from '../../components/Snackbar/Snackbar';
 
 import UserService from "../../services/UserService"
 
+import UserData from '../../utils';
+
 const Registry = () => {
   const history = useHistory();
 
@@ -31,8 +33,8 @@ const Registry = () => {
   // Personal Data
   const [name, setName] = useState('');
   const [requiredName, setRequiredName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [requiredLastName, setRequiredLastName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [requiredSurname, setRequiredSurname] = useState('');
   const [city, setCity] = useState('');
   const [adult, setAdult] = useState(false);
 
@@ -73,8 +75,8 @@ const Registry = () => {
       setRequiredName(true);
     }
 
-    if (lastName === '') {
-      setRequiredLastName(true);
+    if (surname === '') {
+      setRequiredSurname(true);
     }
   }
 
@@ -175,11 +177,11 @@ const Registry = () => {
               <TextInput
                 id="lastname"
                 label="Apellido"
-                value={lastName}
+                value={surname}
                 placeholder="Apellido"
                 type="text"
-                required={requiredLastName}
-                onChange={setLastName}
+                required={requiredSurname}
+                onChange={setSurname}
               />
               <TextInput
                 id="city"

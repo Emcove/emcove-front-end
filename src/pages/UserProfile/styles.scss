@@ -1,0 +1,15 @@
+.user-profile {
+  .upload-logo__icon {
+    height: 55px;
+  }
+
+  .confirmation-input {
+    &__hidden {
+      opacity: 0%;
+    }
+
+    &__visible {
+      opacity: 1;
+    }
+  }
+}
