@@ -71,10 +71,6 @@ const Setup = () => {
     }
   }
 
-  const clickNewProduct = () => {
-    setModalVisible(true);
-  }
-
   return (
     <Layout>
       <Content>
@@ -115,13 +111,13 @@ const Setup = () => {
           </div>
         </div>
         <div className="setup-business__properties">
-          <ProductsCard onClickNewProduct={clickNewProduct} />
+          <ProductsCard onClickNewProduct={() => setModalVisible(!modalProductVisible)} />
           <Categories categories={categories} onClick={handleCategoriesClick} />
         </div>
         <div className="setup-business__submit">
           <div className="setup-business__submit--button">
             <Button primary onClick={() => createBusiness()}>
-              CREAR EMPRENDIMIENTO
+              Crear Emprendimiento
             </Button>
           </div>
           <Link onClick={() => history.push("/home")}>Cancelar</Link>
@@ -133,7 +129,7 @@ const Setup = () => {
           show={showSnackbar}
         />
       </Content>
-      <Modal open={modalProductVisible} setVisibility={setModalVisible}>
+      <Modal open={modalProductVisible} setVisibility={() => setModalVisible(!modalProductVisible)}>
         <ProductInput />
       </Modal>
     </Layout>
