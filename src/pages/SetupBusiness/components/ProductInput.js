@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import ImageUploader from '../../../components/ImageUploader';
 import TextInput from '../../../components/TextInput';
+import Checkbox from '../../../components/Checkbox';
 import Dropdown from '../../../components/Dropdown';
 
 import { colors } from '../../../styles/palette';
@@ -28,15 +29,34 @@ const InputContainer = styled.div`
   padding: 0 20px;
 `;
 
+const ProductionDataContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 16px 0;
+`;
+
+const ProductionTimeContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const PropertiesContainer = styled.div`
   width: 100%;
   padding: 12px 0;
 `;
 
-const Label = styled.span`
+const Subtitle = styled.span`
   font-size: 18px;
   font-family: 'Roboto';
   color: ${colors.textColor};
+`;
+
+const Label = styled.span`
+  font-size: 14px;
+  color: ${colors.lightGray};
+  margin-right: 8px;
 `;
 
 const Properties = styled.div`
@@ -54,6 +74,8 @@ const NewProduct = () => {
   const [image, setProductImage] = useState('');
   const [description, setProductDescription] = useState('');
   const [properties, setProductProperties] = useState([]);
+  const [productionTime, setProductionTime] = useState('');
+  const [stockCheckbox, setStockChecbox] = useState(true);
   
   return (
     <Container>
@@ -86,10 +108,30 @@ const NewProduct = () => {
           />
         </InputContainer>
       </Group>
+      <Group>
+      <ProductionDataContainer>
+        <Checkbox
+            id="stockCheckbox"
+            label="Tengo el producto en stock"
+            checked={stockCheckbox}
+            onClick={() => setStockChecbox(!stockCheckbox)}
+          />
+         {!stockCheckbox && <ProductionTimeContainer>
+            <Label>Días de producción:</Label>
+            <TextInput
+              type="number"
+              value={productionTime}
+              id="productionTime"
+              onChange={setProductionTime}
+              className="production-time__input"
+            />
+          </ProductionTimeContainer>}
+      </ProductionDataContainer>
+      </Group>
       <PropertiesContainer>
-        <Label>Características</Label>
+        <Subtitle>Características</Subtitle>
         <Properties>
-          {/* Agregar boton de add more properties y el mostrado de las propiedades */}
+        
         </Properties>
       </PropertiesContainer>
     </Container>
