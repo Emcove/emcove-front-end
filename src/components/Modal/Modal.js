@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import Card from '../Card';
 // import Icons from '../Icons';
+import Link from '../Link';
 
 const Container = styled.div`
   height: 100vh;
@@ -24,13 +25,13 @@ const CardContainer = styled.div`
 `;
 
 const Modal = ({ className, open, setVisibility, children }) => {
-  console.log('open modal: ', open);
   if(!open) return null;
   return (
     <Container className={className}>
       <CardContainer>
         <Card vertical minWidth="532px" minHeight="400px" paddingSize="48px">
           {children}
+          <Link onClick={setVisibility}>Cerrar</Link>
         </Card>
       </CardContainer>
     </Container>
