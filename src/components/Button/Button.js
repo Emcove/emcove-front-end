@@ -8,7 +8,6 @@ const Button = styled.button`
   border-radius: 3px;
   padding: 8px 10px;
   border: none;
-  width: 100%;
   font-size: 14px;
   border: solid 2px ${colors.primary};
 
@@ -19,6 +18,7 @@ const Button = styled.button`
       cursor: pointer;
     }
   `}
+
   ${props => props.secondary && css `
     background: transparent;
     color: ${colors.primary};
@@ -26,6 +26,15 @@ const Button = styled.button`
     &:hover {
       cursor: pointer;
       background-color: ${colors.primaryTen};
+    }
+  `}
+
+  ${props => props.backgroundColor && css`
+    background: ${props.backgroundColor};
+    border: none;
+    color: white;
+    &:hover {
+      cursor: pointer;
     }
   `}
 `;

@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import ImageUploader from '../../../components/ImageUploader';
 import TextInput from '../../../components/TextInput';
 import Checkbox from '../../../components/Checkbox';
+import Button from '../../../components/Button';
+import Icon from '../../../components/Icons';
 import Dropdown from '../../../components/Dropdown';
 
 import { colors } from '../../../styles/palette';
@@ -60,23 +62,73 @@ const Label = styled.span`
 `;
 
 const Properties = styled.div`
+  height: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   padding: 8px;
   border-bottom: solid 1px ${colors.grayBorder};
+  overflow: scroll;
 `;
 
-const Property = styled.div``;
+const PropertyData = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+`;
+
+const PropertyGroup = styled.div`
+  display: flex;
+  width: 50%;
+  align-items: center;
+  justify-content: flex-start;
+`;
 
 const NewProduct = () => {
   const [name, setProductName] = useState('');
   const [image, setProductImage] = useState('');
   const [description, setProductDescription] = useState('');
-  const [properties, setProductProperties] = useState([]);
+
   const [productionTime, setProductionTime] = useState('');
   const [stockCheckbox, setStockChecbox] = useState(true);
-  
+
+  const [newProperty, setNewProperty] = useState({ name: '', values: '' });
+
+  const [properties, setProductProperties] = useState([]);
+
+  const handleNamePropertyChange = (name) => {
+    setNewProperty({ ...newProperty, name });
+  }
+
+  const handleValuePropertyChange = (values) => {
+    setNewProperty({ ...newProperty, values });
+  }
+
+  const addNewProperty = () => {
+    const newProp = {};
+    newProp[newProperty.name] = newProperty.values.replace(/\s/g, '').split(",");
+
+    let existentKey = false;
+
+    const newProperties = properties.map(prop => {
+      if(Object.keys(prop)[0] === newProperty.name) {
+        prop = newProp;
+        existentKey = true;
+      }
+
+      return prop;
+    });
+
+    if (existentKey) {
+      setProductProperties(newProperties);
+    } else {
+      setProductProperties([ ...newProperties, newProp]);
+    }
+
+    setNewProperty({name: '', values: ''});
+  }
+
   return (
     <Container>
       <Group>
@@ -131,10 +183,50 @@ const NewProduct = () => {
       <PropertiesContainer>
         <Subtitle>Características</Subtitle>
         <Properties>
-        
+          { !!properties && properties.map(property => {
+            return Object.keys(property).map(objKey => (
+              <PropertyData>
+                <TextInput 
+                  type="text"
+                  value={objKey}
+                  id={`${objKey}Preview`}
+                  disabled
+                />
+                <Dropdown
+                  label={objKey}
+                  placeholder={objKey}
+                  options={property[objKey]}
+                />
+              </PropertyData>
+            ))
+          })}
+          <PropertyData>
+            <PropertyGroup>
+              <TextInput 
+                type="text"
+                value={newProperty.name}
+                id="propertyName"
+                onChange={handleNamePropertyChange}
+                label="Nombre"
+                placeholder="Nombre"
+                className="new-property__name"
+              />
+              <TextInput 
+                type="text"
+                value={newProperty.values}
+                id="propertyValues"
+                onChange={handleValuePropertyChange}
+                label="Valores posibles separados por coma"
+                placeholder="Valores posibles"
+              />
+            </PropertyGroup>
+            <Button backgroundColor={colors.success} onClick={addNewProperty}>
+              <Icon type="check" className="done-button__icon"/>
+            </Button>
+          </PropertyData>
         </Properties>
       </PropertiesContainer>
-    </Container>
+    </Container> 
   );
 }
 
