@@ -7,7 +7,7 @@ import { colors } from '../../../styles/palette';
 import Card from '../../Card';
 
 const Image = styled.div`
-  width: 52px;
+  width: 56px;
   height: 52px;
   border-radius: 100%;
   background-color: ${colors.success};
