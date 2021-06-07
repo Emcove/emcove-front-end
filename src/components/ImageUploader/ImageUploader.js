@@ -98,10 +98,14 @@ const ImageUploader = ({ image, id, shape, label, onChange, disabled, iconClass,
 
   const updateImage = (event) => {
     const file = event.currentTarget.files[0];
+    const reader = new FileReader();
 
     if (file) {
-      // Agregar filereader para guardar el archivo en base 64
-      onChange(URL.createObjectURL(file));
+      reader.onload = () => {
+        onChange(reader.result, inputLogoRef);
+      };
+  
+      reader.readAsDataURL(file);
     }
   }
 
