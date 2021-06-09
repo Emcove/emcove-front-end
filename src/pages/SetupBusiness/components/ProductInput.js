@@ -7,6 +7,7 @@ import Checkbox from '../../../components/Checkbox';
 import Button from '../../../components/Button';
 import Icon from '../../../components/Icons';
 import Dropdown from '../../../components/Dropdown';
+import Link from '../../../components/Link';
 
 import { colors } from '../../../styles/palette';
 
@@ -62,12 +63,13 @@ const Label = styled.span`
 `;
 
 const Properties = styled.div`
-  height: 100%;
+  height: 244px;
+  max-height: 244px;
   display: flex;
   flex-direction: column;
-  padding: 8px;
-  border-bottom: solid 1px ${colors.grayBorder};
+  margin-top: 16px;
   overflow: scroll;
+  border-top: solid 1px #b3aeae3b;
 `;
 
 const PropertyData = styled.div`
@@ -91,11 +93,13 @@ const NewProduct = () => {
   const [description, setProductDescription] = useState('');
 
   const [productionTime, setProductionTime] = useState('');
-  const [stockCheckbox, setStockChecbox] = useState(true);
+  const [stockCheckbox, setStockCheckbox] = useState(true);
 
   const [newProperty, setNewProperty] = useState({ name: '', values: '' });
 
   const [properties, setProductProperties] = useState([]);
+
+  const [addNew, showAddNewProp] = useState(properties.length === 0);
 
   const handleNamePropertyChange = (name) => {
     setNewProperty({ ...newProperty, name });
@@ -106,27 +110,35 @@ const NewProduct = () => {
   }
 
   const addNewProperty = () => {
-    const newProp = {};
-    newProp[newProperty.name] = newProperty.values.replace(/\s/g, '').split(",");
+    if ( newProperty.name !== '' && newProperty.values !== '') {
+      const newProp = {};
+      newProp[newProperty.name] = newProperty.values.replace(/\s/g, '').split(",");
 
-    let existentKey = false;
+      let existentKey = false;
 
-    const newProperties = properties.map(prop => {
-      if(Object.keys(prop)[0] === newProperty.name) {
-        prop = newProp;
-        existentKey = true;
+      const newProperties = properties.map(prop => {
+        if(Object.keys(prop)[0] === newProperty.name) {
+          prop = newProp;
+          existentKey = true;
+        }
+
+        return prop;
+      });
+
+      if (existentKey) {
+        setProductProperties(newProperties);
+      } else {
+        setProductProperties([ ...newProperties, newProp]);
       }
 
-      return prop;
-    });
-
-    if (existentKey) {
-      setProductProperties(newProperties);
-    } else {
-      setProductProperties([ ...newProperties, newProp]);
+      setNewProperty({name: '', values: ''});
+      showAddNewProp(false);
     }
+  }
 
-    setNewProperty({name: '', values: ''});
+  const deleteRow = (index) => {
+    properties.splice(index, 1);
+    setProductProperties();
   }
 
   return (
@@ -166,7 +178,7 @@ const NewProduct = () => {
             id="stockCheckbox"
             label="Tengo el producto en stock"
             checked={stockCheckbox}
-            onClick={() => setStockChecbox(!stockCheckbox)}
+            onClick={() => setStockCheckbox(!stockCheckbox)}
           />
          {!stockCheckbox && <ProductionTimeContainer>
             <Label>Días de producción:</Label>
@@ -183,13 +195,21 @@ const NewProduct = () => {
       <PropertiesContainer>
         <Subtitle>Características</Subtitle>
         <Properties>
-          { !!properties && properties.map(property => {
+          { !!properties && properties.map((property, index) => {
             return Object.keys(property).map(objKey => (
               <PropertyData>
                 <TextInput 
                   type="text"
                   value={objKey}
                   id={`${objKey}Preview`}
+                  label="Característica"
+                  disabled
+                />
+                <TextInput 
+                  type="text"
+                  value={property[objKey].join(', ')}
+                  id={`${objKey}ValuesPreview`}
+                  label="Valores"
                   disabled
                 />
                 <Dropdown
@@ -197,33 +217,37 @@ const NewProduct = () => {
                   placeholder={objKey}
                   options={property[objKey]}
                 />
+                <Button backgroundColor="transparent" alignment="center" onClick={() => deleteRow(index)}><Icon type="cross" className="delete-row__icon" /></Button>
               </PropertyData>
             ))
           })}
-          <PropertyData>
-            <PropertyGroup>
-              <TextInput 
-                type="text"
-                value={newProperty.name}
-                id="propertyName"
-                onChange={handleNamePropertyChange}
-                label="Nombre"
-                placeholder="Nombre"
-                className="new-property__name"
-              />
-              <TextInput 
-                type="text"
-                value={newProperty.values}
-                id="propertyValues"
-                onChange={handleValuePropertyChange}
-                label="Valores posibles separados por coma"
-                placeholder="Valores posibles"
-              />
-            </PropertyGroup>
-            <Button backgroundColor={colors.success} onClick={addNewProperty}>
-              <Icon type="check" className="done-button__icon"/>
-            </Button>
-          </PropertyData>
+          {addNew && 
+            <PropertyData>
+              <PropertyGroup>
+                <TextInput 
+                  type="text"
+                  value={newProperty.name}
+                  id="propertyName"
+                  onChange={handleNamePropertyChange}
+                  hint="Color, sabor, aroma, tamaño, talle, etc."
+                  placeholder="Nombre"
+                  className="new-property__name"
+                />
+                <TextInput 
+                  type="text"
+                  value={newProperty.values}
+                  id="propertyValues"
+                  onChange={handleValuePropertyChange}
+                  hint="Valores posibles separados por coma"
+                  placeholder="Valores posibles"
+                />
+              </PropertyGroup>
+              <Button backgroundColor={colors.success} onClick={addNewProperty} alignment="flex-start">
+                <Icon type="check" className="done-button__icon"/>
+              </Button>
+            </PropertyData>
+          }
+          {!addNew && <Link onClick={() => showAddNewProp(true)}>Agregar característica</Link>}
         </Properties>
       </PropertiesContainer>
     </Container> 

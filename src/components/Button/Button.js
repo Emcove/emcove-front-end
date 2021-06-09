@@ -35,6 +35,11 @@ const Button = styled.button`
     align-self: ${props.alignment};
   `}
 
+  ${props => props.color && css`
+    color: ${props.color};
+  `}
+
+
   &:hover {
     cursor: pointer;
   }
