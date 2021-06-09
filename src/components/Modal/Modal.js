@@ -24,12 +24,12 @@ const CardContainer = styled.div`
   align-items: center;
 `;
 
-const Modal = ({ className, open, setVisibility, children }) => {
+const Modal = ({ className, open, setVisibility, children, width, height }) => {
   if(!open) return null;
   return (
     <Container>
       <CardContainer>
-        <Card className={className} vertical minWidth="532px" minHeight="400px" paddingSize="48px">
+        <Card className={className} vertical minWidth={width} minHeight={height} paddingSize="48px">
           {children}
           <Link onClick={setVisibility}>Cerrar</Link>
         </Card>
