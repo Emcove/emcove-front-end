@@ -42,7 +42,13 @@ const TextArea = styled.textarea`
   resize: none;
 `;
 
-const TextInput = ({ id, label, value, required, placeholder, type, onChange, disabled, className, multiline }) => {
+const Hint = styled.span`
+  color: ${colors.lightGray};
+  font-size: 10px;
+  margin-top: 4px;
+`;
+
+const TextInput = ({ id, label, value, required, placeholder, type, onChange, disabled, className, multiline, hint }) => {
 
   const handleFieldChange = (e) => {
     onChange(e.currentTarget.value);
@@ -74,6 +80,7 @@ const TextInput = ({ id, label, value, required, placeholder, type, onChange, di
         />
       }
       {required && <WarningMessage>Campo requerido</WarningMessage>}
+      {!required && hint && <Hint>{hint}</Hint>}
     </InputContainer>
   )
 }
