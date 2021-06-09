@@ -9,7 +9,6 @@ import Icon from '../Icons';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 8px;
 `;
 
 const DropdownDispatcher = styled.button`
@@ -19,18 +18,22 @@ const DropdownDispatcher = styled.button`
   padding: 8px 10px;
   background-color: ${colors.white};
   border: solid 1px ${colors.grayBorder};
+  border-radius: 3px;
   font-family: 'Roboto';
   text-align: left;
+  margin: 0 16px 16px 0;
 
   &:hover {
     cursor: pointer;
   }
 `;
 
-const IconContainer = styled.div``;
+const IconContainer = styled.div`
+  margin-left: 10px;
+`;
 
 const Label = styled.span`
-  margin-bottom: 4px;
+  margin: 0 0 .42857em .42857em;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.4);
 `;
