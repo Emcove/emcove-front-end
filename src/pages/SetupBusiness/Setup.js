@@ -129,7 +129,7 @@ const Setup = () => {
           show={showSnackbar}
         />
       </Content>
-      <Modal className="new-product__modal" open={modalProductVisible} setVisibility={() => setModalVisible(!modalProductVisible)}>
+      <Modal className="new-product__modal" width="500px" height="550px" open={modalProductVisible} setVisibility={() => setModalVisible(!modalProductVisible)}>
         <ProductInput />
       </Modal>
     </Layout>
