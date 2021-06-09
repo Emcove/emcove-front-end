@@ -14,9 +14,6 @@ const Button = styled.button`
   ${props => props.primary && css`
     background: ${colors.primary};
     color: white;
-    &:hover {
-      cursor: pointer;
-    }
   `}
 
   ${props => props.secondary && css `
@@ -24,7 +21,6 @@ const Button = styled.button`
     color: ${colors.primary};
 
     &:hover {
-      cursor: pointer;
       background-color: ${colors.primaryTen};
     }
   `}
@@ -33,10 +29,15 @@ const Button = styled.button`
     background: ${props.backgroundColor};
     border: none;
     color: white;
-    &:hover {
-      cursor: pointer;
-    }
   `}
+
+  ${props => props.alignment && css`
+    align-self: ${props.alignment};
+  `}
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export default Button;
