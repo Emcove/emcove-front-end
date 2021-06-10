@@ -80,7 +80,7 @@ const Dropdown = ({ label, options, placeholder, onClickOption }) => {
       </DropdownDispatcher>
       {showOptions &&
         <Options id="dropdownOption">
-          {options.map(option => <Option onClick={() => optionClicked(option)}>{option}</Option>)}
+          {options.map(option => <Option key={option} onClick={() => optionClicked(option)}>{option}</Option>)}
         </Options>
       }
     </Container>
