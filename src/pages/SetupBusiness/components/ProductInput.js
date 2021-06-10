@@ -226,7 +226,6 @@ const NewProduct = () => {
                 <PropertyGroup alignment="flex-end">
                   <Dropdown
                     label={objKey}
-                    placeholder={objKey}
                     options={property[objKey]}
                   />
                   <Button
