@@ -116,9 +116,11 @@ const NewProduct = () => {
 
       let existentKey = false;
 
+      // Esta lógica es para evitar que agreguen características con el mismo nombre,
+      // si lo hacen, se acumulan los valores con la propiedad anterior
       const newProperties = properties.map(prop => {
-        if(Object.keys(prop)[0] === newProperty.name) {
-          prop = newProp;
+        if (Object.keys(prop)[0] === newProperty.name) {
+          prop[newProperty.name] = [...prop[newProperty.name], ...newProp[newProperty.name]];
           existentKey = true;
         }
 
@@ -130,15 +132,17 @@ const NewProduct = () => {
       } else {
         setProductProperties([ ...newProperties, newProp]);
       }
-
+  
       setNewProperty({name: '', values: ''});
       showAddNewProp(false);
     }
   }
 
   const deleteRow = (index) => {
-    properties.splice(index, 1);
-    setProductProperties();
+    let auxProps = [...properties];
+
+    auxProps.splice(index, 1);
+    setProductProperties(auxProps);
   }
 
   return (
@@ -195,9 +199,9 @@ const NewProduct = () => {
       <PropertiesContainer>
         <Subtitle>Características</Subtitle>
         <Properties>
-          { !!properties && properties.map((property, index) => {
+          {!!properties && properties.map((property, index) => {
             return Object.keys(property).map(objKey => (
-              <PropertyData>
+              <PropertyData key={objKey}>
                 <TextInput 
                   type="text"
                   value={objKey}
@@ -217,7 +221,13 @@ const NewProduct = () => {
                   placeholder={objKey}
                   options={property[objKey]}
                 />
-                <Button backgroundColor="transparent" alignment="center" onClick={() => deleteRow(index)}><Icon type="cross" className="delete-row__icon" /></Button>
+                <Button
+                  backgroundColor="transparent"
+                  alignment="center"
+                  onClick={() => deleteRow(index)}
+                >
+                    <Icon type="cross" className="delete-row__icon" />
+                </Button>
               </PropertyData>
             ))
           })}
@@ -247,7 +257,7 @@ const NewProduct = () => {
               </Button>
             </PropertyData>
           }
-          {!addNew && <Link onClick={() => showAddNewProp(true)}>Agregar característica</Link>}
+          {!addNew && <Link onClick={() => showAddNewProp(true)} className="add-prop__button">Agregar característica</Link>}
         </Properties>
       </PropertiesContainer>
     </Container> 
