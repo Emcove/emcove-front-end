@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import ImageUploader from '../../../components/ImageUploader';
 import TextInput from '../../../components/TextInput';
@@ -85,6 +85,10 @@ const PropertyGroup = styled.div`
   width: 50%;
   align-items: center;
   justify-content: flex-start;
+
+  ${props => props.alignment && css `
+    justify-content: ${props.alignment};
+  `}
 `;
 
 const NewProduct = () => {
@@ -184,7 +188,8 @@ const NewProduct = () => {
             checked={stockCheckbox}
             onClick={() => setStockCheckbox(!stockCheckbox)}
           />
-         {!stockCheckbox && <ProductionTimeContainer>
+         {!stockCheckbox &&
+         <ProductionTimeContainer>
             <Label>Días de producción:</Label>
             <TextInput
               type="number"
@@ -202,32 +207,36 @@ const NewProduct = () => {
           {!!properties && properties.map((property, index) => {
             return Object.keys(property).map(objKey => (
               <PropertyData key={objKey}>
-                <TextInput 
-                  type="text"
-                  value={objKey}
-                  id={`${objKey}Preview`}
-                  label="Característica"
-                  disabled
-                />
-                <TextInput 
-                  type="text"
-                  value={property[objKey].join(', ')}
-                  id={`${objKey}ValuesPreview`}
-                  label="Valores"
-                  disabled
-                />
-                <Dropdown
-                  label={objKey}
-                  placeholder={objKey}
-                  options={property[objKey]}
-                />
-                <Button
-                  backgroundColor="transparent"
-                  alignment="center"
-                  onClick={() => deleteRow(index)}
-                >
-                    <Icon type="cross" className="delete-row__icon" />
-                </Button>
+                <PropertyGroup>
+                  <TextInput 
+                    type="text"
+                    value={objKey}
+                    id={`${objKey}Preview`}
+                    label="Característica"
+                    disabled
+                  />
+                  <TextInput 
+                    type="text"
+                    value={property[objKey].join(', ')}
+                    id={`${objKey}ValuesPreview`}
+                    label="Valores"
+                    disabled
+                  />
+                </PropertyGroup>
+                <PropertyGroup alignment="flex-end">
+                  <Dropdown
+                    label={objKey}
+                    placeholder={objKey}
+                    options={property[objKey]}
+                  />
+                  <Button
+                    backgroundColor="transparent"
+                    alignment="center"
+                    onClick={() => deleteRow(index)}
+                  >
+                      <Icon type="cross" className="delete-row__icon" />
+                  </Button>
+                </PropertyGroup>
               </PropertyData>
             ))
           })}
