@@ -19,7 +19,6 @@ import Modal from '../../components/Modal';
 import ProductInput from './components/ProductInput';
 
 const Content = styled.div`
-  padding: 8px 8%;
   width: 100%;
 `;
 
