@@ -3,8 +3,7 @@ import axios from 'axios'
 import { API_URL } from '../Constants'
 
 class UserService {
-
-    async login(username,password){
+    async login(username, password) {
         let basicAuthHeader = 'Basic ' + window.btoa(username + ':' + password);
         try{
             const resp = await axios.get(`${API_URL}/users/login`,{
@@ -20,15 +19,15 @@ class UserService {
         }
     }
 
-    async register(username,password,email,name,surname,city,adult){
+    async register(username, password, email, name, surname, city, adult) {
         const requestOptions = {
-            username: username,
-            password: password,
-            email: email,
-            name: name,
-            surname: surname,
-            city: city,
-            adult: adult
+            username,
+            password,
+            email,
+            name,
+            surname,
+            city,
+            adult,
         };
 
         try{
@@ -37,11 +36,8 @@ class UserService {
             return error.response;
         }
     }
-         
-            
-    
 
-    setupAxiosInterceptor(basicAuthHeader){
+    setupAxiosInterceptor(basicAuthHeader) {
         axios.interceptors.request.use(
             function (config) {
                 config.headers.Authorization = basicAuthHeader;
