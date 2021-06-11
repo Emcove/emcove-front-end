@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled, { css } from 'styled-components'
 
-import ImageUploader from '../../../components/ImageUploader';
 import TextInput from '../../../components/TextInput';
 import Checkbox from '../../../components/Checkbox';
 import Button from '../../../components/Button';
@@ -21,6 +20,7 @@ const Container = styled.div`
 
 const Group = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
   border-bottom: solid 1px ${colors.grayBorder};
 `;
@@ -29,7 +29,6 @@ const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 0 20px;
 `;
 
 const ProductionDataContainer = styled.div`
@@ -91,10 +90,80 @@ const PropertyGroup = styled.div`
   `}
 `;
 
+const PreviewImgContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  position: relative;
+  overflow: hidden;
+  margin: 0 6px 6px;
+  width: 100px;
+  height: 80px;
+  border: solid 1px ${colors.grayBorder};
+  color: ${colors.textColor};
+  border-radius: 3px;
+  transition: box-shadow .08s linear,min-width .15s cubic-bezier(0.4,0.0,0.2,1);
+  
+  &:hover {
+    cursor: pointer;
+    box-shadow:  0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+  }
+`;
+
+const Preview = styled.img`
+  height: 100%;
+  width: fit-content;
+  display: inline;
+`;
+
+const ImagesContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+`;
+
+const MultiFilesInput = styled.input`
+  visibility: hidden;
+  width: 0;
+  height: 0;
+`;
+
+const AddImageButton = styled.button`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  margin-bottom: 8px;
+  margin-right: 6px;
+  width: 100px;
+  height: 80px;
+  border: solid 1px #b3aeae82;
+  border-radius: 3px;
+  background-color: transparent;
+  transition: box-shadow .08s linear,min-width .15s cubic-bezier(0.4,0.0,0.2,1);
+  font-size: 10px;
+  color: ${colors.textColor};
+
+  &:hover {
+    cursor: pointer;
+    box-shadow:  0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+  }
+`;
+
+const NewImageGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const NewProduct = () => {
+  const imagesUploaderRef = useRef('multipleUploader');
+
   const [name, setProductName] = useState('');
-  const [image, setProductImage] = useState('');
   const [description, setProductDescription] = useState('');
+  
+  const [productImages, setProductImages] = useState([]);
+  const [showAddNewImage, setShowAddImage] = useState(productImages.length < 4);
 
   const [productionTime, setProductionTime] = useState('');
   const [stockCheckbox, setStockCheckbox] = useState(true);
@@ -143,23 +212,66 @@ const NewProduct = () => {
   }
 
   const deleteRow = (index) => {
-    let auxProps = [...properties];
+    setProductProperties(prevState => {
+      let auxProps = [...prevState];
+      auxProps.splice(index, 1);
 
-    auxProps.splice(index, 1);
-    setProductProperties(auxProps);
+      if (auxProps.length === 0) showAddNewProp(true);
+      return auxProps;
+    });
+  }
+
+  const handleAddClick = (e) => {
+    e.preventDefault();
+    const input = imagesUploaderRef.current;
+
+    if (input) {
+      input.click();
+    }
+  }
+
+  const handleImagesInput = (event) => {
+    const file = event.currentTarget.files[0];
+    var reader = new FileReader();  
+    reader.onload = () => {
+      setProductImages(prevState => {
+        const images = [ reader.result, ...prevState];
+
+        // Seteo cantidad máxima de 5 imágenes
+        if (images.length === 5) setShowAddImage(false);
+        return images;
+      });
+    }
+    
+    reader.readAsDataURL(file);
   }
 
   return (
     <Container>
       <Group>
-        <ImageUploader
-          id="productImage"
-          shape="squared"
-          iconClass="new-product__icon"
-          label="Subir imagen"
-          image={image}
-          onChange={setProductImage}
-        />
+        <ImagesContainer>
+          {showAddNewImage && 
+          <NewImageGroup>
+            <AddImageButton onClick={(e) =>handleAddClick(e)}>
+              <Icon type="add" className="add-icon" />
+              Agregar imagen
+            </AddImageButton>
+            <MultiFilesInput
+              type="file"
+              accept="image/*"
+              id="multipleUploader"
+              data-required={false}
+              onChange={(e) => handleImagesInput(e)}
+              ref={imagesUploaderRef}
+            />
+          </NewImageGroup>
+          }
+          {productImages.length > 0 && productImages.map((image, idx) => 
+            <PreviewImgContainer>
+              <Preview id={`productImage${idx}`} alt={`${idx}product`} src={image} />
+            </PreviewImgContainer>
+          )}
+        </ImagesContainer>
         <InputContainer>
           <TextInput
             type="text"
