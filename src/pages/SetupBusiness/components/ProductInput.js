@@ -156,6 +156,25 @@ const NewImageGroup = styled.div`
   flex-direction: column;
 `;
 
+const DeleteImageButton = styled.button`
+  position: absolute;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  top: 4px;
+  right: 4px;
+  width: 14px;
+  height: 14px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 100%;
+  color: #fff;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const NewProduct = () => {
   const imagesUploaderRef = useRef('multipleUploader');
 
@@ -237,13 +256,23 @@ const NewProduct = () => {
       setProductImages(prevState => {
         const images = [ reader.result, ...prevState];
 
-        // Seteo cantidad máxima de 5 imágenes
-        if (images.length === 5) setShowAddImage(false);
+        // Seteo cantidad máxima de 4 imágenes
+        if (images.length === 4) setShowAddImage(false);
         return images;
       });
     }
     
     reader.readAsDataURL(file);
+  }
+
+  const deleteImage = (index) => {
+    setProductImages(prevState => {
+      let images = [...prevState];
+      images.splice(index, 1);
+
+      if (images.length < 4 ) setShowAddImage(true);
+      return images;
+    });
   }
 
   return (
@@ -268,6 +297,7 @@ const NewProduct = () => {
           }
           {productImages.length > 0 && productImages.map((image, idx) => 
             <PreviewImgContainer>
+              <DeleteImageButton onClick={() => deleteImage(idx)}><Icon type="white-cross" className="delete-image__icon" /></DeleteImageButton>
               <Preview id={`productImage${idx}`} alt={`${idx}product`} src={image} />
             </PreviewImgContainer>
           )}
