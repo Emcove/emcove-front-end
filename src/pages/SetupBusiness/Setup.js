@@ -41,6 +41,7 @@ const TextInputContainer = styled.div`
   width: 25%;
 `;
 
+// Acá deberíamos hacer un fetch en caso de que el usuario quiera editar un emprendimiento
 const Setup = () => {
   const history = useHistory();
   
