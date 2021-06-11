@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import styled, { css } from 'styled-components'
 
 import TextInput from '../../../components/TextInput';
@@ -9,6 +9,8 @@ import Dropdown from '../../../components/Dropdown';
 import Link from '../../../components/Link';
 
 import { colors } from '../../../styles/palette';
+
+import BusinessContext from '../../../context/Business';
 
 const Container = styled.div`
   display: flex;
@@ -177,6 +179,7 @@ const DeleteImageButton = styled.button`
 
 const NewProduct = () => {
   const imagesUploaderRef = useRef('multipleUploader');
+  const { addNewProduct } = useContext(BusinessContext);
 
   const [name, setProductName] = useState('');
   const [description, setProductDescription] = useState('');
@@ -273,6 +276,19 @@ const NewProduct = () => {
       if (images.length < 4 ) setShowAddImage(true);
       return images;
     });
+  }
+
+  const createProduct = () => {
+    const product = {
+      name,
+      description,
+      images: productImages,
+      hasStock: stockCheckbox,
+      productionTime,
+      props: properties,
+    };
+
+    addNewProduct(product);
   }
 
   return (
@@ -410,7 +426,8 @@ const NewProduct = () => {
           {!addNew && <Link onClick={() => showAddNewProp(true)} className="add-prop__button">Agregar característica</Link>}
         </Properties>
       </PropertiesContainer>
-    </Container> 
+      <Button primary onClick={createProduct}>Aceptar</Button>
+    </Container>
   );
 }
 

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useHistory } from 'react-router-dom';
+
+import { BusinessProvider } from '../../context/Business';
 
 import Checkbox from '../../components/Checkbox';
 import Layout from '../../components/Layout';
@@ -10,13 +12,13 @@ import ImageUploader from '../../components/ImageUploader';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import Snackbar from '../../components/Snackbar';
+import Modal from '../../components/Modal';
 
 import ProductsCard from './components/Products';
 import Categories from './components/CategoriesCard';
+import ProductInput from './components/ProductInput';
 
 import { colors } from '../../styles/palette';
-import Modal from '../../components/Modal';
-import ProductInput from './components/ProductInput';
 
 const Content = styled.div`
   width: 100%;
@@ -51,8 +53,14 @@ const Setup = () => {
   const [showSnackbar, setSnackbarVisibility] = useState(false)
   const [doesShipments, setDoesShipments] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [products, updateProducts] = useState([]);
 
   const [modalProductVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    // Aca vamos a tener que hacer el fetch de los datos y setearlos en el state en caso
+    // de que sea pantalla de edicion
+  });
 
   const createBusiness = () => {
     setSnackbarVisibility(true);
@@ -71,67 +79,74 @@ const Setup = () => {
     }
   }
 
+  const addNewProduct = (product) => {
+    updateProducts([...products, product]);
+    setModalVisible(false);
+  }
+
   return (
     <Layout>
-      <Content>
-        <div className="setup-business__essentials">
-          <ImageUploader
-            id="logoBusiness"
-            shape="round"
-            image={logo}
-            onChange={setLogo}
-            disabled={false}
-            label="Logo"
-            iconClass="upload-logo__icon" 
-          />
-          <div className="setup-business__name">
-            <NameInput
-              type="text"
-              id="businessName"
-              value={name}
-              onChange={(e) => setName(e.currentTarget.value)}
-              placeholder="Nombre de emprendimiento"
+      <BusinessProvider value={{ name, logo, city, categories, products, addNewProduct }}>
+        <Content>
+          <div className="setup-business__essentials">
+            <ImageUploader
+              id="logoBusiness"
+              shape="round"
+              image={logo}
+              onChange={setLogo}
+              disabled={false}
+              label="Logo"
+              iconClass="upload-logo__icon" 
             />
-            <TextInputContainer>
-              <TextInput
-                id="city"
-                value={city}
-                required={false}
+            <div className="setup-business__name">
+              <NameInput
                 type="text"
-                onChange={setCity}
-                placeholder="Localidad"
+                id="businessName"
+                value={name}
+                onChange={(e) => setName(e.currentTarget.value)}
+                placeholder="Nombre de emprendimiento"
               />
-            </TextInputContainer>
-            <Checkbox
-              id="shipmentInput"
-              label="Hago envíos"
-              checked={doesShipments}
-              onClick={() => setDoesShipments(!doesShipments)}
-            />
+              <TextInputContainer>
+                <TextInput
+                  id="city"
+                  value={city}
+                  required={false}
+                  type="text"
+                  onChange={setCity}
+                  placeholder="Localidad"
+                />
+              </TextInputContainer>
+              <Checkbox
+                id="shipmentInput"
+                label="Hago envíos"
+                checked={doesShipments}
+                onClick={() => setDoesShipments(!doesShipments)}
+              />
+            </div>
           </div>
-        </div>
-        <div className="setup-business__properties">
-          <ProductsCard onClickNewProduct={() => setModalVisible(!modalProductVisible)} />
-          <Categories categories={categories} onClick={handleCategoriesClick} />
-        </div>
-        <div className="setup-business__submit">
-          <div className="setup-business__submit--button">
-            <Button primary onClick={() => createBusiness()}>
-              Crear Emprendimiento
-            </Button>
+          <div className="setup-business__properties">
+            <ProductsCard onClickNewProduct={() => setModalVisible(!modalProductVisible)} />
+            <Categories categories={categories} onClick={handleCategoriesClick} />
           </div>
-          <Link onClick={() => history.push("/home")}>Cancelar</Link>
-        </div>
+          <div className="setup-business__submit">
+            <div className="setup-business__submit--button">
+              <Button primary onClick={() => createBusiness()}>
+                Crear Emprendimiento
+              </Button>
+            </div>
+            <Link onClick={() => history.push("/home")}>Cancelar</Link>
+          </div>
 
-        <Snackbar
-          message="Emprendimiento creado con éxito"
-          type="success"
-          show={showSnackbar}
-        />
-      </Content>
-      <Modal className="new-product__modal" width="500px" height="550px" open={modalProductVisible} setVisibility={() => setModalVisible(!modalProductVisible)}>
-        <ProductInput />
-      </Modal>
+          <Snackbar
+            message="Emprendimiento creado con éxito"
+            type="success"
+            show={showSnackbar}
+          />
+        </Content>
+        <Modal className="new-product__modal" width="70%" height="60%" open={modalProductVisible} setVisibility={() => setModalVisible(!modalProductVisible)}>
+          <ProductInput />
+        </Modal>
+      </BusinessProvider>
     </Layout>
   );
 }
