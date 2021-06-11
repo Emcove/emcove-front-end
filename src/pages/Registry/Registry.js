@@ -13,8 +13,6 @@ import Snackbar from '../../components/Snackbar/Snackbar';
 
 import UserService from "../../services/UserService"
 
-import UserData from '../../utils';
-
 const Registry = () => {
   const history = useHistory();
 
