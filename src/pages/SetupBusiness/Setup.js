@@ -63,8 +63,15 @@ const Setup = () => {
   });
 
   const createBusiness = () => {
+    // const data = {
+    //   name,
+    //   logo,
+    //   city,
+    //   categories,
+    //   products,
+    // };
     setSnackbarVisibility(true);
-
+    // POST PARA CREAR EL EMPRENDIMIENTO CON PRODUCTOS
     setTimeout(() => {
       setSnackbarVisibility(false);
     }, 2000);

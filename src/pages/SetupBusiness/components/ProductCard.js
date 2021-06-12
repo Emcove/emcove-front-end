@@ -106,7 +106,7 @@ const ProductCard = ({ images, name, description, properties, hasStock, producti
         { !hasStock && <TagLabel info>Elaboración: {productionTime} días</TagLabel>}
       </SmallContainer>
       <SmallContainer>
-        {properties.map(prop => Object.keys(prop).map(k => <Dropdown key={`${k}Dropdown`} options={prop[k]} placeholder={k} />))}
+        {properties.map(prop => <Dropdown key={`${prop.name}Dropdown`} options={prop.options} placeholder={prop.name} />)}
       </SmallContainer>
       <DeleteRowButton className="delete-row__button" onClick={deleteProductRow}><Icon type="cross" className="delete-row__icon" /></DeleteRowButton>
     </Container>
