@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled, { css } from 'styled-components';
 
 import { colors } from '../../../styles/palette';
 
 import Dropdown from '../../../components/Dropdown';
+import Icon from '../../../components/Icons';
 import ImageUploader from '../../../components/ImageUploader';
+
+import BusinessContext from '../../../context/Business';
 
 const Container = styled.div`
   display: flex;
@@ -14,6 +17,11 @@ const Container = styled.div`
   border-radius: 3px;
   align-items: center;
   border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  &:hover .delete-row__button {
+    visibility: visible;
+  }
 `;
 
 const SmallContainer = styled.div`
@@ -57,14 +65,36 @@ const TagLabel = styled.span`
   `}
 `;
 
+const DeleteRowButton = styled.button`
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  visibility: hidden;
 
-const ProductCard = ({ images, name, description, properties, hasStock, productionTime }) => {
+  &:hover {
+    cursor: pointer;
+  }
+
+`;
+
+const ProductCard = ({ images, name, description, properties, hasStock, productionTime, index }) => {
+  const { products, updateProducts } = useContext(BusinessContext);
+
+  const deleteProductRow = () => {
+    let auxProducts = [...products];
+    auxProducts.splice(index, 1);
+
+    updateProducts(auxProducts);
+  }
+
   return (
     <Container key={name}>
       {/* El id lo hice así para cuando tengamos muchos productos no haya ids repetidos */}
       <ImageUploader
         iconClass="upload-product__icon"
-        id={`product-${name}-image`}
+        id={`product${name}Image`}
         shape="squared"
         image={images[0] || ''}
         disabled
@@ -76,8 +106,9 @@ const ProductCard = ({ images, name, description, properties, hasStock, producti
         { !hasStock && <TagLabel info>Elaboración: {productionTime} días</TagLabel>}
       </SmallContainer>
       <SmallContainer>
-        {properties.map(prop => Object.keys(prop).map(k => <Dropdown key={`${k}Dropdown`} options={prop[k]} />))}
+        {properties.map(prop => Object.keys(prop).map(k => <Dropdown key={`${k}Dropdown`} options={prop[k]} placeholder={k} />))}
       </SmallContainer>
+      <DeleteRowButton className="delete-row__button" onClick={deleteProductRow}><Icon type="cross" className="delete-row__icon" /></DeleteRowButton>
     </Container>
   );
 }
