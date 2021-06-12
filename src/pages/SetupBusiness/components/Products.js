@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components'
 
 import Subtitle from '../../../components/Subtitle';
 
 import NewProduct from './NewProduct';
 import ProductCard from './ProductCard';
+
+import BusinessContext from '../../../context/Business';
 
 const Card = styled.div`
   padding: 20px;
@@ -22,24 +24,27 @@ const Container = styled.div`
   margin-right: 8%;
 `;
 
-const ProductsCard = ({ products, onClickNewProduct }) => {
-  const properties = {
-    Color: ['Azul', 'Rojo', 'Amarillo'],
-    Sabor: ['Limón', 'Chocolate', 'Vainilla'], 
-  };
+const ProductsList = ({ onClickNewProduct }) => {
+  const { products } = useContext(BusinessContext);
+
   return (
     <Container>
       <Subtitle>Productos</Subtitle>
       <Card>
-        <ProductCard
-          name="Producto Ejemplo"
-          description="esta es la descripcion"
-          properties={properties}
-        />
+        {products.map(product => 
+          <ProductCard
+            name={product.name}
+            description={product.description}
+            properties={product.props}
+            images={product.images}
+            hasStock={product.hasStock}
+            productionTime={product.productionTime}
+          />
+        )}
         <NewProduct onClickNewProduct={onClickNewProduct} />
       </Card>
     </Container>
   );
 }
 
-export default ProductsCard;
+export default ProductsList;

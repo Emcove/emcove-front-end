@@ -14,7 +14,7 @@ import Button from '../../components/Button';
 import Snackbar from '../../components/Snackbar';
 import Modal from '../../components/Modal';
 
-import ProductsCard from './components/Products';
+import ProductsList from './components/Products';
 import Categories from './components/CategoriesCard';
 import ProductInput from './components/ProductInput';
 
@@ -125,7 +125,7 @@ const Setup = () => {
             </div>
           </div>
           <div className="setup-business__properties">
-            <ProductsCard onClickNewProduct={() => setModalVisible(!modalProductVisible)} />
+            <ProductsList onClickNewProduct={() => setModalVisible(!modalProductVisible)} />
             <Categories categories={categories} onClick={handleCategoriesClick} />
           </div>
           <div className="setup-business__submit">
@@ -136,14 +136,13 @@ const Setup = () => {
             </div>
             <Link onClick={() => history.push("/home")}>Cancelar</Link>
           </div>
-
           <Snackbar
             message="Emprendimiento creado con éxito"
             type="success"
             show={showSnackbar}
           />
         </Content>
-        <Modal className="new-product__modal" width="70%" height="60%" open={modalProductVisible} setVisibility={() => setModalVisible(!modalProductVisible)}>
+        <Modal className="new-product__modal" open={modalProductVisible} setVisibility={() => setModalVisible(!modalProductVisible)}>
           <ProductInput />
         </Modal>
       </BusinessProvider>

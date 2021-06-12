@@ -5,12 +5,9 @@ import Icon from '../../../components/Icons';
 
 const Container = styled.div`
   display: flex;
-  padding-bottom: 20px;
-  margin-bottom: 20px; 
   width: 100%;
   border-radius: 3px;
   align-items: center;
-  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
 `;
 
 const CreateProduct = styled.button`

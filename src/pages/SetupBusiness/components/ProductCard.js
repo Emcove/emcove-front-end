@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import styled from 'styled-components';
+import React from 'react';
+import styled, { css } from 'styled-components';
 
 import { colors } from '../../../styles/palette';
 
@@ -31,14 +31,34 @@ const Name = styled.span`
 
 const Description = styled.span`
   margin-bottom: 4px;
-  color: rgba(0,0,0,0.4);
+  color: rgba(0,0,0,0.6);
   font-size: 14px;
 `;
 
+const Tag = styled.div`
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  padding: 4px 6px;
+  border-radius: 10px;
+  
+  ${props => props.success && css `
+    background-color: ${colors.success};
+  `}
+`;
 
-const ProductCard = ({ image, name, description, properties }) => {
-  const [logo, setLogo] = useState(image);
+const TagLabel = styled.span`
+  font-weight: 600;
+  font-size: 12px;
+  color: ${colors.white};
 
+  ${props => props.info && css `
+    color: ${colors.primary};
+  `}
+`;
+
+
+const ProductCard = ({ images, name, description, properties, hasStock, productionTime }) => {
   return (
     <Container key={name}>
       {/* El id lo hice así para cuando tengamos muchos productos no haya ids repetidos */}
@@ -46,18 +66,17 @@ const ProductCard = ({ image, name, description, properties }) => {
         iconClass="upload-product__icon"
         id={`product-${name}-image`}
         shape="squared"
-        onChange={setLogo}
-        image={logo}
+        image={images[0] || ''}
         disabled
       />
       <SmallContainer>
         <Name>{name}</Name>
         <Description>{description}</Description>
+        { hasStock && <Tag success><TagLabel>En stock</TagLabel></Tag> }
+        { !hasStock && <TagLabel info>Elaboración: {productionTime} días</TagLabel>}
       </SmallContainer>
       <SmallContainer>
-        { Object.keys(properties).map(k => 
-          <Dropdown key={`${k}-dropdown`} placeholder="Elegí una opción" options={properties[k]} label={k} />
-        )}
+        {properties.map(prop => Object.keys(prop).map(k => <Dropdown key={`${k}Dropdown`} options={prop[k]} />))}
       </SmallContainer>
     </Container>
   );
