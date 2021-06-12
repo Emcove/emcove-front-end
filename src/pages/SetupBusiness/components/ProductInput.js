@@ -48,7 +48,8 @@ const ProductionTimeContainer = styled.div`
 
 const PropertiesContainer = styled.div`
   width: 100%;
-  padding: 12px 0;
+  padding-top: 12px;
+  border-bottom: solid 1px #b3aeae3b;
 `;
 
 const Subtitle = styled.span`
@@ -64,8 +65,8 @@ const Label = styled.span`
 `;
 
 const Properties = styled.div`
-  height: 244px;
-  max-height: 244px;
+  max-height: 180px;
+  height: 180px;
   display: flex;
   flex-direction: column;
   margin-top: 16px;
@@ -78,7 +79,7 @@ const PropertyData = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
+  padding-top: 12px;
 `;
 
 const PropertyGroup = styled.div`
@@ -362,6 +363,33 @@ const NewProduct = () => {
       <PropertiesContainer>
         <Subtitle>Características</Subtitle>
         <Properties>
+        {addNew && 
+          <PropertyData>
+            <PropertyGroup>
+              <TextInput 
+                type="text"
+                value={newProperty.name}
+                id="propertyName"
+                onChange={handleNamePropertyChange}
+                hint="Color, sabor, aroma, tamaño, talle, etc."
+                placeholder="Nombre"
+                className="new-property__name"
+              />
+              <TextInput 
+                type="text"
+                value={newProperty.values}
+                id="propertyValues"
+                onChange={handleValuePropertyChange}
+                hint="Valores posibles separados por coma"
+                placeholder="Valores posibles"
+              />
+            </PropertyGroup>
+            <Button backgroundColor={colors.success} onClick={addNewProperty} alignment="flex-start">
+              <Icon type="check" className="done-button__icon"/>
+            </Button>
+          </PropertyData>
+          }
+          {!addNew && <Link onClick={() => showAddNewProp(true)} className="add-prop__button">+ Nueva característica</Link>}
           {!!properties && properties.map((property, index) => {
             return Object.keys(property).map(objKey => (
               <PropertyData key={objKey}>
@@ -397,36 +425,9 @@ const NewProduct = () => {
               </PropertyData>
             ))
           })}
-          {addNew && 
-            <PropertyData>
-              <PropertyGroup>
-                <TextInput 
-                  type="text"
-                  value={newProperty.name}
-                  id="propertyName"
-                  onChange={handleNamePropertyChange}
-                  hint="Color, sabor, aroma, tamaño, talle, etc."
-                  placeholder="Nombre"
-                  className="new-property__name"
-                />
-                <TextInput 
-                  type="text"
-                  value={newProperty.values}
-                  id="propertyValues"
-                  onChange={handleValuePropertyChange}
-                  hint="Valores posibles separados por coma"
-                  placeholder="Valores posibles"
-                />
-              </PropertyGroup>
-              <Button backgroundColor={colors.success} onClick={addNewProperty} alignment="flex-start">
-                <Icon type="check" className="done-button__icon"/>
-              </Button>
-            </PropertyData>
-          }
-          {!addNew && <Link onClick={() => showAddNewProp(true)} className="add-prop__button">Agregar característica</Link>}
         </Properties>
       </PropertiesContainer>
-      <Button primary onClick={createProduct}>Aceptar</Button>
+      <Button primary onClick={createProduct} style={{"width": "25%", "align-self": "center", "margin-top": "20px" }}>Aceptar</Button>
     </Container>
   );
 }

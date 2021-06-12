@@ -4,9 +4,7 @@ import styled from 'styled-components';
 
 // import { colors } from '../../styles/palette';
 
-import Card from '../Card';
-// import Icons from '../Icons';
-import Link from '../Link';
+import Icon from '../Icons';
 
 const Container = styled.div`
   height: 100vh;
@@ -18,21 +16,48 @@ const Container = styled.div`
 
 const CardContainer = styled.div`
   display: flex;
-  width: 100%;
-  height: 100%;
   justify-content: center;
   align-items: center;
 `;
 
-const Modal = ({ className, open, setVisibility, children, width, height }) => {
+const ModalCard = styled.div`
+  position: relative;
+  display: flex;
+  background-color: #fff;
+  margin: 24px;
+  padding: 32px 32px 0 32px;
+  width: calc(70% - 64px);
+  border-radius: 6px;
+`;
+
+const CloseModalButton = styled.button`
+  position: absolute;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background-color: transparent;
+  border-radius: 100%;
+  color: #fff;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const Modal = ({ open, setVisibility, children }) => {
   if(!open) return null;
   return (
     <Container>
       <CardContainer>
-        <Card className={className} vertical minWidth={width} minHeight={height} paddingSize="48px">
+        <ModalCard className="modal-card">
+          <CloseModalButton onClick={() => setVisibility(false)}><Icon type="cross" className="close-modal__icon" /></CloseModalButton>
           {children}
-          <Link onClick={setVisibility}>Cerrar</Link>
-        </Card>
+        </ModalCard>
       </CardContainer>
     </Container>
   )
