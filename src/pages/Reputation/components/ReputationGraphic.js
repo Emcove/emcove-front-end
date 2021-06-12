@@ -30,25 +30,25 @@ const ReputationGraphic = ({ average }) => {
 
   return (
     <Container className="reputation-graphic__container">
-      <LevelContainer className="reputation-graphic__level" actual={intAverage === 5}>
-        <Icon type="reputation-5" className="reputation-graphic__icon"/>
-        {intAverage === 5 && <Icon type="pointing-triangle" className="reputation-graphic__pointer"/>}
-      </LevelContainer>
-      <LevelContainer className="reputation-graphic__level" actual={intAverage === 4}>
-        <Icon type="reputation-4" className="reputation-graphic__icon"/>
-        {intAverage === 4 && <Icon type="pointing-triangle" className="reputation-graphic__pointer"/>}
-      </LevelContainer>
-      <LevelContainer className="reputation-graphic__level" actual={intAverage === 3}>
-        <Icon type="reputation-3" className="reputation-graphic__icon"/>
-        {intAverage === 3 && <Icon type="pointing-triangle" className="reputation-graphic__pointer"/>}
+      <LevelContainer className="reputation-graphic__level" actual={intAverage === 1}>
+        <Icon type="reputation-1" className="reputation-graphic__icon"/>
+        {intAverage === 1 && <Icon type="pointing-triangle" className="reputation-graphic__pointer"/>}
       </LevelContainer>
       <LevelContainer className="reputation-graphic__level" actual={intAverage === 2}>
         <Icon type="reputation-2" className="reputation-graphic__icon"/>
         {intAverage === 2 && <Icon type="pointing-triangle" className="reputation-graphic__pointer"/>}
       </LevelContainer>
-      <LevelContainer className="reputation-graphic__level" actual={intAverage === 1}>
-        <Icon type="reputation-1" className="reputation-graphic__icon"/>
-        {intAverage === 1 && <Icon type="pointing-triangle" className="reputation-graphic__pointer"/>}
+      <LevelContainer className="reputation-graphic__level" actual={intAverage === 3}>
+        <Icon type="reputation-3" className="reputation-graphic__icon"/>
+        {intAverage === 3 && <Icon type="pointing-triangle" className="reputation-graphic__pointer"/>}
+      </LevelContainer>
+      <LevelContainer className="reputation-graphic__level" actual={intAverage === 4}>
+        <Icon type="reputation-4" className="reputation-graphic__icon"/>
+        {intAverage === 4 && <Icon type="pointing-triangle" className="reputation-graphic__pointer"/>}
+      </LevelContainer>
+      <LevelContainer className="reputation-graphic__level" actual={intAverage === 5}>
+        <Icon type="reputation-5" className="reputation-graphic__icon"/>
+        {intAverage === 5 && <Icon type="pointing-triangle" className="reputation-graphic__pointer"/>}
       </LevelContainer>
     </Container>
   );
