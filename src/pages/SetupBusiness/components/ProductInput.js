@@ -191,32 +191,35 @@ const NewProduct = () => {
   const [productionTime, setProductionTime] = useState('');
   const [stockCheckbox, setStockCheckbox] = useState(true);
 
-  const [newProperty, setNewProperty] = useState({ name: '', values: '' });
+  const [newProperty, setNewProperty] = useState({ name: '', options: '' });
 
   const [properties, setProductProperties] = useState([]);
 
   const [addNew, showAddNewProp] = useState(properties.length === 0);
+
 
   const handleNamePropertyChange = (name) => {
     setNewProperty({ ...newProperty, name });
   }
 
   const handleValuePropertyChange = (values) => {
-    setNewProperty({ ...newProperty, values });
+    setNewProperty({ ...newProperty, options: values });
   }
 
   const addNewProperty = () => {
-    if ( newProperty.name !== '' && newProperty.values !== '') {
-      const newProp = {};
-      newProp[newProperty.name] = newProperty.values.replace(/\s/g, '').split(",");
+    if ( newProperty.name !== '' && newProperty.options !== '') {
+      const newProp = {
+        name: newProperty.name,
+        options:  newProperty.options.replace(/\s/g, '').split(","),
+      };
 
       let existentKey = false;
 
       // Esta lógica es para evitar que agreguen características con el mismo nombre,
       // si lo hacen, se acumulan los valores con la propiedad anterior
       const newProperties = properties.map(prop => {
-        if (Object.keys(prop)[0] === newProperty.name) {
-          prop[newProperty.name] = [...prop[newProperty.name], ...newProp[newProperty.name]];
+        if (prop.name === newProperty.name) {
+          prop.name = [...prop.options, ...newProp.options];
           existentKey = true;
         }
 
@@ -229,7 +232,7 @@ const NewProduct = () => {
         setProductProperties([ ...newProperties, newProp]);
       }
   
-      setNewProperty({name: '', values: ''});
+      setNewProperty({name: '', options: ''});
       showAddNewProp(false);
     }
   }
@@ -377,7 +380,7 @@ const NewProduct = () => {
               />
               <TextInput 
                 type="text"
-                value={newProperty.values}
+                value={newProperty.options}
                 id="propertyValues"
                 onChange={handleValuePropertyChange}
                 hint="Valores posibles separados por coma"
@@ -390,29 +393,28 @@ const NewProduct = () => {
           </PropertyData>
           }
           {!addNew && <Link onClick={() => showAddNewProp(true)} className="add-prop__button">+ Nueva característica</Link>}
-          {!!properties && properties.map((property, index) => {
-            return Object.keys(property).map(objKey => (
-              <PropertyData key={objKey}>
+          {!!properties && properties.map((property, index) => (
+              <PropertyData key={property.name}>
                 <PropertyGroup>
                   <TextInput 
                     type="text"
-                    value={objKey}
-                    id={`${objKey}Preview`}
+                    value={property.name}
+                    id={`${property.name}Preview`}
                     label="Característica"
                     disabled
                   />
                   <TextInput 
                     type="text"
-                    value={property[objKey].join(', ')}
-                    id={`${objKey}ValuesPreview`}
+                    value={property.options.join(', ')}
+                    id={`${property.name}ValuesPreview`}
                     label="Valores"
                     disabled
                   />
                 </PropertyGroup>
                 <PropertyGroup alignment="flex-end">
                   <Dropdown
-                    label={objKey}
-                    options={property[objKey]}
+                    label={property.name}
+                    options={property.options}
                   />
                   <Button
                     backgroundColor="transparent"
@@ -423,8 +425,7 @@ const NewProduct = () => {
                   </Button>
                 </PropertyGroup>
               </PropertyData>
-            ))
-          })}
+          ))}
         </Properties>
       </PropertiesContainer>
       <Button primary onClick={createProduct} style={{"width": "25%", "align-self": "center", "margin-top": "20px" }}>Aceptar</Button>
