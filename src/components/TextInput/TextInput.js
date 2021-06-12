@@ -1,6 +1,6 @@
 
 import React from 'react';
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import classNames from 'classnames';
 
 import { colors } from '../../styles/palette';
@@ -26,7 +26,29 @@ const Label = styled.span`
   margin: 0 0 .42857em .42857em;
 `;
 
-const TextInput = ({ id, label, value, required, placeholder, type, onChange, disabled, className }) => {
+const Input = styled.input`
+  color: ${colors.textColor};
+
+  ${props => props.multiline && css `
+    min-height: 40px;
+  `}
+`;
+
+const TextArea = styled.textarea`
+  color: ${colors.textColor};
+  height: 80px;
+  font-family: 'Roboto';
+  padding: 10px;
+  resize: none;
+`;
+
+const Hint = styled.span`
+  color: ${colors.lightGray};
+  font-size: 10px;
+  margin-top: 4px;
+`;
+
+const TextInput = ({ id, label, value, required, placeholder, type, onChange, disabled, className, multiline, hint }) => {
 
   const handleFieldChange = (e) => {
     onChange(e.currentTarget.value);
@@ -36,16 +58,29 @@ const TextInput = ({ id, label, value, required, placeholder, type, onChange, di
     <InputContainer className={className}>
       {label && value && <Label>{label}</Label>}
       {label && !value && <div className="label-space" />}
-      <input
-        className={classNames("text-input", {"text-input__required": required})}
-        id={id}
-        type={type}
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => handleFieldChange(e)}
-        disabled={disabled}
-      />
+      {!multiline &&
+        <Input
+          className={classNames("text-input", {"text-input__required": required})}
+          id={id}
+          type={type}
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => handleFieldChange(e)}
+          disabled={disabled}
+        />
+      }
+      {multiline &&
+        <TextArea
+          className={classNames("text-input", {"text-input__required": required})}
+          id={id}
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => handleFieldChange(e)}
+          disabled={disabled}
+        />
+      }
       {required && <WarningMessage>Campo requerido</WarningMessage>}
+      {!required && hint && <Hint>{hint}</Hint>}
     </InputContainer>
   )
 }

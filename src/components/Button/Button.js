@@ -8,26 +8,41 @@ const Button = styled.button`
   border-radius: 3px;
   padding: 8px 10px;
   border: none;
-  width: 100%;
   font-size: 14px;
   border: solid 2px ${colors.primary};
 
   ${props => props.primary && css`
     background: ${colors.primary};
     color: white;
-    &:hover {
-      cursor: pointer;
-    }
   `}
+
   ${props => props.secondary && css `
     background: transparent;
     color: ${colors.primary};
 
     &:hover {
-      cursor: pointer;
       background-color: ${colors.primaryTen};
     }
   `}
+
+  ${props => props.backgroundColor && css`
+    background: ${props.backgroundColor};
+    border: none;
+    color: white;
+  `}
+
+  ${props => props.alignment && css`
+    align-self: ${props.alignment};
+  `}
+
+  ${props => props.color && css`
+    color: ${props.color};
+  `}
+
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export default Button;

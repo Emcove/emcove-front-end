@@ -75,8 +75,8 @@ const Login = () => {
             onChange={setPassword}
           />
         </div>
-        <div className="login-button">
-          <Button primary onClick={submitForm}>Iniciar Sesión</Button>
+        <div className="login-button__container">
+          <Button primary onClick={submitForm} className="login-button">Iniciar Sesión</Button>
         </div>
         <div className="login-registry-section">
           <Link onClick={() => redirect('/registry')}>¿No tenés cuenta? Registrate</Link>

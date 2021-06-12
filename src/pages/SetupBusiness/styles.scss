@@ -45,8 +45,41 @@
     margin: 10px auto 12px auto;
   
     &--button {
-      width: 25%;
       margin-right: 8px;
     }
   }
+}
+
+.production-time__input {
+  max-width: 78px;
+  margin: 0 !important;
+}
+
+.new-product__modal {
+  width: 60%;
+  height: 50%;
+}
+
+.done-button__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.delete-row__icon {
+  width: 12px;
+  height: 12px;
+}
+
+.add-prop__button {
+  margin: 16px;
+}
+
+.delete-image__icon {
+  position: absolute;
+  height: 8px;
+}
+
+.delete-row__icon {
+  width: 12px;
+  height: 12px;
 }

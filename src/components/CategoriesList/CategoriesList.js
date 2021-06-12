@@ -29,7 +29,7 @@ const CategoryTag = styled.div`
     background-color: ${props.color};
     color: ${getFontColor(props.color)};
   `}
-`
+`;
 
 
 const CategoriesList = ({ categories }) => {
