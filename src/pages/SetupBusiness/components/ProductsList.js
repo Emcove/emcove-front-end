@@ -31,7 +31,7 @@ const ProductsList = ({ onClickNewProduct }) => {
     <Container>
       <Subtitle>Productos</Subtitle>
       <Card>
-        {products.map(product => 
+        {products.map((product, index) => 
           <ProductCard
             name={product.name}
             description={product.description}
@@ -39,6 +39,7 @@ const ProductsList = ({ onClickNewProduct }) => {
             images={product.images}
             hasStock={product.hasStock}
             productionTime={product.productionTime}
+            index={index}
           />
         )}
         <NewProduct onClickNewProduct={onClickNewProduct} />

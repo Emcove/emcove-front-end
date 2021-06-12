@@ -14,7 +14,7 @@ import Button from '../../components/Button';
 import Snackbar from '../../components/Snackbar';
 import Modal from '../../components/Modal';
 
-import ProductsList from './components/Products';
+import ProductsList from './components/ProductsList';
 import Categories from './components/CategoriesCard';
 import ProductInput from './components/ProductInput';
 
@@ -86,7 +86,7 @@ const Setup = () => {
 
   return (
     <Layout>
-      <BusinessProvider value={{ name, logo, city, categories, products, addNewProduct }}>
+      <BusinessProvider value={{ name, logo, city, categories, products, addNewProduct, updateProducts }}>
         <Content>
           <div className="setup-business__essentials">
             <ImageUploader
