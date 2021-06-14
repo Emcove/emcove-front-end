@@ -9,9 +9,10 @@ import Link from "../../components/Link";
 import Logo from "../../components/Logo";
 import Snackbar from '../../components/Snackbar/Snackbar';
 
-import UserService from "../../services/UserService";
+import AuthenticationService from "../../services/AuthenticationService";
 
 
+AuthenticationService.logout();
 
 const Login = () => {
   const history = useHistory();
@@ -27,7 +28,7 @@ const Login = () => {
 
   const submitForm = async () => {
     if (username !== '' && password !== '') {
-          const resp = await UserService.login(username,password);
+          const resp = await AuthenticationService.login(username,password);
           if(resp.status === 200){
             redirect("/home");
           }else{
