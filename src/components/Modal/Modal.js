@@ -1,8 +1,6 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-
-// import { colors } from '../../styles/palette';
 
 import Icon from '../Icons';
 
@@ -50,6 +48,18 @@ const CloseModalButton = styled.button`
 `;
 
 const Modal = ({ open, setVisibility, children }) => {
+  useEffect(() => {
+    document.addEventListener('keydown', (event) => {
+      if(event.key === "Escape"){
+        setVisibility(false);
+      }
+    });
+
+    return () => {
+      document.removeEventListener('keydown', () => {})
+    }
+  }, [setVisibility]);
+
   if(!open) return null;
   return (
     <Container>

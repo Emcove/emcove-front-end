@@ -132,7 +132,7 @@ const Setup = () => {
             </div>
           </div>
           <div className="setup-business__properties">
-            <ProductsList onClickNewProduct={() => setModalVisible(!modalProductVisible)} />
+            <ProductsList onClickNewProduct={() => setModalVisible(true)} />
             <Categories categories={categories} onClick={handleCategoriesClick} />
           </div>
           <div className="setup-business__submit">
@@ -149,7 +149,7 @@ const Setup = () => {
             show={showSnackbar}
           />
         </Content>
-        <Modal className="new-product__modal" open={modalProductVisible} setVisibility={() => setModalVisible(!modalProductVisible)}>
+        <Modal className="new-product__modal" open={modalProductVisible} setVisibility={setModalVisible}>
           <ProductInput />
         </Modal>
       </BusinessProvider>
