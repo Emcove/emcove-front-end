@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Registry from "./pages/Registry";
 import SetupBusiness from "./pages/SetupBusiness";
 import UserProfile from "./pages/UserProfile";
+import Reputation from "./pages/Reputation";
 
 import "./styles/index.scss";
 
@@ -22,6 +23,7 @@ const Main = () => (
         <span key="registry"><NavLink exact to="/registry">Registry</NavLink></span>
         <span key="setup-business"><NavLink exact to="/createBusiness">Setup Business</NavLink></span>
         <span key="userProfile"><NavLink exact to="/userProfile`">User Profile</NavLink></span>
+        <span key="reputation"><NavLink exact to="/reputation`">Reputation</NavLink></span>
       </div>
       <>
         <Route exact path="/home" component={Home}/>
@@ -29,6 +31,7 @@ const Main = () => (
         <Route exact path="/registry" component={Registry}/>
         <Route exact path="/createBusiness" component={SetupBusiness}/>
         <Route exact path="/userProfile" component={UserProfile}/>
+        <Route exact path="/reputation" component={Reputation}/>
       </>
     </div>
   </HashRouter>
