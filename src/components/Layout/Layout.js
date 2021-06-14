@@ -124,7 +124,7 @@ const Layout = ({ children, login, registry, className }) => {
             <ProfileOptions>
               <Option onClick={() => history.push('/userProfile')}>Mi perfil</Option>
               <Option onClick={() => history.push('/reputation')}>Mi reputación</Option>
-              <Option>Ver pedidos que hice</Option>
+              <Option onClick={() => history.push('/orders')}>Ver pedidos que hice</Option>
               <Option>Gestionar mi emprendimiento</Option>
               <Option>Gestionar mis pedidos</Option>
             </ProfileOptions>
