@@ -27,16 +27,21 @@ const Login = () => {
 
   const submitForm = async () => {
     if (username !== '' && password !== '') {
-          const resp = await UserService.login(username,password);
-          if(resp.status === 200){
-            redirect("/home");
-          }else{
-            setSnackBarError(true)
-            setTimeout(() => {
-              setSnackBarError(false);
-            }, 2000);
-          }
-        }
+      try {
+        const resp = await UserService.login(username,password);
+        debugger;
+        localStorage.setItem('user', JSON.stringify(resp.data));
+
+        redirect("/home");
+      } catch (error) {
+        setSnackBarError(true);
+
+        setTimeout(() => {
+          setSnackBarError(false);
+        }, 2000);
+      }    
+    }
+
     if (username === '') {
       setRequiredUsername(true);
     }
