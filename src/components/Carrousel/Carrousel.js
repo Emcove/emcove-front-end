@@ -3,7 +3,18 @@ import styled, { css } from 'styled-components'
 
 import { colors } from '../../styles/palette';
 
-import Icon from '../Icons';
+const CarrouselContainer = styled.div`
+  position: relative;
+  display: flex;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:hover .direction-button {
+    visibility: visible;
+  }
+`;
 
 const Container = styled.div`
   display: flex;
@@ -39,6 +50,23 @@ const DirectionButton = styled.button`
   font-size: 10px;
   width: 14px;
   height: 14px;
+  position: absolute;
+  top: 40%;
+  visibility: hidden;
+  transition: visibility 0.2s ease-in-out;
+
+  ${props => props.left && css `
+    left: -4px;
+    z-index: 3;
+  `}
+
+  ${props => props.right && css `
+    right: -4px;
+  `}
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Carrousel = ({ images }) => {
@@ -56,8 +84,12 @@ const Carrousel = ({ images }) => {
     setNewActual({ image: images[newIndex], index: newIndex })
   }
   return (
-    <div>
-      <DirectionButton onClick={() => updateActual(-1)}>
+    <CarrouselContainer>
+      <DirectionButton
+        left
+        className="direction-button"
+        onClick={() => updateActual(-1)}
+      >
         {'<'}
       </DirectionButton>
       <Container>
@@ -66,10 +98,14 @@ const Carrousel = ({ images }) => {
           alt="preview"
         />
       </Container>
-      <DirectionButton onClick={() => updateActual(1)}>
+      <DirectionButton
+        right
+        className="direction-button"
+        onClick={() => updateActual(1)}
+      >
         {'>'}
       </DirectionButton>
-    </div>
+    </CarrouselContainer>
   );
 }
 
