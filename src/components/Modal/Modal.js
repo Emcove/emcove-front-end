@@ -33,8 +33,8 @@ const CloseModalButton = styled.button`
   display: flex !important;
   align-items: center;
   justify-content: center;
-  top: 4px;
-  right: 4px;
+  top: 10px;
+  right: 12px;
   width: 24px;
   height: 24px;
   border: none;

@@ -7,6 +7,8 @@ import Title from "../Title";
 import Button from "../Button";
 import TextInput from "../TextInput";
 
+import { colors } from "../../styles/palette";
+
 const FormContainer = styled.div`
   margin: auto auto 60px auto;
 `;
@@ -49,14 +51,30 @@ const ActionsContainer = styled.div`
   margin-top: 20px;
 `;
 
+const RequiredMessage = styled.span`
+  font-size: 12px;
+  color: ${colors.error};
+  line-height: 3;
+`;
+
 const ReputationForm = ({ evaluatedUser, onClickCancel }) => {
   const [reputationValue, setReputationValue] = useState(0);
   const [feedbackTitle, setFeedbackTitle] = useState('');
   const [feedbackDescription, setFeedbackDescription] = useState('');
+  const [requiredTitle, setRequiredTitle] = useState(false);
+  const [requiredLvl, setRequiredLevel] = useState(false)
 
   const sendUserReputation = () => {
     // enviar la reputación
     // no se en donde va el id del emprendimiento o usuario al que estoy mandandole el feedback pero es esta variable: evaluatedUser
+    if (reputationValue === 0) {
+      return setRequiredLevel(true);
+    }
+
+    if (feedbackTitle === '') {
+      return setRequiredTitle(true);
+    }
+
     const data = {
       title: feedbackTitle,
       description: feedbackDescription,
@@ -92,6 +110,7 @@ const ReputationForm = ({ evaluatedUser, onClickCancel }) => {
           {reputationValue === 5 && <Icon type="pointing-triangle" className="reputation-graphic__pointer"/>}
         </LevelContainer>
       </Container>
+      {requiredLvl && <RequiredMessage>Elegí un valor</RequiredMessage>}
       <TextInput
         type="text"
         value={feedbackTitle}
@@ -99,6 +118,7 @@ const ReputationForm = ({ evaluatedUser, onClickCancel }) => {
         placeholder="Título"
         id="feedbackTitle"
         onChange={setFeedbackTitle}
+        required={requiredTitle}
       />
       <TextInput
         type="text"
