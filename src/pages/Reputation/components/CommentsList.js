@@ -12,7 +12,7 @@ const Container = styled.div`
   display: flex;
   align-items: flex-start;
   overflow-x: scroll;
-  padding: 24px 0;
+  padding: 24px 0 0;
 `;
 
 const UserInfo = styled.div`
