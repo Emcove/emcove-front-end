@@ -5,16 +5,15 @@ import { API_URL } from '../Constants'
 class UserService {
     async login(username, password) {
         let basicAuthHeader = 'Basic ' + window.btoa(username + ':' + password);
-        try{
+        try {
             const resp = await axios.get(`${API_URL}/users/login`,{
                 headers:{
                     authorization:basicAuthHeader
                 }
             });
             this.setupAxiosInterceptor(basicAuthHeader);
-            localStorage.setItem('user', resp.data);
             return resp;
-        }catch(error){
+        } catch(error) {
             return error.response;
         }
     }
@@ -30,9 +29,9 @@ class UserService {
             adult,
         };
 
-        try{
+        try {
             return await axios.post(`${API_URL}/users/register`,requestOptions);
-        }catch(error){
+        } catch (error) {
             return error.response;
         }
     }
