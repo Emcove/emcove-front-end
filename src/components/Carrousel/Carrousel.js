@@ -53,7 +53,7 @@ const DirectionButton = styled.button`
   position: absolute;
   top: 40%;
   visibility: hidden;
-  transition: visibility 0.2s ease-in-out;
+  transition: visibility ease-in 0.3s;
 
   ${props => props.left && css `
     left: -4px;

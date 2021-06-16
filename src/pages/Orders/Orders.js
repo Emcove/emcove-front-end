@@ -12,6 +12,8 @@ import Title from "../../components/Title";
 import Link from "../../components/Link";
 import Card from "../../components/Card";
 import Icon from "../../components/Icons";
+import Modal from "../../components/Modal";
+import ReputationForm from "../../components/ReputationForm";
 
 import { colors } from "../../styles/palette";
 
@@ -99,11 +101,15 @@ const Orders = () => {
   const user = UserData.getUserFromStorage();
   
   const [options, showOptions] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [evaluatedUser, setEvaluatedUser] = useState(null);
 
   const orders = [{
+    id: 123,
     business: {
       image: undefined,
       name: 'Dulcinea',
+      id: 1234,
     },
     product: {
       name: 'Torta decorada',
@@ -116,6 +122,12 @@ const Orders = () => {
     console.log(user);
   });
 
+  const openEvaluationModal = (businessId) => {
+    setEvaluatedUser(businessId);
+    setModalVisible(true);
+    showOptions(false);
+  }
+
   return (
     <Layout>
       <Container className="orders__container">
@@ -123,7 +135,7 @@ const Orders = () => {
         <Title>Pedidos que hice</Title>
         <OrdersContainer>
           {orders.map(order => (
-            <SingleOrder>
+            <SingleOrder key={order.id}>
               <Card alignment="space-between">
                 {order.business.images && 
                 <LogoContainer>
@@ -144,7 +156,7 @@ const Orders = () => {
                   </Button>
                  {options &&
                     <Options>
-                      <OrderOption>Calificar emprendimiento</OrderOption>
+                      <OrderOption onClick={() => openEvaluationModal(order.business.id)}>Calificar emprendimiento</OrderOption>
                     </Options>
                   }
                 </OrderStatus>
@@ -153,6 +165,9 @@ const Orders = () => {
           ))}
         </OrdersContainer>
       </Container>
+      <Modal open={modalVisible} setVisibility={setModalVisible}>
+        <ReputationForm evaluatedUser={evaluatedUser} onClickCancel={() => setModalVisible(false)} />
+      </Modal>
     </Layout>
   );
 }

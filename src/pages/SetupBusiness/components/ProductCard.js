@@ -72,7 +72,7 @@ const DeleteRowButton = styled.button`
   top: -8px;
   right: -10px;
   visibility: hidden;
-
+  transition: visibility ease-in 0.3s;
   &:hover {
     cursor: pointer;
   }
