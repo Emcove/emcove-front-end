@@ -23,12 +23,6 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const EmptyMessage = styled.span`
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.4);
-`;
-
-
 const Reputation = ({ username }) => {
   const location = useLocation();
   const history = useHistory();
@@ -108,8 +102,7 @@ const Reputation = ({ username }) => {
         <Title>Reputación</Title>
         <Subtitle>{setPageSubtitle()}</Subtitle>
         <ReputationGraphic average={reputation.average}/>
-        { !!reputation.comments.length && <CommentsList comments={reputation.comments} />}
-        { reputation.comments.length === 0 && <EmptyMessage>{setEmptyMessage()}</EmptyMessage>}
+        <CommentsList comments={reputation.comments} wording={setEmptyMessage()} />
       </Container>
     </Layout>
   );
