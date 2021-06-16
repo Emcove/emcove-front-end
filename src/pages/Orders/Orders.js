@@ -1,15 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
 import { useHistory } from "react-router-dom";
 
-import Layout from "../../components/Layout";
-import Title from '../../components/Title';
-import Link from '../../components/Link';
-import Card from '../../components/Card';
+import UserData from "../../utils";
 
-import { colors } from '../../styles/palette';
+import Button from "../../components/Button";
+import Layout from "../../components/Layout";
+import Title from "../../components/Title";
+import Link from "../../components/Link";
+import Card from "../../components/Card";
+import Icon from "../../components/Icons";
+
+import { colors } from "../../styles/palette";
 
 const Container = styled.div`
   width: 100%;
@@ -52,7 +56,11 @@ const Product = styled.span`
   color: ${colors.textColor};
 `;
 
-const OrderStatus = styled.div``;
+const OrderStatus = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+`;
 
 const Status = styled.span`
   font-size: 16px;
@@ -61,9 +69,36 @@ const Status = styled.span`
   color: ${colors.success};
 `;
 
+const Options = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 85%;
+  display: flex;
+  flex-direction: column;
+  border: solid 0.5px ${colors.grayBorder};
+  background-color: ${colors.white};
+  border-radius: 3px;
+  transition: box-shadow 0.2s ease-in-out;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 4%);
+`;
+
+const OrderOption = styled.div`
+  padding: 12px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: ${colors.primary};
+
+  &:hover {
+    cursor: pointer;
+    background-color: ${colors.primaryHover};
+  }
+`;
+
 const Orders = () => {
   const history = useHistory();
-  const { id: userId } = JSON.parse(localStorage.getItem('user'));
+  const user = UserData.getUserFromStorage();
+  
+  const [options, showOptions] = useState(false);
 
   const orders = [{
     business: {
@@ -78,11 +113,12 @@ const Orders = () => {
 
   useEffect(() => {
     // get orders from userId
+    console.log(user);
   });
 
   return (
     <Layout>
-      <Container>
+      <Container className="orders__container">
         <Link onClick={() => history.push('/home')}>Volver a la home</Link>
         <Title>Pedidos que hice</Title>
         <OrdersContainer>
@@ -103,6 +139,14 @@ const Orders = () => {
                 </OrderData>
                 <OrderStatus>
                   <Status>{order.status}</Status>
+                  <Button backgroundColor="transparent" onClick={() => showOptions(!options)}>
+                    <Icon className="orders__more-options--icon" type="more-options"/>
+                  </Button>
+                 {options &&
+                    <Options>
+                      <OrderOption>Calificar emprendimiento</OrderOption>
+                    </Options>
+                  }
                 </OrderStatus>
               </Card>
             </SingleOrder>
