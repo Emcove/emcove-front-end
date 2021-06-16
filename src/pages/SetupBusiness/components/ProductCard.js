@@ -5,7 +5,7 @@ import { colors } from '../../../styles/palette';
 
 import Dropdown from '../../../components/Dropdown';
 import Icon from '../../../components/Icons';
-import ImageUploader from '../../../components/ImageUploader';
+import Carrousel from '../../../components/Carrousel';
 
 import BusinessContext from '../../../context/Business';
 
@@ -92,12 +92,8 @@ const ProductCard = ({ images, name, description, properties, hasStock, producti
   return (
     <Container key={name}>
       {/* El id lo hice así para cuando tengamos muchos productos no haya ids repetidos */}
-      <ImageUploader
-        iconClass="upload-product__icon"
-        id={`product${name}Image`}
-        shape="squared"
-        image={images[0] || ''}
-        disabled
+      <Carrousel
+        images={images}
       />
       <SmallContainer>
         <Name>{name}</Name>
