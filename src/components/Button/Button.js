@@ -10,6 +10,7 @@ const Button = styled.button`
   border: none;
   font-size: 14px;
   border: solid 2px ${colors.primary};
+  margin: 0 4px;
 
   ${props => props.primary && css`
     background: ${colors.primary};

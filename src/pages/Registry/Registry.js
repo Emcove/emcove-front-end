@@ -11,7 +11,7 @@ import Link from '../../components/Link';
 import Checkbox from '../../components/Checkbox';
 import Snackbar from '../../components/Snackbar/Snackbar';
 
-import UserService from "../../services/UserService"
+import AuthenticationService from "../../services/AuthenticationService"
 
 const Registry = () => {
   const history = useHistory();
@@ -85,20 +85,20 @@ const Registry = () => {
 
   const submitRegistry = async () => {
     if (allRequiredFieldsComplete()) {
-        const resp = await UserService.register(username, password,email,name,surname,city,adult)
+        const resp = await AuthenticationService.register(username, password,email,name,surname,city,adult);
         if (resp.status === 200) {
-          setSnackBarSuccess(true)
-            setTimeout(() => {
-              setSnackBarSuccess(false);
-              redirect("/")
-            }, 2000);
+          setSnackBarSuccess(true);
+          setTimeout(() => {
+            setSnackBarSuccess(false);
+            redirect("/")
+          }, 2000);
         }else{
         setSnackBarError(true)
-          setSnackBarErrorMessage(resp.data)
-            setTimeout(() => {
-              setSnackBarError(false);
-            }, 2000);
-            return 
+          setSnackBarErrorMessage(resp.data);
+          setTimeout(() => {
+            setSnackBarError(false);
+          }, 2000);
+          return 
         }
     }
     setRequiredFields();
