@@ -9,9 +9,10 @@ import Link from "../../components/Link";
 import Logo from "../../components/Logo";
 import Snackbar from '../../components/Snackbar/Snackbar';
 
-import UserService from "../../services/UserService";
+import AuthenticationService from "../../services/AuthenticationService";
 
 
+AuthenticationService.logout();
 
 const Login = () => {
   const history = useHistory();
@@ -28,10 +29,7 @@ const Login = () => {
   const submitForm = async () => {
     if (username !== '' && password !== '') {
       try {
-        const resp = await UserService.login(username,password);
-        debugger;
-        localStorage.setItem('user', JSON.stringify(resp.data));
-
+        await AuthenticationService.login(username,password);
         redirect("/home");
       } catch (error) {
         setSnackBarError(true);

@@ -15,6 +15,9 @@ import UserData from '../../utils';
 import Button from '../../components/Button';
 import classNames from 'classnames';
 
+import UserService from "../../services/UserService"
+
+
 const LinkContainer = styled.div`
   display: flex;
   width: 100%;
@@ -49,13 +52,17 @@ const ButtonContainer = styled.div`
 `;
 
 const UserProfile = () => {
+
+  const loggedUser = JSON.parse(localStorage.getItem("user"));
+
   const history = useHistory();
-  const [userAvatar, setUserAvatar] = useState('');
+  const [userAvatar, setUserAvatar] = useState(loggedUser.avatar);
   const [editState, setEditState] = useState(false);
-  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [snackbarSuccess, setSnackbarSuccess] = useState(false);
+  const [snackbarError, setSnackbarError] = useState(false);
 
   // Account Data
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(loggedUser.email);
   const [emailConfirmation, setEmailConfirmation] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -65,12 +72,16 @@ const UserProfile = () => {
   const [requiredPassConf, setRequiredPassConf] = useState(false);
 
   // Personal Data
-  const [name, setName] = useState('');
+  const [name, setName] = useState(loggedUser.name);
   const [requiredName, setRequiredName] = useState('');
-  const [surname, setsurname] = useState('');
+  const [surname, setsurname] = useState(loggedUser.surname);
   const [requiredSurname, setRequiredSurname] = useState('');
-  const [city, setCity] = useState('');
-  const [adult, setAdult] = useState(false);
+  const [city, setCity] = useState(loggedUser.city);
+  const [adult, setAdult] = useState(loggedUser.adult);
+
+  const redirect = (view) => {
+    history.push(view);
+  }
 
   const setRequiredFields = () => {
     if (email === '') {
@@ -98,7 +109,7 @@ const UserProfile = () => {
     } 
   }
 
-  const saveChanges = () => {
+  const saveChanges = async () => {
     if (!UserData.hasEmptyRequiredFields([email, emailConfirmation, password, passwordConfirmation, name, surname])) {
       setEditState(false);
       setRequiredEmail(false);
@@ -107,8 +118,19 @@ const UserProfile = () => {
       setRequiredPassConf(false);
       setRequiredName(false);
       setRequiredSurname(false);
-      setShowSnackbar(true);
-      setTimeout(() => setShowSnackbar(false), 2000);
+      const resp = await UserService.updateUserData(userAvatar, name, surname, city, adult, email, password);
+        if (resp.status === 200) {
+          setSnackbarSuccess(true);
+            setTimeout(() => {
+              setSnackbarSuccess(false);
+              redirect("/home")
+            }, 2000);
+        }else{
+          setSnackbarError(true);
+          setTimeout(() => {
+            setSnackbarError(false);
+          }, 2000);
+        }
     }
 
     setRequiredFields();
@@ -228,7 +250,8 @@ const UserProfile = () => {
           </ButtonContainer>
         </ActionsContainer>
       </DataContainer>
-      <Snackbar type="success" message="Datos guardados con éxito" show={showSnackbar}/>
+      <Snackbar type="success" message="Datos guardados con éxito" show={snackbarSuccess}/>
+      <Snackbar type="error" message="Error actualizando datos, contacte al administrador." show={snackbarError}/>
     </Layout>
   );
 }
