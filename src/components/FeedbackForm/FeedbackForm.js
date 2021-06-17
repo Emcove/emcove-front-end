@@ -64,7 +64,7 @@ const FeedbackForm = ({ evaluatedUser, onClickCancel, sendFeedback }) => {
   const [feedbackTitle, setFeedbackTitle] = useState('');
   const [feedbackDescription, setFeedbackDescription] = useState('');
   const [requiredTitle, setRequiredTitle] = useState(false);
-  const [requiredLvl, setRequiredLevel] = useState(false)
+  const [requiredLvl, setRequiredLevel] = useState(false);
 
   const sendUserReputation = async () => {
     const user = UserData.getUserFromStorage();
@@ -82,6 +82,7 @@ const FeedbackForm = ({ evaluatedUser, onClickCancel, sendFeedback }) => {
       description: feedbackDescription,
       value: reputationValue,
       username: user && user.username,
+      entityId: evaluatedUser,
     };
 
     try {

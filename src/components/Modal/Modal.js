@@ -50,13 +50,13 @@ const CloseModalButton = styled.button`
 const Modal = ({ open, setVisibility, children }) => {
   useEffect(() => {
     document.addEventListener('keydown', (event) => {
-      if(event.key === "Escape"){
+      if(event.key === "Escape") {
         setVisibility(false);
       }
     });
 
     return () => {
-      document.removeEventListener('keydown', () => {})
+      document.removeEventListener('keydown', () => {});
     }
   }, [setVisibility]);
 

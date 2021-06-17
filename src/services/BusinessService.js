@@ -4,7 +4,7 @@ import { API_URL } from '../Constants'
 
 class BusinessService {
   async registerFeedback(feedbackData) {
-    const { businessId, username, title, description, value } = feedbackData;
+    const { entityId, username, title, description, value } = feedbackData;
     const body = {
       username,
       title,
@@ -12,7 +12,7 @@ class BusinessService {
       value
     };
     try {
-        return await axios.post(`${API_URL}/entrepreneurships/${businessId}/reputation/comment`, body);
+        return await axios.post(`${API_URL}/entrepreneurships/${entityId}/reputation/comment`, body);
     } catch (error) {
         return error.response;
     }
