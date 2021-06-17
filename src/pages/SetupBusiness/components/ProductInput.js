@@ -428,7 +428,7 @@ const NewProduct = () => {
           ))}
         </Properties>
       </PropertiesContainer>
-      <Button primary onClick={createProduct} style={{"width": "25%", "align-self": "center", "margin-top": "20px" }}>Aceptar</Button>
+      <Button primary onClick={createProduct} style={{"width": "25%", "alignSelf": "center", "marginTop": "20px" }}>Aceptar</Button>
     </Container>
   );
 }
