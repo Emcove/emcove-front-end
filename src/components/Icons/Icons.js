@@ -71,7 +71,7 @@ const Icons = ({ type, className }) => {
       );
     case 'pointing-triangle':
       return (
-        <svg className={className} xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" svgjs="http://svgjs.com/svgjs" version="1.1" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style={{"enable-background":"new 0 0 512 512"}} space="preserve">
+        <svg className={className} xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" svgjs="http://svgjs.com/svgjs" version="1.1" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style={{"enableBackground":"new 0 0 512 512"}} space="preserve">
           <g>
             <g xmlns="http://www.w3.org/2000/svg">
               <g>
@@ -84,7 +84,7 @@ const Icons = ({ type, className }) => {
     case 'reputation-1': 
       return (
         <svg className={className} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 65.44 65.44" style={{"enable-background":"new 0 0 65.44 65.44"}} space="preserve">
+          viewBox="0 0 65.44 65.44" style={{"enableBackground":"new 0 0 65.44 65.44"}} space="preserve">
           <g>
             <g id="group-3svg">
               <path id="path-1_21_" style={{"fill":"#EDC951"}} d="M65.44,34.88c0,16.616-13.472,30.086-30.089,30.086
@@ -106,7 +106,7 @@ const Icons = ({ type, className }) => {
     case 'reputation-2':
       return (
         <svg className={className} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 64.5 64.5" style={{"enable-background": "new 0 0 64.5 64.5"}} space="preserve">
+          viewBox="0 0 64.5 64.5" style={{"enableBackground": "new 0 0 64.5 64.5"}} space="preserve">
           <g>
             <g id="group-10svg">
               <path id="path-1" style={{"fill":"#EDC951"}} d="M64.5,34.853c0,16.371-13.274,29.643-29.647,29.643
@@ -130,7 +130,7 @@ const Icons = ({ type, className }) => {
     case 'reputation-3':
       return (
         <svg className={className} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 64.5 64.5" style={{"enable-background":"new 0 0 64.5 64.5"}} space="preserve">
+          viewBox="0 0 64.5 64.5" style={{"enableBackground":"new 0 0 64.5 64.5"}} space="preserve">
           <g>
             <g id="group-9svg">
               <path id="path-1_49_" style={{"fill":"#EDC951"}} d="M64.5,34.853c0,16.371-13.274,29.643-29.648,29.643
@@ -151,7 +151,7 @@ const Icons = ({ type, className }) => {
     case 'reputation-4':
       return (
         <svg className={className} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 65.441 65.441" style={{"enable-background":"new 0 0 65.441 65.441"}} space="preserve">
+          viewBox="0 0 65.441 65.441" style={{"enableBackground":"new 0 0 65.441 65.441"}} space="preserve">
           <g>
             <g id="group-2svg">
               <path id="path-1_10_" style={{ "fill":"#EDC951" }} d="M65.441,34.881c0,16.616-13.472,30.086-30.09,30.086S5.262,51.497,5.262,34.881
@@ -173,7 +173,7 @@ const Icons = ({ type, className }) => {
     case 'reputation-5':
       return (
         <svg className={className} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-            viewBox="0 0 67.32 67.32" style={{"enable-background":"new 0 0 67.32 67.32"}} space="preserve">
+            viewBox="0 0 67.32 67.32" style={{"enableBackground":"new 0 0 67.32 67.32"}} space="preserve">
           <g>
             <g id="group-36svg">
               <path id="path-1_28_" style={{"fill":"#EDC951"}} d="M67.32,35.821c0,16.616-13.471,30.085-30.089,30.085S7.141,52.437,7.141,35.821
@@ -208,6 +208,29 @@ const Icons = ({ type, className }) => {
           </g>
         </svg>
       );
+    case 'more-options':
+      return (
+        <svg className={className} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          width="375.636px" height="375.635px" viewBox="0 0 375.636 375.635" style={{"enableBackground": "new 0 0 375.636 375.635"}}
+          space="preserve">
+          <g>
+            <g>
+              <g>
+                <path d="M41.013,228.825C18.396,228.825,0,210.438,0,187.818c0-22.608,18.396-41.007,41.013-41.007
+                  c22.617,0,41.013,18.398,41.013,41.007C82.025,210.438,63.63,228.825,41.013,228.825z"/>
+              </g>
+              <g>
+                <path d="M185.513,228.825c-22.617,0-41.013-18.387-41.013-41.007c0-22.608,18.396-41.007,41.013-41.007
+                  c22.613,0,41.013,18.398,41.013,41.007C226.525,210.438,208.126,228.825,185.513,228.825z"/>
+              </g>
+              <g>
+                <path d="M334.623,228.825c-22.613,0-41.013-18.387-41.013-41.007c0-22.608,18.399-41.007,41.013-41.007
+                  c22.614,0,41.013,18.398,41.013,41.007C375.636,210.438,357.237,228.825,334.623,228.825z"/>
+              </g>
+            </g>
+          </g>
+        </svg>
+    );
     default:
       return null;
   }

@@ -32,6 +32,10 @@ const Card = styled.div`
   ${props => props.paddingSize && css `
       padding: ${props.paddingSize};
   `}
+
+  ${props => props.alignment && css `
+      justify-content: ${props.alignment};
+  `}
 `;
 
 

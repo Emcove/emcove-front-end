@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
 
@@ -23,14 +23,13 @@ const Container = styled.div`
   width: 100%;
 `;
 
-
 const Reputation = ({ username }) => {
   const location = useLocation();
   const history = useHistory();
 
   const { from } = queryString.parse(location.search);
 
-  const [reputation, updateReputationData] = useState({
+  const reputation = {
     average: 3,
     comments: [{
       username: 'Messi',
@@ -58,7 +57,7 @@ const Reputation = ({ username }) => {
       description: 'No recomiendo aceptar pedidos de esta persona aunque la transacción se realizó con éxito fue muy dificil coordinar',
       commentValue: 2,
     }],
-  });
+  };
 
   useEffect(() => {
     if (from === "nav-header") {
@@ -82,6 +81,20 @@ const Reputation = ({ username }) => {
     }
   }
 
+  const setEmptyMessage = () => {
+    switch (from) {
+      case 'nav-header': 
+        return "Todavía no tenés comentarios, concretá pedidos con emprendedores y conseguí su opinión.";
+      case 'orders-list':
+        if (username) {
+          return `Todavía no hay comentarios sobre ${username}`;
+        }
+        return "Sin comentarios";
+      default:
+        return "Todavía no tenés comentarios de otros usuarios";
+    }
+  }
+
   return (
     <Layout>
       <Container>
@@ -89,7 +102,7 @@ const Reputation = ({ username }) => {
         <Title>Reputación</Title>
         <Subtitle>{setPageSubtitle()}</Subtitle>
         <ReputationGraphic average={reputation.average}/>
-        <CommentsList comments={reputation.comments} />
+        <CommentsList comments={reputation.comments} wording={setEmptyMessage()} />
       </Container>
     </Layout>
   );
