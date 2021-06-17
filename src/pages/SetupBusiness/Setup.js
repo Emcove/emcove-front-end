@@ -20,6 +20,8 @@ import ProductInput from './components/ProductInput';
 
 import { colors } from '../../styles/palette';
 
+import BusinessService from '../../services/BusinessService';
+
 const Content = styled.div`
   width: 100%;
 `;
@@ -50,7 +52,9 @@ const Setup = () => {
   const [name, setName] = useState('');
   const [logo, setLogo] = useState();
   const [city, setCity] = useState('');
-  const [showSnackbar, setSnackbarVisibility] = useState(false)
+  const [showSnackbarError, setSnackbarErrorVisibility] = useState(false)
+  const [showSnackbarSuccess, setSnackbarSuccessVisibility] = useState(false)
+  const [snackbarErrorMessage, setSnackBarErrorMessage] = useState("")
   const [doesShipments, setDoesShipments] = useState(false);
   const [categories, setCategories] = useState([]);
   const [products, updateProducts] = useState([]);
@@ -62,20 +66,33 @@ const Setup = () => {
     // de que sea pantalla de edicion
   });
 
-  const createBusiness = () => {
-    // const data = {
-    //   name,
-    //   logo,
-    //   city,
-    //   categories,
-    //   products,
-    // };
-    setSnackbarVisibility(true);
-    // POST PARA CREAR EL EMPRENDIMIENTO CON PRODUCTOS
-    setTimeout(() => {
-      setSnackbarVisibility(false);
-    }, 2000);
+  const createBusiness = async () => {
+     const data = {
+       name,
+       logo,
+       city,
+       doesShipments,
+       categories:categories.map(c => c.toUpperCase()),
+       products
+     };
+
+    try{
+      await BusinessService.createBusiness(data);
+      setSnackbarSuccessVisibility(true)
+        setTimeout(() => {
+          setSnackbarSuccessVisibility(false);
+          history.push("/home")
+        }, 2000);
+    }catch(error){
+      setSnackbarErrorVisibility(true)
+      setSnackBarErrorMessage("Error al crear emprendimiento")
+        setTimeout(() => {
+          setSnackbarErrorVisibility(false);
+        }, 2000);
+        return 
+    }
   }
+
 
   const handleCategoriesClick = (category) => {
     if (categories.includes(category)) {
@@ -146,7 +163,12 @@ const Setup = () => {
           <Snackbar
             message="Emprendimiento creado con éxito"
             type="success"
-            show={showSnackbar}
+            show={showSnackbarSuccess}
+          />
+          <Snackbar
+            message={snackbarErrorMessage}
+            type="error"
+            show={showSnackbarError}
           />
         </Content>
         <Modal className="new-product__modal" open={modalProductVisible} setVisibility={() => setModalVisible(!modalProductVisible)}>
