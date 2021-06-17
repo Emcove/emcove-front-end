@@ -9,6 +9,8 @@ import TextInput from "../TextInput";
 
 import { colors } from "../../styles/palette";
 
+import UserData from '../../utils';
+
 const FormContainer = styled.div`
   margin: auto auto 60px auto;
 `;
@@ -57,16 +59,16 @@ const RequiredMessage = styled.span`
   line-height: 3;
 `;
 
-const ReputationForm = ({ evaluatedUser, onClickCancel }) => {
+const FeedbackForm = ({ evaluatedUser, onClickCancel, sendFeedback }) => {
   const [reputationValue, setReputationValue] = useState(0);
   const [feedbackTitle, setFeedbackTitle] = useState('');
   const [feedbackDescription, setFeedbackDescription] = useState('');
   const [requiredTitle, setRequiredTitle] = useState(false);
   const [requiredLvl, setRequiredLevel] = useState(false)
 
-  const sendUserReputation = () => {
-    // enviar la reputación
-    // no se en donde va el id del emprendimiento o usuario al que estoy mandandole el feedback pero es esta variable: evaluatedUser
+  const sendUserReputation = async () => {
+    const user = UserData.getUserFromStorage();
+
     if (reputationValue === 0) {
       return setRequiredLevel(true);
     }
@@ -79,10 +81,15 @@ const ReputationForm = ({ evaluatedUser, onClickCancel }) => {
       title: feedbackTitle,
       description: feedbackDescription,
       value: reputationValue,
+      username: user && user.username,
     };
 
-    console.log(data);
-    onClickCancel();
+    try {
+      await sendFeedback(data);
+      onClickCancel();
+    } catch (error) {
+
+    }
   }
 
   return (
@@ -137,4 +144,4 @@ const ReputationForm = ({ evaluatedUser, onClickCancel }) => {
   );
 }
 
-export default ReputationForm;
+export default FeedbackForm;

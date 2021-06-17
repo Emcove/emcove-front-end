@@ -44,6 +44,21 @@ class UserService {
             }
         )
     }
+
+    async registerFeedback(feedbackData) {
+        const { userId, username, title, description, value } = feedbackData;
+        const body = {
+          username,
+          title,
+          description,
+          value
+        };
+        try {
+            return await axios.post(`${API_URL}/users/${userId}/reputation/comment`, body);
+        } catch (error) {
+            return error.response;
+        }
+      }
 }
 
 export default new UserService()

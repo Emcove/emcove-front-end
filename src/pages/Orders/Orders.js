@@ -13,9 +13,11 @@ import Link from "../../components/Link";
 import Card from "../../components/Card";
 import Icon from "../../components/Icons";
 import Modal from "../../components/Modal";
-import ReputationForm from "../../components/ReputationForm";
+import FeedbackForm from "../../components/FeedbackForm";
 
 import { colors } from "../../styles/palette";
+
+import BusinessService from "../../services/BusinessService"
 
 const Container = styled.div`
   width: 100%;
@@ -166,7 +168,11 @@ const Orders = () => {
         </OrdersContainer>
       </Container>
       <Modal open={modalVisible} setVisibility={setModalVisible}>
-        <ReputationForm evaluatedUser={evaluatedUser} onClickCancel={() => setModalVisible(false)} />
+        <FeedbackForm
+          evaluatedUser={evaluatedUser}
+          onClickCancel={() => setModalVisible(false)}
+          sendFeedback={BusinessService.registerFeedback}
+        />
       </Modal>
     </Layout>
   );
