@@ -20,6 +20,8 @@ import ProductInput from './components/ProductInput';
 
 import { colors } from '../../styles/palette';
 
+import BusinessService from '../../services/BusinessService';
+
 const Content = styled.div`
   width: 100%;
 `;
@@ -50,10 +52,11 @@ const Setup = () => {
   const [name, setName] = useState('');
   const [logo, setLogo] = useState();
   const [city, setCity] = useState('');
-  const [showSnackbar, setSnackbarVisibility] = useState(false)
   const [doesShipments, setDoesShipments] = useState(false);
   const [categories, setCategories] = useState([]);
   const [products, updateProducts] = useState([]);
+
+  const [snackbarData, setSnackbarData] = useState({});
 
   const [modalProductVisible, setModalVisible] = useState(false);
 
@@ -62,20 +65,32 @@ const Setup = () => {
     // de que sea pantalla de edicion
   });
 
-  const createBusiness = () => {
-    // const data = {
-    //   name,
-    //   logo,
-    //   city,
-    //   categories,
-    //   products,
-    // };
-    setSnackbarVisibility(true);
-    // POST PARA CREAR EL EMPRENDIMIENTO CON PRODUCTOS
-    setTimeout(() => {
-      setSnackbarVisibility(false);
-    }, 2000);
+  const createBusiness = async () => {
+     const data = {
+       name,
+       logo,
+       city,
+       doesShipments,
+       categories:categories.map(c => c.toUpperCase()),
+       products
+     };
+
+    try{
+      await BusinessService.createBusiness(data);
+      setSnackbarData({type: "success", message:"Emprendimiento creado con éxito", show: true});
+      setTimeout(() => {
+        setSnackbarData({show:false});
+        history.push("/home")
+      }, 2000);
+    }catch(error){
+      setSnackbarData({type: "error", message:"Error al crear emprendimiento", show: true});
+      setTimeout(() => {
+        setSnackbarData({show:false});
+      }, 2000);
+      return 
+    }
   }
+
 
   const handleCategoriesClick = (category) => {
     if (categories.includes(category)) {
@@ -143,11 +158,7 @@ const Setup = () => {
             </div>
             <Link onClick={() => history.push("/home")}>Cancelar</Link>
           </div>
-          <Snackbar
-            message="Emprendimiento creado con éxito"
-            type="success"
-            show={showSnackbar}
-          />
+          <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />
         </Content>
         <Modal className="new-product__modal" open={modalProductVisible} setVisibility={setModalVisible}>
           <ProductInput />
