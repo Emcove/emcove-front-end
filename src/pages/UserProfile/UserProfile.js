@@ -56,11 +56,10 @@ const UserProfile = () => {
   const loggedUser = JSON.parse(localStorage.getItem("user"));
 
   const history = useHistory();
-  const [userAvatar, setUserAvatar] = useState(loggedUser.avatar);
+  const [avatar, setUserAvatar] = useState(loggedUser.avatar);
   const [editState, setEditState] = useState(false);
-  const [snackbarSuccess, setSnackbarSuccess] = useState(false);
-  const [snackbarError, setSnackbarError] = useState(false);
-
+  const [snackbarData, setSnackbarData] = useState({});
+  
   // Account Data
   const [email, setEmail] = useState(loggedUser.email);
   const [emailConfirmation, setEmailConfirmation] = useState('');
@@ -109,8 +108,31 @@ const UserProfile = () => {
     } 
   }
 
+  const hasEqualConfirmation = () => {
+    if (email !== emailConfirmation) {
+      setRequiredEmail(true);
+      setRequiredEmailConf(true);
+      setSnackbarData({type: "error", message:"El email y la confirmación del email no coinciden", show:true});
+      setTimeout(() => {
+        setSnackbarData({show:false});
+      }, 2000);
+      return false;
+    }
+
+    if (password !== passwordConfirmation) {
+      setRequiredPass(true);
+      setRequiredPassConf(true);
+      setSnackbarData({type: "error", message:"La contraseña y la confirmación de la contraseña no coinciden", show:true});
+      setTimeout(() => {
+        setSnackbarData({show:false});
+      }, 2000);
+      return false;
+    }
+      return true;
+  }
+
   const saveChanges = async () => {
-    if (!UserData.hasEmptyRequiredFields([email, emailConfirmation, password, passwordConfirmation, name, surname])) {
+    if (!UserData.hasEmptyRequiredFields([email, emailConfirmation, password, passwordConfirmation, name, surname]) && hasEqualConfirmation()) {
       setEditState(false);
       setRequiredEmail(false);
       setRequiredEmailConf(false);
@@ -118,19 +140,28 @@ const UserProfile = () => {
       setRequiredPassConf(false);
       setRequiredName(false);
       setRequiredSurname(false);
-      const resp = await UserService.updateUserData(userAvatar, name, surname, city, adult, email, password);
-        if (resp.status === 200) {
-          setSnackbarSuccess(true);
-            setTimeout(() => {
-              setSnackbarSuccess(false);
-              redirect("/home")
-            }, 2000);
-        }else{
-          setSnackbarError(true);
-          setTimeout(() => {
-            setSnackbarError(false);
-          }, 2000);
-        }
+      const data = {
+        avatar,
+        name,
+        surname,
+        city,
+        adult,
+        email,
+        password
+      };
+      try{
+        await UserService.updateUserData(data);
+        setSnackbarData({type: "success", message:"Datos guardados con éxito", show: true})
+        setTimeout(() => {
+          setSnackbarData({show:false});
+          redirect("/home")
+        }, 2000);
+      }catch(error){
+        setSnackbarData({type: "error", message:"Error actualizando datos, contacte al administrador.", show:true});
+        setTimeout(() => {
+          setSnackbarData({show:false});
+        }, 2000);
+      }
     }
 
     setRequiredFields();
@@ -144,7 +175,7 @@ const UserProfile = () => {
       <DataContainer>
         <ImageContainer>
           <ImageUploader
-            image={userAvatar}
+            image={avatar}
             id="user-profile-pic"
             shape="round"
             label="Subir foto de perfil"
@@ -250,8 +281,7 @@ const UserProfile = () => {
           </ButtonContainer>
         </ActionsContainer>
       </DataContainer>
-      <Snackbar type="success" message="Datos guardados con éxito" show={snackbarSuccess}/>
-      <Snackbar type="error" message="Error actualizando datos, contacte al administrador." show={snackbarError}/>
+      <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />
     </Layout>
   );
 }
