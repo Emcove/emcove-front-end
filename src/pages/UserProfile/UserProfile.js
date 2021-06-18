@@ -15,7 +15,7 @@ import UserData from '../../utils';
 import Button from '../../components/Button';
 import classNames from 'classnames';
 
-import UserService from "../../services/UserService"
+import UserService from "../../services/UserService";
 
 
 const LinkContainer = styled.div`
@@ -24,7 +24,6 @@ const LinkContainer = styled.div`
 `;
 
 const DataContainer = styled.div`
-
 `;
 
 const ImageContainer = styled.div`
@@ -37,7 +36,7 @@ const InputGroup = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%
+  width: 100%;
 `;
 
 const ActionsContainer = styled.div`
@@ -52,9 +51,7 @@ const ButtonContainer = styled.div`
 `;
 
 const UserProfile = () => {
-
   const loggedUser = JSON.parse(localStorage.getItem("user"));
-
   const history = useHistory();
   const [avatar, setUserAvatar] = useState(loggedUser.avatar);
   const [editState, setEditState] = useState(false);
@@ -248,6 +245,7 @@ const UserProfile = () => {
             />
           </InputGroup>
           <InputGroup>
+            {editState && 
             <TextInput 
               id="password"
               label="Contraseña"
@@ -257,7 +255,7 @@ const UserProfile = () => {
               onChange={setPassword}
               required={requiredPassConf}
               disabled={!editState}
-            />
+            />}
             <TextInput 
               id="passwordConfirmation"
               label="Confirmar contraseña"
