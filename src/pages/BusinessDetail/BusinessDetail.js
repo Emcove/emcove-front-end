@@ -18,6 +18,8 @@ import { colors } from "../../styles/palette";
 
 import UserData from "../../utils";
 
+import CategoriesList from "../../components/CategoriesList/CategoriesList";
+
 const DataContainer = styled.div`
   display: flex;
   align-items: center;
@@ -148,6 +150,7 @@ const BusinessDetail = () => {
         </Info>
         <Info>
           <Subtitle>Productos</Subtitle>
+          <CategoriesList categories={business.categories} />
           <ProductsContainer>
             {business.products.length === 0 && <Text>Aún no hay productos cargados</Text>}
             {business.products.map(product => (
