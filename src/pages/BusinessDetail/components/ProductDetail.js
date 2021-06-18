@@ -90,15 +90,15 @@ const ProductDetail = ({ product }) => {
   return (
     <Container>
       <Title>{name}</Title>
-      {//!!product.images.length && (
+      {!!product.images.length && (
         <ImagesContainer>
-          {//product.images.map(image => (
-            <ImageContainer>
-              <Image src='https://s7.orientaltrading.com/is/image/OrientalTrading/VIEWER_ZOOM/minnie-mouse-cardboard-stand-up~13612578' />
+          {product.images.map((image, idx) => (
+            <ImageContainer key={`${name}Image${idx}`}>
+              <Image src={image} />
             </ImageContainer>
-          }
+          ))}
         </ImagesContainer>
-      }
+      )}
       <Text key="descriptionText">{description}</Text>
       {!hasStock && <Tag info><TagLabel>{`${productionTime} días de elaboración`}</TagLabel></Tag>}
       {hasStock && <Tag success><TagLabel>En stock</TagLabel></Tag>}
