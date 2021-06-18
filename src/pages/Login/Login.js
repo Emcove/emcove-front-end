@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 
 import { useHistory } from "react-router-dom";
 import ReactLoading from "react-loading";
@@ -16,6 +17,12 @@ import AuthenticationService from "../../services/AuthenticationService";
 
 AuthenticationService.logout();
 
+const LoadingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Login = () => {
   const history = useHistory();
   const [username, setUsername] = useState('');
@@ -23,6 +30,8 @@ const Login = () => {
   const [requiredUsername, setRequiredUsername] = useState(false);
   const [requiredPass, setRequiredPass] = useState(false);
   const [snackBarError, setSnackBarError] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     document.addEventListener('keydown', (event) => {
@@ -42,11 +51,14 @@ const Login = () => {
 
   const submitForm = async () => {
     if (username !== '' && password !== '') {
+      setIsLoading(true);
       try {
         AuthenticationService.login(username,password).then(() => {
+          setIsLoading(false);
           redirect("/home");
         });
       } catch (error) {
+        setIsLoading(false);
         setSnackBarError(true);
 
         setTimeout(() => {
@@ -65,7 +77,6 @@ const Login = () => {
 
   return (
     <Layout login>
-      <ReactLoading color={colors.warning} height={'20%'} width={'20%'} />
       <Snackbar
             type="error"
             show={snackBarError}
@@ -95,7 +106,14 @@ const Login = () => {
           />
         </div>
         <div className="login-button__container">
-          <Button primary onClick={submitForm} className="login-button">Iniciar Sesión</Button>
+          <Button primary onClick={submitForm} className="login-button">
+            {!isLoading && "Iniciar Sesión"}
+            {isLoading && 
+              <LoadingContainer>
+                <ReactLoading className="login-button__loading" color={colors.white} height="20px" width="20px" />
+              </LoadingContainer>
+            }
+          </Button>
         </div>
         <div className="login-registry-section">
           <Link onClick={() => redirect('/registry')}>¿No tenés cuenta? Registrate</Link>

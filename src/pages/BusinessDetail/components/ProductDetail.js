@@ -94,7 +94,10 @@ const ProductDetail = ({ product }) => {
         <ImagesContainer>
           {product.images.map((image, idx) => (
             <ImageContainer key={`${name}Image${idx}`}>
-              <Image src={image} />
+              <Image
+                src={image}
+                alt="viewProduct"
+              />
             </ImageContainer>
           ))}
         </ImagesContainer>
