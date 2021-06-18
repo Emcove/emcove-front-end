@@ -43,12 +43,11 @@ const AddBusinessButton = styled.button`
     cursor: pointer;
     box-shadow: 0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%);
   }
-  visibility: ${UserData.hasBusiness()? "hidden":"visible"};
 `;
 
 const Home = () => {
   const history = useHistory();
-
+  const userHasBusiness = UserData.hasBusiness();
   return (
     <Layout>
       <Content>
@@ -71,9 +70,9 @@ const Home = () => {
           <ListItem animated title="Emprendimiento 4" description="Descripción" />
           <ListItem animated title="Emprendimiento 4" description="Descripción" />
         </List>
-        <AddBusinessButton onClick={() => history.push('/createBusiness')}>
+        {!userHasBusiness && <AddBusinessButton onClick={() => history.push('/createBusiness')}>
           <Icon type="add" className="add-button__icon" />
-        </AddBusinessButton>
+        </AddBusinessButton>}
       </Content>
     </Layout>
   );
