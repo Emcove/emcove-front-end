@@ -1,20 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 
 import { useHistory, useLocation } from "react-router-dom";
 import queryString from "query-string";
 
+import Carrousel from "../../components/Carrousel/Carrousel";
+import ImageUploader from "../../components/ImageUploader";
 import Layout from "../../components/Layout";
 import Title from "../../components/Title";
 import Link from "../../components/Link";
-import ImageUploader from "../../components/ImageUploader";
 import Icon from "../../components/Icons";
+import Modal from "../../components/Modal";
+
+import ProductDetail from "./components/ProductDetail";
 
 import { colors } from "../../styles/palette";
 
 import mock from "./businessMock"; 
-import Carrousel from "../../components/Carrousel/Carrousel";
 
 const DataContainer = styled.div`
   display: flex;
@@ -95,6 +98,8 @@ const BusinessDetail = () => {
   const history = useHistory();
   const location = useLocation();
 
+  const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
+
   const { from } = queryString.parse(location.search);
 
   let business = mock;
@@ -107,6 +112,16 @@ const BusinessDetail = () => {
       // business = user.entrepreneurship;
     }
   });
+
+  const handleProductClick = (product) => {
+    setProductModalInfo({ visible: true, product });
+  }
+
+  const setModalVisibility = (visible) => {
+    setProductModalInfo(prevState => {
+      return { ...prevState, visible }
+    });
+  };
 
   return (
     <Layout>
@@ -136,7 +151,9 @@ const BusinessDetail = () => {
             {business.products.length === 0 && <Text>Aún no hay productos cargados</Text>}
             {business.products.map(product => (
               <ProductContainer>
-                <MoreInfo className="business-detail__button"><Icon type="more-options" className="business-detail__product-detail-icon"/></MoreInfo>
+                <MoreInfo className="business-detail__button" onClick={() => handleProductClick(product)}>
+                  <Icon type="more-options" className="business-detail__product-detail-icon"/>
+                </MoreInfo>
                 <Carrousel width="132px" height="112px" images={product.images} />
                 <Text>{product.name}</Text>
               </ProductContainer>
@@ -144,6 +161,9 @@ const BusinessDetail = () => {
           </ProductsContainer>
         </Info>
       </Container>
+      <Modal open={productModal.visible} setVisibility={setModalVisibility}>
+        <ProductDetail product={productModal.product}/>
+      </Modal>
     </Layout>
   );
 }
