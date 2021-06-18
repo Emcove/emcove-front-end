@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { useHistory } from "react-router-dom";
@@ -33,23 +33,11 @@ const Login = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    document.addEventListener('keydown', (event) => {
-      if(event.key === "Enter") {
-        submitForm();
-      }
-    });
-
-    return () => {
-      document.removeEventListener('keydown', () => {});
-    }
-  }, []);
-  
   const redirect = (view) => {
     history.push(view);
-  }
+  };
 
-  const submitForm = async () => {
+  const submitForm = () => {
     if (username !== '' && password !== '') {
       setIsLoading(true);
       try {
@@ -73,7 +61,7 @@ const Login = () => {
     if (password === '') {
       setRequiredPass(true);
     }
-  }
+  };
 
   return (
     <Layout login>

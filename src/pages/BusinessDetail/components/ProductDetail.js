@@ -31,6 +31,7 @@ const ImagesContainer = styled.div`
   display: flex;
   align-items: center;
   margin-top: 20px;
+  margin-left: -8px;
 `;
 
 const ImageContainer = styled.div`
@@ -43,6 +44,7 @@ const ImageContainer = styled.div`
   max-width: 200px;
   height: 180px;
   border-radius: 3px;
+  margin: 0 8px;
 `;
 
 const Image = styled.img`
@@ -87,12 +89,13 @@ const DropdownContainer = styled.div`
 
 const ProductDetail = ({ product }) => {
   const { name, description, productionTime, hasStock, props } = product;
+  const images = product.images.map(image => image.image);
   return (
     <Container>
       <Title>{name}</Title>
-      {!!product.images.length && (
+      {!!images.length && (
         <ImagesContainer>
-          {product.images.map((image, idx) => (
+          {images.map((image, idx) => (
             <ImageContainer key={`${name}Image${idx}`}>
               <Image
                 src={image}

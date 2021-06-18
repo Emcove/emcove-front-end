@@ -93,7 +93,7 @@ const MoreInfo = styled.div`
   padding: 6px;
   border-radius: 100%;
   visibility: hidden;
-  background-color: rgba(254,254,254,0.2);
+  background-color: rgba(254,254,254,0.5);
 
   &:hover {
     cursor: pointer;
@@ -103,12 +103,10 @@ const MoreInfo = styled.div`
 const BusinessDetail = () => {
   const history = useHistory();
   // const location = useLocation();
-
+  const business = UserData.getUserFromStorage().entrepreneurship;
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
-
   // const { from } = queryString.parse(location.search);
   
-  const business = UserData.getUserFromStorage().entrepreneurship;
   const shipmentText = business.doesShipments ? "Hace envíos" : "No hace envíos";
   
   // useEffect(() => { Esto queda acá para cuando yo entre a ver el detalle de un emprendimiento como otro usuario
@@ -153,15 +151,17 @@ const BusinessDetail = () => {
           <CategoriesList categories={business.categories} />
           <ProductsContainer>
             {business.products.length === 0 && <Text>Aún no hay productos cargados</Text>}
-            {business.products.map(product => (
-              <ProductContainer key={product.name} onClick={() => handleProductClick(product)}>
+            {business.products.map(product => {
+              const images = product.images.map(image => image.image);
+              return (
+              <ProductContainer key={product.name}>
                 <MoreInfo className="business-detail__button" onClick={() => handleProductClick(product)}>
                   <Icon type="more-options" className="business-detail__product-detail-icon"/>
                 </MoreInfo>
-                <Carrousel width="132px" height="112px" images={product.images} />
+                <Carrousel width="132px" height="112px" images={images} />
                 <Text clickeable>{product.name}</Text>
               </ProductContainer>
-            ))}
+            )})}
           </ProductsContainer>
         </Info>
       </Container>
