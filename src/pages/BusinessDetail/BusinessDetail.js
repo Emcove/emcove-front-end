@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { useHistory, useLocation } from "react-router-dom";
 import queryString from "query-string";
@@ -37,6 +37,12 @@ const Text = styled.span `
   font-size: 16px;
   color: ${colors.textColor};
   margin: 4px 0 ;
+
+  ${props => props.clickeable && css `
+    &:hover {
+      cursor: pointer;
+    }
+  `}
 `;
 
 const Subtitle = styled.h2 `
@@ -86,7 +92,6 @@ const MoreInfo = styled.div`
   padding: 6px;
   border-radius: 100%;
   visibility: hidden;
-  transition: visibility ease-in 0.2s;
   background-color: rgba(254,254,254,0.2);
 
   &:hover {
@@ -150,12 +155,12 @@ const BusinessDetail = () => {
           <ProductsContainer>
             {business.products.length === 0 && <Text>Aún no hay productos cargados</Text>}
             {business.products.map(product => (
-              <ProductContainer key={product.name}>
+              <ProductContainer key={product.name} onClick={() => handleProductClick(product)}>
                 <MoreInfo className="business-detail__button" onClick={() => handleProductClick(product)}>
                   <Icon type="more-options" className="business-detail__product-detail-icon"/>
                 </MoreInfo>
                 <Carrousel width="132px" height="112px" images={product.images} />
-                <Text>{product.name}</Text>
+                <Text clickeable>{product.name}</Text>
               </ProductContainer>
             ))}
           </ProductsContainer>
