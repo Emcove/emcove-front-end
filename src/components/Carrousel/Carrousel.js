@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components'
 
 import { colors } from '../../styles/palette';
 
+import Icon from '../Icons';
+
 const CarrouselContainer = styled.div`
   position: relative;
   display: flex;
@@ -29,6 +31,15 @@ const Container = styled.div`
   max-width: 100px;
   height: 80px;
   border-radius: 3px;
+
+  ${props => props.width && css `
+    min-width: ${props.width};
+    max-width: ${props.width};
+  `}
+
+  ${props => props.height && css `
+    height ${props.height};
+  `}
 `;
 
 const Preview = styled.img`
@@ -69,7 +80,7 @@ const DirectionButton = styled.button`
   }
 `;
 
-const Carrousel = ({ images }) => {
+const Carrousel = ({ images = [], width, height }) => {
   const [actual, setNewActual] = useState({ image: images[0], index: 0 });
   
   const updateActual = (direction) => {
@@ -85,19 +96,23 @@ const Carrousel = ({ images }) => {
   }
   return (
     <CarrouselContainer>
+      {images.length > 1 &&
       <DirectionButton
         left
         className="direction-button"
         onClick={() => updateActual(-1)}
       >
         {'<'}
-      </DirectionButton>
-      <Container>
+      </DirectionButton>}
+      <Container width={width} height={height}>
+        {!actual.image && <Icon type="default-image" className="default-image__icon"/>}
+        {actual.image &&
         <Preview
           src={actual.image}
           alt="preview"
-        />
+        />}
       </Container>
+      {images.length > 1 &&
       <DirectionButton
         right
         className="direction-button"
@@ -105,6 +120,7 @@ const Carrousel = ({ images }) => {
       >
         {'>'}
       </DirectionButton>
+      }
     </CarrouselContainer>
   );
 }

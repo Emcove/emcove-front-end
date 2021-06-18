@@ -123,9 +123,9 @@ const Layout = ({ children, login, registry, className }) => {
           {profileOptions &&
             <ProfileOptions>
               <Option onClick={() => history.push('/userProfile')}>Mi perfil</Option>
-              <Option onClick={() => history.push('/reputation')}>Mi reputación</Option>
+              <Option onClick={() => history.push('/reputation?from=nav-header')}>Mi reputación</Option>
               <Option onClick={() => history.push('/orders')}>Ver pedidos que hice</Option>
-              <Option onClick={() => history.push('/business')}>Gestionar mi emprendimiento</Option>
+              <Option onClick={() => history.push('/business?from=nav-header')}>Gestionar mi emprendimiento</Option>
             </ProfileOptions>
           }
         </Header>
