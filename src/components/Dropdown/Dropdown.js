@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 
 import { colors } from '../../styles/palette';
@@ -40,7 +40,7 @@ const Label = styled.span`
 
 const Options = styled.div`
   position: absolute;
-  margin-top: 14px;
+  margin-top: 6spx;
   border: solid 1px ${colors.grayBorder};
   border-radius: 3px;
   background-color: ${colors.white};
@@ -63,6 +63,21 @@ const Dropdown = ({ label, options, placeholder, onClickOption }) => {
   const [showingPlaceholder, setPlaceholder] = useState(placeholder || options[0]);
   const [showOptions, setShowOptions] = useState(false);
 
+  useEffect(() => {
+    const ignoreClickOnMeElement = document.getElementById('dropdown');
+
+    document.addEventListener('click', (event) => {
+      const isClickInsideElement = ignoreClickOnMeElement.contains(event.target);
+      if (!isClickInsideElement) {
+        setShowOptions(false);
+      }
+    });
+
+    return () => {
+      document.removeEventListener('click', () => {})
+    }
+  }, [setShowOptions]);
+
   const optionClicked = (option) => {
     setPlaceholder(option);
     onClickOption && onClickOption(option);
@@ -70,7 +85,7 @@ const Dropdown = ({ label, options, placeholder, onClickOption }) => {
   };
 
   return (
-    <Container className="dropdown-component">
+    <Container className="dropdown-component" id="dropdown">
       <Label>{label}</Label>
       <DropdownDispatcher onClick={() => setShowOptions(!showOptions)}>
         {showingPlaceholder}
@@ -79,7 +94,7 @@ const Dropdown = ({ label, options, placeholder, onClickOption }) => {
         </IconContainer>
       </DropdownDispatcher>
       {showOptions &&
-        <Options id="dropdownOption">
+        <Options>
           {options.map(option => <Option key={option} onClick={() => optionClicked(option)}>{option}</Option>)}
         </Options>
       }

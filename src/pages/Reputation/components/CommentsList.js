@@ -12,7 +12,7 @@ const Container = styled.div`
   display: flex;
   align-items: flex-start;
   overflow-x: scroll;
-  padding: 24px 0;
+  padding: 24px 0 0;
 `;
 
 const UserInfo = styled.div`
@@ -28,26 +28,30 @@ const User = styled.span`
   color: ${colors.textColor};
 `;
 
-const CommentsList = ({ comments }) => {
-  return (
-    <>
-      <Title>Comentarios</Title>
-      <Container className="comment-list__container">
-        {comments.map(comment => (
-          <Card animated vertical className="comment-list__card">
-            <UserInfo>
-              <User>{comment.username}</User>
-              <Icon type={`reputation-${comment.commentValue}`} className="comment-list__icon" />
-            </UserInfo>
-            <div>
-              <span>{comment.title}</span>
-              <p>{comment.description}</p>
-            </div>
-          </Card>
-        ))}
-      </Container>
-    </>
-  );
-}
+const EmptyMessage = styled.span`
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.4);
+`;
+
+const CommentsList = ({ comments, wording }) => (
+  <>
+    <Title>Comentarios</Title>
+    <Container className="comment-list__container">
+      {comments.map(comment => (
+        <Card animated vertical className="comment-list__card">
+          <UserInfo>
+            <User>{comment.username}</User>
+            <Icon type={`reputation-${comment.commentValue}`} className="comment-list__icon" />
+          </UserInfo>
+          <div>
+            <span>{comment.title}</span>
+            <p>{comment.description}</p>
+          </div>
+        </Card>
+      ))}
+      { comments.length === 0 && <EmptyMessage>{wording}</EmptyMessage>}
+    </Container>
+  </>
+);
 
 export default CommentsList;
