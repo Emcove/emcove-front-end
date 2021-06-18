@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import styled, { css } from "styled-components";
 
-import { useHistory, useLocation } from "react-router-dom";
-import queryString from "query-string";
+import { useHistory } from "react-router-dom";
 
 import Carrousel from "../../components/Carrousel/Carrousel";
 import ImageUploader from "../../components/ImageUploader";
@@ -17,7 +16,7 @@ import ProductDetail from "./components/ProductDetail";
 
 import { colors } from "../../styles/palette";
 
-import mock from "./businessMock"; 
+import UserData from "../../utils";
 
 const DataContainer = styled.div`
   display: flex;
@@ -101,22 +100,19 @@ const MoreInfo = styled.div`
 
 const BusinessDetail = () => {
   const history = useHistory();
-  const location = useLocation();
+  // const location = useLocation();
 
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
 
-  const { from } = queryString.parse(location.search);
-
-  let business = mock;
-
+  // const { from } = queryString.parse(location.search);
+  
+  const business = UserData.getUserFromStorage().entrepreneurship;
   const shipmentText = business.doesShipments ? "Hace envíos" : "No hace envíos";
   
-  useEffect(() => {
-    if (from === "nav-header") {
-      // const user = JSON.parse(localStorage('user'));
-      // business = user.entrepreneurship;
-    }
-  });
+  // useEffect(() => { Esto queda acá para cuando yo entre a ver el detalle de un emprendimiento como otro usuario
+  //   if (from === "nav-header") {
+  //   }
+  // });
 
   const handleProductClick = (product) => {
     setProductModalInfo({ visible: true, product });
