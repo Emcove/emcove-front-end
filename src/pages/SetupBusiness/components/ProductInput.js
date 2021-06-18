@@ -316,7 +316,7 @@ const NewProduct = () => {
           </NewImageGroup>
           }
           {productImages.length > 0 && productImages.map((image, idx) => 
-            <PreviewImgContainer>
+            <PreviewImgContainer key={`image-preview-${idx}`}>
               <DeleteImageButton onClick={() => deleteImage(idx)}><Icon type="white-cross" className="delete-image__icon" /></DeleteImageButton>
               <Preview id={`productImage${idx}`} alt={`${idx}product`} src={image} />
             </PreviewImgContainer>
@@ -428,7 +428,7 @@ const NewProduct = () => {
           ))}
         </Properties>
       </PropertiesContainer>
-      <Button primary onClick={createProduct} style={{"width": "25%", "align-self": "center", "margin-top": "20px" }}>Aceptar</Button>
+      <Button primary onClick={createProduct} style={{"width": "25%", "alignSelf": "center", "marginTop": "20px" }}>Aceptar</Button>
     </Container>
   );
 }

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useHistory, useLocation } from "react-router-dom";
-import queryString from 'query-string';
+import queryString from "query-string";
 
 import Layout from "../../components/Layout";
 import Title from '../../components/Title';

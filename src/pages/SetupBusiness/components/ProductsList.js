@@ -33,6 +33,7 @@ const ProductsList = ({ onClickNewProduct }) => {
       <Card>
         {products.map((product, index) => 
           <ProductCard
+            key={product.name}
             name={product.name}
             description={product.description}
             properties={product.props}
