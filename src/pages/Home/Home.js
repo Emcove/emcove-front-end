@@ -11,6 +11,8 @@ import Icon from '../../components/Icons';
 
 import { colors } from '../../styles/palette';
 
+import UserData from '../../utils/userData';
+
 const Content = styled.div`
   width: 84%;
   max-width: 530px;
@@ -41,6 +43,7 @@ const AddBusinessButton = styled.button`
     cursor: pointer;
     box-shadow: 0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%);
   }
+  visibility: ${UserData.hasBusiness()? "hidden":"visible"};
 `;
 
 const Home = () => {
