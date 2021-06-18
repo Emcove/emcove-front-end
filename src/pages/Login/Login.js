@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 
 import { useHistory } from "react-router-dom";
+import ReactLoading from "react-loading";
 
 import Layout from "../../components/Layout";
 import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
 import Link from "../../components/Link";
 import Logo from "../../components/Logo";
-import Snackbar from '../../components/Snackbar/Snackbar';
+import Snackbar from "../../components/Snackbar/Snackbar";
+
+import { colors } from "../../styles/palette";
 
 import AuthenticationService from "../../services/AuthenticationService";
-
 
 AuthenticationService.logout();
 
@@ -21,6 +23,18 @@ const Login = () => {
   const [requiredUsername, setRequiredUsername] = useState(false);
   const [requiredPass, setRequiredPass] = useState(false);
   const [snackBarError, setSnackBarError] = useState(false);
+
+  useEffect(() => {
+    document.addEventListener('keydown', (event) => {
+      if(event.key === "Enter") {
+        submitForm();
+      }
+    });
+
+    return () => {
+      document.removeEventListener('keydown', () => {});
+    }
+  }, []);
   
   const redirect = (view) => {
     history.push(view);
@@ -29,8 +43,9 @@ const Login = () => {
   const submitForm = async () => {
     if (username !== '' && password !== '') {
       try {
-        await AuthenticationService.login(username,password);
-        redirect("/home");
+        AuthenticationService.login(username,password).then(() => {
+          redirect("/home");
+        });
       } catch (error) {
         setSnackBarError(true);
 
@@ -50,6 +65,7 @@ const Login = () => {
 
   return (
     <Layout login>
+      <ReactLoading color={colors.warning} height={'20%'} width={'20%'} />
       <Snackbar
             type="error"
             show={snackBarError}
