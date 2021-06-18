@@ -17,7 +17,7 @@ export default {
             "productionTime": "3",
             "props": [
                 {
-                    "name": "Sabor Bizcochuelo",
+                    "name": "Sabor bizcochuelo",
                     "options": [
                         "Chocolate",
                         "Vainilla"

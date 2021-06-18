@@ -150,7 +150,7 @@ const BusinessDetail = () => {
           <ProductsContainer>
             {business.products.length === 0 && <Text>Aún no hay productos cargados</Text>}
             {business.products.map(product => (
-              <ProductContainer>
+              <ProductContainer key={product.name}>
                 <MoreInfo className="business-detail__button" onClick={() => handleProductClick(product)}>
                   <Icon type="more-options" className="business-detail__product-detail-icon"/>
                 </MoreInfo>
