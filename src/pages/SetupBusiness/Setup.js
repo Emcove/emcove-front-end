@@ -52,12 +52,11 @@ const Setup = () => {
   const [name, setName] = useState('');
   const [logo, setLogo] = useState();
   const [city, setCity] = useState('');
-  const [showSnackbarError, setSnackbarErrorVisibility] = useState(false)
-  const [showSnackbarSuccess, setSnackbarSuccessVisibility] = useState(false)
-  const [snackbarErrorMessage, setSnackBarErrorMessage] = useState("")
   const [doesShipments, setDoesShipments] = useState(false);
   const [categories, setCategories] = useState([]);
   const [products, updateProducts] = useState([]);
+
+  const [snackbarData, setSnackbarData] = useState({});
 
   const [modalProductVisible, setModalVisible] = useState(false);
 
@@ -78,18 +77,17 @@ const Setup = () => {
 
     try{
       await BusinessService.createBusiness(data);
-      setSnackbarSuccessVisibility(true)
-        setTimeout(() => {
-          setSnackbarSuccessVisibility(false);
-          history.push("/home")
-        }, 2000);
+      setSnackbarData({type: "success", message:"Emprendimiento creado con éxito", show: true});
+      setTimeout(() => {
+        setSnackbarData({show:false});
+        history.push("/home")
+      }, 2000);
     }catch(error){
-      setSnackbarErrorVisibility(true)
-      setSnackBarErrorMessage("Error al crear emprendimiento")
-        setTimeout(() => {
-          setSnackbarErrorVisibility(false);
-        }, 2000);
-        return 
+      setSnackbarData({type: "error", message:"Error al crear emprendimiento", show: true});
+      setTimeout(() => {
+        setSnackbarData({show:false});
+      }, 2000);
+      return 
     }
   }
 
@@ -160,16 +158,7 @@ const Setup = () => {
             </div>
             <Link onClick={() => history.push("/home")}>Cancelar</Link>
           </div>
-          <Snackbar
-            message="Emprendimiento creado con éxito"
-            type="success"
-            show={showSnackbarSuccess}
-          />
-          <Snackbar
-            message={snackbarErrorMessage}
-            type="error"
-            show={showSnackbarError}
-          />
+          <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />
         </Content>
         <Modal className="new-product__modal" open={modalProductVisible} setVisibility={() => setModalVisible(!modalProductVisible)}>
           <ProductInput />
