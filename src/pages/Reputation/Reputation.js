@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -13,6 +13,8 @@ import CommentsList from './components/CommentsList';
 import ReputationGraphic from './components/ReputationGraphic';
 
 import { colors } from '../../styles/palette';
+import UserService from '../../services/UserService';
+import UserData from '../../utils';
 
 const Subtitle = styled.h2 `
   font-size: 18px;
@@ -27,46 +29,18 @@ const Reputation = ({ username }) => {
   const location = useLocation();
   const history = useHistory();
 
+  const reputation = UserData.getUserFromStorage().entrepreneurship.reputation;
+  debugger;
   const { from } = queryString.parse(location.search);
-
-  const reputation = {
-    average: 3,
-    comments: [{
-      username: 'Messi',
-      title: 'Messi',
-      description: 'La verdad que la interaccion con este usuario messirve',
-      commentValue: 5,
-    }, {
-      username: 'El kun',
-      title: 'Malardo',
-      description: 'Este chabon se la paso dando vueltas, no contestaba los mensajes y retrasó un montón la entrega',
-      commentValue: 1,
-    }, {
-      username: 'Otro user',
-      title: 'Estuvo bien',
-      description: 'El proceso fue sencillo de llevar, el pedido se realizó con detalle',
-      commentValue: 4,
-    }, {
-      username: 'Otro user 2',
-      title: 'Estuvo bien',
-      description: 'El proceso fue sencillo de llevar, el pedido se realizó con detalle pero tardó en responder',
-      commentValue: 3,
-    }, {
-      username: 'Otro user 3',
-      title: 'No lo recomiendo',
-      description: 'No recomiendo aceptar pedidos de esta persona aunque la transacción se realizó con éxito fue muy dificil coordinar',
-      commentValue: 2,
-    }],
-  };
-
-  useEffect(() => {
+  useEffect( async () => {
     if (from === "nav-header") {
       // Get logged user reputation data
     } else {
-      // get username reputation data 
+      //const resp = await UserService.getMyBusinessReputation()
+      //setReputation(resp.data);
     }
   }, [from, username]);
-
+ 
   const setPageSubtitle = () => {
     switch (from) {
       case 'nav-header': 
@@ -101,7 +75,7 @@ const Reputation = ({ username }) => {
         <Link onClick={() => history.push('/home')}>Volver al listado</Link>
         <Title>Reputación</Title>
         <Subtitle>{setPageSubtitle()}</Subtitle>
-        <ReputationGraphic average={reputation.average}/>
+        <ReputationGraphic average={reputation.averagePoints}/>
         <CommentsList comments={reputation.comments} wording={setEmptyMessage()} />
       </Container>
     </Layout>

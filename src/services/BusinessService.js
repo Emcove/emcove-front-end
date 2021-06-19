@@ -23,12 +23,18 @@ class BusinessService {
       description,
       value
     };
+    debugger;
     try {
         return await axios.post(`${API_URL}/entrepreneurships/${entityId}/reputation/comment`, body);
     } catch (error) {
         return error.response;
     }
   }
+
+  async getOtherBusinessReputation(businessId){
+
+  }
+
 }
 
 export default new BusinessService()

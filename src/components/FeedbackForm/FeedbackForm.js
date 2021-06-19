@@ -59,7 +59,7 @@ const RequiredMessage = styled.span`
   line-height: 3;
 `;
 
-const FeedbackForm = ({ evaluatedUser, onClickCancel, sendFeedback }) => {
+const FeedbackForm = ({ evaluatedEntity, onClickCancel, sendFeedback }) => {
   const [reputationValue, setReputationValue] = useState(0);
   const [feedbackTitle, setFeedbackTitle] = useState('');
   const [feedbackDescription, setFeedbackDescription] = useState('');
@@ -82,13 +82,14 @@ const FeedbackForm = ({ evaluatedUser, onClickCancel, sendFeedback }) => {
       description: feedbackDescription,
       value: reputationValue,
       username: user && user.username,
-      entityId: evaluatedUser,
+      entityId: evaluatedEntity,
     };
 
-    try {
-      await sendFeedback(data);
+    const resp = await sendFeedback(data);
+
+    if(resp.status === 200){
       onClickCancel();
-    } catch (error) {
+    }else{
 
     }
   }
