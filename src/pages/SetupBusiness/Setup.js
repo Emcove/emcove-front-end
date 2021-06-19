@@ -75,20 +75,21 @@ const Setup = () => {
        products
      };
 
-    try{
-      await BusinessService.createBusiness(data);
-      setSnackbarData({type: "success", message:"Emprendimiento creado con éxito", show: true});
-      setTimeout(() => {
+      const resp = await BusinessService.createBusiness(data);
+
+      if(resp.status === 201){
+        setSnackbarData({type: "success", message:"Emprendimiento creado con éxito", show: true});
+        setTimeout(() => {
         setSnackbarData({show:false});
         history.push("/home")
-      }, 2000);
-    }catch(error){
-      setSnackbarData({type: "error", message:"Error al crear emprendimiento", show: true});
-      setTimeout(() => {
+        }, 2000);
+      }else{
+        debugger;
+        setSnackbarData({type: "error", message:"Ya existe un emprendimiento con ese nombre", show: true});
+        setTimeout(() => {
         setSnackbarData({show:false});
-      }, 2000);
-      return 
-    }
+        }, 2000);
+      }
   }
 
 
