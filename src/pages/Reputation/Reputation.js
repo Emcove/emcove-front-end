@@ -102,7 +102,7 @@ const Reputation = ({ username }) => {
         <Title>Reputación</Title>
         <Subtitle>{setPageSubtitle()}</Subtitle>
         <ReputationGraphic average={reputation.average}/>
-        <CommentsList comments={reputation.comments} wording={setEmptyMessage()} />
+        <CommentsList comments={reputation.comments || []} wording={setEmptyMessage()} />
       </Container>
     </Layout>
   );
