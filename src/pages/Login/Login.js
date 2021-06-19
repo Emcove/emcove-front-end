@@ -40,15 +40,14 @@ const Login = () => {
   const submitForm = async () => {
     if (username !== '' && password !== '') {
       setIsLoading(true);
-      try {
-        AuthenticationService.login(username,password).then(() => {
-          setIsLoading(false);
-          redirect("/home");
-        });
-      } catch (error) {
-        setIsLoading(false);
-        setSnackBarError(true);
 
+      const resp = await AuthenticationService.login(username,password);
+      
+      if (resp.status === 200) {
+        redirect("/home");
+      }else{
+        setIsLoading(false); 
+        setSnackBarError(true);
         setTimeout(() => {
           setSnackBarError(false);
         }, 2000);
@@ -58,6 +57,7 @@ const Login = () => {
     if (username === '') {
       setRequiredUsername(true);
     }
+    
     if (password === '') {
       setRequiredPass(true);
     }

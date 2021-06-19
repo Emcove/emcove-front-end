@@ -93,7 +93,7 @@ const Registry = () => {
             redirect("/")
           }, 2000);
         }else{
-        setSnackBarError(true)
+          setSnackBarError(true)
           setSnackBarErrorMessage(resp.data);
           setTimeout(() => {
             setSnackBarError(false);
