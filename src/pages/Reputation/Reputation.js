@@ -41,7 +41,7 @@ const Reputation = ({ username }) => {
   const { from } = queryString.parse(location.search);
 
   useEffect(() => {
-    async function fetchReputation () {
+    async function fetchBusinessReputation () {
       const response = await UserService.getMyBusinessReputation();
       return response;
     }
@@ -57,7 +57,7 @@ const Reputation = ({ username }) => {
         setReputation(response.data);
       });
     } else if (from === "business-detail") {
-      fetchReputation().then(response => {
+      fetchBusinessReputation().then(response => {
         setLoading(false);
         setReputation(response.data);
       });
@@ -102,11 +102,11 @@ const Reputation = ({ username }) => {
         }
         { !isLoading &&
         <>
-        <Link onClick={() => history.push('/home')}>Volver al listado</Link>
-        <Title>Reputación</Title>
-        <Subtitle>{setPageSubtitle()}</Subtitle>
-        <ReputationGraphic average={reputation.averagePoints}/>
-        <CommentsList comments={reputation.comments || []} wording={setEmptyMessage()} />
+          <Link onClick={() => history.push('/home')}>Volver al listado</Link>
+          <Title>Reputación</Title>
+          <Subtitle>{setPageSubtitle()}</Subtitle>
+          <ReputationGraphic average={reputation.averagePoints}/>
+          <CommentsList comments={reputation.comments || []} wording={setEmptyMessage()} />
         </>
         }
       </Container>

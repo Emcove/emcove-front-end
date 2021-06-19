@@ -175,6 +175,7 @@ const Orders = () => {
           evaluatedEntity={evaluatedUser}
           onClickCancel={() => setModalVisible(false)}
           sendFeedback={BusinessService.registerFeedback}
+          sender={user.username}
         />
       </Modal>
       <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />

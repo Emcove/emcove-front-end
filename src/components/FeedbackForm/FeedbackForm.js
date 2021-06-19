@@ -9,8 +9,6 @@ import TextInput from "../TextInput";
 
 import { colors } from "../../styles/palette";
 
-import UserData from '../../utils';
-
 const FormContainer = styled.div`
   margin: auto auto 60px auto;
 `;
@@ -59,7 +57,7 @@ const RequiredMessage = styled.span`
   line-height: 3;
 `;
 
-const FeedbackForm = ({ evaluatedEntity, onClickCancel, sendFeedback }) => {
+const FeedbackForm = ({ evaluatedEntity, onClickCancel, sendFeedback, sender }) => {
   const [reputationValue, setReputationValue] = useState(0);
   const [feedbackTitle, setFeedbackTitle] = useState('');
   const [feedbackDescription, setFeedbackDescription] = useState('');
@@ -67,8 +65,6 @@ const FeedbackForm = ({ evaluatedEntity, onClickCancel, sendFeedback }) => {
   const [requiredLvl, setRequiredLevel] = useState(false);
 
   const sendUserReputation = async () => {
-    const user = UserData.getUserFromStorage();
-
     if (reputationValue === 0) {
       return setRequiredLevel(true);
     }
@@ -81,15 +77,15 @@ const FeedbackForm = ({ evaluatedEntity, onClickCancel, sendFeedback }) => {
       title: feedbackTitle,
       description: feedbackDescription,
       value: reputationValue,
-      username: user && user.username,
+      username: sender,
       entityId: evaluatedEntity,
     };
 
     const resp = await sendFeedback(data);
 
-    if(resp.status === 200){
+    if (resp.status === 200) {
       onClickCancel();
-    }else{
+    } else {
 
     }
   }
