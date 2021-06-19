@@ -87,8 +87,8 @@ const Reputation = ({ username }) => {
         <Link onClick={() => history.push('/home')}>Volver al listado</Link>
         <Title>Reputación</Title>
         <Subtitle>{setPageSubtitle()}</Subtitle>
-        <ReputationGraphic average={reputation.averagePoints}/>
-        <CommentsList comments={reputation.comments} wording={setEmptyMessage()} />
+        <ReputationGraphic average={reputation.average}/>
+        <CommentsList comments={reputation.comments || []} wording={setEmptyMessage()} />
       </Container>
     </Layout>
   );
