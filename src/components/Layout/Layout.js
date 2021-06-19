@@ -8,6 +8,8 @@ import { colors } from '../../styles/palette';
 import Link from '../Link';
 import Icons from '../Icons';
 
+import UserData from "../../utils";
+
 const Container = styled.div`
   background-color: ${colors.background};
   height: 100vh;
@@ -111,6 +113,8 @@ const Layout = ({ children, login, registry, className }) => {
     history.push("/home");
   }
 
+  const user = UserData.getUserFromStorage();
+
   return (
     <Container className={className}>
       {!login &&
@@ -122,10 +126,11 @@ const Layout = ({ children, login, registry, className }) => {
           {!registry && <ProfileAccess onClick={() => showProfileOptions(!profileOptions)}><Icons type="user" /></ProfileAccess>}
           {profileOptions &&
             <ProfileOptions>
-              <Option onClick={() => history.push('/userProfile')}>Mi perfil</Option>
-              <Option onClick={() => history.push('/reputation?from=nav-header')}>Mi reputación</Option>
-              <Option onClick={() => history.push('/orders')}>Ver pedidos que hice</Option>
-              <Option onClick={() => history.push('/business?from=nav-header')}>Gestionar mi emprendimiento</Option>
+              {user && <Option onClick={() => history.push('/userProfile')}>Mi perfil</Option>}
+              {user && <Option onClick={() => history.push('/reputation?from=nav-header')}>Mi reputación</Option>}
+              {user && <Option onClick={() => history.push('/orders')}>Ver pedidos que hice</Option>}
+              {user && user.entrepreneurship && <Option onClick={() => history.push('/business?from=nav-header')}>Gestionar mi emprendimiento</Option>}
+              {!user && <Option onClick={() => history.push('/')}>Iniciar sesión</Option>}
             </ProfileOptions>
           }
         </Header>
