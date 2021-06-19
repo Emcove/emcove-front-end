@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
 
 import { colors } from '../../styles/palette';
@@ -63,21 +63,6 @@ const Dropdown = ({ label, options, placeholder, onClickOption }) => {
   const [showingPlaceholder, setPlaceholder] = useState(placeholder || options[0]);
   const [showOptions, setShowOptions] = useState(false);
 
-  useEffect(() => {
-    const ignoreClickOnMeElement = document.getElementById('dropdown');
-
-    document.addEventListener('click', (event) => {
-      const isClickInsideElement = ignoreClickOnMeElement.contains(event.target);
-      if (!isClickInsideElement) {
-        setShowOptions(false);
-      }
-    });
-
-    return () => {
-      document.removeEventListener('click', () => {})
-    }
-  }, [setShowOptions]);
-
   const optionClicked = (option) => {
     setPlaceholder(option);
     onClickOption && onClickOption(option);
@@ -85,7 +70,7 @@ const Dropdown = ({ label, options, placeholder, onClickOption }) => {
   };
 
   return (
-    <Container className="dropdown-component" id="dropdown">
+    <Container className="dropdown-component">
       <Label>{label}</Label>
       <DropdownDispatcher onClick={() => setShowOptions(!showOptions)}>
         {showingPlaceholder}
