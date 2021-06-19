@@ -37,7 +37,7 @@ const CommentsList = ({ comments, wording }) => (
   <>
     <Title>Comentarios</Title>
     <Container className="comment-list__container">
-      {comments.map(comment => (
+      {comments && comments.map(comment => (
         <Card animated vertical className="comment-list__card">
           <UserInfo>
             <User>{comment.username}</User>
@@ -49,7 +49,7 @@ const CommentsList = ({ comments, wording }) => (
           </div>
         </Card>
       ))}
-      { comments.length === 0 && <EmptyMessage>{wording}</EmptyMessage>}
+      {(!comments || comments.length === 0) && <EmptyMessage>{wording}</EmptyMessage>}
     </Container>
   </>
 );
