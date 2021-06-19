@@ -149,14 +149,15 @@ const UserProfile = () => {
         email,
         password
       };
-      try{
-        await UserService.updateUserData(data);
+
+      const resp = await UserService.updateUserData(data);
+      if(resp.status === 200){
         setSnackbarData({type: "success", message:"Datos guardados con éxito", show: true})
         setTimeout(() => {
           setSnackbarData({show:false});
           redirect("/home")
         }, 2000);
-      }catch(error){
+      }else{
         setSnackbarData({type: "error", message:"Error actualizando datos, contacte al administrador.", show:true});
         setTimeout(() => {
           setSnackbarData({show:false});
