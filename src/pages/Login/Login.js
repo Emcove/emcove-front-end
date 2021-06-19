@@ -37,7 +37,7 @@ const Login = () => {
     history.push(view);
   };
 
-  const submitForm = () => {
+  const submitForm = async () => {
     if (username !== '' && password !== '') {
       setIsLoading(true);
       try {
