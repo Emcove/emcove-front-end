@@ -48,6 +48,7 @@ const AddBusinessButton = styled.button`
 const Home = () => {
   const history = useHistory();
   const userHasBusiness = UserData.hasBusiness();
+  const user = UserData.getUserFromStorage();
   return (
     <Layout>
       <Content>
@@ -70,7 +71,7 @@ const Home = () => {
           <ListItem animated title="Emprendimiento 4" description="Descripción" />
           <ListItem animated title="Emprendimiento 4" description="Descripción" />
         </List>
-        {!userHasBusiness && <AddBusinessButton onClick={() => history.push('/createBusiness')}>
+        {user && !userHasBusiness && <AddBusinessButton onClick={() => history.push('/createBusiness')}>
           <Icon type="add" className="add-button__icon" />
         </AddBusinessButton>}
       </Content>
