@@ -30,7 +30,7 @@ class UserService {
         }
     }
 
-    async getOtherUserReputation(username){
+    async getOtherUserReputation(username) {
         try{
             const resp = await axios.get(`${API_URL}/users/login`);
             return resp;
@@ -43,7 +43,7 @@ class UserService {
         try{
             const resp = await axios.get(`${API_URL}/users/myReputation`);
             let user = UserData.getUserFromStorage();
-            if(user){
+            if (user) {
                 user.reputation = resp.data;
                 localStorage.setItem('user', JSON.stringify(user));
             }

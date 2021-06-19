@@ -28,16 +28,28 @@ const Container = styled.div`
 const Reputation = ({ username }) => {
   const location = useLocation();
   const history = useHistory();
-
-  const reputation = UserData.getUserFromStorage().entrepreneurship.reputation;
-  debugger;
+  const [reputation, setReputation] = useState({});
   const { from } = queryString.parse(location.search);
-  useEffect( async () => {
+
+  useEffect(() => {
+    async function fetchReputation () {
+      const response = await UserService.getMyBusinessReputation();
+      return response;
+    }
+
+    async function fetchUserReputation () {
+      const response = await UserService.getMyReputation();
+      return response;
+    }
+  
     if (from === "nav-header") {
-      // Get logged user reputation data
-    } else {
-      //const resp = await UserService.getMyBusinessReputation()
-      //setReputation(resp.data);
+      fetchUserReputation().then(response => {
+        setReputation(response.data);
+      });
+    } else if (from === "business-detail") {
+      fetchReputation().then(response => {
+        setReputation(response.data);
+      });
     }
   }, [from, username]);
  
