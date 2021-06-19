@@ -41,7 +41,7 @@ const CommentsList = ({ comments, wording }) => (
         <Card animated vertical className="comment-list__card">
           <UserInfo>
             <User>{comment.username}</User>
-            <Icon type={`reputation-${comment.commentValue}`} className="comment-list__icon" />
+            <Icon type={`reputation-${comment.value}`} className="comment-list__icon" />
           </UserInfo>
           <div>
             <span>{comment.title}</span>

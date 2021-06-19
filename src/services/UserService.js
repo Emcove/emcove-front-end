@@ -2,6 +2,8 @@ import axios from 'axios'
 
 import { API_URL } from '../Constants'
 
+import UserData from '../utils';
+
 class UserService {
     async updateUserData(data) {
         try{
@@ -24,6 +26,46 @@ class UserService {
         try {
             return await axios.post(`${API_URL}/users/${entityId}/reputation/comment`, body);
         } catch (error) {
+            return error.response;
+        }
+    }
+
+    async getOtherUserReputation(username) {
+        try{
+            const resp = await axios.get(`${API_URL}/users/login`);
+            return resp;
+        }catch(error){
+            return error.response;
+        }
+    }
+
+    async getMyReputation(){
+        try{
+            const resp = await axios.get(`${API_URL}/users/myReputation`);
+            let user = UserData.getUserFromStorage();
+            if (user) {
+                user.reputation = resp.data;
+                localStorage.setItem('user', JSON.stringify(user));
+            }
+            return resp;
+        }catch(error){
+            return error.response;
+        }
+    }
+
+    async getMyBusinessReputation(){
+        try{
+            let user = UserData.getUserFromStorage();
+            const resp = await axios.get(`${API_URL}/entrepreneurships/${user.entrepreneurship.id}/reputation`);
+            if (user){
+                let entrepreneurship = user.entrepreneurship;
+                if(entrepreneurship){
+                    user.entrepreneurship.reputation = resp.data;    
+                }
+                localStorage.setItem('user', JSON.stringify(user));
+            }
+            return resp;
+        }catch(error){
             return error.response;
         }
     }

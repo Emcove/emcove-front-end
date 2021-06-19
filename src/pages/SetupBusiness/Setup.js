@@ -84,7 +84,6 @@ const Setup = () => {
         history.push("/home")
         }, 2000);
       }else{
-        debugger;
         setSnackbarData({type: "error", message:"Ya existe un emprendimiento con ese nombre", show: true});
         setTimeout(() => {
         setSnackbarData({show:false});

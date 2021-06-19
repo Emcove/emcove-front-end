@@ -6,10 +6,9 @@ import Icon from "../Icons";
 import Title from "../Title";
 import Button from "../Button";
 import TextInput from "../TextInput";
+import Snackbar from '../Snackbar';
 
 import { colors } from "../../styles/palette";
-
-import UserData from '../../utils';
 
 const FormContainer = styled.div`
   margin: auto auto 60px auto;
@@ -59,16 +58,16 @@ const RequiredMessage = styled.span`
   line-height: 3;
 `;
 
-const FeedbackForm = ({ evaluatedUser, onClickCancel, sendFeedback }) => {
+const FeedbackForm = ({ evaluatedEntity, onClickCancel, sendFeedback, sender }) => {
   const [reputationValue, setReputationValue] = useState(0);
   const [feedbackTitle, setFeedbackTitle] = useState('');
   const [feedbackDescription, setFeedbackDescription] = useState('');
   const [requiredTitle, setRequiredTitle] = useState(false);
   const [requiredLvl, setRequiredLevel] = useState(false);
 
-  const sendUserReputation = async () => {
-    const user = UserData.getUserFromStorage();
+  const [snackbarData, setSnackbarData] = useState({});
 
+  const sendUserReputation = async () => {
     if (reputationValue === 0) {
       return setRequiredLevel(true);
     }
@@ -81,15 +80,23 @@ const FeedbackForm = ({ evaluatedUser, onClickCancel, sendFeedback }) => {
       title: feedbackTitle,
       description: feedbackDescription,
       value: reputationValue,
-      username: user && user.username,
-      entityId: evaluatedUser,
+      username: sender,
+      entityId: evaluatedEntity,
     };
 
-    try {
-      await sendFeedback(data);
-      onClickCancel();
-    } catch (error) {
+    const resp = await sendFeedback(data);
 
+    if (resp.status === 200) {
+      setSnackbarData({type: "success", message:"Comentario enviado correctamente", show:true});
+      setTimeout(() => {
+        setSnackbarData({show:false});
+        onClickCancel();
+      }, 2000);
+    } else {
+      setSnackbarData({type: "error", message:"Error al enviar comentario", show:true});
+      setTimeout(() => {
+        setSnackbarData({show:false});
+      }, 2000);
     }
   }
 
@@ -141,6 +148,7 @@ const FeedbackForm = ({ evaluatedUser, onClickCancel, sendFeedback }) => {
         <Button primary onClick={() => sendUserReputation()}>Enviar</Button>
         <Link secondary onClick={onClickCancel}>Cancelar</Link>
       </ActionsContainer>
+      <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />
     </FormContainer>
   );
 }

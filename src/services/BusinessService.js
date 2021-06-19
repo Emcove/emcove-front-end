@@ -29,6 +29,11 @@ class BusinessService {
         return error.response;
     }
   }
+
+  async getOtherBusinessReputation(businessId){
+
+  }
+
 }
 
 export default new BusinessService()
