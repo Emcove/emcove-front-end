@@ -23,7 +23,6 @@ class BusinessService {
       description,
       value
     };
-    debugger;
     try {
         return await axios.post(`${API_URL}/entrepreneurships/${entityId}/reputation/comment`, body);
     } catch (error) {

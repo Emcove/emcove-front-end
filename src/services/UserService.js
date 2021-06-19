@@ -55,7 +55,6 @@ class UserService {
 
     async getMyBusinessReputation(){
         try{
-            debugger;
             let user = UserData.getUserFromStorage();
             const resp = await axios.get(`${API_URL}/entrepreneurships/${user.entrepreneurship.id}/reputation`);
             if (user){

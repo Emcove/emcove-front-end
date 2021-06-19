@@ -1,4 +1,5 @@
 import React, { useEffect,useState } from 'react';
+import ReactLoading from "react-loading";
 
 import styled from 'styled-components';
 
@@ -14,7 +15,6 @@ import ReputationGraphic from './components/ReputationGraphic';
 
 import { colors } from '../../styles/palette';
 import UserService from '../../services/UserService';
-import UserData from '../../utils';
 
 const Subtitle = styled.h2 `
   font-size: 18px;
@@ -25,10 +25,19 @@ const Container = styled.div`
   width: 100%;
 `;
 
+const Loading = styled.div`
+  width: 100%;
+  padding: 15% 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Reputation = ({ username }) => {
   const location = useLocation();
   const history = useHistory();
   const [reputation, setReputation] = useState({});
+  const [isLoading, setLoading] = useState(true);
   const { from } = queryString.parse(location.search);
 
   useEffect(() => {
@@ -44,14 +53,16 @@ const Reputation = ({ username }) => {
   
     if (from === "nav-header") {
       fetchUserReputation().then(response => {
+        setLoading(false);
         setReputation(response.data);
       });
     } else if (from === "business-detail") {
       fetchReputation().then(response => {
+        setLoading(false);
         setReputation(response.data);
       });
     }
-  }, [from, username]);
+  }, [from]);
  
   const setPageSubtitle = () => {
     switch (from) {
@@ -84,11 +95,20 @@ const Reputation = ({ username }) => {
   return (
     <Layout>
       <Container>
+        {isLoading && 
+          <Loading>
+            <ReactLoading className="login-button__loading" type="spin" color={colors.primary} height="15%" width="15%" />
+          </Loading>
+        }
+        { !isLoading &&
+        <>
         <Link onClick={() => history.push('/home')}>Volver al listado</Link>
         <Title>Reputación</Title>
         <Subtitle>{setPageSubtitle()}</Subtitle>
-        <ReputationGraphic average={reputation.average}/>
+        <ReputationGraphic average={reputation.averagePoints}/>
         <CommentsList comments={reputation.comments || []} wording={setEmptyMessage()} />
+        </>
+        }
       </Container>
     </Layout>
   );
