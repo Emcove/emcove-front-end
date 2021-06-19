@@ -6,6 +6,7 @@ import Icon from "../Icons";
 import Title from "../Title";
 import Button from "../Button";
 import TextInput from "../TextInput";
+import Snackbar from '../Snackbar';
 
 import { colors } from "../../styles/palette";
 
@@ -64,6 +65,8 @@ const FeedbackForm = ({ evaluatedEntity, onClickCancel, sendFeedback, sender }) 
   const [requiredTitle, setRequiredTitle] = useState(false);
   const [requiredLvl, setRequiredLevel] = useState(false);
 
+  const [snackbarData, setSnackbarData] = useState({});
+
   const sendUserReputation = async () => {
     if (reputationValue === 0) {
       return setRequiredLevel(true);
@@ -84,9 +87,16 @@ const FeedbackForm = ({ evaluatedEntity, onClickCancel, sendFeedback, sender }) 
     const resp = await sendFeedback(data);
 
     if (resp.status === 200) {
-      onClickCancel();
+      setSnackbarData({type: "success", message:"Comentario enviado correctamente", show:true});
+      setTimeout(() => {
+        setSnackbarData({show:false});
+        onClickCancel();
+      }, 2000);
     } else {
-
+      setSnackbarData({type: "error", message:"Error al enviar comentario", show:true});
+      setTimeout(() => {
+        setSnackbarData({show:false});
+      }, 2000);
     }
   }
 
@@ -138,6 +148,7 @@ const FeedbackForm = ({ evaluatedEntity, onClickCancel, sendFeedback, sender }) 
         <Button primary onClick={() => sendUserReputation()}>Enviar</Button>
         <Link secondary onClick={onClickCancel}>Cancelar</Link>
       </ActionsContainer>
+      <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />
     </FormContainer>
   );
 }
