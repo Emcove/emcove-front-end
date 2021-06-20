@@ -97,7 +97,7 @@ const Reputation = ({ username }) => {
       <Container>
         {isLoading && 
           <Loading>
-            <ReactLoading className="login-button__loading" type="spin" color={colors.primary} height="15%" width="15%" />
+            <ReactLoading className="login-button__loading" type="spin" color={colors.primary} height="10%" width="10%" />
           </Loading>
         }
         { !isLoading &&

@@ -26,7 +26,7 @@ const Main = () => (
         <span key="setup-business"><NavLink exact to="/createBusiness">Setup Business</NavLink></span>
         <span key="userProfile"><NavLink exact to="/userProfile`">User Profile</NavLink></span>
         <span key="reputation"><NavLink exact to="/reputation`">Reputation</NavLink></span>
-        <span key="businessDetail"><NavLink exact to="/Business">Business Detail</NavLink></span>
+        <span key="businessDetail"><NavLink exact to="/business">Business Detail</NavLink></span>
         <span key="orders"><NavLink exact to="/orders`">Pedidos</NavLink></span>
       </div>
       <>

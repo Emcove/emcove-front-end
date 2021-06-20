@@ -80,8 +80,8 @@ const Setup = () => {
       if(resp.status === 201){
         setSnackbarData({type: "success", message:"Emprendimiento creado con éxito", show: true});
         setTimeout(() => {
-        setSnackbarData({show:false});
-        history.push("/home")
+          setSnackbarData({show:false});
+          history.push("/business?from=nav-header")
         }, 2000);
       }else{
         setSnackbarData({type: "error", message:resp.data, show: true});

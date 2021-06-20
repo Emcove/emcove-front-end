@@ -75,10 +75,6 @@ const UserProfile = () => {
   const [city, setCity] = useState(loggedUser.city);
   const [adult, setAdult] = useState(loggedUser.adult);
 
-  const redirect = (view) => {
-    history.push(view);
-  }
-
   const setRequiredFields = () => {
     if (email === '') {
       setRequiredEmail(true);
@@ -152,7 +148,6 @@ const UserProfile = () => {
         setSnackbarData({type: "success", message:"Datos guardados con éxito", show: true})
         setTimeout(() => {
           setSnackbarData({show:false});
-          redirect("/home")
         }, 2000);
       }else{
         setSnackbarData({type: "error", message:"Error actualizando datos, contacte al administrador.", show:true});
