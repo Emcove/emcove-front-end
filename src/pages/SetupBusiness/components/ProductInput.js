@@ -54,7 +54,7 @@ const PropertiesContainer = styled.div`
 
 const Subtitle = styled.span`
   font-size: 18px;
-  font-family: 'Roboto';
+  font-family: 'Raleway', sans-serif;
   color: ${colors.textColor};
 `;
 

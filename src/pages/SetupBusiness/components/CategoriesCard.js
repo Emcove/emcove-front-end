@@ -25,9 +25,10 @@ const ChecksContainer = styled.div`
   margin-bottom: 12px;
 `;
 
-const Text = styled.span`
-    color: rgba(0,0,0,0.4);
-    font-size: 14px;
+const Text = styled.p`
+  color: rgba(0,0,0,0.4);
+  font-size: 14px;
+  font-weight: 500;
 `;
 
 const CategoriesPlaceholder = styled.div`

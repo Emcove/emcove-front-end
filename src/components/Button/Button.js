@@ -11,7 +11,8 @@ const Button = styled.button`
   font-size: 14px;
   border: solid 2px ${colors.primary};
   margin: 0 4px;
-
+  font-family: 'Raleway';
+  
   ${props => props.primary && css`
     background: ${colors.primary};
     color: white;

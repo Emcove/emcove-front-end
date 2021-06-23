@@ -62,6 +62,7 @@ const Logo = styled.div`
 
 const CompanyName = styled.h1`
   margin-left: 18px;
+  font-size: 32px;
   color: ${colors.textColor};
 `
 

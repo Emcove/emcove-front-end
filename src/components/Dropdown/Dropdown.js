@@ -19,7 +19,7 @@ const DropdownDispatcher = styled.button`
   background-color: ${colors.white};
   border: solid 1px ${colors.grayBorder};
   border-radius: 3px;
-  font-family: 'Roboto';
+  font-family: 'Raleway', sans-serif;
   text-align: left;
   margin: 0 16px 16px 0;
 
