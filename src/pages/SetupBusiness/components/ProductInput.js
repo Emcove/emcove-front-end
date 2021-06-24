@@ -52,13 +52,13 @@ const PropertiesContainer = styled.div`
   border-bottom: solid 1px #b3aeae3b;
 `;
 
-const Subtitle = styled.span`
+const Subtitle = styled.p`
   font-size: 18px;
   font-family: 'Raleway', sans-serif;
   color: ${colors.textColor};
 `;
 
-const Label = styled.span`
+const Label = styled.p`
   font-size: 14px;
   color: ${colors.lightGray};
   margin-right: 8px;
@@ -147,7 +147,8 @@ const AddImageButton = styled.button`
   transition: box-shadow .08s linear,min-width .15s cubic-bezier(0.4,0.0,0.2,1);
   font-size: 10px;
   color: ${colors.textColor};
-
+  font-family: 'Raleway', sans-serif;
+  
   &:hover {
     cursor: pointer;
     box-shadow:  0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);

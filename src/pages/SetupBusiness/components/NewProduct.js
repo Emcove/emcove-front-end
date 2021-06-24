@@ -26,9 +26,10 @@ const CreateProduct = styled.button`
   }
 `;
 
-const Text = styled.span`
+const Text = styled.p`
   margin-left: 16px;
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 400;
   color: rgba(0, 0, 0, 0.4);
 `;
 

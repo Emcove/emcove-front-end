@@ -34,7 +34,7 @@ const TitleContainer = styled.div`
   align-items: flex-start;
 `;
 
-const Text = styled.span `
+const Text = styled.p `
   font-size: 16px;
   color: ${colors.textColor};
   margin: 4px 0 ;

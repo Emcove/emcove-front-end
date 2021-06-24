@@ -12,14 +12,14 @@ const InputContainer = styled.div`
   margin-right: 16px;
 `;
 
-const WarningMessage = styled.span`
+const WarningMessage = styled.p`
   font-family: 'Raleway', sans-serif;
   font-size: 10px;
   color: ${colors.error};
   margin: .61538em 0 0 .46154em;
 `;
 
-const Label = styled.span`
+const Label = styled.p`
   font-family: 'Raleway', sans-serif;
   color: #808080;
   font-size: 14px;
@@ -43,7 +43,7 @@ const TextArea = styled.textarea`
   resize: none;
 `;
 
-const Hint = styled.span`
+const Hint = styled.p`
   color: ${colors.lightGray};
   font-size: 10px;
   margin-top: 4px;
