@@ -38,7 +38,7 @@ const Loading = ({ component }) => {
     );
   }
   return (
-    <Container component>
+    <Container>
       <ReactLoading type="spin" color={colors.primary} height="10%" width="10%" />
     </Container>
   )
