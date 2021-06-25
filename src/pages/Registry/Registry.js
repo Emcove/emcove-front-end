@@ -103,7 +103,7 @@ const Registry = () => {
           setSnackBarErrorMessage(resp.data);
           setTimeout(() => {
             setSnackBarError(false);
-          }, 2000);
+          }, 1500);
           return 
         }
     }

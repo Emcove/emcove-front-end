@@ -108,7 +108,7 @@ const UserProfile = () => {
       setSnackbarData({type: "error", message:"El email y la confirmación del email no coinciden", show:true});
       setTimeout(() => {
         setSnackbarData({show:false});
-      }, 2000);
+      }, 1500);
       return false;
     }
 
@@ -118,7 +118,7 @@ const UserProfile = () => {
       setSnackbarData({type: "error", message:"La contraseña y la confirmación de la contraseña no coinciden", show:true});
       setTimeout(() => {
         setSnackbarData({show:false});
-      }, 2000);
+      }, 1500);
       return false;
     }
       return true;
@@ -148,12 +148,12 @@ const UserProfile = () => {
         setSnackbarData({type: "success", message:"Datos guardados con éxito", show: true})
         setTimeout(() => {
           setSnackbarData({show:false});
-        }, 2000);
+        }, 1500);
       }else{
         setSnackbarData({type: "error", message:"Error actualizando datos, contacte al administrador.", show:true});
         setTimeout(() => {
           setSnackbarData({show:false});
-        }, 2000);
+        }, 1500);
       }
     }
 

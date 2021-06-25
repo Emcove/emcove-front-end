@@ -86,13 +86,13 @@ const Setup = () => {
         setTimeout(() => {
           setSnackbarData({show:false});
           history.push("/business?from=nav-header")
-        }, 2000);
+        }, 1500);
       } else {
         setLoading(false);
         setSnackbarData({type: "error", message:resp.data, show: true});
         setTimeout(() => {
         setSnackbarData({show:false});
-        }, 2000);
+        }, 1500);
       }
   }
 

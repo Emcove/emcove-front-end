@@ -50,7 +50,7 @@ const Login = () => {
         setSnackBarError(true);
         setTimeout(() => {
           setSnackBarError(false);
-        }, 2000);
+        }, 1500);
       }    
     }
 
