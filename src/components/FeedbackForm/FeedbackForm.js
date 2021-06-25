@@ -7,6 +7,7 @@ import Title from "../Title";
 import Button from "../Button";
 import TextInput from "../TextInput";
 import Snackbar from '../Snackbar';
+import Loading from '../Loading';
 
 import { colors } from "../../styles/palette";
 
@@ -66,6 +67,9 @@ const FeedbackForm = ({ evaluatedEntity, onClickCancel, sendFeedback, sender }) 
   const [requiredLvl, setRequiredLevel] = useState(false);
 
   const [snackbarData, setSnackbarData] = useState({});
+  const [enabled, setEnableFields] = useState(true);
+  const [isLoading, setLoading] = useState(false);
+  const [displayButtons, setDisplayButtons] = useState(true);
 
   const sendUserReputation = async () => {
     if (reputationValue === 0) {
@@ -83,20 +87,27 @@ const FeedbackForm = ({ evaluatedEntity, onClickCancel, sendFeedback, sender }) 
       username: sender,
       entityId: evaluatedEntity,
     };
-
+    setRequiredLevel(false);
+    setRequiredTitle(false);
+    setEnableFields(false);
+    setLoading(true);
     const resp = await sendFeedback(data);
 
     if (resp.status === 200) {
       setSnackbarData({type: "success", message:"Comentario enviado correctamente", show:true});
+      setLoading(false);
+      setDisplayButtons(false);
       setTimeout(() => {
         setSnackbarData({show:false});
         onClickCancel();
-      }, 2000);
+      }, 1500);
     } else {
       setSnackbarData({type: "error", message:"Error al enviar comentario", show:true});
+      setLoading(false);
+      setDisplayButtons(false);
       setTimeout(() => {
         setSnackbarData({show:false});
-      }, 2000);
+      }, 1500);
     }
   }
 
@@ -134,6 +145,7 @@ const FeedbackForm = ({ evaluatedEntity, onClickCancel, sendFeedback, sender }) 
         id="feedbackTitle"
         onChange={setFeedbackTitle}
         required={requiredTitle}
+        disabled={!enabled}
       />
       <TextInput
         type="text"
@@ -143,11 +155,18 @@ const FeedbackForm = ({ evaluatedEntity, onClickCancel, sendFeedback, sender }) 
         id="feedbackDescription"
         onChange={setFeedbackDescription}
         multiline
+        disabled={!enabled}
       />
+      {displayButtons && 
       <ActionsContainer>
-        <Button primary onClick={() => sendUserReputation()}>Enviar</Button>
-        <Link secondary onClick={onClickCancel}>Cancelar</Link>
-      </ActionsContainer>
+        <Button primary onClick={() => sendUserReputation()}>
+          {!isLoading && "Enviar"}
+          {isLoading && 
+            <Loading component />
+          }
+        </Button>
+        <Link secondary onClick={onClickCancel} disabled={!enabled}>Cancelar</Link>
+      </ActionsContainer>}
       <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />
     </FormContainer>
   );

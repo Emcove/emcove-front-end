@@ -13,6 +13,7 @@ import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import Snackbar from '../../components/Snackbar';
 import Modal from '../../components/Modal';
+import Loading from '../../components/Loading';
 
 import ProductsList from './components/ProductsList';
 import Categories from './components/CategoriesCard';
@@ -60,6 +61,8 @@ const Setup = () => {
 
   const [modalProductVisible, setModalVisible] = useState(false);
 
+  const [isLoading, setLoading] = useState(false);
+
   useEffect(() => {
     // Aca vamos a tener que hacer el fetch de los datos y setearlos en el state en caso
     // de que sea pantalla de edicion
@@ -74,16 +77,18 @@ const Setup = () => {
        categories:categories.map(c => c.toUpperCase()),
        products
      };
-
+      setLoading(true);
       const resp = await BusinessService.createBusiness(data);
 
-      if(resp.status === 201){
+      if (resp.status === 201){
+        setLoading(false);
         setSnackbarData({type: "success", message:"Emprendimiento creado con éxito", show: true});
         setTimeout(() => {
           setSnackbarData({show:false});
           history.push("/business?from=nav-header")
         }, 2000);
-      }else{
+      } else {
+        setLoading(false);
         setSnackbarData({type: "error", message:resp.data, show: true});
         setTimeout(() => {
         setSnackbarData({show:false});
@@ -108,6 +113,7 @@ const Setup = () => {
 
   return (
     <Layout>
+      { isLoading && <Loading /> }
       <BusinessProvider value={{ name, logo, city, categories, products, addNewProduct, updateProducts }}>
         <Content>
           <div className="setup-business__essentials">

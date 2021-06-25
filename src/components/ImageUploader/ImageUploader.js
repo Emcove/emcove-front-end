@@ -58,9 +58,9 @@ const InputContainer = styled.button`
 `;
 
 const ImageInput = styled.input`
-    visibility: hidden;
-    width: 0;          
-    height: 0;
+  visibility: hidden;
+  width: 0;          
+  height: 0;
 `;
 
 const MiniLabel = styled.span`
@@ -69,9 +69,9 @@ const MiniLabel = styled.span`
 `;
 
 const Preview = styled.img`
-    height: 100%;
-    width: fit-content;
-    display: inline;
+  height: 100%;
+  width: auto;
+  display: inline;
 
   ${props => props.shape === "round" && css `
     max-width: 132px;
