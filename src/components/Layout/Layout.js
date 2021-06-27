@@ -105,7 +105,7 @@ const Layout = ({ children, login, registry, className }) => {
       {!login &&
         <Header>
           <div className="components-container" onClick={redirectHome}>
-            <Icons type="horizontal-color-logo" className="header-isologo"/>
+            <Icons type="horizontal-color-logo" />
           </div>
           {!registry && <ProfileAccess onClick={() => showProfileOptions(!profileOptions)}><Icons type="user" /></ProfileAccess>}
           {profileOptions &&
