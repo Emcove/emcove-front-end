@@ -9,12 +9,15 @@ import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import Link from '../../components/Link';
 import Checkbox from '../../components/Checkbox';
-import Snackbar from '../../components/Snackbar/Snackbar';
+import Snackbar from '../../components/Snackbar';
+import Loading from '../../components/Loading';
 
 import AuthenticationService from "../../services/AuthenticationService"
 
 const Registry = () => {
   const history = useHistory();
+
+  const [isLoading, setLoading] = useState(false);
 
   // Account Data
   const [username, setUsername] = useState('');
@@ -85,19 +88,22 @@ const Registry = () => {
 
   const submitRegistry = async () => {
     if (allRequiredFieldsComplete()) {
+        setLoading(true);
         const resp = await AuthenticationService.register(username, password,email,name,surname,city,adult);
         if (resp.status === 200) {
           setSnackBarSuccess(true);
           setTimeout(() => {
+            setLoading(false);
             setSnackBarSuccess(false);
-            redirect("/")
-          }, 2000);
-        }else{
-          setSnackBarError(true)
+            redirect("/");
+          }, 1500);
+        } else {
+          setLoading(false);
+          setSnackBarError(true);
           setSnackBarErrorMessage(resp.data);
           setTimeout(() => {
             setSnackBarError(false);
-          }, 2000);
+          }, 1500);
           return 
         }
     }
@@ -106,6 +112,7 @@ const Registry = () => {
 
   return (
     <Layout registry>
+      { isLoading && <Loading /> }
       <div className="registry-page">
         <Title>Registro</Title>
         <div className="registry-container">

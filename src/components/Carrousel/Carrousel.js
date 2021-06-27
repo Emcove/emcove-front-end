@@ -45,7 +45,7 @@ const Container = styled.div`
 const Preview = styled.img`
     height: 100%;
     max-width: 100%;
-    width: fit-content;
+    width: auto;
     display: inline;
 `;
 

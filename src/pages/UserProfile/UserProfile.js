@@ -10,6 +10,7 @@ import TextInput from "../../components/TextInput";
 import Checkbox from "../../components/Checkbox";
 import Snackbar from "../../components/Snackbar";
 import Card from "../../components/Card";
+import Loading from "../../components/Loading";
 
 import UserData from '../../utils';
 import Button from '../../components/Button';
@@ -56,6 +57,7 @@ const UserProfile = () => {
   const [avatar, setUserAvatar] = useState(loggedUser.avatar);
   const [editState, setEditState] = useState(false);
   const [snackbarData, setSnackbarData] = useState({});
+  const [isLoading, setLoading] = useState(false);
   
   // Account Data
   const [email, setEmail] = useState(loggedUser.email);
@@ -108,7 +110,7 @@ const UserProfile = () => {
       setSnackbarData({type: "error", message:"El email y la confirmación del email no coinciden", show:true});
       setTimeout(() => {
         setSnackbarData({show:false});
-      }, 2000);
+      }, 1500);
       return false;
     }
 
@@ -118,7 +120,7 @@ const UserProfile = () => {
       setSnackbarData({type: "error", message:"La contraseña y la confirmación de la contraseña no coinciden", show:true});
       setTimeout(() => {
         setSnackbarData({show:false});
-      }, 2000);
+      }, 1500);
       return false;
     }
       return true;
@@ -142,18 +144,21 @@ const UserProfile = () => {
         email,
         password
       };
+      setLoading(true);
 
       const resp = await UserService.updateUserData(data);
       if(resp.status === 200){
-        setSnackbarData({type: "success", message:"Datos guardados con éxito", show: true})
+        setSnackbarData({type: "success", message: "Datos guardados con éxito", show: true})
+        setLoading(false);
         setTimeout(() => {
-          setSnackbarData({show:false});
-        }, 2000);
+          setSnackbarData({show: false});
+        }, 1500);
       }else{
-        setSnackbarData({type: "error", message:"Error actualizando datos, contacte al administrador.", show:true});
+        setSnackbarData({type: "error", message: "Error actualizando datos, contacte al administrador.", show: true});
+        setLoading(false);
         setTimeout(() => {
-          setSnackbarData({show:false});
-        }, 2000);
+          setSnackbarData({show: false});
+        }, 1500);
       }
     }
 
@@ -162,6 +167,7 @@ const UserProfile = () => {
 
   return (
     <Layout className="user-profile">
+      {isLoading && <Loading />}
       <LinkContainer>
         <Link onClick={() => history.push('/home')}>Volver al listado</Link>
       </LinkContainer>

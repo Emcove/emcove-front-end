@@ -30,6 +30,7 @@ const Text = styled.p`
 const ImagesContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-top: 20px;
   margin-left: -8px;
 `;
@@ -38,19 +39,20 @@ const ImageContainer = styled.div`
   display: flex;
   position: relative;
   overflow: hidden;
-  border: solid 1px ${colors.grayBorder};
-  background-color: ${colors.white};
+  border: solid 1px #b3aeae14;
+  background-color: #fff;
   min-width: 200px;
   max-width: 200px;
   height: 180px;
   border-radius: 3px;
   margin: 0 8px;
+  justify-content: center;
 `;
 
 const Image = styled.img`
   height: 100%;
   max-width: 100%;
-  width: fit-content;
+  width: auto;
   display: inline;
 `;
 
