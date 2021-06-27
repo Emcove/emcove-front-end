@@ -12,14 +12,14 @@ const LogoContainer = styled.div`
   justify-content: center;
   background-color: ${colors.warning};
   border-radius: 100%;
-  height: 186px;
-  width: 186px;
+  height: 210px;
+  width: 210px;
 `;
 
 const Logo = () => {
   return (
     <LogoContainer>
-      <Icons type="logo" />
+      <Icons type="vertical-logo-color" />
     </LogoContainer>
   )
 }
