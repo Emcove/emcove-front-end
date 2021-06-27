@@ -50,22 +50,6 @@ const Footer = styled.div`
   padding-left: 8%;
 `;
 
-const Logo = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 100%;
-  background-color: ${colors.white};
-`;
-
-const CompanyName = styled.h1`
-  margin-left: 18px;
-  font-size: 32px;
-  color: ${colors.textColor};
-`
-
 const ProfileAccess = styled.button`
   width: 48px;
   height: 48px;
@@ -121,8 +105,7 @@ const Layout = ({ children, login, registry, className }) => {
       {!login &&
         <Header>
           <div className="components-container" onClick={redirectHome}>
-            <Logo><Icons type="logo" /></Logo>
-            <CompanyName>Emcove</CompanyName>
+            <Icons type="horizontal-color-logo" className="header-isologo"/>
           </div>
           {!registry && <ProfileAccess onClick={() => showProfileOptions(!profileOptions)}><Icons type="user" /></ProfileAccess>}
           {profileOptions &&
