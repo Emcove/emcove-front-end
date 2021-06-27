@@ -49,14 +49,14 @@ const OrderData = styled.div`
   flex-direction: column;
 `;
 
-const BusinessName = styled.span`
+const BusinessName = styled.p`
   font-size: 20px;
   font-weight: 600;
   color: ${colors.textColor};
   margin-bottom: 4px;
 `;
 
-const Product = styled.span`
+const Product = styled.p`
   font-size: 16px;
   color: ${colors.textColor};
 `;
@@ -67,7 +67,7 @@ const OrderStatus = styled.div`
   position: relative;
 `;
 
-const Status = styled.span`
+const Status = styled.p`
   font-size: 16px;
   font-weight: 600;
   text-align: right;
@@ -110,14 +110,14 @@ const Orders = () => {
   const [snackbarData, setSnackbarData] = useState({});
 
   const orders = [{
-    id: 5,
+    id: 4,
     business: {
       image: undefined,
-      name: 'Messi Store',
-      id: 5,
+      name: 'Dulcinea Tortas Artesanales',
+      id: 4,
     },
     product: {
-      name: 'Messi Chiquito',
+      name: 'Torta decorada',
     },
     status: 'FINALIZADA',
   }];

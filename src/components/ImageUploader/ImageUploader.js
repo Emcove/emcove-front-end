@@ -63,8 +63,9 @@ const ImageInput = styled.input`
     height: 0;
 `;
 
-const MiniLabel = styled.span`
+const MiniLabel = styled.p`
   font-size: 12px;
+  margin: 0;
   color: ${colors.lightGray};
 `;
 

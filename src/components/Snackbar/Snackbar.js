@@ -44,7 +44,7 @@ const Container = styled.div`
   }
 `;
 
-const Text = styled.span``;
+const Text = styled.p``;
 
 const Snackbar = ({ message, show, type }) => {
   return (

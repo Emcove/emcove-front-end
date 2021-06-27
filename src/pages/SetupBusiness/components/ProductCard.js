@@ -31,13 +31,13 @@ const SmallContainer = styled.div`
   width: 50%;
 `;
 
-const Name = styled.span`
+const Name = styled.p`
   margin-bottom: 4px;
   font-weight: 600;
   color: ${colors.text};
 `;
 
-const Description = styled.span`
+const Description = styled.p`
   margin-bottom: 4px;
   color: rgba(0,0,0,0.6);
   font-size: 14px;
@@ -55,7 +55,7 @@ const Tag = styled.div`
   `}
 `;
 
-const TagLabel = styled.span`
+const TagLabel = styled.p`
   font-weight: 600;
   font-size: 12px;
   color: ${colors.white};

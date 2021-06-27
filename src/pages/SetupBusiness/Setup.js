@@ -33,7 +33,8 @@ const NameInput = styled.input`
   background-color: transparent;
   font-size: 32px;
   color: ${colors.textColor};
-
+  font-family: 'Raleway';
+  
   &:focus-visible {
     outline: none;
     border-bottom-color: #9BC53D;

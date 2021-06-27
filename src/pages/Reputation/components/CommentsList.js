@@ -23,12 +23,12 @@ const UserInfo = styled.div`
   margin-bottom: 4px;
 `;
 
-const User = styled.span`
+const User = styled.p`
   font-weight: 600;
   color: ${colors.textColor};
 `;
 
-const EmptyMessage = styled.span`
+const EmptyMessage = styled.p`
   font-size: 16px;
   color: rgba(0, 0, 0, 0.4);
 `;

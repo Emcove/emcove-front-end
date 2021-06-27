@@ -19,7 +19,6 @@ const DropdownDispatcher = styled.button`
   background-color: ${colors.white};
   border: solid 1px ${colors.grayBorder};
   border-radius: 3px;
-  font-family: 'Roboto';
   text-align: left;
   margin: 0 16px 16px 0;
 
@@ -40,18 +39,18 @@ const Label = styled.span`
 
 const Options = styled.div`
   position: absolute;
-  margin-top: 6spx;
+  margin-top: 22px;
   border: solid 1px ${colors.grayBorder};
   border-radius: 3px;
   background-color: ${colors.white};
 `;
 
-const Option = styled.button`
-  width: 100%;
-  padding: 8px 10px;
+const Option = styled.div`
+  padding: 8px 32px 10px 10px;
   border: none;
   background-color: transparent;
   text-align: left;
+  font-size: 14px;
 
   :hover {
     cursor: pointer;

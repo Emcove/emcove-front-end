@@ -12,15 +12,15 @@ const InputContainer = styled.div`
   margin-right: 16px;
 `;
 
-const WarningMessage = styled.span`
-  font-family: 'Roboto';
+const WarningMessage = styled.p`
+  font-family: 'Raleway', sans-serif;
   font-size: 10px;
   color: ${colors.error};
   margin: .61538em 0 0 .46154em;
 `;
 
-const Label = styled.span`
-  font-family: 'Roboto';
+const Label = styled.p`
+  font-family: 'Raleway', sans-serif;
   color: #808080;
   font-size: 14px;
   margin: 0 0 .42857em .42857em;
@@ -28,6 +28,7 @@ const Label = styled.span`
 
 const Input = styled.input`
   color: ${colors.textColor};
+  font-family: 'Raleway', sans-serif;
 
   ${props => props.multiline && css `
     min-height: 40px;
@@ -37,12 +38,12 @@ const Input = styled.input`
 const TextArea = styled.textarea`
   color: ${colors.textColor};
   height: 80px;
-  font-family: 'Roboto';
+  font-family: 'Raleway', sans-serif;
   padding: 10px;
   resize: none;
 `;
 
-const Hint = styled.span`
+const Hint = styled.p`
   color: ${colors.lightGray};
   font-size: 10px;
   margin-top: 4px;
