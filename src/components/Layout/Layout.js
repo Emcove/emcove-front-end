@@ -12,7 +12,6 @@ import UserData from "../../utils";
 
 const Container = styled.div`
   background-color: ${colors.background};
-  height: 100vh;
   width: 100%;
 `;
 
@@ -23,6 +22,8 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: fixed;
+  width: 100%;
 `;
 
 const Content = styled.div`
@@ -30,13 +31,10 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  height: calc(100% - 64px - 92px);
-  overflow: scroll;
-  padding: 20px 8%;
+  padding: 64px 8% 24px;
   ${props => props.loginContent && css `
-      height: calc(100% - 52px);
-      justify-content: center;
-      padding: 0;
+    justify-content: center;
+    padding: 0;
   `}
 `;
 
@@ -48,6 +46,8 @@ const Footer = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding-left: 8%;
+  width: 100%;
+  z-index: 100;
 `;
 
 const ProfileAccess = styled.button`
