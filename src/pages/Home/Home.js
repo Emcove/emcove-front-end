@@ -18,12 +18,12 @@ const Content = styled.div`
   max-width: 530px;
 `;
 
-const TertiaryTitle = styled.p`
+const TertiaryTitle = styled.span`
   font-size: 20px;
   font-weight: 600;
 `;
 
-const TertiaryDescription = styled.p`
+const TertiaryDescription = styled.span`
   font-size: 13px;
   color: rgba(0, 0, 0, 0.4);
 `;
