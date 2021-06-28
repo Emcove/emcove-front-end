@@ -226,8 +226,9 @@ const UserProfile = () => {
   }
 
   return (
+    <>
+    {isLoading && <Loading />}
     <Layout className="user-profile">
-      {isLoading && <Loading />}
       <Container>
         <LinkContainer>
           <Link onClick={() => history.push('/home')}>Volver al listado</Link>
@@ -354,6 +355,7 @@ const UserProfile = () => {
       </Container>
       <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />
     </Layout>
+    </>
   );
 }
 

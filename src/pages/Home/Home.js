@@ -29,7 +29,7 @@ const TertiaryDescription = styled.span`
 `;
 
 const AddBusinessButton = styled.button`
-  position: absolute;
+  position: fixed;
   top: calc(100vh - 64px - 70px);
   right: 3%;
   border-radius: 100%;

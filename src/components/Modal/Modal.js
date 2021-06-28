@@ -10,6 +10,7 @@ const Container = styled.div`
   position: absolute;
   top: 0;
   background-color: #000000ad;
+  z-index: 20;
 `;
 
 const CardContainer = styled.div`

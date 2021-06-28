@@ -16,6 +16,8 @@ const Container = styled.div`
 
 const Subtitle = styled.h2`
   color: ${colors.textColor};
+  font-size: 18px;
+  font-weight: 500;
 `;
 
 const Text = styled.p`

@@ -7,7 +7,7 @@ import { colors } from '../../styles/palette';
 
 
 const Container = styled.div`
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   position: absolute;
   top: 0;

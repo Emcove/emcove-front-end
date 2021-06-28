@@ -4,13 +4,13 @@ import { API_URL } from '../Constants'
 
 class BusinessService {
     async createBusiness(data) {
-        try{
+        try {
             const resp =  await axios.post(`${API_URL}/entrepreneurships`,data);
             let user = JSON.parse(localStorage.getItem("user"));
             user.entrepreneurship = resp.data;
             localStorage.setItem("user",JSON.stringify(user));
             return resp;
-        }catch(error){
+        } catch(error) {
             return error.response;
         }
     }

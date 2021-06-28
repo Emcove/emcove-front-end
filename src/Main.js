@@ -38,6 +38,7 @@ const Main = () => (
         <Route exact path="/reputation" component={Reputation}/>
         <Route exact path="/business" component={BusinessDetail}/>
         <Route exact path="/orders" component={Orders}/>
+        {/* <Route exact path="/:{business}/detail" component={Orders}/> */}
       </>
     </div>
   </HashRouter>

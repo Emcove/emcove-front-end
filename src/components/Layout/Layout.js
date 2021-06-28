@@ -24,6 +24,7 @@ const Header = styled.div`
   justify-content: space-between;
   position: fixed;
   width: 100%;
+  z-index: 15;
 `;
 
 const Content = styled.div`
@@ -50,7 +51,7 @@ const Footer = styled.div`
   justify-content: flex-start;
   padding-left: 8%;
   width: 92%;
-  z-index: 100;
+  z-index: 10;
 `;
 
 const ProfileAccess = styled.button`
