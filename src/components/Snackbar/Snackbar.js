@@ -14,7 +14,7 @@ const Container = styled.div`
     max-width: 70%;
     position: fixed;
     z-index: 1021;
-    bottom: 4.14286em;
+    bottom: 77px;
     left: 0;
     right: 0;
     color: ${colors.white};
@@ -44,7 +44,9 @@ const Container = styled.div`
   }
 `;
 
-const Text = styled.p``;
+const Text = styled.span`
+  font-size: 16px;
+`;
 
 const Snackbar = ({ message, show, type }) => {
   return (

@@ -6,11 +6,11 @@ import UserData from '../utils';
 
 class UserService {
     async updateUserData(data) {
-        try{
+        try {
             const resp = await axios.patch(`${API_URL}/users/update`,data);
             localStorage.setItem('user', JSON.stringify(resp.data));
             return resp;
-        }catch(error){
+        } catch(error) {
             return error.response;
         }
     }
@@ -30,17 +30,17 @@ class UserService {
         }
     }
 
-    async getOtherUserReputation(username) {
-        try{
+    async getUserReputation(username) {
+        try {
             const resp = await axios.get(`${API_URL}/users/login`);
             return resp;
-        }catch(error){
+        } catch (error) {
             return error.response;
         }
     }
 
-    async getMyReputation(){
-        try{
+    async getMyReputation() {
+        try {
             const resp = await axios.get(`${API_URL}/users/myReputation`);
             let user = UserData.getUserFromStorage();
             if (user) {
@@ -48,13 +48,13 @@ class UserService {
                 localStorage.setItem('user', JSON.stringify(user));
             }
             return resp;
-        }catch(error){
+        } catch (error) {
             return error.response;
         }
     }
 
-    async getMyBusinessReputation(){
-        try{
+    async getMyBusinessReputation() {
+        try {
             let user = UserData.getUserFromStorage();
             const resp = await axios.get(`${API_URL}/entrepreneurships/${user.entrepreneurship.id}/reputation`);
             if (user){
@@ -65,7 +65,16 @@ class UserService {
                 localStorage.setItem('user', JSON.stringify(user));
             }
             return resp;
-        }catch(error){
+        } catch (error) {
+            return error.response;
+        }
+    }
+
+    async deleteUser(username) {
+        try {
+            const resp = await axios.delete(`${API_URL}/users`);
+            return resp;
+        } catch (error) {
             return error.response;
         }
     }

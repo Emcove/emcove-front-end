@@ -32,9 +32,12 @@ const Content = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding: 64px 8% 24px;
+  min-height: calc(100vh - 53px - 64px - 24px);
+
   ${props => props.loginContent && css `
     justify-content: center;
     padding: 0;
+    min-height: calc(100vh - 53px);
   `}
 `;
 
@@ -46,7 +49,7 @@ const Footer = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding-left: 8%;
-  width: 100%;
+  width: 92%;
   z-index: 100;
 `;
 

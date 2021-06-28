@@ -18,6 +18,11 @@ import classNames from 'classnames';
 
 import UserService from "../../services/UserService";
 
+import { colors } from "../../styles/palette";
+
+const Container = styled.div`
+  padding: 24px 0 0;
+`;
 
 const LinkContainer = styled.div`
   display: flex;
@@ -30,7 +35,7 @@ const DataContainer = styled.div`
 const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
-  padding: 32px;
+  padding: 12px 0 20px;
 `;
 
 const InputGroup = styled.div`
@@ -43,24 +48,41 @@ const InputGroup = styled.div`
 const ActionsContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 16px 0;
+  align-items: center;
+  height: fit-content;
+  width: 100%;
 `;
 
 const ButtonContainer = styled.div`
-  width: 40%;
-  padding: 0 8px 0 0;
+  display: flex;
+`;
+
+const DeleteAccountButton = styled.button`
+  border: none;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  color: ${colors.error};
+  font-weight: 300;
+  font-size: 12px;
+  align-self: center;
+  font-family: 'Raleway';
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const UserProfile = () => {
   const loggedUser = JSON.parse(localStorage.getItem("user"));
   const history = useHistory();
-  const [avatar, setUserAvatar] = useState(loggedUser.avatar);
+  const [avatar, setUserAvatar] = useState(loggedUser?.avatar || '');
   const [editState, setEditState] = useState(false);
   const [snackbarData, setSnackbarData] = useState({});
   const [isLoading, setLoading] = useState(false);
   
   // Account Data
-  const [email, setEmail] = useState(loggedUser.email);
+  const [email, setEmail] = useState(loggedUser?.email || '');
   const [emailConfirmation, setEmailConfirmation] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -68,14 +90,26 @@ const UserProfile = () => {
   const [requiredEmailConf, setRequiredEmailConf] = useState(false);
   const [requiredPass, setRequiredPass] = useState(false);
   const [requiredPassConf, setRequiredPassConf] = useState(false);
+  const [username, setUsername] = useState(loggedUser?.username || '')
+  const [requiredUsername, setRequiredUsername] = useState(false);
 
   // Personal Data
-  const [name, setName] = useState(loggedUser.name);
+  const [name, setName] = useState(loggedUser?.name || '');
   const [requiredName, setRequiredName] = useState('');
-  const [surname, setsurname] = useState(loggedUser.surname);
+  const [surname, setsurname] = useState(loggedUser?.surname || '');
   const [requiredSurname, setRequiredSurname] = useState('');
-  const [city, setCity] = useState(loggedUser.city);
-  const [adult, setAdult] = useState(loggedUser.adult);
+  const [city, setCity] = useState(loggedUser?.city || '');
+  const [adult, setAdult] = useState(loggedUser?.adult || false);
+
+  const emptyInputs = () => {
+    setUserAvatar('');
+    setEmail('');
+    setUsername('');
+    setName('');
+    setsurname('');
+    setCity('');
+    setAdult(false);
+  }
 
   const setRequiredFields = () => {
     if (email === '') {
@@ -101,6 +135,10 @@ const UserProfile = () => {
     if (surname === '') {
       setRequiredSurname(true);
     } 
+
+    if (username === '') {
+      setRequiredUsername(true);
+    } 
   }
 
   const hasEqualConfirmation = () => {
@@ -117,7 +155,7 @@ const UserProfile = () => {
     if (password !== passwordConfirmation) {
       setRequiredPass(true);
       setRequiredPassConf(true);
-      setSnackbarData({type: "error", message:"La contraseña y la confirmación de la contraseña no coinciden", show:true});
+      setSnackbarData({type: "error", message:"La contraseña y la confirmación de la contraseña no coinciden", show: true});
       setTimeout(() => {
         setSnackbarData({show:false});
       }, 1500);
@@ -144,17 +182,17 @@ const UserProfile = () => {
         email,
         password
       };
-      setLoading(true);
 
+      setLoading(true);
       const resp = await UserService.updateUserData(data);
-      if(resp.status === 200){
+      if (resp.status === 200) {
         setSnackbarData({type: "success", message: "Datos guardados con éxito", show: true})
         setLoading(false);
         setTimeout(() => {
           setSnackbarData({show: false});
         }, 1500);
-      }else{
-        setSnackbarData({type: "error", message: "Error actualizando datos, contacte al administrador.", show: true});
+      } else {
+        setSnackbarData({type: "error", message: "Error actualizando datos, intentá más tarde.", show: true});
         setLoading(false);
         setTimeout(() => {
           setSnackbarData({show: false});
@@ -165,122 +203,155 @@ const UserProfile = () => {
     setRequiredFields();
   }
 
+  const deleteProfile = async () => {
+    setLoading(true);
+    const resp = await UserService.deleteUser(loggedUser.username);
+
+    if (resp.status === 200) {
+      setEditState(false);
+      setSnackbarData({ type: "success", message: "Cuenta eliminada con exito", show: true });
+      emptyInputs();
+      setLoading(false);
+      setTimeout(() => {
+        setSnackbarData({show: false});
+        history.push('/');
+      }, 1500);
+    } else {
+      setSnackbarData({type: "error", message: "Error actualizando datos, intentá más tarde.", show: true});
+      setLoading(false);
+      setTimeout(() => {
+        setSnackbarData({show: false});
+      }, 1500);
+    }
+  }
+
   return (
     <Layout className="user-profile">
       {isLoading && <Loading />}
-      <LinkContainer>
-        <Link onClick={() => history.push('/home')}>Volver al listado</Link>
-      </LinkContainer>
-      <DataContainer>
-        <ImageContainer>
-          <ImageUploader
-            image={avatar}
-            id="user-profile-pic"
-            shape="round"
-            label="Subir foto de perfil"
-            onChange={setUserAvatar}
-            iconClass="upload-logo__icon"
-          />
-        </ImageContainer>
-        <Card vertical>
-          <InputGroup>
-            <TextInput 
-              id="name"
-              label="Nombre"
-              value={name}
-              placeholder="Nombre"
-              type="text"
-              required={requiredName}
-              onChange={setName}
-              disabled={!editState}
+      <Container>
+        <LinkContainer>
+          <Link onClick={() => history.push('/home')}>Volver al listado</Link>
+        </LinkContainer>
+        <DataContainer>
+          <ImageContainer>
+            <ImageUploader
+              image={avatar}
+              id="user-profile-pic"
+              shape="round"
+              label="Subir foto de perfil"
+              onChange={setUserAvatar}
+              iconClass="upload-logo__icon"
             />
-            <TextInput 
-              id="surname"
-              label="Apellido"
-              value={surname}
-              placeholder="Apellido"
-              type="text"
-              required={requiredSurname}
-              onChange={setsurname}
-              disabled={!editState}
-            />
-          </InputGroup>
-          <InputGroup>
-            <TextInput 
-              id="localization"
-              label="Localidad"
-              value={city}
-              placeholder="Localidad"
-              type="text"
-              onChange={setCity}
-              disabled={!editState}
-            />
-            <Checkbox
-              id="adultCheckbox"
-              label="Soy mayor de 18 años"
-              checked={adult}
-              onClick={() => setAdult(!adult)}
-              disabled={!editState}
-            />
-          </InputGroup>
-          <InputGroup>
-            <TextInput
-              id="email"
-              label="Correo electrónico"
-              value={email}
-              placeholder="Correo electrónico"
-              type="email"
-              onChange={setEmail}
-              required={requiredEmail}
-              disabled={!editState}
-            />
-            <TextInput 
-              id="emailConfirmation"
-              label="Confirmar correo electrónico"
-              value={emailConfirmation}
-              placeholder="Confirmar correo electrónico"
-              type="email"
-              onChange={setEmailConfirmation}
-              required={requiredEmailConf}
-              disabled={!editState}
-              className={classNames('confirmation-input', { 'confirmation-input__hidden': !editState, 'confirmation-input__visible': editState })}
-            />
-          </InputGroup>
-          <InputGroup>
-            {editState && 
-            <TextInput 
-              id="password"
-              label="Contraseña"
-              value={password}
-              placeholder="Contraseña"
-              type="password"
-              onChange={setPassword}
-              required={requiredPassConf}
-              disabled={!editState}
-            />}
-            <TextInput 
-              id="passwordConfirmation"
-              label="Confirmar contraseña"
-              value={passwordConfirmation}
-              placeholder="Confirmar contraseña"
-              type="password"
-              onChange={setPasswordConfirmation}
-              required={requiredPass}
-              disabled={!editState}
-              className={classNames('confirmation-input', { 'confirmation-input__hidden': !editState, 'confirmation-input__visible': editState })}
-            />
-          </InputGroup>
-        </Card>
-        <ActionsContainer>
-          <ButtonContainer>
-           {!editState && <Button primary onClick={() => setEditState(true)}>Editar</Button>}
-           {editState && <Button primary onClick={() => saveChanges()}>Guardar</Button>}
-          </ButtonContainer>
-          <ButtonContainer>
+          </ImageContainer>
+          <Card vertical>
+              <TextInput 
+                id="username"
+                label="Nombre de usuario"
+                value={username}
+                placeholder="Nombre de usuario"
+                type="text"
+                required={requiredUsername}
+                onChange={setUsername}
+                disabled={!editState}
+              />
+            <InputGroup>
+              <TextInput 
+                id="name"
+                label="Nombre"
+                value={name}
+                placeholder="Nombre"
+                type="text"
+                required={requiredName}
+                onChange={setName}
+                disabled={!editState}
+              />
+              <TextInput 
+                id="surname"
+                label="Apellido"
+                value={surname}
+                placeholder="Apellido"
+                type="text"
+                required={requiredSurname}
+                onChange={setsurname}
+                disabled={!editState}
+              />
+            </InputGroup>
+            <InputGroup>
+              <TextInput 
+                id="localization"
+                label="Localidad"
+                value={city}
+                placeholder="Localidad"
+                type="text"
+                onChange={setCity}
+                disabled={!editState}
+              />
+              <Checkbox
+                id="adultCheckbox"
+                label="Soy mayor de 18 años"
+                checked={adult}
+                onClick={() => setAdult(!adult)}
+                disabled={!editState}
+              />
+            </InputGroup>
+            <InputGroup>
+              <TextInput
+                id="email"
+                label="Correo electrónico"
+                value={email}
+                placeholder="Correo electrónico"
+                type="email"
+                onChange={setEmail}
+                required={requiredEmail}
+                disabled={!editState}
+              />
+              <TextInput 
+                id="emailConfirmation"
+                label="Confirmar correo electrónico"
+                value={emailConfirmation}
+                placeholder="Confirmar correo electrónico"
+                type="email"
+                onChange={setEmailConfirmation}
+                required={requiredEmailConf}
+                disabled={!editState}
+                className={classNames('confirmation-input', { 'confirmation-input__hidden': !editState, 'confirmation-input__visible': editState })}
+              />
+            </InputGroup>
+            <InputGroup>
+              {editState && 
+              <TextInput 
+                id="password"
+                label="Contraseña"
+                value={password}
+                placeholder="Contraseña"
+                type="password"
+                onChange={setPassword}
+                required={requiredPassConf}
+                disabled={!editState}
+              />}
+              <TextInput 
+                id="passwordConfirmation"
+                label="Confirmar contraseña"
+                value={passwordConfirmation}
+                placeholder="Confirmar contraseña"
+                type="password"
+                onChange={setPasswordConfirmation}
+                required={requiredPass}
+                disabled={!editState}
+                className={classNames('confirmation-input', { 'confirmation-input__hidden': !editState, 'confirmation-input__visible': editState })}
+              />
+            </InputGroup>
+          </Card>
+          <ActionsContainer>
+            <ButtonContainer>
+            {!editState && <Button primary onClick={() => setEditState(true)}>Editar</Button>}
+            {editState && <Button primary onClick={() => saveChanges()}>Guardar</Button>}
             {editState && <Button secondary onClick={() => setEditState(false)}>Cancelar</Button>}
-          </ButtonContainer>
-        </ActionsContainer>
-      </DataContainer>
+            </ButtonContainer>
+            {editState && <DeleteAccountButton onClick={() => deleteProfile()}>Eliminar cuenta</DeleteAccountButton>}
+          </ActionsContainer>
+        </DataContainer>
+      </Container>
       <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />
     </Layout>
   );
