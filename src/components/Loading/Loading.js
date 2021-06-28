@@ -15,11 +15,15 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 3;
+  z-index: 16;
   ${props => props.component && css `
     width: 100%;
     height: 100%;
     position: relative;
+  `}
+
+  ${props => props.backgroundColor && css `
+    background-color: ${props.backgroundColor};
   `}
 `;
 
@@ -29,7 +33,7 @@ const LoadingContainer = styled.div`
   justify-content: center;
 `;
 
-const Loading = ({ component }) => {
+const Loading = ({ component, backgroundColor }) => {
   if (component) {
     return (
       <LoadingContainer>
@@ -38,7 +42,7 @@ const Loading = ({ component }) => {
     );
   }
   return (
-    <Container>
+    <Container backgroundColor={backgroundColor}>
       <ReactLoading type="spin" color={colors.primary} height="10%" width="10%" />
     </Container>
   )

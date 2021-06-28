@@ -25,6 +25,7 @@ import BusinessService from '../../services/BusinessService';
 
 const Content = styled.div`
   width: 100%;
+  padding-top: 32px;
 `;
 
 const NameInput = styled.input`
@@ -75,7 +76,7 @@ const Setup = () => {
        logo,
        city,
        doesShipments,
-       categories:categories.map(c => c.toUpperCase()),
+       categories: categories.map(c => c.toUpperCase()),
        products
      };
       setLoading(true);
@@ -114,7 +115,7 @@ const Setup = () => {
 
   return (
     <Layout>
-      { isLoading && <Loading /> }
+      {isLoading && <Loading backgroundColor="transparent" />}
       <BusinessProvider value={{ name, logo, city, categories, products, addNewProduct, updateProducts }}>
         <Content>
           <div className="setup-business__essentials">
@@ -158,11 +159,9 @@ const Setup = () => {
             <Categories categories={categories} onClick={handleCategoriesClick} />
           </div>
           <div className="setup-business__submit">
-            <div className="setup-business__submit--button">
-              <Button primary onClick={() => createBusiness()}>
-                Crear Emprendimiento
-              </Button>
-            </div>
+            <Button primary onClick={() => createBusiness()}>
+              Crear Emprendimiento
+            </Button>
             <Link onClick={() => history.push("/home")}>Cancelar</Link>
           </div>
           <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />

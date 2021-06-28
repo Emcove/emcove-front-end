@@ -42,7 +42,8 @@
   &__submit {
     display: flex;
     justify-content: flex-start;
-    margin: 10px auto 12px auto;
+    align-items: center;
+    margin: 10px auto 0 auto;
   
     &--button {
       margin-right: 8px;
