@@ -4,10 +4,10 @@ import styled from 'styled-components'
 import { useHistory } from "react-router-dom";
 
 import Layout from '../../components/Layout';
-import Title from '../../components/Title';
 import List from '../../components/List';
 import ListItem from '../../components/List/ListItem';
 import Icon from '../../components/Icons';
+import Search from '../../components/Search';
 
 import { colors } from '../../styles/palette';
 
@@ -49,10 +49,11 @@ const Home = () => {
   const history = useHistory();
   const userHasBusiness = UserData.hasBusiness();
   const user = UserData.getUserFromStorage();
+  
   return (
     <Layout>
       <Content>
-        <Title>Emprendimientos</Title>
+        <Search />
         <List>
           <ListItem animated title="Emprendimiento 1" description="Descripción" />
           <ListItem animated title="Emprendimiento 2" description="Descripción" />
