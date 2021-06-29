@@ -1,0 +1,13 @@
+.business-search:focus-visible {
+  border: solid 1px #9BC53D;
+  outline: none;
+}
+
+.business-search::placeholder {
+  font-weight: 300;
+}
+
+.magnifying-glass-button {
+  height: 18px;
+  width: 18px;
+}
