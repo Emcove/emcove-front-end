@@ -9,7 +9,6 @@ import Icon from '../Icons';
 const Container = styled.div`
   display: flex;
   width: -webkit-fill-available;
-  margin: 20px 0 32px;
 `;
 
 const Input = styled.input`
@@ -39,13 +38,12 @@ const IconButton = styled.button`
   }
 `;
 
-const Search = () => {
+const Search = ({ searchFunction, placeholder }) => {
   const submitButtonRef = useRef("submitButton");
   const [searchText, setSearchText] = useState('');
   
   const searchBusiness = () => {
-    console.log('search');
-    console.log(searchText);
+    searchFunction(searchText);
   };
 
   useEffect(() => {
@@ -69,7 +67,7 @@ const Search = () => {
         id="business-search"
         type="text"
         value={searchText}
-        placeholder="Buscar emprendimientos por nombre o productos"
+        placeholder={placeholder}
         onChange={(e) => setSearchText(e.currentTarget.value)}
       />
       <IconButton onClick={searchBusiness} id="submitButton" ref={submitButtonRef}>

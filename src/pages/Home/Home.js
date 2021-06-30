@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 
 import { useHistory } from "react-router-dom";
@@ -9,6 +9,8 @@ import ListItem from '../../components/List/ListItem';
 import Icon from '../../components/Icons';
 import Search from '../../components/Search';
 
+import CategoriesFilter from './components';
+
 import { colors } from '../../styles/palette';
 
 import UserData from '../../utils/userData';
@@ -16,6 +18,7 @@ import UserData from '../../utils/userData';
 const Content = styled.div`
   width: 84%;
   max-width: 530px;
+  margin-top: 32px;
 `;
 
 const TertiaryTitle = styled.span`
@@ -45,15 +48,55 @@ const AddBusinessButton = styled.button`
   }
 `;
 
+const SearchingBox = styled.div``;
+
 const Home = () => {
+  const categories = ['Belleza', 'Artesanal', 'Cocina', 'Servicios', 'Herramientas', 'Deco'];
   const history = useHistory();
   const userHasBusiness = UserData.hasBusiness();
   const user = UserData.getUserFromStorage();
+
+  const [categoriesFilter, updateCategoriesFilter] =  useState(categories.map(cat => { return { name: cat, clicked: false }}));
+
+  useEffect(() => {
+    // Con esto hago que se filtren los emprendimientos cada vez que se clickea una categoria
+    async function filterBusiness () {
+      console.log(categoriesFilter);
+    };
+
+    filterBusiness();
+  }, [categoriesFilter])
+
+  const searchBusiness = (key) => {
+    // llamar a funcion para buscar emprendimientos
+    console.log(key);
+  }
+
+
+  const handleCategoryClick = (category) => {
+    updateCategoriesFilter(prevState => {
+      const newFilteredCategories = prevState.map(cat => {
+        if (cat.name === category.name) {
+          return { name: cat.name, clicked: !category.clicked };
+        }
+
+        return cat;
+      });
+
+      return newFilteredCategories;
+    });
+  }
   
   return (
     <Layout>
       <Content>
-        <Search />
+        <SearchingBox>
+          <Search
+            searchFunction={searchBusiness}
+            placeholder="Buscar emprendimientos por nombre o productos"
+          />
+          <CategoriesFilter categories={categoriesFilter} onCategoryClicked={handleCategoryClick} />
+        </SearchingBox>
         <List>
           <ListItem animated title="Emprendimiento 1" description="Descripción" />
           <ListItem animated title="Emprendimiento 2" description="Descripción" />
