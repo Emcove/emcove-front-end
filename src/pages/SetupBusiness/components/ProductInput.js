@@ -115,7 +115,7 @@ const PreviewImgContainer = styled.div`
 
 const Preview = styled.img`
   height: 100%;
-  width: fit-content;
+  width: auto;
   display: inline;
 `;
 
