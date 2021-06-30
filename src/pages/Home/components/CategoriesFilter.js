@@ -4,6 +4,10 @@ import styled, { css }  from 'styled-components';
 
 import { colors } from '../../../styles/palette';
 
+const getFontColor = (bgColor) => {
+  return bgColor === colors.yellow ? colors.textColor : colors.white;
+}
+
 const Container = styled.div`
   display: flex;
   width: 100%;
@@ -14,17 +18,29 @@ const Container = styled.div`
 const CategoryButton = styled.button`
   display: flex;
   align-items: center;
-  padding: 8px 12px;
+  padding: 6px 10px;
   margin: 0 4px;
-  border: none;
   border-radius: 20px;
   font-family: 'Raleway';
   font-weight: 600;
+  transition: box-shadow ease-in 0.3s;
+  border: solid 2px transparent;
 
   ${props => props.bgColor && css`
     background-color: ${props.bgColor};
-    color: ${props.bgColor === colors.yellow ? colors.textColor : colors.white};
+    color: ${getFontColor(props.bgColor)};
   `}
+
+  ${props => props.clicked && css`
+    background-color: transparent;
+    border: solid 2px ${props.bgColor};
+    color: ${props.bgColor === colors.yellow ? props.textColor : props.bgColor};
+  `}
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+  }
 `;
 
 
@@ -41,8 +57,8 @@ const CategoriesFilter = ({categories, onCategoryClicked }) => {
       {categories.map((category, idx) => (
         <CategoryButton
           key={category.name}
-          clicked={categories.clicked}
-          bgColor={() => getTagBgColor(idx)}
+          clicked={category.clicked}
+          bgColor={getTagBgColor(idx)}
           onClick={() => onCategoryClicked(category)}
         >
           {category.name}
