@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 
 import { useHistory } from "react-router-dom";
@@ -9,11 +9,21 @@ import ListItem from '../../components/List/ListItem';
 import Icon from '../../components/Icons';
 import Search from '../../components/Search';
 
+import CategoriesFilter from './components';
+
 import { colors } from '../../styles/palette';
 
 import UserData from '../../utils/userData';
 
 const Content = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ListContainer = styled.div`
+  margin-top: 132px;
   width: 84%;
   max-width: 530px;
 `;
@@ -45,33 +55,94 @@ const AddBusinessButton = styled.button`
   }
 `;
 
+const SearchingBox = styled.div`
+  position: fixed;
+  padding-top: 32px;
+  background-color: ${colors.background};
+  width: 100%;
+  transition: all 0.15s linear;
+`;
+
 const Home = () => {
+  const categories = ['Belleza', 'Artesanal', 'Cocina', 'Servicios', 'Herramientas', 'Deco'];
   const history = useHistory();
   const userHasBusiness = UserData.hasBusiness();
   const user = UserData.getUserFromStorage();
+
+  const [categoriesFilter, updateCategoriesFilter] =  useState(categories.map(cat => { return { name: cat, clicked: false }}));
+  const [scrolled, updateScrolledStatus] = useState(0);
+
+  const handleScroll = () => {
+    const scroll = window.scrollY;
+    updateScrolledStatus(scroll);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Con esto hago que se filtren los emprendimientos cada vez que se clickea una categoria
+    async function filterBusiness () {
+      console.log(categoriesFilter.find(cat => cat.clicked === true));
+    };
+
+    filterBusiness();
+  }, [categoriesFilter]);
+
+  const searchBusiness = (key) => {
+    // llamar a funcion para buscar emprendimientos
+    console.log(key);
+  }
+
+  const handleCategoryClick = (category) => {
+    updateCategoriesFilter(prevState => {
+      const newFilteredCategories = prevState.map(cat => {
+        if (cat.name === category.name) {
+          return { name: cat.name, clicked: !category.clicked };
+        }
+
+        return cat;
+      });
+
+      return newFilteredCategories;
+    });
+  }
   
   return (
     <Layout>
       <Content>
-        <Search />
-        <List>
-          <ListItem animated title="Emprendimiento 1" description="Descripción" />
-          <ListItem animated title="Emprendimiento 2" description="Descripción" />
-          <ListItem animated title="Emprendimiento 3" description="Descripción" />
-          <ListItem animated title="Emprendimiento 4" description="Descripción" />
-          <ListItem animated title="Emprendimiento 5" description="Descripción">
-            <div className="home-page__complete-orders">
-              <TertiaryTitle>2</TertiaryTitle>
-              <TertiaryDescription>Encargos</TertiaryDescription>
-              <TertiaryDescription>realizados</TertiaryDescription>
-            </div>
-          </ListItem>
-          <ListItem animated title="Emprendimiento 4" description="Descripción" />
-          <ListItem animated title="Emprendimiento 4" description="Descripción" />
-          <ListItem animated title="Emprendimiento 4" description="Descripción" />
-          <ListItem animated title="Emprendimiento 4" description="Descripción" />
-          <ListItem animated title="Emprendimiento 4" description="Descripción" />
-        </List>
+        <SearchingBox className={`search-box${scrolled > 0 ? ' active' : ''}`}>
+          <Search
+            searchFunction={searchBusiness}
+            placeholder="Buscar emprendimientos por nombre o productos"
+          />
+          <CategoriesFilter categories={categoriesFilter} onCategoryClicked={handleCategoryClick} />
+        </SearchingBox>
+        <ListContainer>
+          <List>
+            <ListItem animated title="Emprendimiento 1" description="Descripción" />
+            <ListItem animated title="Emprendimiento 2" description="Descripción" />
+            <ListItem animated title="Emprendimiento 3" description="Descripción" />
+            <ListItem animated title="Emprendimiento 4" description="Descripción" />
+            <ListItem animated title="Emprendimiento 5" description="Descripción">
+              <div className="home-page__complete-orders">
+                <TertiaryTitle>2</TertiaryTitle>
+                <TertiaryDescription>Encargos</TertiaryDescription>
+                <TertiaryDescription>realizados</TertiaryDescription>
+              </div>
+            </ListItem>
+            <ListItem animated title="Emprendimiento 4" description="Descripción" />
+            <ListItem animated title="Emprendimiento 4" description="Descripción" />
+            <ListItem animated title="Emprendimiento 4" description="Descripción" />
+            <ListItem animated title="Emprendimiento 4" description="Descripción" />
+            <ListItem animated title="Emprendimiento 4" description="Descripción" />
+          </List>
+        </ListContainer>
         {user && !userHasBusiness && <AddBusinessButton onClick={() => history.push('/createBusiness')}>
           <Icon type="add" className="add-button__icon" />
         </AddBusinessButton>}
