@@ -74,13 +74,12 @@ const Home = () => {
 
   const handleScroll = () => {
     const scroll = window.scrollY;
-    console.log('asd');
     updateScrolledStatus(scroll);
   };
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     }
