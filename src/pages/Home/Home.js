@@ -74,22 +74,25 @@ const Home = () => {
 
   const handleScroll = () => {
     const scroll = window.scrollY;
+    console.log('asd');
     updateScrolledStatus(scroll);
-
-    console.log(scroll);
   };
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
 
+  useEffect(() => {
     // Con esto hago que se filtren los emprendimientos cada vez que se clickea una categoria
     async function filterBusiness () {
-      console.log(categoriesFilter);
+      console.log(categoriesFilter.find(cat => cat.clicked === true));
     };
 
     filterBusiness();
-
-    return window.removeEventListener('scroll', handleScroll);
   }, [categoriesFilter]);
 
   const searchBusiness = (key) => {
