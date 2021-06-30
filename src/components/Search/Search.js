@@ -9,10 +9,12 @@ import Icon from '../Icons';
 const Container = styled.div`
   display: flex;
   width: -webkit-fill-available;
+  justify-content: center;
 `;
 
 const Input = styled.input`
   width: 100%;
+  max-width: 530px;
   font-family: 'Raleway', sans-serif;
   padding: 8px 12px;
   border-top-left-radius: 4px;
