@@ -41,12 +41,8 @@ class UserService {
 
     async getMyReputation() {
         try {
-            const resp = await axios.get(`${API_URL}/users/myReputation`);
-            let user = UserData.getUserFromStorage();
-            if (user) {
-                user.reputation = resp.data;
-                localStorage.setItem('user', JSON.stringify(user));
-            }
+            const resp = await axios.get(`${API_URL}/users/reputation`);
+         
             return resp;
         } catch (error) {
             return error.response;
@@ -55,22 +51,15 @@ class UserService {
 
     async getMyBusinessReputation() {
         try {
-            let user = UserData.getUserFromStorage();
-            const resp = await axios.get(`${API_URL}/entrepreneurships/${user.entrepreneurship.id}/reputation`);
-            if (user){
-                let entrepreneurship = user.entrepreneurship;
-                if(entrepreneurship){
-                    user.entrepreneurship.reputation = resp.data;    
-                }
-                localStorage.setItem('user', JSON.stringify(user));
-            }
+            const resp = await axios.get(`${API_URL}/entrepreneurships/reputation`);
+            
             return resp;
         } catch (error) {
             return error.response;
         }
     }
 
-    async deleteUser(username) {
+    async deleteUser() {
         try {
             const resp = await axios.delete(`${API_URL}/users`);
             return resp;
