@@ -55,10 +55,16 @@ const BusinessListItem = ({ business }) => {
           <Description>
             {business.city}
           </Description>
-          <CategoriesList categories={business.categories}/>
+          <CategoriesList categories={business.categories.map(s => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase())}/>
         </Content>
         <Content tertiary>
-          
+          {/* Esto lo dejé porque lo habías hecho vos antes por si en un futuro lo usas
+          <div className="home-page__complete-orders">
+            <TertiaryTitle>2</TertiaryTitle>
+            <TertiaryDescription>Encargos</TertiaryDescription>
+            <TertiaryDescription>realizados</TertiaryDescription>
+          </div>
+          */}
         </Content>
       </ListGroup>
     </Card>
