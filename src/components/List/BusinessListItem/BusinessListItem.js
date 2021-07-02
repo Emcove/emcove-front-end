@@ -5,8 +5,9 @@ import styled, { css } from 'styled-components'
 import { colors } from '../../../styles/palette';
 
 import Card from '../../Card';
+import CategoriesList from '../../CategoriesList';
 
-const Image = styled.div`
+const Image = styled.img`
   width: 56px;
   height: 52px;
   border-radius: 100%;
@@ -42,26 +43,26 @@ const ListGroup = styled.div`
   justify-content: space-between;
 `;
 
-const ListItem = ({ children, title, description }) => {
+const BusinessListItem = ({ business }) => {
   return (
-    <Card animated>
-      <Image>
-      </Image>
+    <Card animated >
+      <Image src={business.logo} />
       <ListGroup>
         <Content>
           <Title>
-            {title}
+            {business.name}
           </Title>
           <Description>
-            {description}
+            {business.city}
           </Description>
+          <CategoriesList categories={business.categories}/>
         </Content>
         <Content tertiary>
-          {children}
+          
         </Content>
       </ListGroup>
     </Card>
   )
 }
 
-export default ListItem;
+export default BusinessListItem;

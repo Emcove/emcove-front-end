@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import styled from 'styled-components'
-
 import { useHistory } from "react-router-dom";
 
 import Layout from '../../components/Layout';
 import Title from '../../components/Title';
-import List from '../../components/List';
-import ListItem from '../../components/List/ListItem';
+import BusinessList from '../../components/List';
+import BusinessListItem from '../../components/List/BusinessListItem';
 import Icon from '../../components/Icons';
+import Loading from '../../components/Loading';
 
 import { colors } from '../../styles/palette';
 
 import UserData from '../../utils/userData';
+import BusinessService from '../../services/BusinessService';
+
 
 const Content = styled.div`
   width: 84%;
@@ -46,36 +48,38 @@ const AddBusinessButton = styled.button`
 `;
 
 const Home = () => {
+  const [isLoading, setLoading] = useState(false);
+  const [businessList, setBusiness] = useState([]);
+
   const history = useHistory();
   const userHasBusiness = UserData.hasBusiness();
   const user = UserData.getUserFromStorage();
+
+  useEffect(() => {
+    BusinessService.getAllBusiness().then(response => {
+      setLoading(false);
+      setBusiness(response.data);
+    });
+  },[]);
+
   return (
+    
     <Layout>
+      {isLoading && <Loading />}
+      {!isLoading &&
+      <>
       <Content>
         <Title>Emprendimientos</Title>
-        <List>
-          <ListItem animated title="Emprendimiento 1" description="Descripción" />
-          <ListItem animated title="Emprendimiento 2" description="Descripción" />
-          <ListItem animated title="Emprendimiento 3" description="Descripción" />
-          <ListItem animated title="Emprendimiento 4" description="Descripción" />
-          <ListItem animated title="Emprendimiento 5" description="Descripción">
-            <div className="home-page__complete-orders">
-              <TertiaryTitle>2</TertiaryTitle>
-              <TertiaryDescription>Encargos</TertiaryDescription>
-              <TertiaryDescription>realizados</TertiaryDescription>
-            </div>
-          </ListItem>
-          <ListItem animated title="Emprendimiento 4" description="Descripción" />
-          <ListItem animated title="Emprendimiento 4" description="Descripción" />
-          <ListItem animated title="Emprendimiento 4" description="Descripción" />
-          <ListItem animated title="Emprendimiento 4" description="Descripción" />
-          <ListItem animated title="Emprendimiento 4" description="Descripción" />
-        </List>
+        <BusinessList businessList={businessList} />
         {user && !userHasBusiness && <AddBusinessButton onClick={() => history.push('/createBusiness')}>
           <Icon type="add" className="add-button__icon" />
         </AddBusinessButton>}
       </Content>
+    </>
+    }
     </Layout>
+    
+    
   );
 }
 
