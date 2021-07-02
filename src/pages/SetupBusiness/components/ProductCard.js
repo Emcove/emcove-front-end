@@ -54,6 +54,10 @@ const Tag = styled.div`
   ${props => props.success && css `
     background-color: ${colors.success};
   `}
+
+  ${props => props.transparent && css `
+    background-color: transparent;
+  `}
 `;
 
 const TagLabel = styled.span`
@@ -99,8 +103,8 @@ const ProductCard = ({ images, name, description, properties, hasStock, producti
       <SmallContainer>
         <Name>{name}</Name>
         <Description>{description}</Description>
-        { hasStock && <Tag success><TagLabel>En stock</TagLabel></Tag> }
-        { !hasStock && <TagLabel info>Elaboración: {productionTime} días</TagLabel>}
+        {hasStock && <Tag success><TagLabel>En stock</TagLabel></Tag> }
+        {productionTime && <Tag transparent><TagLabel info>Elaboración: {productionTime} días</TagLabel></Tag>}
       </SmallContainer>
       <SmallContainer>
         {properties.map(prop => <Dropdown key={`${prop.name}Dropdown`} options={prop.options} placeholder={prop.name} />)}

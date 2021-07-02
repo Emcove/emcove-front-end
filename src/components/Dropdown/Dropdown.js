@@ -9,6 +9,7 @@ import Icon from '../Icons';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 const DropdownDispatcher = styled.button`
@@ -21,6 +22,7 @@ const DropdownDispatcher = styled.button`
   border-radius: 3px;
   text-align: left;
   margin: 0 16px 16px 0;
+  font-family: 'Raleway';
 
   &:hover {
     cursor: pointer;
@@ -39,7 +41,9 @@ const Label = styled.span`
 
 const Options = styled.div`
   position: absolute;
-  margin-top: 22px;
+  top: 6px;
+  left: 0;
+  width: 100%;
   border: solid 1px ${colors.grayBorder};
   border-radius: 3px;
   background-color: ${colors.white};

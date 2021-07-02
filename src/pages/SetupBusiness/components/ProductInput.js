@@ -38,7 +38,7 @@ const ProductionDataContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 16px 0;
+  padding: 6px 0;
 `;
 
 const ProductionTimeContainer = styled.div`
@@ -48,7 +48,6 @@ const ProductionTimeContainer = styled.div`
 
 const PropertiesContainer = styled.div`
   width: 100%;
-  padding-top: 12px;
   border-bottom: solid 1px #b3aeae3b;
 `;
 
@@ -122,7 +121,6 @@ const Preview = styled.img`
 const ImagesContainer = styled.div`
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 8px;
 `;
 
 const MultiFilesInput = styled.input`
@@ -351,7 +349,6 @@ const NewProduct = () => {
             checked={stockCheckbox}
             onClick={() => setStockCheckbox(!stockCheckbox)}
           />
-         {!stockCheckbox &&
          <ProductionTimeContainer>
             <Label>Días de producción:</Label>
             <TextInput
@@ -361,7 +358,7 @@ const NewProduct = () => {
               onChange={setProductionTime}
               className="production-time__input"
             />
-          </ProductionTimeContainer>}
+          </ProductionTimeContainer>
       </ProductionDataContainer>
       </Group>
       <PropertiesContainer>
