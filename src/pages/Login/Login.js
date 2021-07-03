@@ -15,8 +15,6 @@ import { colors } from "../../styles/palette";
 
 import AuthenticationService from "../../services/AuthenticationService";
 
-AuthenticationService.logout();
-
 const LoadingContainer = styled.div`
   display: flex;
   align-items: center;

@@ -72,23 +72,18 @@ const Home = () => {
   const userHasBusiness = UserData.hasBusiness();
   const user = UserData.getUserFromStorage();
 
+  const [categoriesFilter, updateCategoriesFilter] =  useState(categories.map(cat => { return { name: cat, clicked: false }}));
+  const [scrolled, updateScrolledStatus] = useState(0);
+  const [isLoading, setLoading] = useState(true);
+  const [businessList, setBusiness] = useState([]);
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
-
-    BusinessService.getAllBusiness().then(response => {
-      setLoading(false);
-      setBusiness(response.data);
-    });
-
+    searchBusiness();
     return () => {
       window.removeEventListener('scroll', handleScroll);
     }
   },[]);
-
-  const [categoriesFilter, updateCategoriesFilter] =  useState(categories.map(cat => { return { name: cat, clicked: false }}));
-  const [scrolled, updateScrolledStatus] = useState(0);
-  const [isLoading, setLoading] = useState(false);
-  const [businessList, setBusiness] = useState([]);
 
   const handleScroll = () => {
     const scroll = window.scrollY;
@@ -98,14 +93,34 @@ const Home = () => {
   useEffect(() => {
     // Con esto hago que se filtren los emprendimientos cada vez que se clickea una categoria
     async function filterBusiness () {
-      console.log(categoriesFilter.find(cat => cat.clicked === true));
+      const data = {
+        categories:categoriesFilter.filter(cat => cat.clicked === true).map(c => c.name.toUpperCase()),
+      }
+    
+      setLoading(true);
+      BusinessService.getAllBusiness(data).then(response => {
+        setLoading(false);
+        console.log(response.data);
+        setBusiness(response.data);
+      });
+      console.log(categoriesFilter.filter(cat => cat.clicked === true).map(c => c.name.toUpperCase()));
     };
 
     filterBusiness();
   }, [categoriesFilter]);
 
-  const searchBusiness = (key) => {
-    // llamar a funcion para buscar emprendimientos
+  const searchBusiness = async (key) => {
+    const data = {
+      name:key,
+      productName:key,
+    }
+  
+    setLoading(true);
+    BusinessService.getAllBusiness(data).then(response => {
+      setLoading(false);
+      console.log(response.data);
+      setBusiness(response.data);
+    });
     console.log(key);
   }
 
@@ -126,9 +141,6 @@ const Home = () => {
   return (
     
     <Layout>
-      {isLoading && <Loading />}
-      {!isLoading &&
-      <>
       <Content>
         <Title>Emprendimientos</Title>
         
@@ -139,15 +151,14 @@ const Home = () => {
           />
           <CategoriesFilter categories={categoriesFilter} onCategoryClicked={handleCategoryClick} />
         </SearchingBox>
-        <ListContainer>
-          <BusinessList businessList={businessList} />
+        {isLoading && <Loading />}
+         <ListContainer>
+          {!isLoading &&<BusinessList businessList={businessList} />}
         </ListContainer>
         {user && !userHasBusiness && <AddBusinessButton onClick={() => history.push('/createBusiness')}>
           <Icon type="add" className="add-button__icon" />
         </AddBusinessButton>}
       </Content>
-    </>
-    }
     </Layout>
     
     

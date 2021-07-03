@@ -42,6 +42,20 @@ class BusinessService {
         return error.response;
     }
   }
+
+  async getAllBusiness(data){
+    try {
+      let resp;
+      if(data){
+        resp = await axios.get(`${API_URL}/entrepreneurships`,{params:data})
+      }else{
+        resp = await axios.get(`${API_URL}/entrepreneurships`);
+      } 
+      return resp;
+    } catch (error) {
+        return error.response;
+    }
+  }
 }
 
 export default new BusinessService()
