@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Icon from '../Icons';
 
@@ -24,9 +24,13 @@ const ModalCard = styled.div`
   display: flex;
   background-color: #fff;
   margin: 24px;
-  padding: 32px 32px 0 32px;
-  width: calc(70% - 64px);
+  padding: 32px 40px 0 40px;
+  width: fit-content;
   border-radius: 6px;
+
+  ${props => props.minWidth && css `
+      min-width: ${props.minWidth};
+  `}
 `;
 
 const CloseModalButton = styled.button`
@@ -48,7 +52,7 @@ const CloseModalButton = styled.button`
   }
 `;
 
-const Modal = ({ open, setVisibility, children }) => {
+const Modal = ({ open, setVisibility, children, minWidth }) => {
   useEffect(() => {
     document.addEventListener('keydown', (event) => {
       if(event.key === "Escape") {
@@ -65,7 +69,7 @@ const Modal = ({ open, setVisibility, children }) => {
   return (
     <Container>
       <CardContainer>
-        <ModalCard className="modal-card">
+        <ModalCard minWidth={minWidth} className="modal-card">
           <CloseModalButton onClick={() => setVisibility(false)}><Icon type="cross" className="close-modal__icon" /></CloseModalButton>
           {children}
         </ModalCard>
