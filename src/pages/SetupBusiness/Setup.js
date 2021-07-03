@@ -166,7 +166,7 @@ const Setup = () => {
           </div>
           <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />
         </Content>
-        <Modal className="new-product__modal" open={modalProductVisible} setVisibility={setModalVisible}>
+        <Modal className="new-product__modal" open={modalProductVisible} setVisibility={setModalVisible} minWidth="800px">
           <ProductInput />
         </Modal>
       </BusinessProvider>
