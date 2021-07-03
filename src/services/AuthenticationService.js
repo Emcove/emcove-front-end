@@ -47,9 +47,6 @@ class AuthenticationService {
         axios.interceptors.request.use(
             function (config) {
                 config.headers.Authorization = basicAuthHeader;
-                config.paramsSerializer = p => {
-                    return qs.stringify(p, { arrayFormat: "repeat" })
-                  } 
                 return config;
             }
         )
