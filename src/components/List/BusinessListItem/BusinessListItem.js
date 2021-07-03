@@ -5,8 +5,9 @@ import styled, { css } from 'styled-components'
 import { colors } from '../../../styles/palette';
 
 import Card from '../../Card';
+import CategoriesList from '../../CategoriesList';
 
-const Image = styled.div`
+const Image = styled.img`
   width: 56px;
   height: 52px;
   border-radius: 100%;
@@ -42,26 +43,32 @@ const ListGroup = styled.div`
   justify-content: space-between;
 `;
 
-const ListItem = ({ children, title, description }) => {
+const BusinessListItem = ({ business }) => {
   return (
-    <Card animated>
-      <Image>
-      </Image>
+    <Card animated >
+      <Image src={business.logo} />
       <ListGroup>
         <Content>
           <Title>
-            {title}
+            {business.name}
           </Title>
           <Description>
-            {description}
+            {business.city}
           </Description>
+          <CategoriesList categories={business.categories.map(s => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase())}/>
         </Content>
         <Content tertiary>
-          {children}
+          {/* Esto lo dejé porque lo habías hecho vos antes por si en un futuro lo usas
+          <div className="home-page__complete-orders">
+            <TertiaryTitle>2</TertiaryTitle>
+            <TertiaryDescription>Encargos</TertiaryDescription>
+            <TertiaryDescription>realizados</TertiaryDescription>
+          </div>
+          */}
         </Content>
       </ListGroup>
     </Card>
   )
 }
 
-export default ListItem;
+export default BusinessListItem;
