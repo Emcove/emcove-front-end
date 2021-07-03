@@ -86,23 +86,25 @@ const Home = () => {
     // Con esto hago que se filtren los emprendimientos cada vez que se clickea una categoria
     async function filterBusiness () {
       const data = {
+        name:encodeURI(searchText),
+        productName:encodeURI(searchText),
         categories: categoriesFilter.filter(cat => cat.clicked === true).map(c => c.name.toUpperCase()),
       }
     
       setLoading(true);
-      BusinessService.getAllBusiness(!!data.categories.length && data).then(response => {
+      BusinessService.getAllBusiness(data).then(response => {
         setLoading(false);
-        console.log(response.data);
         setBusiness(response.data);
       });
-      console.log(categoriesFilter.filter(cat => cat.clicked === true).map(c => c.name.toUpperCase()));
     };
 
     filterBusiness();
   }, [categoriesFilter]);
 
   const searchBusiness = async (key) => {
+    console.log("search");
     const data = {
+      categories: categoriesFilter.filter(cat => cat.clicked === true).map(c => c.name.toUpperCase()),
       name: encodeURI(key),
       productName: encodeURI(key),
     }
