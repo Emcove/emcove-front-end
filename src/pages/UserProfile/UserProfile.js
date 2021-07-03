@@ -11,6 +11,7 @@ import Checkbox from "../../components/Checkbox";
 import Snackbar from "../../components/Snackbar";
 import Card from "../../components/Card";
 import Loading from "../../components/Loading";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 import UserData from '../../utils';
 import Button from '../../components/Button';
@@ -74,13 +75,17 @@ const DeleteAccountButton = styled.button`
 `;
 
 const UserProfile = () => {
-  const loggedUser = JSON.parse(localStorage.getItem("user"));
+  //const loggedUser = JSON.parse(localStorage.getItem("user"));
+
+  const loggedUser = {};
+
   const history = useHistory();
   const [avatar, setUserAvatar] = useState(loggedUser?.avatar || '');
   const [editState, setEditState] = useState(false);
   const [snackbarData, setSnackbarData] = useState({});
   const [isLoading, setLoading] = useState(false);
-  
+  const [confirmationModal, setModalVisible] = useState(false);
+
   // Account Data
   const [email, setEmail] = useState(loggedUser?.email || '');
   const [emailConfirmation, setEmailConfirmation] = useState('');
@@ -225,10 +230,26 @@ const UserProfile = () => {
     }
   }
 
+  const deleteClick = () => {
+    setModalVisible(true);
+  }
+
+  const handleAcceptClick = () => {
+    setModalVisible(false);
+    deleteProfile();
+  }
+
   return (
     <>
     {isLoading && <Loading />}
     <Layout className="user-profile">
+      <ConfirmationModal
+        title="Estás por eliminar tu cuenta"
+        message="¿Estás seguro de que querés hacerlo?"
+        onAccept={handleAcceptClick}
+        onCancel={setModalVisible} 
+        isVisible={confirmationModal}
+      />
       <Container>
         <LinkContainer>
           <Link onClick={() => history.push('/home')}>Volver al listado</Link>
@@ -349,7 +370,7 @@ const UserProfile = () => {
             {editState && <Button primary onClick={() => saveChanges()}>Guardar</Button>}
             {editState && <Button secondary onClick={() => setEditState(false)}>Cancelar</Button>}
             </ButtonContainer>
-            {editState && <DeleteAccountButton onClick={() => deleteProfile()}>Eliminar cuenta</DeleteAccountButton>}
+            {editState && <DeleteAccountButton onClick={() => deleteClick()}>Eliminar cuenta</DeleteAccountButton>}
           </ActionsContainer>
         </DataContainer>
       </Container>
