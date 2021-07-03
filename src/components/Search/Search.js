@@ -40,9 +40,8 @@ const IconButton = styled.button`
   }
 `;
 
-const Search = ({ searchFunction, placeholder }) => {
+const Search = ({ searchFunction, placeholder, searchText, updateSearchText }) => {
   const submitButtonRef = useRef("submitButton");
-  const [searchText, setSearchText] = useState('');
   
   const searchBusiness = () => {
     searchFunction(searchText);
@@ -70,7 +69,7 @@ const Search = ({ searchFunction, placeholder }) => {
         type="text"
         value={searchText}
         placeholder={placeholder}
-        onChange={(e) => setSearchText(e.currentTarget.value)}
+        onChange={(e) => updateSearchText(e.currentTarget.value)}
       />
       <IconButton onClick={searchBusiness} id="submitButton" ref={submitButtonRef}>
         <Icon type="white-magnifying-glass" className="magnifying-glass-button" />

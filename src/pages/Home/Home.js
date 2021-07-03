@@ -25,19 +25,9 @@ const Content = styled.div`
 `;
 
 const ListContainer = styled.div`
-  margin-top: 132px;
+  margin-top: 56px;
   width: 84%;
   max-width: 530px;
-`;
-
-const TertiaryTitle = styled.span`
-  font-size: 20px;
-  font-weight: 600;
-`;
-
-const TertiaryDescription = styled.span`
-  font-size: 13px;
-  color: rgba(0, 0, 0, 0.4);
 `;
 
 const AddBusinessButton = styled.button`
@@ -77,9 +67,11 @@ const Home = () => {
   const [isLoading, setLoading] = useState(true);
   const [businessList, setBusiness] = useState([]);
 
+  const [searchText, setSearchText] = useState('');
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
-    searchBusiness();
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     }
@@ -94,11 +86,11 @@ const Home = () => {
     // Con esto hago que se filtren los emprendimientos cada vez que se clickea una categoria
     async function filterBusiness () {
       const data = {
-        categories:categoriesFilter.filter(cat => cat.clicked === true).map(c => c.name.toUpperCase()),
+        categories: categoriesFilter.filter(cat => cat.clicked === true).map(c => c.name.toUpperCase()),
       }
     
       setLoading(true);
-      BusinessService.getAllBusiness(data).then(response => {
+      BusinessService.getAllBusiness(!!data.categories.length && data).then(response => {
         setLoading(false);
         console.log(response.data);
         setBusiness(response.data);
@@ -111,12 +103,12 @@ const Home = () => {
 
   const searchBusiness = async (key) => {
     const data = {
-      name:key,
-      productName:key,
+      name: encodeURI(key),
+      productName: encodeURI(key),
     }
   
     setLoading(true);
-    BusinessService.getAllBusiness(data).then(response => {
+    BusinessService.getAllBusiness(key && data).then(response => {
       setLoading(false);
       console.log(response.data);
       setBusiness(response.data);
@@ -148,12 +140,14 @@ const Home = () => {
           <Search
             searchFunction={searchBusiness}
             placeholder="Buscar emprendimientos por nombre o productos"
+            searchText={searchText}
+            updateSearchText={setSearchText}
           />
           <CategoriesFilter categories={categoriesFilter} onCategoryClicked={handleCategoryClick} />
         </SearchingBox>
         {isLoading && <Loading />}
          <ListContainer>
-          {!isLoading &&<BusinessList businessList={businessList} />}
+          {!isLoading && businessList && <BusinessList businessList={businessList} />}
         </ListContainer>
         {user && !userHasBusiness && <AddBusinessButton onClick={() => history.push('/createBusiness')}>
           <Icon type="add" className="add-button__icon" />

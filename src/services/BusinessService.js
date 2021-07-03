@@ -34,25 +34,19 @@ class BusinessService {
 
   }
 
-  async getAllBusiness(){
-    try {
-      const resp = await axios.get(`${API_URL}/entrepreneurships`);
-      return resp;
-    } catch (error) {
-        return error.response;
-    }
-  }
-
   async getAllBusiness(data){
     try {
       let resp;
-      if(data){
-        resp = await axios.get(`${API_URL}/entrepreneurships`,{params:data})
-      }else{
+      if (data) {
+        resp = await axios.get(`${API_URL}/entrepreneurships`,{ params: data })
+        
+      } else {
         resp = await axios.get(`${API_URL}/entrepreneurships`);
+        
       } 
       return resp;
     } catch (error) {
+      
         return error.response;
     }
   }
