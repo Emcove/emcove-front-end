@@ -75,9 +75,9 @@ const DeleteAccountButton = styled.button`
 `;
 
 const UserProfile = () => {
-  //const loggedUser = JSON.parse(localStorage.getItem("user"));
+  const loggedUser = JSON.parse(localStorage.getItem("user"));
 
-  const loggedUser = {};
+  //const loggedUser = {};
 
   const history = useHistory();
   const [avatar, setUserAvatar] = useState(loggedUser?.avatar || '');
