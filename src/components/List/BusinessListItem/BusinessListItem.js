@@ -6,13 +6,29 @@ import { colors } from '../../../styles/palette';
 
 import Card from '../../Card';
 import CategoriesList from '../../CategoriesList';
+import Icon from '../../Icons';
 
 const Image = styled.img`
-  width: 56px;
-  height: 52px;
+  width: 80px;
+  height: 80px;
   border-radius: 100%;
-  background-color: ${colors.success};
+  background-color: transparent;
   display: inline-table;
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  position: relative;
+  overflow: hidden;
+  border: solid 1px rgba(0,0,0,0.05);
+  background-color: ${colors.white};
+  min-width: 80px;
+  max-width: 80px;
+  height: 80px;
+  border-radius: 100%;
 `;
 
 const Content = styled.div`
@@ -43,10 +59,23 @@ const ListGroup = styled.div`
   justify-content: space-between;
 `;
 
+// const TertiaryTitle = styled.span`
+//   font-size: 20px;
+//   font-weight: 600;
+// `;
+
+// const TertiaryDescription = styled.span`
+//   font-size: 13px;
+//   color: rgba(0, 0, 0, 0.4);
+// `;
+
 const BusinessListItem = ({ business }) => {
   return (
     <Card animated >
-      <Image src={business.logo} />
+      <ImageContainer>
+        {business.logo && <Image src={business.logo} />}
+        {!business.logo && <Icon type="default-image" className="default-logo-list" />}
+      </ImageContainer>
       <ListGroup>
         <Content>
           <Title>

@@ -57,7 +57,7 @@ const CategoriesFilter = ({categories, onCategoryClicked }) => {
       {categories.map((category, idx) => (
         <CategoryButton
           key={category.name}
-          clicked={category.clicked}
+          clicked={!category.clicked}
           bgColor={getTagBgColor(idx)}
           onClick={() => onCategoryClicked(category)}
         >
