@@ -1,9 +1,6 @@
 import axios from 'axios'
 
 import { API_URL } from '../Constants'
-
-import UserData from '../utils';
-
 class UserService {
     async updateUserData(data) {
         try {
