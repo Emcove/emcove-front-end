@@ -167,7 +167,7 @@ const OrderItem = ({ order, openEvaluationModal }) => {
             {options &&
               <Options>
                 {order.status[order.status.length - 1].name === 'Pendiente' &&
-                  <OrderOption onClick={() => history.push(`/reputation?from=businessOrders&user=${order.user.username}`)}>
+                  <OrderOption onClick={() => history.push(`/reputation?from=business-orders&user=${order.user.id}`)}>
                     Ver reputación de usuario
                   </OrderOption>}
                 {order.status[order.status.length - 1].name !== 'Finalizado' &&

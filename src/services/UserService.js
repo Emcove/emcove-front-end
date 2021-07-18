@@ -29,7 +29,7 @@ class UserService {
 
     async getUserReputation(username) {
         try {
-            const resp = await axios.get(`${API_URL}/users/login`);
+            const resp = await axios.get(`${API_URL}/users/reputation/${username}`);
             return resp;
         } catch (error) {
             return error.response;
