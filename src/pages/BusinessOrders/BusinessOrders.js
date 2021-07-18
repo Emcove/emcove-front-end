@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { useHistory } from "react-router-dom";
 
@@ -12,8 +12,10 @@ import Link from "../../components/Link";
 import Modal from "../../components/Modal";
 import FeedbackForm from "../../components/FeedbackForm";
 
-import BusinessService from "../../services/BusinessService"
 import OrdersList from "./components/OrdersList";
+import UpdateOrderStatus from "./components/UpdateOrderStatus";
+
+import BusinessService from "../../services/BusinessService"
 
 const Container = styled.div`
   width: 100%;
@@ -31,8 +33,11 @@ const BusinessOrders = () => {
   const history = useHistory();
   const user = UserData.getUserFromStorage();
   
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalFeedbackVisible, setModalFeedbackVisible] = useState(false);
+  const [orderStatusModal, setStatusModalVisibility] = useState(false);
   const [evaluatedUser, setEvaluatedUser] = useState(null);
+
+  const [evaluatedOrder, setEvaluatedOrder] = useState(null);
 
   const orders = [{
     id: 8,
@@ -131,7 +136,7 @@ const BusinessOrders = () => {
 
   const openEvaluationModal = (businessId) => {
     setEvaluatedUser(businessId);
-    setModalVisible(true);
+    setModalFeedbackVisible(true);
   }
 
   return (
@@ -143,14 +148,17 @@ const BusinessOrders = () => {
           <OrdersList orders={orders} openEvaluationModal={openEvaluationModal} />
         </OrdersContainer>
       </Container>
-      <Modal open={modalVisible} setVisibility={setModalVisible}>
+      <Modal open={modalFeedbackVisible} setVisibility={setModalFeedbackVisible}>
         {user && user.entreprernship &&
         <FeedbackForm
           evaluatedEntity={evaluatedUser}
-          onClickCancel={() => setModalVisible(false)}
+          onClickCancel={() => setModalFeedbackVisible(false)}
           sendFeedback={BusinessService.registerFeedback}
           sender={user && user.username}
         />}
+      </Modal>
+      <Modal open={orderStatusModal && evaluatedOrder} setVisibility={setStatusModalVisibility}>
+        {evaluatedOrder && <UpdateOrderStatus order={evaluatedOrder} />}
       </Modal>
     </Layout>
   );

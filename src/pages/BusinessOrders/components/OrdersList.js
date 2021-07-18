@@ -2,7 +2,7 @@ import React from "react";
 
 import OrderItem from "./OrderItem";
 
-const OrdersList = ({ orders, openEvaluationModal }) => {
+const UpdateOrderStatus = ({ orders, openEvaluationModal }) => {
   if (!orders || orders.length === 0) return null;
 
   return (
@@ -14,4 +14,4 @@ const OrdersList = ({ orders, openEvaluationModal }) => {
   );
 }
 
-export default OrdersList;
+export default UpdateOrderStatus;
