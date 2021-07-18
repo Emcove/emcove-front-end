@@ -40,6 +40,10 @@ const Content = styled.div`
     padding: 0;
     min-height: calc(100vh - 53px);
   `}
+
+  @media (max-width: 768px) {
+    padding: 64px 20px 24px;
+  }
 `;
 
 const Footer = styled.div`
@@ -109,7 +113,7 @@ const Layout = ({ children, login, registry, className }) => {
       {!login &&
         <Header>
           <div className="components-container" onClick={redirectHome}>
-            <Icons type="horizontal-color-logo" />
+            <Icons type="horizontal-color-logo" className="header-color-logo"/>
           </div>
           {!registry && <ProfileAccess onClick={() => showProfileOptions(!profileOptions)}><Icons type="user" /></ProfileAccess>}
           {profileOptions &&

@@ -26,12 +26,20 @@ const ProductImage = styled.img`
   width: fit-content;
   display: inline;
   font-size: 12px;
+
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
 `;
 
 const OrderData = styled.div`
   display: flex;
   flex-direction: column;
   width: 70%;
+
+  @media (max-width: 768px) {
+    width: 40%;
+  }
 `;
 
 const Buyer = styled.p`
@@ -39,18 +47,30 @@ const Buyer = styled.p`
   font-weight: 600;
   color: ${colors.textColor};
   margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const OrderDate = styled.span`
   font-size: 12px;
   color: ${colors.textColor};
   margin-bottom: 4px;
+
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
 `;
 
 const Product = styled.p`
   font-size: 16px;
   color: ${colors.textColor};
   margin: 4px 0;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const PropertiesContainer = styled.div`
@@ -63,6 +83,10 @@ const ProductProps = styled.p`
   font-weight: 600;
   color: ${colors.lightGray};
   margin: 4px 4px 4px 4px;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const OrderStatus = styled.div`
@@ -75,7 +99,6 @@ const Status = styled.p`
   font-size: 16px;
   font-weight: 600;
   text-align: right;
-  
 
   ${props => props.type === "Pendiente" && css`
     color: ${colors.warning};
@@ -100,6 +123,10 @@ const Status = styled.p`
   ${props => props.type === "Finalizado" && css`
     color: ${colors.primary};
   `}
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const MoreOptions = styled.div`
@@ -131,6 +158,10 @@ const OrderOption = styled.div`
   &:hover {
     cursor: pointer;
     background-color: ${colors.primaryHover};
+  }
+
+  @media (max-width: 768px) {
+    font-size: 12px;
   }
 `;
 

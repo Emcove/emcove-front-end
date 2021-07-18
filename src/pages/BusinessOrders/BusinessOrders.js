@@ -21,6 +21,10 @@ const Container = styled.div`
 
 const OrdersContainer = styled.div`
   width: 50%;
+  
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const BusinessOrders = () => {
@@ -145,7 +149,7 @@ const BusinessOrders = () => {
           evaluatedEntity={evaluatedUser}
           onClickCancel={() => setModalVisible(false)}
           sendFeedback={BusinessService.registerFeedback}
-          sender=""
+          sender={user && user.username}
         />}
       </Modal>
     </Layout>
