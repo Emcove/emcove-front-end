@@ -144,7 +144,7 @@ const OrderItem = ({ order, openEvaluationModal }) => {
         <ProductImageContainer>
           <ProductImage
             src={""}
-            alt="business logo"
+            alt="product image"
           />
         </ProductImageContainer>
         <OrderData>
