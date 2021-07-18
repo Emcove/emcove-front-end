@@ -147,6 +147,7 @@ const Options = styled.div`
   border-radius: 3px;
   transition: box-shadow 0.2s ease-in-out;
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 4%);
+  min-width: 160px;
 `;
 
 const OrderOption = styled.div`
@@ -154,6 +155,7 @@ const OrderOption = styled.div`
   font-size: 14px;
   font-weight: 600;
   color: ${colors.primary};
+  border-bottom: solid 1px ${colors.grayBorder};
 
   &:hover {
     cursor: pointer;
