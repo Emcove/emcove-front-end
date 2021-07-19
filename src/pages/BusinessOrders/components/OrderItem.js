@@ -9,6 +9,7 @@ import Card from "../../../components/Card";
 import Icon from "../../../components/Icons";
 
 import { colors } from "../../../styles/palette";
+import Modal from "../../../components/Modal";
 
 const SingleOrder = styled.div`
   margin-bottom: 12px;
@@ -95,33 +96,58 @@ const OrderStatus = styled.div`
   width: 15%;
 `;
 
-const Status = styled.p`
+const Status = styled.button`
   font-size: 16px;
   font-weight: 600;
   text-align: right;
+  border: none;
+  background-color: transparent;
+  font-family: 'Raleway';
+  padding: 6px 8px;
+  border-radius: 4px;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   ${props => props.type === "Pendiente" && css`
     color: ${colors.warning};
+
+    &:hover {
+      background-color: ${colors.warningHover};
+    }
   `}
 
   ${props => props.type === "Rechazado" && css`
     color: ${colors.error};
+
+    &:hover {
+      cursor: default;
+    }
   `}
   
   ${props => props.type === "Cancelado" && css`
     color: ${colors.error};
+
+    &:hover {
+      cursor: default;
+    }
   `}
 
   ${props => props.type === "Aprobado" && css`
     color: ${colors.success};
-  `}
-  
-  ${props => props.type === "En progreso" && css`
-    color: ${colors.success};
+
+    &:hover {
+      background-color: ${colors.successHover};
+    }
   `}
   
   ${props => props.type === "Finalizado" && css`
     color: ${colors.primary};
+
+    &:hover {
+      cursor: default;
+    }
   `}
 
   @media (max-width: 768px) {
@@ -167,7 +193,7 @@ const OrderOption = styled.div`
   }
 `;
 
-const OrderItem = ({ order, openEvaluationModal }) => {
+const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
   const history = useHistory();
   const [options, showOptions] = useState(false);
 
@@ -192,19 +218,21 @@ const OrderItem = ({ order, openEvaluationModal }) => {
         </OrderData>
         <>
         <OrderStatus>
-          <Status type={order.status[order.status.length - 1].name}>{order.status[order.status.length - 1].name}</Status>
+          <Status
+            type={order.status[order.status.length - 1].name}
+            onClick={() => onClickStatus(order)}
+          >
+            {order.status[order.status.length - 1].name}
+          </Status>
           <MoreOptions>
             <Button backgroundColor="transparent" onClick={() => showOptions(!options)}>
               <Icon className="orders__more-options--icon" type="more-options"/>
             </Button>
             {options &&
               <Options>
-                {order.status[order.status.length - 1].name === 'Pendiente' &&
-                  <OrderOption onClick={() => history.push(`/reputation?from=business-orders&user=${order.user.id}`)}>
-                    Ver reputación de usuario
-                  </OrderOption>}
-                {order.status[order.status.length - 1].name !== 'Finalizado' &&
-                  <OrderOption>Actualizar estado</OrderOption>}
+                <OrderOption onClick={() => history.push(`/reputation?from=business-orders&user=${order.user.id}`)}>
+                  Ver reputación de usuario
+                </OrderOption>
                 {order.status[order.status.length - 1].name === 'Finalizado' &&
                   <OrderOption onClick={() => openEvaluationModal(order.business.id)}>Calificar comprador</OrderOption>
                 }

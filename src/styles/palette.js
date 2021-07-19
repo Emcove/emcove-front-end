@@ -13,5 +13,8 @@ module.exports = {
     background: '#f5f5f5',
     grayBorder: '#b3aeae82',
     primaryHover: '#5bc0eb3d',
+    successHover: 'rgba(155, 197, 61, 0.1)',
+    errorHover: 'rgba(229, 89, 52, 0.1)',
+    warningHover:'rgba(250, 121, 33, 0.1)'
   },
 }

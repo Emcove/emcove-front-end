@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { colors } from '../../styles/palette';
 
@@ -21,7 +21,7 @@ const DropdownDispatcher = styled.button`
   border: solid 1px ${colors.grayBorder};
   border-radius: 3px;
   text-align: left;
-  margin: 0 16px 16px 0;
+  margin: 0 0 16px 0;
   font-family: 'Raleway';
 
   &:hover {
@@ -56,13 +56,23 @@ const Option = styled.div`
   text-align: left;
   font-size: 14px;
 
-  :hover {
+  &:hover {
     cursor: pointer;
     background-color: ${colors.primaryHover};
   }
+
+  ${props => props.disabled && css`
+    background-color: ${colors.grayBorder};
+    opacity: 0.5;
+
+    &:hover {
+      background-color: ${colors.grayBorder};
+      cursor: default;
+    }
+  `}  
 `;
 
-const Dropdown = ({ label, options, placeholder, onClickOption }) => {
+const Dropdown = ({ label, options, placeholder, onClickOption, feedbackDropdown }) => {
   const [showingPlaceholder, setPlaceholder] = useState(placeholder || options[0]);
   const [showOptions, setShowOptions] = useState(false);
 
@@ -81,9 +91,15 @@ const Dropdown = ({ label, options, placeholder, onClickOption }) => {
           <Icon type="arrow-down" className="dropdown-icon" />
         </IconContainer>
       </DropdownDispatcher>
-      {showOptions &&
+      {showOptions && !feedbackDropdown &&
         <Options>
           {options.map(option => <Option key={option} onClick={() => optionClicked(option)}>{option}</Option>)}
+        </Options>
+      }
+
+      {showOptions && feedbackDropdown &&
+        <Options>
+          {options.map(option => <Option key={option.text} disabled={!option.enabled} onClick={option.enabled ? () => optionClicked(option.text) : () => {}}>{option.text}</Option>)}
         </Options>
       }
     </Container>
