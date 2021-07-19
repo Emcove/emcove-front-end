@@ -142,7 +142,10 @@ const BusinessOrders = () => {
   };
 
   const onClickStatus = (order) => {
-    if (order.status === 'Cancelado' || order.status === 'Finalizado') {
+    const { status } = order;
+    const currentStatus = status[status.length - 1].name;
+    
+    if (currentStatus === 'Cancelado' || currentStatus === 'Finalizado') {
       return null;
     }
 
