@@ -13,3 +13,14 @@
     cursor: pointer;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .components-container {
+    padding: 0 20px;
+  }
+
+  .header-color-logo {
+    height: 36px;
+    width: 150px;
+  }
+}

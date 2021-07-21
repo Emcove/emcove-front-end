@@ -40,6 +40,10 @@ const Content = styled.div`
     padding: 0;
     min-height: calc(100vh - 53px);
   `}
+
+  @media (max-width: 768px) {
+    padding: 64px 20px 24px;
+  }
 `;
 
 const Footer = styled.div`
@@ -109,7 +113,7 @@ const Layout = ({ children, login, registry, className }) => {
       {!login &&
         <Header>
           <div className="components-container" onClick={redirectHome}>
-            <Icons type="horizontal-color-logo" />
+            <Icons type="horizontal-color-logo" className="header-color-logo"/>
           </div>
           {!registry && <ProfileAccess onClick={() => showProfileOptions(!profileOptions)}><Icons type="user" /></ProfileAccess>}
           {profileOptions &&
@@ -118,6 +122,7 @@ const Layout = ({ children, login, registry, className }) => {
               {user && <Option onClick={() => history.push('/reputation?from=nav-header')}>Mi reputación</Option>}
               {user && <Option onClick={() => history.push('/orders')}>Ver pedidos que hice</Option>}
               {user && user.entrepreneurship && <Option onClick={() => history.push('/business?from=nav-header')}>Gestionar mi emprendimiento</Option>}
+              {user && user.entrepreneurship && <Option onClick={() => history.push('/businessOrders')}>Pedidos que recibí</Option>}
               {!user && <Option onClick={() => history.push('/')}>Iniciar sesión</Option>}
             </ProfileOptions>
           }

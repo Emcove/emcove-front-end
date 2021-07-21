@@ -9,9 +9,14 @@ const Button = styled.button`
   padding: 8px 10px;
   border: none;
   font-size: 14px;
+  font-weight: 500;
   border: solid 2px ${colors.primary};
   margin: 0 4px;
   font-family: 'Raleway';
+
+  ${props => props.large && css`
+    width: 100%;
+  `}
   
   ${props => props.primary && css`
     background: ${colors.primary};
@@ -40,7 +45,6 @@ const Button = styled.button`
   ${props => props.color && css`
     color: ${props.color};
   `}
-
 
   &:hover {
     cursor: pointer;

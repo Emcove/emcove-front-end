@@ -1,9 +1,6 @@
 import axios from 'axios'
 
 import { API_URL } from '../Constants'
-
-import UserData from '../utils';
-
 class UserService {
     async updateUserData(data) {
         try {
@@ -32,7 +29,7 @@ class UserService {
 
     async getUserReputation(username) {
         try {
-            const resp = await axios.get(`${API_URL}/users/login`);
+            const resp = await axios.get(`${API_URL}/users/reputation/${username}`);
             return resp;
         } catch (error) {
             return error.response;

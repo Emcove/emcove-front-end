@@ -94,7 +94,7 @@ const Home = () => {
       setLoading(true);
       BusinessService.getAllBusiness(data).then(response => {
         setLoading(false);
-        setBusiness(response.data);
+        if (response) setBusiness(response.data);
       });
     };
 

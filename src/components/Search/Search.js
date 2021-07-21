@@ -22,6 +22,10 @@ const Input = styled.input`
   border: solid 0.5px rgba(146, 145, 145, 0.8);
   border-right: none;
   font-size: 16px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const IconButton = styled.button`
