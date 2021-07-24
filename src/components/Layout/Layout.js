@@ -35,15 +35,20 @@ const Content = styled.div`
   padding: 64px 8% 24px;
   min-height: calc(100vh - 53px - 64px - 24px);
 
+  @media (max-width: 768px) {
+    padding: 64px 20px 24px;
+  }
   ${props => props.loginContent && css `
     justify-content: center;
     padding: 0;
     min-height: calc(100vh - 53px);
+    
+    @media (max-width: 768px) {
+      padding: 32px 0 0;
+      justify-content: flex-start;
+      min-height: calc(100vh - 53px - 32px);
+    }
   `}
-
-  @media (max-width: 768px) {
-    padding: 64px 20px 24px;
-  }
 `;
 
 const Footer = styled.div`

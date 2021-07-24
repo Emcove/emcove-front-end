@@ -31,6 +31,7 @@ const ListContainer = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
+    margin-top: 35%;
   }
 `;
 
@@ -57,6 +58,10 @@ const SearchingBox = styled.div`
   background-color: ${colors.background};
   width: 100%;
   transition: all 0.15s linear;
+  
+  @media (max-width: 768px) {
+    max-height: 18%;
+  }
 `;
 
 const Home = () => {
