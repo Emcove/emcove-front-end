@@ -1,17 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components'
 
-import { colors } from '../../styles/palette';
-
-const categoriesColors = [colors.primary, colors.success, colors.yellow, colors.warning, colors.error, colors.primary];
-
-const getFontColor = (bgColor) => {
-  if (bgColor === colors.yellow) {
-    return colors.textColor;
-  }
-
-  return colors.white;
-}
+import { categories } from '../../styles/palette';
 
 const Container = styled.div `
   display: flex;
@@ -27,18 +17,18 @@ const CategoryTag = styled.div`
 
   ${props => props.color && css `
     background-color: ${props.color};
-    color: ${getFontColor(props.color)};
+    color: #fff;
   `}
 `;
 
 
-const CategoriesList = ({ categories }) => {
-  if (!categories.length) return null; // Con esto no fallamos si categories viene vacío
+const CategoriesList = ({ categories: categoriesList }) => {
+  if (!categoriesList.length) return null; // Con esto no fallamos si categories viene vacío
 
   return (
     <Container>
-      {categories.map((category, index) => 
-        <CategoryTag key={`${category}-tag`} className="category-tag" color={categoriesColors[index]}>
+      {categoriesList.map((category) => 
+        <CategoryTag key={`${category}-tag`} className="category-tag" color={categories[category].primary}>
           {category}
         </CategoryTag>
       )}

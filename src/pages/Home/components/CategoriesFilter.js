@@ -2,11 +2,7 @@
 import React from 'react';
 import styled, { css }  from 'styled-components';
 
-import { colors } from '../../../styles/palette';
-
-const getFontColor = (bgColor) => {
-  return bgColor === colors.yellow ? colors.textColor : colors.white;
-}
+import { colors, categories } from '../../../styles/palette';
 
 const Container = styled.div`
   display: flex;
@@ -27,15 +23,14 @@ const CategoryButton = styled.button`
   transition: box-shadow ease-in 0.3s;
   border: solid 2px transparent;
 
-  ${props => props.bgColor && css`
-    background-color: ${props.bgColor};
-    color: ${getFontColor(props.bgColor)};
+  ${props => props.categoryName && css`
+    background-color: ${categories[props.categoryName].hover};
+    color: ${categories[props.categoryName].primary};
   `}
 
   ${props => props.clicked && css`
-    background-color: transparent;
-    border: solid 2px ${props.bgColor};
-    color: ${props.bgColor === colors.yellow ? props.textColor : props.bgColor};
+    background-color: ${categories[props.categoryName].primary};
+    color: ${colors.white};
   `}
 
   &:hover {
@@ -45,21 +40,14 @@ const CategoryButton = styled.button`
 `;
 
 
-const CategoriesFilter = ({categories, onCategoryClicked }) => {
-  const getTagBgColor = (index) => {
-    const colorsArray = [colors.primary, colors.success, colors.yellow, colors.warning, colors.error];
-
-      if (index < colorsArray.length) return colorsArray[index];
-      return colorsArray[index % colorsArray.length];
-    }; 
-
+const CategoriesFilter = ({categories: categoriesList, onCategoryClicked }) => {
   return (
     <Container>
-      {categories.map((category, idx) => (
+      {categoriesList.map((category, idx) => (
         <CategoryButton
           key={category.name}
-          clicked={!category.clicked}
-          bgColor={getTagBgColor(idx)}
+          clicked={category.clicked}
+          categoryName={category.name}
           onClick={() => onCategoryClicked(category)}
         >
           {category.name}
