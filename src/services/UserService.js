@@ -46,10 +46,9 @@ class UserService {
         }
     }
 
-    async getMyBusinessReputation() {
+    async getMyBusinessReputation(businessId) {
         try {
-            const resp = await axios.get(`${API_URL}/entrepreneurships/reputation`);
-            
+            const resp = await axios.get(`${API_URL}/entrepreneurships/${businessId}/reputation`);
             return resp;
         } catch (error) {
             return error.response;

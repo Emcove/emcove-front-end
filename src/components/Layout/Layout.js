@@ -102,6 +102,12 @@ const Option = styled.div`
     cursor: pointer;
     background-color: ${colors.primaryHover};
   }
+
+  ${props => props.hideOnMobile && css `
+    @media (max-width: 768px) {
+      display: none;
+    }
+  `}
 `;
 
 const Layout = ({ children, login, registry, className }) => {

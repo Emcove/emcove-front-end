@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { useHistory } from "react-router-dom";
 
 import Layout from '../../components/Layout';
@@ -50,6 +50,12 @@ const AddBusinessButton = styled.button`
     cursor: pointer;
     box-shadow: 0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%);
   }
+
+  ${props => props.hideOnMobile && css `
+    @media (max-width: 768px) {
+      display: none;
+    }
+  `}
 `;
 
 const SearchingBox = styled.div`
@@ -160,7 +166,7 @@ const Home = () => {
          <ListContainer>
           {!isLoading && businessList && <BusinessList businessList={businessList} />}
         </ListContainer>
-        {user && !userHasBusiness && <AddBusinessButton onClick={() => history.push('/createBusiness')}>
+        {user && !userHasBusiness && <AddBusinessButton hideOnMobile onClick={() => history.push('/createBusiness')}>
           <Icon type="add" className="add-button__icon" />
         </AddBusinessButton>}
       </Content>
