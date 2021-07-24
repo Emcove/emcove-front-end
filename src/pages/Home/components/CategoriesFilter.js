@@ -13,13 +13,14 @@ const Container = styled.div`
   width: 100%;
   margin: 10px 0  20px;
   justify-content: center;
+  flex-wrap: wrap;
 `;
 
 const CategoryButton = styled.button`
   display: flex;
   align-items: center;
   padding: 6px 10px;
-  margin: 0 4px;
+  margin: 0 4px 8px;
   border-radius: 20px;
   font-family: 'Raleway';
   font-weight: 600;
