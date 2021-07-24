@@ -145,7 +145,7 @@ const Home = () => {
         <SearchingBox className={`search-box${scrolled > 0 ? ' active' : ''}`}>
           <Search
             searchFunction={searchBusiness}
-            placeholder="Buscar emprendimientos por nombre o productos"
+            placeholder="¿Qué estás buscando?"
             searchText={searchText}
             updateSearchText={setSearchText}
           />
