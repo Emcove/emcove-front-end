@@ -13,3 +13,18 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .user-profile {
+    .confirmation-input {
+      &__hidden {
+        display: none;
+      }
+  
+      &__visible {
+        opacity: 1;
+        display: block;
+      }
+    }
+  }
+}

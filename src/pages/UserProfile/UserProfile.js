@@ -23,6 +23,11 @@ import { colors } from "../../styles/palette";
 
 const Container = styled.div`
   padding: 24px 0 0;
+
+  @media (max-width: 768px) {
+    padding: 24px 20px 0;
+    width: 100%
+  }
 `;
 
 const LinkContainer = styled.div`
@@ -30,8 +35,7 @@ const LinkContainer = styled.div`
   width: 100%;
 `;
 
-const DataContainer = styled.div`
-`;
+const DataContainer = styled.div``;
 
 const ImageContainer = styled.div`
   display: flex;
@@ -44,6 +48,12 @@ const InputGroup = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+
+  @media (max-width: 768px) {
+    padding: 16px 0 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const ActionsContainer = styled.div`
@@ -266,6 +276,7 @@ const UserProfile = () => {
             />
           </ImageContainer>
           <Card vertical>
+            <InputGroup>
               <TextInput 
                 id="username"
                 label="Nombre de usuario"
@@ -275,7 +286,9 @@ const UserProfile = () => {
                 required={requiredUsername}
                 onChange={setUsername}
                 disabled={!editState}
+                full
               />
+            </InputGroup>
             <InputGroup>
               <TextInput 
                 id="name"
@@ -286,6 +299,7 @@ const UserProfile = () => {
                 required={requiredName}
                 onChange={setName}
                 disabled={!editState}
+                full
               />
               <TextInput 
                 id="surname"
@@ -296,6 +310,7 @@ const UserProfile = () => {
                 required={requiredSurname}
                 onChange={setsurname}
                 disabled={!editState}
+                full
               />
             </InputGroup>
             <InputGroup>
@@ -307,6 +322,7 @@ const UserProfile = () => {
                 type="text"
                 onChange={setCity}
                 disabled={!editState}
+                full
               />
               <Checkbox
                 id="adultCheckbox"
@@ -326,6 +342,7 @@ const UserProfile = () => {
                 onChange={setEmail}
                 required={requiredEmail}
                 disabled={!editState}
+                full
               />
               <TextInput 
                 id="emailConfirmation"
@@ -337,6 +354,7 @@ const UserProfile = () => {
                 required={requiredEmailConf}
                 disabled={!editState}
                 className={classNames('confirmation-input', { 'confirmation-input__hidden': !editState, 'confirmation-input__visible': editState })}
+                full
               />
             </InputGroup>
             <InputGroup>
@@ -350,6 +368,7 @@ const UserProfile = () => {
                 onChange={setPassword}
                 required={requiredPassConf}
                 disabled={!editState}
+                full
               />}
               <TextInput 
                 id="passwordConfirmation"
@@ -361,6 +380,7 @@ const UserProfile = () => {
                 required={requiredPass}
                 disabled={!editState}
                 className={classNames('confirmation-input', { 'confirmation-input__hidden': !editState, 'confirmation-input__visible': editState })}
+                full
               />
             </InputGroup>
           </Card>
