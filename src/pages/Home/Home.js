@@ -28,6 +28,10 @@ const ListContainer = styled.div`
   margin-top: 56px;
   width: 84%;
   max-width: 530px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const AddBusinessButton = styled.button`
