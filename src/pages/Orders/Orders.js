@@ -25,6 +25,10 @@ const Container = styled.div`
 
 const OrdersContainer = styled.div`
   width: 50%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const SingleOrder = styled.div`
@@ -52,12 +56,13 @@ const BusinessName = styled.p`
   font-size: 20px;
   font-weight: 600;
   color: ${colors.textColor};
-  margin-bottom: 4px;
+  margin: 0 0 4px;
 `;
 
 const Product = styled.p`
   font-size: 16px;
   color: ${colors.textColor};
+  margin: 0;
 `;
 
 const OrderStatus = styled.div`
@@ -84,6 +89,11 @@ const Options = styled.div`
   border-radius: 3px;
   transition: box-shadow 0.2s ease-in-out;
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 4%);
+
+  @media (max-width: 768px) {
+    left: 0;
+    top: 33px;
+  }
 `;
 
 const OrderOption = styled.div`
