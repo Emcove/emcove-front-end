@@ -38,6 +38,7 @@ const Content = styled.div`
   @media (max-width: 768px) {
     padding: 64px 20px 24px;
   }
+  
   ${props => props.loginContent && css `
     justify-content: center;
     padding: 0;
