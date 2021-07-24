@@ -21,12 +21,20 @@ const ButtonsContainer = styled.div`
   margin-top: 20px;
 `;
 
+const Text = styled.div`
+  color: ${colors.textColor};
+  font-size: 16px;
+  margin: 24px 0;
+`;
+
 const StatusUpdateComponent = ({ order, handleCancel, handleAccept }) => {
   const [selectedStatus, updateSelectedStatus] = useState();
   
   return (
     <ModalContent>
       <Subtitle fontSize="24px">Actualizar estado del pedido Nº {order.id}</Subtitle>
+      <Text>Recibiste el pedido el {order.sendDate}</Text>
+      {order.status[order.status.length - 1].name !== 'Pendiente' && <Text>Última actualización: {order.status[order.status.length - 1].dateChange} - {order.status[order.status.length - 1].name}</Text>}
       <Dropdown
         label="Próximo estado"
         placeholder="Seleccioná el próximo estado"
