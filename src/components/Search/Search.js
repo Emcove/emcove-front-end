@@ -10,6 +10,10 @@ const Container = styled.div`
   display: flex;
   width: -webkit-fill-available;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    margin: 0 20px;
+  }
 `;
 
 const Input = styled.input`
@@ -24,7 +28,7 @@ const Input = styled.input`
   font-size: 16px;
 
   @media (max-width: 768px) {
-    font-size: 14px;
+    padding: 12px 14px;
   }
 `;
 

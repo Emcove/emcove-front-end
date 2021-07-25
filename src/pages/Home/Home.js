@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { useHistory } from "react-router-dom";
 
 import Layout from '../../components/Layout';
@@ -28,6 +28,11 @@ const ListContainer = styled.div`
   margin-top: 56px;
   width: 84%;
   max-width: 530px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-top: 35%;
+  }
 `;
 
 const AddBusinessButton = styled.button`
@@ -45,6 +50,12 @@ const AddBusinessButton = styled.button`
     cursor: pointer;
     box-shadow: 0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%);
   }
+
+  ${props => props.hideOnMobile && css `
+    @media (max-width: 768px) {
+      display: none;
+    }
+  `}
 `;
 
 const SearchingBox = styled.div`
@@ -53,6 +64,10 @@ const SearchingBox = styled.div`
   background-color: ${colors.background};
   width: 100%;
   transition: all 0.15s linear;
+  
+  @media (max-width: 768px) {
+    max-height: 18%;
+  }
 `;
 
 const Home = () => {
@@ -141,7 +156,7 @@ const Home = () => {
         <SearchingBox className={`search-box${scrolled > 0 ? ' active' : ''}`}>
           <Search
             searchFunction={searchBusiness}
-            placeholder="Buscar emprendimientos por nombre o productos"
+            placeholder="¿Qué estás buscando?"
             searchText={searchText}
             updateSearchText={setSearchText}
           />
@@ -151,7 +166,7 @@ const Home = () => {
          <ListContainer>
           {!isLoading && businessList && <BusinessList businessList={businessList} />}
         </ListContainer>
-        {user && !userHasBusiness && <AddBusinessButton onClick={() => history.push('/createBusiness')}>
+        {user && !userHasBusiness && <AddBusinessButton hideOnMobile onClick={() => history.push('/createBusiness')}>
           <Icon type="add" className="add-button__icon" />
         </AddBusinessButton>}
       </Content>

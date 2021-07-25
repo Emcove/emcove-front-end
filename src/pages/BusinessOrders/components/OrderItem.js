@@ -173,6 +173,11 @@ const Options = styled.div`
   transition: box-shadow 0.2s ease-in-out;
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 4%);
   min-width: 160px;
+
+  @media (max-width: 768px) {
+    left: 0;
+    top: 33px;
+  }
 `;
 
 const OrderOption = styled.div`

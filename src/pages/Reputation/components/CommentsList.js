@@ -12,13 +12,17 @@ const Container = styled.div`
   display: flex;
   align-items: flex-start;
   overflow-x: scroll;
-  padding: 24px 0 0;
+  padding: 16px 0 0;
+
+  @media (max-width: 768px) {
+    padding-top: 0;
+  }
 `;
 
 const UserInfo = styled.div`
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 4px;
 `;
@@ -26,11 +30,40 @@ const UserInfo = styled.div`
 const User = styled.p`
   font-weight: 600;
   color: ${colors.textColor};
+  font-size: 20px;
+  margin: 0 0 10px;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const EmptyMessage = styled.p`
   font-size: 16px;
   color: rgba(0, 0, 0, 0.4);
+`;
+
+const CommentContent = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
+const CommentTitle = styled.span`
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 8px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+`;
+
+const CommentDescription = styled.p`
+  font-size: 16px;
+  margin: 0;
 `;
 
 const CommentsList = ({ comments, wording }) => (
@@ -43,10 +76,10 @@ const CommentsList = ({ comments, wording }) => (
             <User>{comment.username}</User>
             <Icon type={`reputation-${comment.value}`} className="comment-list__icon" />
           </UserInfo>
-          <div>
-            <span>{comment.title}</span>
-            <p>{comment.description}</p>
-          </div>
+          <CommentContent>
+            <CommentTitle>{comment.title}</CommentTitle>
+            <CommentDescription>{comment.description}</CommentDescription>
+          </CommentContent>
         </Card>
       ))}
       {(!comments || comments.length === 0) && <EmptyMessage>{wording}</EmptyMessage>}

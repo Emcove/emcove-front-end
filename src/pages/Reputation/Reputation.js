@@ -14,7 +14,9 @@ import CommentsList from './components/CommentsList';
 import ReputationGraphic from './components/ReputationGraphic';
 
 import { colors } from '../../styles/palette';
+
 import UserService from '../../services/UserService';
+import UserData from "../../utils";
 
 const Subtitle = styled.h2 `
   font-size: 18px;
@@ -41,8 +43,10 @@ const Reputation = ({ username }) => {
   const { from, user } = queryString.parse(location.search);
 
   useEffect(() => {
-    async function fetchBusinessReputation() {
-      const response = await UserService.getMyBusinessReputation();
+    async function fetchMyBusinessReputation() {
+      const user = UserData.getUserFromStorage();
+      
+      const response = await UserService.getMyBusinessReputation(user.entrepreneurship.id);
       return response;
     }
 
@@ -64,7 +68,7 @@ const Reputation = ({ username }) => {
         });
         break;
       case "business-detail":
-        fetchBusinessReputation().then(response => {
+        fetchMyBusinessReputation().then(response => {
           setLoading(false);
           setReputation(response.data);
         });

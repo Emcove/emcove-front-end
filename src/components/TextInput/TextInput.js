@@ -10,6 +10,10 @@ const InputContainer = styled.div`
   flex-direction: column;
   margin-bottom: 16px;
   margin-right: 16px;
+
+  ${props => props.full && css `
+    width: 100%;
+  `}
 `;
 
 const WarningMessage = styled.p`
@@ -49,14 +53,14 @@ const Hint = styled.p`
   margin-top: 4px;
 `;
 
-const TextInput = ({ id, label, value, required, placeholder, type, onChange, disabled, className, multiline, hint }) => {
+const TextInput = ({ id, label, value, required, placeholder, type, onChange, disabled, className, multiline, hint, full }) => {
 
   const handleFieldChange = (e) => {
     onChange(e.currentTarget.value);
   }
 
   return (
-    <InputContainer className={className}>
+    <InputContainer className={className} full>
       {label && value && <Label>{label}</Label>}
       {label && !value && <div className="label-space" />}
       {!multiline &&
