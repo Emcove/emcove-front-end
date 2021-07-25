@@ -14,7 +14,6 @@ import Card from "../../components/Card";
 import Icon from "../../components/Icons";
 import Modal from "../../components/Modal";
 import FeedbackForm from "../../components/FeedbackForm";
-import Snackbar from "../../components/Snackbar";
 
 import { colors } from "../../styles/palette";
 
@@ -107,8 +106,6 @@ const Orders = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [evaluatedUser, setEvaluatedUser] = useState(null);
 
-  const [snackbarData, setSnackbarData] = useState({});
-
   const orders = [{
     id: 4,
     business: {
@@ -178,7 +175,6 @@ const Orders = () => {
           sender={user.username}
         />
       </Modal>
-      <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />
     </Layout>
   );
 }

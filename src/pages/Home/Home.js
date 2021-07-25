@@ -99,7 +99,7 @@ const Home = () => {
     };
 
     filterBusiness();
-  }, [categoriesFilter]);
+  }, [categoriesFilter, searchText]);
 
   const searchBusiness = async (key) => {
     console.log("search");

@@ -15,8 +15,7 @@ import FeedbackForm from "../../components/FeedbackForm";
 import OrdersList from "./components/OrdersList";
 import StatusUpdateComponent from "./components/StatusUpdateComponent";
 
-import BusinessService from "../../services/BusinessService"
-import UpdateOrderStatus from "./components/OrdersList";
+import BusinessService from "../../services/BusinessService";
 
 
 const Container = styled.div`

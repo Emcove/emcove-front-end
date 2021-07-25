@@ -9,7 +9,6 @@ import Card from "../../../components/Card";
 import Icon from "../../../components/Icons";
 
 import { colors } from "../../../styles/palette";
-import Modal from "../../../components/Modal";
 
 const SingleOrder = styled.div`
   margin-bottom: 12px;
