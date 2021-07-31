@@ -70,9 +70,18 @@ const Setup = () => {
   const { from } = queryString.parse(location.search);
 
   useEffect(() => {
-
+    
     if (from === "businessDetail"){
-      
+      BusinessService.getLoggedBusiness().then(response => {
+        const business = response.data;
+        console.log(business)
+        setName(business.name);
+        setLogo(business.logo);
+        setCity(business.city);
+        setDoesShipments(business.doesShipments);
+        setCategories(business.categories.map(c => c.charAt(0) + c.slice(1).toLowerCase()));
+        updateProducts(business.products);
+      });
     }
   }, [from]);
 

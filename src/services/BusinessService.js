@@ -57,6 +57,14 @@ class BusinessService {
         return error.response;
     }
   }
+
+  async getLoggedBusiness(){
+    try {
+      return await axios.get(`${API_URL}/entrepreneurships/logged`);
+    } catch (error) {
+        return error.response;
+    }
+  }
 }
 
 export default new BusinessService()

@@ -129,10 +129,10 @@ const EditBusinessButton = styled.button`
 const BusinessDetail = (props) => {
   const history = useHistory();
   const params = useParams();
-  const isUserBusiness = UserData.hasBusiness();
 
   const [isLoading, setLoading] = useState(true);
   const [business, setBusiness] = useState();
+  const [isUserBusiness, setIsUserBusiness] = useState(false);
 
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
   // const { from } = queryString.parse(location.search);
@@ -150,6 +150,8 @@ const BusinessDetail = (props) => {
   };
 
   useEffect(() => {
+    setIsUserBusiness(UserData.isUserBusiness(params.business));
+
     BusinessService.getBusinessByName(params.business).then(response => {
       setBusiness(response.data);
       setShipmentText(response.data.doesShipments ? "Hace envíos" : "No hace envíos")
