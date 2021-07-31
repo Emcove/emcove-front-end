@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import styled, { css } from "styled-components";
 
@@ -19,6 +19,7 @@ import { colors } from "../../styles/palette";
 import UserData from "../../utils";
 
 import CategoriesList from "../../components/CategoriesList/CategoriesList";
+import Button from "../../components/Button";
 
 const DataContainer = styled.div`
   display: flex;
@@ -109,10 +110,25 @@ const BusinessDetail = () => {
   
   const shipmentText = business.doesShipments ? "Hace envíos" : "No hace envíos";
   
-  // useEffect(() => { Esto queda acá para cuando yo entre a ver el detalle de un emprendimiento como otro usuario
-  //   if (from === "nav-header") {
-  //   }
-  // });
+  useEffect(() => {
+    // if (from === "nav-header") {
+    // }
+
+    const mp = new window.MercadoPago('TEST-2d4b6c2b-2681-4037-9e2b-7099dc8cf4b4', {
+      locale: 'es-AR'
+    });
+
+  // Inicializa el checkout
+    mp.checkout({
+        preference: {
+            id: '260505835-798b202a-33ce-4db1-b575-23e7cff281cf'
+        },
+        render: {
+              container: '.cho-container', // Indica el nombre de la clase donde se mostrará el botón de pago
+              label: 'Pagar', // Cambia el texto del botón de pago (opcional)
+        }
+    });
+  }, []);
 
   const handleProductClick = (product) => {
     setProductModalInfo({ visible: true, product });
@@ -126,7 +142,7 @@ const BusinessDetail = () => {
 
   return (
     <Layout>
-      <Container className="business-detail">
+    <Container className="business-detail">
         <Link onClick={() => history.push('/home')}>Volver al listado</Link>
         <DataContainer>
           <ImageUploader
@@ -145,6 +161,11 @@ const BusinessDetail = () => {
         <Info>
           <Text>{`Localidad: ${business.city}`}</Text>
           <Text>{shipmentText}</Text>
+
+
+          <button className="cho-container" />
+
+
         </Info>
         <Info>
           <Subtitle>Productos</Subtitle>
