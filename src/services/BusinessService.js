@@ -46,7 +46,14 @@ class BusinessService {
       } 
       return resp;
     } catch (error) {
-      
+        return error.response;
+    }
+  }
+
+  async getBusinessByName(name){
+    try {
+      return await axios.get(`${API_URL}/entrepreneurships/name/${name}`);
+    } catch (error) {
         return error.response;
     }
   }

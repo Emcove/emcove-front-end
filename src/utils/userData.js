@@ -20,6 +20,7 @@ class UserData {
 
     return null;
   }
+
 }
 
 export default UserData;

@@ -26,7 +26,7 @@ const Main = () => (
         <span key="setup-business"><NavLink exact to="/createBusiness">Setup Business</NavLink></span>
         <span key="userProfile"><NavLink exact to="/userProfile`">User Profile</NavLink></span>
         <span key="reputation"><NavLink exact to="/reputation`">Reputation</NavLink></span>
-        <span key="businessDetail"><NavLink exact to="/business">Business Detail</NavLink></span>
+        <span key="businessDetail"><NavLink exact to="/business/:business">Business Detail</NavLink></span>
         <span key="orders"><NavLink exact to="/orders`">Pedidos</NavLink></span>
       </div>
       <>
@@ -36,7 +36,7 @@ const Main = () => (
         <Route exact path="/createBusiness" component={SetupBusiness}/>
         <Route exact path="/userProfile" component={UserProfile}/>
         <Route exact path="/reputation" component={Reputation}/>
-        <Route exact path="/business" component={BusinessDetail}/>
+        <Route exact path="/business/:business" component={BusinessDetail}/>
         <Route exact path="/orders" component={Orders}/>
         {/* <Route exact path="/:{business}/detail" component={Orders}/> */}
       </>

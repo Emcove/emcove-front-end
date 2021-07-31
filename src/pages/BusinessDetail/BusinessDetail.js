@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import styled, { css } from "styled-components";
+import ReactLoading from "react-loading";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import Carrousel from "../../components/Carrousel/Carrousel";
 import ImageUploader from "../../components/ImageUploader";
@@ -16,9 +17,9 @@ import ProductDetail from "./components/ProductDetail";
 
 import { colors } from "../../styles/palette";
 
-import UserData from "../../utils";
-
 import CategoriesList from "../../components/CategoriesList/CategoriesList";
+import UserData from '../../utils/userData';
+import BusinessService from "../../services/BusinessService";
 
 const DataContainer = styled.div`
   display: flex;
@@ -100,19 +101,43 @@ const MoreInfo = styled.div`
   }
 `;
 
-const BusinessDetail = () => {
+const Loading = styled.div`
+  width: 100%;
+  padding: 15% 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const EditBusinessButton = styled.button`
+  position: fixed;
+  top: calc(100vh - 64px - 70px);
+  right: 3%;
+  border-radius: 100%;
+  border: none;
+  width: 60px;
+  height: 60px;
+  background-color: ${colors.white};
+  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+  transition: box-shadow .08s linear,min-width .15s cubic-bezier(0.4,0.0,0.2,1);
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%);
+  }
+`;
+
+const BusinessDetail = (props) => {
   const history = useHistory();
-  // const location = useLocation();
-  const business = UserData.getUserFromStorage().entrepreneurship;
+  const params = useParams();
+  const isUserBusiness = UserData.hasBusiness();
+
+  const [isLoading, setLoading] = useState(true);
+  const [business, setBusiness] = useState();
+
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
   // const { from } = queryString.parse(location.search);
   
-  const shipmentText = business.doesShipments ? "Hace envíos" : "No hace envíos";
-  
-  // useEffect(() => { Esto queda acá para cuando yo entre a ver el detalle de un emprendimiento como otro usuario
-  //   if (from === "nav-header") {
-  //   }
-  // });
+  const [shipmentText,setShipmentText] = useState();
 
   const handleProductClick = (product) => {
     setProductModalInfo({ visible: true, product });
@@ -124,8 +149,24 @@ const BusinessDetail = () => {
     });
   };
 
+  useEffect(() => {
+    BusinessService.getBusinessByName(params.business).then(response => {
+      setBusiness(response.data);
+      setShipmentText(response.data.doesShipments ? "Hace envíos" : "No hace envíos")
+      setLoading(false);
+    });
+
+  }, []);
+
   return (
     <Layout>
+      {isLoading && 
+          <Loading>
+            <ReactLoading className="login-button__loading" type="spin" color={colors.primary} height="10%" width="10%" />
+          </Loading>
+      }
+      { !isLoading &&
+      <>
       <Container className="business-detail">
         <Link onClick={() => history.push('/home')}>Volver al listado</Link>
         <DataContainer>
@@ -164,10 +205,17 @@ const BusinessDetail = () => {
             )})}
           </ProductsContainer>
         </Info>
+        {isUserBusiness && 
+          <EditBusinessButton onClick={() => history.push('/createBusiness?from=businessDetail')}>
+            <Icon type="edit" className="edit-button__icon" />
+          </EditBusinessButton>
+        }
       </Container>
       <Modal open={productModal.visible} setVisibility={setModalVisibility}>
         <ProductDetail product={productModal.product}/>
       </Modal>
+      </>
+    }
     </Layout>
   );
 }
