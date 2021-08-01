@@ -24,7 +24,7 @@ const CategoryTag = styled.div`
 
 const CategoriesList = ({ categories: categoriesList }) => {
   if (!categoriesList.length) return null; // Con esto no fallamos si categories viene vacío
-
+  
   return (
     <Container>
       {categoriesList.map((category) => 

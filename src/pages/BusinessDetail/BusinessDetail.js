@@ -11,15 +11,15 @@ import Title from "../../components/Title";
 import Link from "../../components/Link";
 import Icon from "../../components/Icons";
 import Modal from "../../components/Modal";
+import Button from "../../components/Button";
+import CategoriesList from "../../components/CategoriesList";
 
 import ProductDetail from "./components/ProductDetail";
+import SubscriptionDetail from "./components/SubscriptionDetail";
 
 import { colors } from "../../styles/palette";
 
 import UserData from "../../utils";
-
-import CategoriesList from "../../components/CategoriesList/CategoriesList";
-import Button from "../../components/Button";
 
 const DataContainer = styled.div`
   display: flex;
@@ -101,11 +101,17 @@ const MoreInfo = styled.div`
   }
 `;
 
+const ButtonContainer = styled.div`
+  margin-top: 12px;
+  font-size: 0;
+`;
+
 const BusinessDetail = () => {
   const history = useHistory();
   // const location = useLocation();
   const business = UserData.getUserFromStorage().entrepreneurship;
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
+  const [modalSubscription, openModalSubscription] = useState(false);
   // const { from } = queryString.parse(location.search);
   
   const shipmentText = business.doesShipments ? "Hace envíos" : "No hace envíos";
@@ -113,21 +119,6 @@ const BusinessDetail = () => {
   useEffect(() => {
     // if (from === "nav-header") {
     // }
-
-    const mp = new window.MercadoPago('TEST-2d4b6c2b-2681-4037-9e2b-7099dc8cf4b4', {
-      locale: 'es-AR'
-    });
-
-  // Inicializa el checkout
-    mp.checkout({
-        preference: {
-            id: '260505835-798b202a-33ce-4db1-b575-23e7cff281cf'
-        },
-        render: {
-              container: '.cho-container', // Indica el nombre de la clase donde se mostrará el botón de pago
-              label: 'Pagar', // Cambia el texto del botón de pago (opcional)
-        }
-    });
   }, []);
 
   const handleProductClick = (product) => {
@@ -156,16 +147,16 @@ const BusinessDetail = () => {
           <TitleContainer>
             <Title>{business.name}</Title>
             <Link onClick={() => history.push('/reputation?from=business-detail')}>Ver reputación</Link>
+            {!business.hasSubscription &&
+              <ButtonContainer>
+                <Button primary onClick={() => openModalSubscription(true)}>Publicitar mi emprendimiento</Button>
+              </ButtonContainer>
+            }
           </TitleContainer>
         </DataContainer>
         <Info>
           <Text>{`Localidad: ${business.city}`}</Text>
           <Text>{shipmentText}</Text>
-
-
-          <button className="cho-container" />
-
-
         </Info>
         <Info>
           <Subtitle>Productos</Subtitle>
@@ -188,6 +179,9 @@ const BusinessDetail = () => {
       </Container>
       <Modal open={productModal.visible} setVisibility={setModalVisibility}>
         <ProductDetail product={productModal.product}/>
+      </Modal>
+      <Modal open={modalSubscription} setVisibility={openModalSubscription}>
+        <SubscriptionDetail business={business}/>
       </Modal>
     </Layout>
   );
