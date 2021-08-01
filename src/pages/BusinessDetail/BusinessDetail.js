@@ -106,6 +106,18 @@ const ButtonContainer = styled.div`
   font-size: 0;
 `;
 
+const SubscriptionInfo = styled.span`
+  font-size: 18px;
+  font-weight: bold;
+  color: ${colors.success};
+`;
+
+const SubscriptionInfoContainer = styled.span`
+  font-size: 0;
+  margin-bottom: 14px;
+  margin-top: -10px;
+`;
+
 const BusinessDetail = () => {
   const history = useHistory();
   // const location = useLocation();
@@ -113,6 +125,10 @@ const BusinessDetail = () => {
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
   const [modalSubscription, openModalSubscription] = useState(false);
   // const { from } = queryString.parse(location.search);
+  let subExpirationDate = "";
+  if (business.hasSubscription) {
+    subExpirationDate = new Date(business.subscriptionExpirationDate).toLocaleDateString();
+  }
   
   const shipmentText = business.doesShipments ? "Hace envíos" : "No hace envíos";
   
@@ -146,6 +162,11 @@ const BusinessDetail = () => {
           />
           <TitleContainer>
             <Title>{business.name}</Title>
+            {business.hasSubscription && 
+              <SubscriptionInfoContainer>
+                <SubscriptionInfo>Suscripción activa hasta: {subExpirationDate}</SubscriptionInfo>
+              </SubscriptionInfoContainer>
+            }
             <Link onClick={() => history.push('/reputation?from=business-detail')}>Ver reputación</Link>
             {!business.hasSubscription &&
               <ButtonContainer>
