@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import styled, { css } from "styled-components";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import queryString from "query-string";
 
 import Carrousel from "../../components/Carrousel/Carrousel";
 import ImageUploader from "../../components/ImageUploader";
@@ -12,6 +13,7 @@ import Link from "../../components/Link";
 import Icon from "../../components/Icons";
 import Modal from "../../components/Modal";
 import Button from "../../components/Button";
+import Snackbar from "../../components/Snackbar";
 import CategoriesList from "../../components/CategoriesList";
 
 import ProductDetail from "./components/ProductDetail";
@@ -120,11 +122,15 @@ const SubscriptionInfoContainer = styled.span`
 
 const BusinessDetail = () => {
   const history = useHistory();
-  // const location = useLocation();
+  const location = useLocation();
   const business = UserData.getUserFromStorage().entrepreneurship;
+
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
   const [modalSubscription, openModalSubscription] = useState(false);
-  // const { from } = queryString.parse(location.search);
+  const [snackbar, showSnackbar] = useState(false);
+
+  const { collection_status, from } = queryString.parse(location.search);
+
   let subExpirationDate = "";
   if (business.hasSubscription) {
     subExpirationDate = new Date(business.subscriptionExpirationDate).toLocaleDateString();
@@ -133,8 +139,19 @@ const BusinessDetail = () => {
   const shipmentText = business.doesShipments ? "Hace envíos" : "No hace envíos";
   
   useEffect(() => {
-    // if (from === "nav-header") {
-    // }
+    if (from === "nav-header") {
+
+      if (collection_status === "approved") {
+        
+        // TODO: IMPLEMENTAR POST PARA REGISTRAR LA SUSCRIPCIÓN
+        
+        showSnackbar(true);
+        setTimeout(() => {
+          showSnackbar(false);
+        }, 2000);
+      }
+    }
+
   }, []);
 
   const handleProductClick = (product) => {
@@ -149,6 +166,11 @@ const BusinessDetail = () => {
 
   return (
     <Layout>
+      <Snackbar
+        type="success"
+        show={snackbar}
+        message="¡Tu suscripción fue registrada correctamente!"
+      />
     <Container className="business-detail">
         <Link onClick={() => history.push('/home')}>Volver al listado</Link>
         <DataContainer>

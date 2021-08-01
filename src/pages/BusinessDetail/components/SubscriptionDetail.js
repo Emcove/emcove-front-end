@@ -40,7 +40,7 @@ const Price = styled.span`
   text-decoration: none;
 `;
 
-const SubscriptionDetail = ({ business }) => {
+const SubscriptionDetail = () => {
   const [isLoading, setLoading] = useState(true);
   const [mpPreferences, setMPPreferences] = useState([]);
 
@@ -60,7 +60,7 @@ const SubscriptionDetail = ({ business }) => {
     <Container>
       <Title>Elegí un plan</Title>
       <Description>Con la compra de uno de estos planes, vas a mejorar la posición en la que aparezcas cuando un usuario busque emprendimientos.</Description>
-      {isLoading && <ListSkeleton />}
+      {isLoading && <Options><ListSkeleton height="60px" /></Options>}
       {!isLoading &&
         <Options>
           {mpPreferences.map(planOption => (
