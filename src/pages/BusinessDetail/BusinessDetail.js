@@ -22,6 +22,7 @@ import SubscriptionDetail from "./components/SubscriptionDetail";
 import { colors } from "../../styles/palette";
 
 import UserData from "../../utils";
+import SubscriptionService from "../../services/SubscriptionService";
 
 const DataContainer = styled.div`
   display: flex;
@@ -129,7 +130,7 @@ const BusinessDetail = () => {
   const [modalSubscription, openModalSubscription] = useState(false);
   const [snackbar, showSnackbar] = useState(false);
 
-  const { collection_status, from } = queryString.parse(location.search);
+  const { collection_status, from, plan } = queryString.parse(location.search);
 
   let subExpirationDate = "";
   if (business.hasSubscription) {
@@ -142,8 +143,7 @@ const BusinessDetail = () => {
     if (from === "nav-header") {
 
       if (collection_status === "approved") {
-        
-        // TODO: IMPLEMENTAR POST PARA REGISTRAR LA SUSCRIPCIÓN
+        SubscriptionService.subscribeBusiness(business.id, plan);
         
         showSnackbar(true);
         setTimeout(() => {
@@ -224,7 +224,7 @@ const BusinessDetail = () => {
         <ProductDetail product={productModal.product}/>
       </Modal>
       <Modal open={modalSubscription} setVisibility={openModalSubscription}>
-        <SubscriptionDetail business={business}/>
+        <SubscriptionDetail />
       </Modal>
     </Layout>
   );

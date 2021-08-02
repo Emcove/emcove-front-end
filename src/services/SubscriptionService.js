@@ -18,7 +18,7 @@ class SubscriptionService {
     };
 
     try {
-      const resp =  await axios.post(`${API_URL}/entrepreneurships/subscriptions`, data);
+      const resp =  await axios.post(`${API_URL}/entrepreneurships/${businessId}/subscriptions`, data);
       return resp;
     } catch (error) {
         return error.response;

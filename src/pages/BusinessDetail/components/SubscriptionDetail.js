@@ -64,7 +64,7 @@ const SubscriptionDetail = () => {
       {!isLoading &&
         <Options>
           {mpPreferences.map(planOption => (
-            <a style={{ "text-decoration": "none" }} href={planOption.sandbox_init_point}>
+            <a key={planOption.id} style={{ "textDecoration": "none" }} href={planOption.sandbox_init_point}>
               <Card animated alignment="space-between" min-width="50%">
                 <PlanTitle>{planOption.title}</PlanTitle>
                 <Price>$ {planOption.price}</Price>
