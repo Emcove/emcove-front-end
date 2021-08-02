@@ -79,7 +79,7 @@ const ListGroup = styled.div`
 
 const BusinessListItem = ({ business }) => {
   return (
-    <Card animated >
+    <Card animated>
       <ImageContainer>
         {business.logo && <Image src={business.logo} />}
         {!business.logo && <Icon type="default-image" className="default-logo-list" />}

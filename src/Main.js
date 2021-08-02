@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Route,
   NavLink,
@@ -17,34 +17,42 @@ import BusinessOrders from "./pages/BusinessOrders";
 
 import "./styles/index.scss";
 
-const Main = () => (
-  <HashRouter>
-    <div className="main">
-      <div className="routing-settings">
-        <span key="home"><NavLink exact to="/home">Home</NavLink></span>
-        <span key="login"><NavLink exact to="/">Login</NavLink></span>
-        <span key="registry"><NavLink exact to="/registry">Registry</NavLink></span>
-        <span key="setupBusiness"><NavLink exact to="/createBusiness">Setup Business</NavLink></span>
-        <span key="userProfile"><NavLink exact to="/userProfile`">User Profile</NavLink></span>
-        <span key="reputation"><NavLink exact to="/reputation`">Reputation</NavLink></span>
-        <span key="businessDetail"><NavLink exact to="/business">Business Detail</NavLink></span>
-        <span key="orders"><NavLink exact to="/orders`">Pedidos</NavLink></span>
-        <span key="businessOrder"><NavLink exact to="/businessOrders`">Pedidos de emprendimiento</NavLink></span>
+const Main = () => {
+  useEffect(() => {
+    new window.MercadoPago('APP_USR-4eb4381b-24ab-4627-bb4b-6c2b2d9f1504', {
+      locale: 'es-AR'
+    });
+  }, []);
+
+  return (
+    <HashRouter>
+      <div className="main">
+        <div className="routing-settings">
+          <span key="home"><NavLink exact to="/home">Home</NavLink></span>
+          <span key="login"><NavLink exact to="/">Login</NavLink></span>
+          <span key="registry"><NavLink exact to="/registry">Registry</NavLink></span>
+          <span key="setupBusiness"><NavLink exact to="/createBusiness">Setup Business</NavLink></span>
+          <span key="userProfile"><NavLink exact to="/userProfile`">User Profile</NavLink></span>
+          <span key="reputation"><NavLink exact to="/reputation`">Reputation</NavLink></span>
+          <span key="businessDetail"><NavLink exact to="/business">Business Detail</NavLink></span>
+          <span key="orders"><NavLink exact to="/orders`">Pedidos</NavLink></span>
+          <span key="businessOrder"><NavLink exact to="/businessOrders`">Pedidos de emprendimiento</NavLink></span>
+        </div>
+        <>
+          <Route exact path="/home" component={Home}/>
+          <Route exact path="/" component={Login}/>
+          <Route exact path="/registry" component={Registry}/>
+          <Route exact path="/createBusiness" component={SetupBusiness}/>
+          <Route exact path="/userProfile" component={UserProfile}/>
+          <Route exact path="/reputation" component={Reputation}/>
+          <Route exact path="/business" component={BusinessDetail}/>
+          <Route exact path="/orders" component={Orders}/>
+          <Route exact path="/businessOrders" component={BusinessOrders}/>
+          {/* <Route exact path="/:{business}/detail" component={Orders}/> */}
+        </>
       </div>
-      <>
-        <Route exact path="/home" component={Home}/>
-        <Route exact path="/" component={Login}/>
-        <Route exact path="/registry" component={Registry}/>
-        <Route exact path="/createBusiness" component={SetupBusiness}/>
-        <Route exact path="/userProfile" component={UserProfile}/>
-        <Route exact path="/reputation" component={Reputation}/>
-        <Route exact path="/business" component={BusinessDetail}/>
-        <Route exact path="/orders" component={Orders}/>
-        <Route exact path="/businessOrders" component={BusinessOrders}/>
-        {/* <Route exact path="/:{business}/detail" component={Orders}/> */}
-      </>
-    </div>
-  </HashRouter>
-);
+    </HashRouter>
+  );
+}
 
 export default Main;

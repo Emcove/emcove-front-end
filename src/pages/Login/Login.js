@@ -64,11 +64,10 @@ const Login = () => {
   return (
     <Layout login>
       <Snackbar
-            type="error"
-            show={snackBarError}
-            message="Usuario o contraseña incorrectos"
-          >
-      </Snackbar>
+        type="error"
+        show={snackBarError}
+        message="Usuario o contraseña incorrectos"
+      />
       <div className="login-container">
         <Logo />
         <div className="login-inputs">

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import styled, { css } from "styled-components";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import queryString from "query-string";
 
 import Carrousel from "../../components/Carrousel/Carrousel";
 import ImageUploader from "../../components/ImageUploader";
@@ -11,14 +12,17 @@ import Title from "../../components/Title";
 import Link from "../../components/Link";
 import Icon from "../../components/Icons";
 import Modal from "../../components/Modal";
+import Button from "../../components/Button";
+import Snackbar from "../../components/Snackbar";
+import CategoriesList from "../../components/CategoriesList";
 
 import ProductDetail from "./components/ProductDetail";
+import SubscriptionDetail from "./components/SubscriptionDetail";
 
 import { colors } from "../../styles/palette";
 
 import UserData from "../../utils";
-
-import CategoriesList from "../../components/CategoriesList/CategoriesList";
+import SubscriptionService from "../../services/SubscriptionService";
 
 const DataContainer = styled.div`
   display: flex;
@@ -100,19 +104,55 @@ const MoreInfo = styled.div`
   }
 `;
 
+const ButtonContainer = styled.div`
+  margin-top: 12px;
+  font-size: 0;
+`;
+
+const SubscriptionInfo = styled.span`
+  font-size: 18px;
+  font-weight: bold;
+  color: ${colors.success};
+`;
+
+const SubscriptionInfoContainer = styled.span`
+  font-size: 0;
+  margin-bottom: 14px;
+  margin-top: -10px;
+`;
+
 const BusinessDetail = () => {
   const history = useHistory();
-  // const location = useLocation();
+  const location = useLocation();
   const business = UserData.getUserFromStorage().entrepreneurship;
+
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
-  // const { from } = queryString.parse(location.search);
+  const [modalSubscription, openModalSubscription] = useState(false);
+  const [snackbar, showSnackbar] = useState(false);
+
+  const { collection_status, from, plan } = queryString.parse(location.search);
+
+  let subExpirationDate = "";
+  if (business.hasSubscription) {
+    subExpirationDate = new Date(business.subscriptionExpirationDate).toLocaleDateString();
+  }
   
   const shipmentText = business.doesShipments ? "Hace envíos" : "No hace envíos";
   
-  // useEffect(() => { Esto queda acá para cuando yo entre a ver el detalle de un emprendimiento como otro usuario
-  //   if (from === "nav-header") {
-  //   }
-  // });
+  useEffect(() => {
+    if (from === "nav-header") {
+
+      if (collection_status === "approved") {
+        SubscriptionService.subscribeBusiness(business.id, plan);
+        
+        showSnackbar(true);
+        setTimeout(() => {
+          showSnackbar(false);
+        }, 2000);
+      }
+    }
+
+  }, []);
 
   const handleProductClick = (product) => {
     setProductModalInfo({ visible: true, product });
@@ -126,7 +166,12 @@ const BusinessDetail = () => {
 
   return (
     <Layout>
-      <Container className="business-detail">
+      <Snackbar
+        type="success"
+        show={snackbar}
+        message="¡Tu suscripción fue registrada correctamente!"
+      />
+    <Container className="business-detail">
         <Link onClick={() => history.push('/home')}>Volver al listado</Link>
         <DataContainer>
           <ImageUploader
@@ -139,7 +184,17 @@ const BusinessDetail = () => {
           />
           <TitleContainer>
             <Title>{business.name}</Title>
+            {business.hasSubscription && 
+              <SubscriptionInfoContainer>
+                <SubscriptionInfo>Suscripción activa hasta: {subExpirationDate}</SubscriptionInfo>
+              </SubscriptionInfoContainer>
+            }
             <Link onClick={() => history.push('/reputation?from=business-detail')}>Ver reputación</Link>
+            {!business.hasSubscription &&
+              <ButtonContainer>
+                <Button primary onClick={() => openModalSubscription(true)}>Publicitar mi emprendimiento</Button>
+              </ButtonContainer>
+            }
           </TitleContainer>
         </DataContainer>
         <Info>
@@ -167,6 +222,9 @@ const BusinessDetail = () => {
       </Container>
       <Modal open={productModal.visible} setVisibility={setModalVisibility}>
         <ProductDetail product={productModal.product}/>
+      </Modal>
+      <Modal open={modalSubscription} setVisibility={openModalSubscription}>
+        <SubscriptionDetail />
       </Modal>
     </Layout>
   );

@@ -27,6 +27,12 @@ const categories = {
   Herramientas: { primary: colors.warning, hover: colors.warningHover },
   Servicios: { primary: colors.pink, hover: colors.pinkHover },
   Deco: { primary: colors.error, hover: colors.errorHover },
+  BELLEZA: { primary: colors.primary, hover: colors.primaryTen },
+  COCINA: { primary: colors.success, hover: colors.successHover },
+  ARTESANAL: { primary: colors.yellowCategory, hover: colors.yellowHover },
+  HERRAMIENTAS: { primary: colors.warning, hover: colors.warningHover },
+  SERVICIOS: { primary: colors.pink, hover: colors.pinkHover },
+  DECO: { primary: colors.error, hover: colors.errorHover },
 };
 
 module.exports = {
