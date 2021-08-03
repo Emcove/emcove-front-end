@@ -12,7 +12,7 @@ class AuthenticationService {
                     authorization: basicAuthHeader
                 }
             });
-            this.setupAxiosInterceptor(basicAuthHeader);
+            
             localStorage.setItem('user', JSON.stringify(resp.data));
             return resp;
         }catch(error){
