@@ -132,23 +132,26 @@ const BusinessDetail = () => {
 
   const { collection_status, from, plan } = queryString.parse(location.search);
 
-  let subExpirationDate = "";
-  if (business.hasSubscription) {
-    subExpirationDate = new Date(business.subscriptionExpirationDate).toLocaleDateString();
-  }
+  const [subExpirationDate, setExpirationDate] = useState("");
   
   const shipmentText = business.doesShipments ? "Hace envíos" : "No hace envíos";
   
   useEffect(() => {
+    if (business.hasSubscription) {
+      setExpirationDate(new Date(business.subscriptionExpirationDate).toLocaleDateString());
+    }
+
     if (from === "nav-header") {
 
       if (collection_status === "approved") {
-        SubscriptionService.subscribeBusiness(business.id, plan);
-        
-        showSnackbar(true);
-        setTimeout(() => {
-          showSnackbar(false);
-        }, 2000);
+        SubscriptionService.subscribeBusiness(business.id, plan).then(response => {
+          debugger;
+          setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
+          showSnackbar(true);
+          setTimeout(() => {
+            showSnackbar(false);
+          }, 2000);
+        });
       }
     }
 
@@ -184,7 +187,7 @@ const BusinessDetail = () => {
           />
           <TitleContainer>
             <Title>{business.name}</Title>
-            {business.hasSubscription && 
+            {(business.hasSubscription || subExpirationDate) && 
               <SubscriptionInfoContainer>
                 <SubscriptionInfo>Suscripción activa hasta: {subExpirationDate}</SubscriptionInfo>
               </SubscriptionInfoContainer>
