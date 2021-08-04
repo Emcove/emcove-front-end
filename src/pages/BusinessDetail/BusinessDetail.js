@@ -22,7 +22,6 @@ import SubscriptionDetail from "./components/SubscriptionDetail";
 
 import { colors } from "../../styles/palette";
 
-import CategoriesList from "../../components/CategoriesList/CategoriesList";
 import UserData from '../../utils/userData';
 import BusinessService from "../../services/BusinessService";
 import SubscriptionService from "../../services/SubscriptionService";
@@ -151,6 +150,7 @@ const SubscriptionInfoContainer = styled.span`
 
 const BusinessDetail = () => {
   const history = useHistory();
+  const location = useLocation();
   const params = useParams();
 
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
@@ -159,19 +159,27 @@ const BusinessDetail = () => {
   const [isLoading, setLoading] = useState(true);
   const [business, setBusiness] = useState();
   const [isUserBusiness, setIsUserBusiness] = useState(false);
+  const [shipmentText, setShipmentText] = useState('');
 
   const { collection_status, from, plan } = queryString.parse(location.search);
 
   const [subExpirationDate, setExpirationDate] = useState("");
-  
-  const shipmentText = business.doesShipments ? "Hace envíos" : "No hace envíos";
-  
+    
   useEffect(() => {
+
+    setIsUserBusiness(UserData.isUserBusiness(params.business));
+
+    BusinessService.getBusinessByName(params.business).then(response => {
+      setBusiness(response.data);
+      setShipmentText(response.data.doesShipments ? "Hace envíos" : "No hace envíos")
+      setLoading(false);
+    });
+
     if (business.hasSubscription) {
       setExpirationDate(new Date(business.subscriptionExpirationDate).toLocaleDateString());
     }
 
-    if (from === "nav-header") {
+    if (isUserBusiness) {
 
       if (collection_status === "approved") {
         SubscriptionService.subscribeBusiness(business.id, plan).then(response => {
@@ -196,17 +204,6 @@ const BusinessDetail = () => {
       return { ...prevState, visible }
     });
   };
-
-  useEffect(() => {
-    setIsUserBusiness(UserData.isUserBusiness(params.business));
-
-    BusinessService.getBusinessByName(params.business).then(response => {
-      setBusiness(response.data);
-      setShipmentText(response.data.doesShipments ? "Hace envíos" : "No hace envíos")
-      setLoading(false);
-    });
-
-  }, []);
 
   return (
     <Layout>
