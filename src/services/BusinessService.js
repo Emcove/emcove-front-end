@@ -57,7 +57,9 @@ class BusinessService {
 
   async getBusinessByName(name){
     try {
-      return await axios.get(`${API_URL}/entrepreneurships/name/${name}`);
+      return await axios.get(`${API_URL}/entrepreneurships/name/${name}`, { params: data, headers: {
+        authorization: localStorage.getItem('token'),
+    }});
     } catch (error) {
         return error.response;
     }
@@ -65,7 +67,9 @@ class BusinessService {
 
   async getLoggedBusiness(){
     try {
-      return await axios.get(`${API_URL}/entrepreneurships/logged`);
+      return await axios.get(`${API_URL}/entrepreneurships/logged`, { params: data, headers: {
+        authorization: localStorage.getItem('token'),
+    }});
     } catch (error) {
         return error.response;
     }
