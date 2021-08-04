@@ -46,11 +46,19 @@ const Title = styled.h3`
   font-size: 18px;
   margin: 0 0 8px;
   color: ${colors.textColor};
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const Description = styled.span`
   font-size: 16px;
   color: rgba(0, 0, 0, 0.4);
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const ListGroup = styled.div`

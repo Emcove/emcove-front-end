@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled  from 'styled-components';
 
 import { colors } from '../../styles/palette';
@@ -10,6 +10,10 @@ const Container = styled.div`
   display: flex;
   width: -webkit-fill-available;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    margin: 0 20px;
+  }
 `;
 
 const Input = styled.input`
@@ -22,6 +26,10 @@ const Input = styled.input`
   border: solid 0.5px rgba(146, 145, 145, 0.8);
   border-right: none;
   font-size: 16px;
+
+  @media (max-width: 768px) {
+    padding: 12px 14px;
+  }
 `;
 
 const IconButton = styled.button`

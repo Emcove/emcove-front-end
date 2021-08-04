@@ -4,15 +4,17 @@ import { API_URL } from '../Constants'
 
 class BusinessService {
     async createBusiness(data) {
-        try {
-            const resp =  await axios.post(`${API_URL}/entrepreneurships`,data);
-            let user = JSON.parse(localStorage.getItem("user"));
-            user.entrepreneurship = resp.data;
-            localStorage.setItem("user",JSON.stringify(user));
-            return resp;
-        } catch(error) {
-            return error.response;
-        }
+      try {
+        const resp =  await axios.post(`${API_URL}/entrepreneurships`, data, { headers: {
+          authorization: localStorage.getItem('token'),
+        }});
+        let user = JSON.parse(localStorage.getItem("user"));
+        user.entrepreneurship = resp.data;
+        localStorage.setItem("user",JSON.stringify(user));
+        return resp;
+      } catch(error) {
+          return error.response;
+      }
     }
     
   async registerFeedback(feedbackData) {
@@ -24,7 +26,9 @@ class BusinessService {
       value
     };
     try {
-        return await axios.post(`${API_URL}/entrepreneurships/${entityId}/reputation/comment`, body);
+        return await axios.post(`${API_URL}/entrepreneurships/${entityId}/reputation/comment`, body, { headers: {
+          authorization: localStorage.getItem('token'),
+      }});
     } catch (error) {
         return error.response;
     }
@@ -38,8 +42,9 @@ class BusinessService {
     try {
       let resp;
       if (data) {
-        resp = await axios.get(`${API_URL}/entrepreneurships`,{ params: data })
-        
+        resp = await axios.get(`${API_URL}/entrepreneurships`, { params: data, headers: {
+          authorization: localStorage.getItem('token'),
+      }});
       } else {
         resp = await axios.get(`${API_URL}/entrepreneurships`);
         

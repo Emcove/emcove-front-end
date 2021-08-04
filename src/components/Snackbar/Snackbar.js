@@ -46,6 +46,10 @@ const Container = styled.div`
 
 const Text = styled.span`
   font-size: 16px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const Snackbar = ({ message, show, type }) => {

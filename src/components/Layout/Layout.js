@@ -35,10 +35,20 @@ const Content = styled.div`
   padding: 64px 8% 24px;
   min-height: calc(100vh - 53px - 64px - 24px);
 
+  @media (max-width: 768px) {
+    padding: 64px 20px 24px;
+  }
+  
   ${props => props.loginContent && css `
     justify-content: center;
     padding: 0;
     min-height: calc(100vh - 53px);
+    
+    @media (max-width: 768px) {
+      padding: 32px 0 0;
+      justify-content: flex-start;
+      min-height: calc(100vh - 53px - 32px);
+    }
   `}
 `;
 
@@ -93,6 +103,12 @@ const Option = styled.div`
     cursor: pointer;
     background-color: ${colors.primaryHover};
   }
+
+  ${props => props.hideOnMobile && css `
+    @media (max-width: 768px) {
+      display: none;
+    }
+  `}
 `;
 
 const Layout = ({ children, login, registry, className }) => {
@@ -111,7 +127,7 @@ const Layout = ({ children, login, registry, className }) => {
       {!login &&
         <Header>
           <div className="components-container" onClick={redirectHome}>
-            <Icons type="horizontal-color-logo" />
+            <Icons type="horizontal-color-logo" className="header-color-logo"/>
           </div>
           {!registry && <ProfileAccess onClick={() => showProfileOptions(!profileOptions)}><Icons type="user" /></ProfileAccess>}
           {profileOptions &&
@@ -120,6 +136,7 @@ const Layout = ({ children, login, registry, className }) => {
               {user && <Option onClick={() => history.push('/reputation?from=nav-header')}>Mi reputación</Option>}
               {user && <Option onClick={() => history.push('/orders')}>Ver pedidos que hice</Option>}
               {user && user.entrepreneurship && <Option onClick={() => history.push(`/business/${business}`)}>Gestionar mi emprendimiento</Option>}
+              {user && user.entrepreneurship && <Option onClick={() => history.push('/businessOrders')}>Pedidos que recibí</Option>}
               {!user && <Option onClick={() => history.push('/')}>Iniciar sesión</Option>}
             </ProfileOptions>
           }

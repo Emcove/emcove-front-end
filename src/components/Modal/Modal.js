@@ -31,6 +31,11 @@ const ModalCard = styled.div`
   ${props => props.minWidth && css `
       min-width: ${props.minWidth};
   `}
+
+  @media (max-width: 768px) {
+    width: calc(100% - 80px);
+    border-radius: 0;
+  }
 `;
 
 const CloseModalButton = styled.button`

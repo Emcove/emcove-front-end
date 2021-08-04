@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Route,
   NavLink,
@@ -13,10 +13,19 @@ import UserProfile from "./pages/UserProfile";
 import Reputation from "./pages/Reputation";
 import BusinessDetail from "./pages/BusinessDetail";
 import Orders from "./pages/Orders";
+import BusinessOrders from "./pages/BusinessOrders";
 
 import "./styles/index.scss";
 
-const Main = () => (
+const Main = () => {
+  
+  useEffect(() => {
+    new window.MercadoPago('APP_USR-4eb4381b-24ab-4627-bb4b-6c2b2d9f1504', {
+      locale: 'es-AR'
+    });
+  }, []);
+
+
   <HashRouter>
     <div className="main">
       <div className="routing-settings">
@@ -28,6 +37,7 @@ const Main = () => (
         <span key="reputation"><NavLink exact to="/reputation`">Reputation</NavLink></span>
         <span key="businessDetail"><NavLink exact to="/business/:business">Business Detail</NavLink></span>
         <span key="orders"><NavLink exact to="/orders`">Pedidos</NavLink></span>
+        <span key="businessOrder"><NavLink exact to="/businessOrders`">Pedidos de emprendimiento</NavLink></span>
       </div>
       <>
         <Route exact path="/home" component={Home}/>
@@ -38,10 +48,10 @@ const Main = () => (
         <Route exact path="/reputation" component={Reputation}/>
         <Route exact path="/business/:business" component={BusinessDetail}/>
         <Route exact path="/orders" component={Orders}/>
-        {/* <Route exact path="/:{business}/detail" component={Orders}/> */}
+        <Route exact path="/businessOrders" component={BusinessOrders}/>
       </>
     </div>
   </HashRouter>
-);
+};
 
 export default Main;

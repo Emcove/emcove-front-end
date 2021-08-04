@@ -8,6 +8,11 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   padding: 20px 0;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 const LevelContainer = styled.div`

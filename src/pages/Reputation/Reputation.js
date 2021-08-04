@@ -14,7 +14,9 @@ import CommentsList from './components/CommentsList';
 import ReputationGraphic from './components/ReputationGraphic';
 
 import { colors } from '../../styles/palette';
+
 import UserService from '../../services/UserService';
+import UserData from "../../utils";
 
 const Subtitle = styled.h2 `
   font-size: 18px;
@@ -38,31 +40,53 @@ const Reputation = ({ username }) => {
   const history = useHistory();
   const [reputation, setReputation] = useState({});
   const [isLoading, setLoading] = useState(true);
-  const { from } = queryString.parse(location.search);
+  const { from, user } = queryString.parse(location.search);
 
   useEffect(() => {
-    async function fetchBusinessReputation () {
-      const response = await UserService.getMyBusinessReputation();
+    async function fetchMyBusinessReputation() {
+      const user = UserData.getUserFromStorage();
+      
+      const response = await UserService.getMyBusinessReputation(user.entrepreneurship.id);
       return response;
     }
 
-    async function fetchUserReputation () {
+    async function fetchUserReputation() {
       const response = await UserService.getMyReputation();
       return response;
     }
-  
-    if (from === "nav-header") {
-      fetchUserReputation().then(response => {
-        setLoading(false);
-        setReputation(response.data);
-      });
-    } else if (from === "business-detail") {
-      fetchBusinessReputation().then(response => {
-        setLoading(false);
-        setReputation(response.data);
-      });
+
+    async function getUserReputation(username) {
+      const response = await UserService.getUserReputation(username);
+      return response;
     }
-  }, [from]);
+
+    switch(from) {
+      case "nav-header":
+        fetchUserReputation().then(response => {
+          setLoading(false);
+          setReputation(response.data);
+        });
+        break;
+      case "business-detail":
+        fetchMyBusinessReputation().then(response => {
+          setLoading(false);
+          setReputation(response.data);
+        });
+        break;
+      case "business-orders":
+        getUserReputation(user).then(response => {
+          setLoading(false);
+          setReputation((response && response.data) || {})
+        });
+        break;
+      default:
+        fetchUserReputation().then(response => {
+          setLoading(false);
+          setReputation(response.data);
+        });
+        break;
+    }
+  }, [from, user]);
  
   const setPageSubtitle = () => {
     switch (from) {
