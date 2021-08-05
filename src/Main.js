@@ -25,7 +25,7 @@ const Main = () => {
     });
   }, []);
 
-
+  return(
   <HashRouter>
     <div className="main">
       <div className="routing-settings">
@@ -52,6 +52,7 @@ const Main = () => {
       </>
     </div>
   </HashRouter>
+  )
 };
 
 export default Main;
