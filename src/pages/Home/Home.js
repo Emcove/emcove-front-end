@@ -5,9 +5,9 @@ import { useHistory } from "react-router-dom";
 import Layout from '../../components/Layout';
 import Title from '../../components/Title';
 import BusinessList from '../../components/List';
+import ListSkeleton from '../../components/List/ListSkeleton';
 import Icon from '../../components/Icons';
 import Search from '../../components/Search';
-import Loading from '../../components/Loading';
 
 import CategoriesFilter from './components';
 
@@ -105,8 +105,7 @@ const Home = () => {
         productName:encodeURI(searchText),
         categories: categoriesFilter.filter(cat => cat.clicked === true).map(c => c.name.toUpperCase()),
       }
-    
-      setLoading(true);
+  
       BusinessService.getAllBusiness(data).then(response => {
         setLoading(false);
         if (response) setBusiness(response.data);
@@ -117,7 +116,6 @@ const Home = () => {
   }, [categoriesFilter, searchText]);
 
   const searchBusiness = async (key) => {
-    console.log("search");
     const data = {
       categories: categoriesFilter.filter(cat => cat.clicked === true).map(c => c.name.toUpperCase()),
       name: encodeURI(key),
@@ -130,7 +128,6 @@ const Home = () => {
       console.log(response.data);
       setBusiness(response.data);
     });
-    console.log(key);
   }
 
   const handleCategoryClick = (category) => {
@@ -152,7 +149,6 @@ const Home = () => {
     <Layout>
       <Content>
         <Title>Emprendimientos</Title>
-        
         <SearchingBox className={`search-box${scrolled > 0 ? ' active' : ''}`}>
           <Search
             searchFunction={searchBusiness}
@@ -162,8 +158,8 @@ const Home = () => {
           />
           <CategoriesFilter categories={categoriesFilter} onCategoryClicked={handleCategoryClick} />
         </SearchingBox>
-        {isLoading && <Loading />}
          <ListContainer>
+          {isLoading && <ListSkeleton height="80px" businessList />}
           {!isLoading && businessList && <BusinessList businessList={businessList} />}
         </ListContainer>
         {user && !userHasBusiness && <AddBusinessButton hideOnMobile onClick={() => history.push('/createBusiness')}>

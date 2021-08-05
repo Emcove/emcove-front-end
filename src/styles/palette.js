@@ -18,6 +18,7 @@ const colors = {
   warningHover:'rgba(250, 121, 33, 0.1)',
   yellowHover: 'rgba(253, 231, 76, 0.17)',
   pinkHover: 'rgba(224, 89, 130, 0.1)',
+  skeletonGray: '#efefef',
 };
 
 const categories = {
