@@ -170,29 +170,29 @@ const BusinessDetail = () => {
     setIsUserBusiness(UserData.isUserBusiness(params.business));
 
     BusinessService.getBusinessByName(params.business).then(response => {
+      
       setBusiness(response.data);
       setShipmentText(response.data.doesShipments ? "Hace envíos" : "No hace envíos")
       setLoading(false);
-    });
 
-    if (business.hasSubscription) {
-      setExpirationDate(new Date(business.subscriptionExpirationDate).toLocaleDateString());
-    }
-
-    if (isUserBusiness) {
-
-      if (collection_status === "approved") {
-        SubscriptionService.subscribeBusiness(business.id, plan).then(response => {
-          debugger;
-          setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
-          showSnackbar(true);
-          setTimeout(() => {
-            showSnackbar(false);
-          }, 2000);
-        });
+      if (response.data.hasSubscription) {
+        setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
       }
-    }
 
+      if (isUserBusiness) {
+
+        if (collection_status === "approved") {
+          SubscriptionService.subscribeBusiness(response.data.id, plan).then(response => {
+            debugger;
+            setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
+            showSnackbar(true);
+            setTimeout(() => {
+              showSnackbar(false);
+            }, 2000);
+          });
+        }
+      }
+    });
   }, []);
 
   const handleProductClick = (product) => {
