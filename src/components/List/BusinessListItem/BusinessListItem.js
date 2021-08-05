@@ -1,6 +1,7 @@
 
 import React from 'react';
 import styled, { css } from 'styled-components'
+import { useHistory } from "react-router-dom";
 
 import { colors } from '../../../styles/palette';
 
@@ -78,8 +79,12 @@ const ListGroup = styled.div`
 // `;
 
 const BusinessListItem = ({ business }) => {
+  
+  const history = useHistory();
+
   return (
-    <Card animated>
+    <div onClick={() => history.push(`/business/${business.name}`)}>
+    <Card animated >
       <ImageContainer>
         {business.logo && <Image src={business.logo} />}
         {!business.logo && <Icon type="default-image" className="default-logo-list" />}
@@ -105,6 +110,7 @@ const BusinessListItem = ({ business }) => {
         </Content>
       </ListGroup>
     </Card>
+    </div>
   )
 }
 

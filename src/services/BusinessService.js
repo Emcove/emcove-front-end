@@ -51,7 +51,26 @@ class BusinessService {
       } 
       return resp;
     } catch (error) {
-      
+        return error.response;
+    }
+  }
+
+  async getBusinessByName(name){
+    try {
+      return await axios.get(`${API_URL}/entrepreneurships/name/${name}`, { headers: {
+        authorization: localStorage.getItem('token'),
+    }});
+    } catch (error) {
+        return error.response;
+    }
+  }
+
+  async getLoggedBusiness(){
+    try {
+      return await axios.get(`${API_URL}/entrepreneurships/logged`, { headers: {
+        authorization: localStorage.getItem('token'),
+    }});
+    } catch (error) {
         return error.response;
     }
   }

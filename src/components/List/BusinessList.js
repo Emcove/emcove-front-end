@@ -6,11 +6,13 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const BusinessList = ({ businessList }) => (
-  <Container>
-    {!!businessList.length && businessList.map(business => (
-      <BusinessListItem animated business={business} />
-    ))}
-  </Container>
-);
+const BusinessList = ({ businessList }) => {
+  return (
+    <Container>
+      {!!businessList.length && businessList.map(business => (
+        <BusinessListItem animated key={`${business.name}-tag`} business={business} />
+      ))}
+    </Container>
+  );
+};
 export default BusinessList;

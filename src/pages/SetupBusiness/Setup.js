@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useHistory } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
+import queryString from "query-string";
 
 import { BusinessProvider } from '../../context/Business';
 
@@ -50,8 +51,9 @@ const TextInputContainer = styled.div`
 
 // Acá deberíamos hacer un fetch en caso de que el usuario quiera editar un emprendimiento
 const Setup = () => {
+  const location = useLocation();
   const history = useHistory();
-  
+
   const [name, setName] = useState('');
   const [logo, setLogo] = useState();
   const [city, setCity] = useState('');
@@ -65,10 +67,23 @@ const Setup = () => {
 
   const [isLoading, setLoading] = useState(false);
 
+  const { from } = queryString.parse(location.search);
+
   useEffect(() => {
-    // Aca vamos a tener que hacer el fetch de los datos y setearlos en el state en caso
-    // de que sea pantalla de edicion
-  });
+    
+    if (from === "businessDetail"){
+      BusinessService.getLoggedBusiness().then(response => {
+        const business = response.data;
+        console.log(business)
+        setName(business.name);
+        setLogo(business.logo);
+        setCity(business.city);
+        setDoesShipments(business.doesShipments);
+        setCategories(business.categories.map(c => c.charAt(0) + c.slice(1).toLowerCase()));
+        updateProducts(business.products);
+      });
+    }
+  }, [from]);
 
   const createBusiness = async () => {
      const data = {

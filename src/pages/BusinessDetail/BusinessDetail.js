@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import styled, { css } from "styled-components";
+import ReactLoading from "react-loading";
 
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import queryString from "query-string";
 
 import Carrousel from "../../components/Carrousel/Carrousel";
@@ -21,7 +22,8 @@ import SubscriptionDetail from "./components/SubscriptionDetail";
 
 import { colors } from "../../styles/palette";
 
-import UserData from "../../utils";
+import UserData from '../../utils/userData';
+import BusinessService from "../../services/BusinessService";
 import SubscriptionService from "../../services/SubscriptionService";
 
 const DataContainer = styled.div`
@@ -104,6 +106,31 @@ const MoreInfo = styled.div`
   }
 `;
 
+const Loading = styled.div`
+  width: 100%;
+  padding: 15% 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const EditBusinessButton = styled.button`
+  position: fixed;
+  top: calc(100vh - 64px - 70px);
+  right: 3%;
+  border-radius: 100%;
+  border: none;
+  width: 60px;
+  height: 60px;
+  background-color: ${colors.white};
+  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+  transition: box-shadow .08s linear,min-width .15s cubic-bezier(0.4,0.0,0.2,1);
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%);
+  }
+`;
+
 const ButtonContainer = styled.div`
   margin-top: 12px;
   font-size: 0;
@@ -124,37 +151,48 @@ const SubscriptionInfoContainer = styled.span`
 const BusinessDetail = () => {
   const history = useHistory();
   const location = useLocation();
-  const business = UserData.getUserFromStorage().entrepreneurship;
+  const params = useParams();
 
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
   const [modalSubscription, openModalSubscription] = useState(false);
   const [snackbar, showSnackbar] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+  const [business, setBusiness] = useState();
+  const [isUserBusiness, setIsUserBusiness] = useState(false);
+  const [shipmentText, setShipmentText] = useState('');
 
   const { collection_status, from, plan } = queryString.parse(location.search);
 
   const [subExpirationDate, setExpirationDate] = useState("");
-  
-  const shipmentText = business.doesShipments ? "Hace envíos" : "No hace envíos";
-  
+    
   useEffect(() => {
-    if (business.hasSubscription) {
-      setExpirationDate(new Date(business.subscriptionExpirationDate).toLocaleDateString());
-    }
 
-    if (from === "nav-header") {
+    setIsUserBusiness(UserData.isUserBusiness(params.business));
 
-      if (collection_status === "approved") {
-        SubscriptionService.subscribeBusiness(business.id, plan).then(response => {
-          debugger;
-          setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
-          showSnackbar(true);
-          setTimeout(() => {
-            showSnackbar(false);
-          }, 2000);
-        });
+    BusinessService.getBusinessByName(params.business).then(response => {
+      
+      setBusiness(response.data);
+      setShipmentText(response.data.doesShipments ? "Hace envíos" : "No hace envíos")
+      setLoading(false);
+
+      if (response.data.hasSubscription) {
+        setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
       }
-    }
 
+      if (isUserBusiness) {
+
+        if (collection_status === "approved") {
+          SubscriptionService.subscribeBusiness(response.data.id, plan).then(response => {
+            debugger;
+            setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
+            showSnackbar(true);
+            setTimeout(() => {
+              showSnackbar(false);
+            }, 2000);
+          });
+        }
+      }
+    });
   }, []);
 
   const handleProductClick = (product) => {
@@ -169,6 +207,13 @@ const BusinessDetail = () => {
 
   return (
     <Layout>
+      {isLoading && 
+          <Loading>
+            <ReactLoading className="login-button__loading" type="spin" color={colors.primary} height="10%" width="10%" />
+          </Loading>
+      }
+      { !isLoading &&
+      <>
       <Snackbar
         type="success"
         show={snackbar}
@@ -222,6 +267,11 @@ const BusinessDetail = () => {
             )})}
           </ProductsContainer>
         </Info>
+        {isUserBusiness && 
+          <EditBusinessButton onClick={() => history.push('/createBusiness?from=businessDetail')}>
+            <Icon type="edit" className="edit-button__icon" />
+          </EditBusinessButton>
+        }
       </Container>
       <Modal open={productModal.visible} setVisibility={setModalVisibility}>
         <ProductDetail product={productModal.product}/>
@@ -229,6 +279,8 @@ const BusinessDetail = () => {
       <Modal open={modalSubscription} setVisibility={openModalSubscription}>
         <SubscriptionDetail />
       </Modal>
+      </>
+    }
     </Layout>
   );
 }
