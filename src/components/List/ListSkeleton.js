@@ -1,7 +1,17 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 import { colors } from "../../styles/palette";
+import Card from "../Card";
+
+const pulse = keyframes`
+  0% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
 
 const Container = styled.div`
   display: flex;
@@ -11,15 +21,10 @@ const Container = styled.div`
 
 const ListItem = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: center;
+  justify-content: flex-start;
   width: 100%;
   height: 80px;
-  border: solid 1px ${colors.grayBorder};
-  border-radius: 6px;
-  margin-bottom: 8px;
-  padding: 0 12px;
   ${props => props.height && css `
     height: ${props.height};
   `}
@@ -27,25 +32,52 @@ const ListItem = styled.div`
 
 const TextPlaceholder = styled.div`
   height: 18px;
-  background-color: ${colors.lightGray};
+  background-color: ${colors.skeletonGray};
   width: 30%;
-  margin: 4px 0;
+  margin: 8px 0;
+  border-radius: 4px;
 
   ${props => props.width && css `
     width: ${props.width};
   `}
+
+  animation: ${pulse} 0.7s infinite alternate;
 `;
 
-const ListSkeleton = ({ height }) => (
+const ImagePlaceholder = styled.div`
+  min-width: 80px;
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+  background-color: ${colors.skeletonGray};
+  animation: ${pulse} 0.7s infinite alternate;
+`;
+
+const TextPlaceholderContainer = styled.div`
+  width: 100%;
+  margin-left: 12px;
+`;
+
+const ListSkeleton = ({ height, businessList }) => (
   <Container>
+    <Card>
+      <ListItem height={height}>
+        {businessList && <ImagePlaceholder />}
+        <TextPlaceholderContainer>
+          <TextPlaceholder width="30%" />
+          <TextPlaceholder width="15%" />
+        </TextPlaceholderContainer>
+      </ListItem>
+    </Card>
+    <Card>
     <ListItem height={height}>
-      <TextPlaceholder width="20%" />
-      <TextPlaceholder width="12%" />
-    </ListItem>
-    <ListItem height={height}>
-      <TextPlaceholder width="20%" />
-      <TextPlaceholder width="12%" />
-    </ListItem>
+        {businessList && <ImagePlaceholder />}
+        <TextPlaceholderContainer>
+          <TextPlaceholder width="30%" />
+          <TextPlaceholder width="15%" />
+        </TextPlaceholderContainer>
+      </ListItem>
+    </Card>
   </Container>
 );
 export default ListSkeleton;
