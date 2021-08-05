@@ -64,6 +64,7 @@ const SearchingBox = styled.div`
   background-color: ${colors.background};
   width: 100%;
   transition: all 0.15s linear;
+  z-index: 3;
   
   @media (max-width: 768px) {
     max-height: 18%;
