@@ -99,14 +99,36 @@ const ProductDetail = ({ product }) => {
   const images = product.images.map(image => image.image);
 
   const [orderDetail, setOrderDetail] = useState('');
+  const [chosenProps, setChosenProps] = useState([]);
+
   const { setOrder, isUserBusiness } = useContext(OrderContext);
+
+  const persistChosenProps = (value, name) => {
+    let props = [ ...chosenProps ];
+    const newProp = props.find(prop => prop.name === name);
+
+    if (newProp) {
+      const index = props.findIndex((prop, index) => {
+        if (prop.name === name) return index;
+
+        return -1;
+      });
+      newProp.chosenOption = value;
+
+      props.splice((index - 1), 1, newProp);
+    } else {
+      props = [ ...props, { name, chosenOption: value }]
+    }
+
+    setChosenProps(props);
+  }
 
   const setOrderData = () => {
     const orderObj = {
       product,
       productSnapshot: {
         productName: name,
-        chosenProps: [],
+        chosenProps,
         images,
       },
       details: orderDetail, 
@@ -137,7 +159,12 @@ const ProductDetail = ({ product }) => {
       <PropertiesContainer>
         {props.map(prop => (
           <DropdownContainer key={`${prop.name}Dropdown`} >
-            <Dropdown options={prop.options} label={prop.name} placeholder="Seleccioná una opción" />
+            <Dropdown
+              options={prop.options}
+              label={prop.name}
+              placeholder="Seleccioná una opción"
+              onClickOption={persistChosenProps}
+            />
           </DropdownContainer>
         ))}
       </PropertiesContainer>
