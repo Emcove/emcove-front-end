@@ -171,7 +171,6 @@ const BusinessDetail = () => {
     setIsUserBusiness(UserData.isUserBusiness(params.business));
 
     BusinessService.getBusinessByName(params.business).then(response => {
-      debugger;
       setBusiness(response.data);
       setShipmentText(response.data.doesShipments ? "Hace envíos" : "No hace envíos")
       setLoading(false);
@@ -183,7 +182,6 @@ const BusinessDetail = () => {
       if (isUserBusiness) {
         if (collection_status === "approved") {
           SubscriptionService.subscribeBusiness(response.data.id, plan).then(response => {
-            debugger;
             setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
             showSnackbar(true);
             setTimeout(() => {
