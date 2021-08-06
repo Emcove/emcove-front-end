@@ -63,7 +63,7 @@ const TextPlaceholderContainer = styled.div`
   margin-left: 12px;
 `;
 
-const ListSkeleton = ({ height, businessList, squaredImage, tertiaryData}) => (
+const ListSkeleton = ({ height, businessList, squaredImage, tertiaryData }) => (
   <Container>
     <Card>
       <ListItem height={height}>
