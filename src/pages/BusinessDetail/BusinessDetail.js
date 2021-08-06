@@ -204,7 +204,7 @@ const BusinessDetail = () => {
   };
 
   return (
-    <OrderProvider value={{ setOrder, isUserBusiness }}>
+    <OrderProvider value={{ setOrder, isUserBusiness, setProductModalInfo }}>
       <Layout>
         {isLoading && 
             <Loading>

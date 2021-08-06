@@ -101,7 +101,7 @@ const ProductDetail = ({ product }) => {
   const [orderDetail, setOrderDetail] = useState('');
   const [chosenProps, setChosenProps] = useState([]);
 
-  const { setOrder, isUserBusiness } = useContext(OrderContext);
+  const { setOrder, isUserBusiness, setProductModalInfo } = useContext(OrderContext);
 
   const persistChosenProps = (value, name) => {
     let props = [ ...chosenProps ];
@@ -135,6 +135,7 @@ const ProductDetail = ({ product }) => {
     };
 
     setOrder(orderObj);
+    setProductModalInfo({ visible: false });
   }
 
   return (
