@@ -6,6 +6,8 @@ import ReactLoading from "react-loading";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import queryString from "query-string";
 
+import { OrderProvider } from '../../context/Order';
+
 import Carrousel from "../../components/Carrousel/Carrousel";
 import ImageUploader from "../../components/ImageUploader";
 import Layout from "../../components/Layout";
@@ -152,25 +154,24 @@ const BusinessDetail = () => {
   const history = useHistory();
   const location = useLocation();
   const params = useParams();
+  const { collection_status, plan } = queryString.parse(location.search);
 
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
   const [modalSubscription, openModalSubscription] = useState(false);
   const [snackbar, showSnackbar] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [business, setBusiness] = useState();
-  const [isUserBusiness, setIsUserBusiness] = useState(false);
   const [shipmentText, setShipmentText] = useState('');
-
-  const { collection_status, from, plan } = queryString.parse(location.search);
-
-  const [subExpirationDate, setExpirationDate] = useState("");
+  const [subExpirationDate, setExpirationDate] = useState('');
+  
+  const [isUserBusiness, setIsUserBusiness] = useState(false);
+  const [order, setOrder] = useState(undefined);
     
   useEffect(() => {
-
     setIsUserBusiness(UserData.isUserBusiness(params.business));
 
     BusinessService.getBusinessByName(params.business).then(response => {
-      
+      debugger;
       setBusiness(response.data);
       setShipmentText(response.data.doesShipments ? "Hace envíos" : "No hace envíos")
       setLoading(false);
@@ -180,7 +181,6 @@ const BusinessDetail = () => {
       }
 
       if (isUserBusiness) {
-
         if (collection_status === "approved") {
           SubscriptionService.subscribeBusiness(response.data.id, plan).then(response => {
             debugger;
@@ -206,82 +206,84 @@ const BusinessDetail = () => {
   };
 
   return (
-    <Layout>
-      {isLoading && 
-          <Loading>
-            <ReactLoading className="login-button__loading" type="spin" color={colors.primary} height="10%" width="10%" />
-          </Loading>
-      }
-      { !isLoading &&
-      <>
-      <Snackbar
-        type="success"
-        show={snackbar}
-        message="¡Tu suscripción fue registrada correctamente!"
-      />
-    <Container className="business-detail">
-        <Link onClick={() => history.push('/home')}>Volver al listado</Link>
-        <DataContainer>
-          <ImageUploader
-            id="logoBusiness"
-            shape="round"
-            image={business.logo}
-            disabled
-            label="Logo"
-            iconClass="upload-logo__icon" 
-          />
-          <TitleContainer>
-            <Title>{business.name}</Title>
-            {(business.hasSubscription || subExpirationDate) && 
-              <SubscriptionInfoContainer>
-                <SubscriptionInfo>Suscripción activa hasta: {subExpirationDate}</SubscriptionInfo>
-              </SubscriptionInfoContainer>
-            }
-            <Link onClick={() => history.push('/reputation?from=business-detail')}>Ver reputación</Link>
-            {!business.hasSubscription && !plan &&
-              <ButtonContainer>
-                <Button primary onClick={() => openModalSubscription(true)}>Publicitar mi emprendimiento</Button>
-              </ButtonContainer>
-            }
-          </TitleContainer>
-        </DataContainer>
-        <Info>
-          <Text>{`Localidad: ${business.city}`}</Text>
-          <Text>{shipmentText}</Text>
-        </Info>
-        <Info>
-          <Subtitle>Productos</Subtitle>
-          <CategoriesList categories={business.categories} />
-          <ProductsContainer>
-            {business.products.length === 0 && <Text>Aún no hay productos cargados</Text>}
-            {business.products.map(product => {
-              const images = product.images.map(image => image.image);
-              return (
-              <ProductContainer key={product.name}>
-                <MoreInfo className="business-detail__button" onClick={() => handleProductClick(product)}>
-                  <Icon type="more-options" className="business-detail__product-detail-icon"/>
-                </MoreInfo>
-                <Carrousel width="132px" height="112px" images={images} />
-                <Text clickeable>{product.name}</Text>
-              </ProductContainer>
-            )})}
-          </ProductsContainer>
-        </Info>
-        {isUserBusiness && 
-          <EditBusinessButton onClick={() => history.push('/createBusiness?from=businessDetail')}>
-            <Icon type="edit" className="edit-button__icon" />
-          </EditBusinessButton>
+    <OrderProvider value={{ setOrder, isUserBusiness }}>
+      <Layout>
+        {isLoading && 
+            <Loading>
+              <ReactLoading className="login-button__loading" type="spin" color={colors.primary} height="10%" width="10%" />
+            </Loading>
         }
-      </Container>
-      <Modal open={productModal.visible} setVisibility={setModalVisibility}>
-        <ProductDetail product={productModal.product}/>
-      </Modal>
-      <Modal open={modalSubscription} setVisibility={openModalSubscription}>
-        <SubscriptionDetail />
-      </Modal>
-      </>
-    }
-    </Layout>
+        { !isLoading &&
+        <>
+        <Snackbar
+          type="success"
+          show={snackbar}
+          message="¡Tu suscripción fue registrada correctamente!"
+        />
+      <Container className="business-detail">
+          <Link onClick={() => history.push('/home')}>Volver al listado</Link>
+          <DataContainer>
+            <ImageUploader
+              id="logoBusiness"
+              shape="round"
+              image={business.logo}
+              disabled
+              label="Logo"
+              iconClass="upload-logo__icon" 
+            />
+            <TitleContainer>
+              <Title>{business.name}</Title>
+              {(business.hasSubscription || subExpirationDate) && isUserBusiness &&
+                <SubscriptionInfoContainer>
+                  <SubscriptionInfo>Suscripción activa hasta: {subExpirationDate}</SubscriptionInfo>
+                </SubscriptionInfoContainer>
+              }
+              <Link onClick={() => history.push('/reputation?from=business-detail')}>Ver reputación</Link>
+              {!business.hasSubscription && !plan &&
+                <ButtonContainer>
+                  <Button primary onClick={() => openModalSubscription(true)}>Publicitar mi emprendimiento</Button>
+                </ButtonContainer>
+              }
+            </TitleContainer>
+          </DataContainer>
+          <Info>
+            <Text>{`Localidad: ${business.city}`}</Text>
+            <Text>{shipmentText}</Text>
+          </Info>
+          <Info>
+            <Subtitle>Productos</Subtitle>
+            <CategoriesList categories={business.categories} />
+            <ProductsContainer>
+              {business.products.length === 0 && <Text>Aún no hay productos cargados</Text>}
+              {business.products.map(product => {
+                const images = product.images.map(image => image.image);
+                return (
+                <ProductContainer key={product.name}>
+                  <MoreInfo className="business-detail__button" onClick={() => handleProductClick(product)}>
+                    <Icon type="more-options" className="business-detail__product-detail-icon"/>
+                  </MoreInfo>
+                  <Carrousel width="132px" height="112px" images={images} />
+                  <Text clickeable>{product.name}</Text>
+                </ProductContainer>
+              )})}
+            </ProductsContainer>
+          </Info>
+          {isUserBusiness && 
+            <EditBusinessButton onClick={() => history.push('/createBusiness?from=businessDetail')}>
+              <Icon type="edit" className="edit-button__icon" />
+            </EditBusinessButton>
+          }
+        </Container>
+        <Modal open={productModal.visible} setVisibility={setModalVisibility}>
+          <ProductDetail product={productModal.product}/>
+        </Modal>
+        <Modal open={modalSubscription} setVisibility={openModalSubscription}>
+          <SubscriptionDetail />
+        </Modal>
+        </>
+      }
+      </Layout>
+    </OrderProvider>
   );
 }
 
