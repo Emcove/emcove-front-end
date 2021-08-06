@@ -158,7 +158,7 @@ const BusinessDetail = () => {
 
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
   const [modalSubscription, openModalSubscription] = useState(false);
-  const [snackbar, showSnackbar] = useState(false);
+  const [snackbarData, setSnackbarData] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [business, setBusiness] = useState();
   const [shipmentText, setShipmentText] = useState('');
@@ -183,9 +183,13 @@ const BusinessDetail = () => {
         if (collection_status === "approved") {
           SubscriptionService.subscribeBusiness(response.data.id, plan).then(response => {
             setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
-            showSnackbar(true);
+            setSnackbarData({
+              show: true,
+              type: 'success',
+              message: '¡Tu suscripción fue registrada correctamente!',
+            });
             setTimeout(() => {
-              showSnackbar(false);
+              setSnackbarData({ show: false });
             }, 2000);
           });
         }
@@ -203,6 +207,33 @@ const BusinessDetail = () => {
     });
   };
 
+  const sendOrder = () => {
+    setLoading(true);
+
+    BusinessService.sendOrder(order, business.id).then(response => {
+      setLoading(false);
+
+      if (response.status === 200) {
+        setOrder(undefined);
+        setSnackbarData({
+          show: true,
+          type: 'success',
+          message: '¡Tu pedido fue enviado correctamente!',
+        });
+      } else {
+        setSnackbarData({
+          show: true,
+          type: 'error',
+          message: '¡Ups! No pudimos enviar tu pedido, intentá más tarde.',
+        });
+      }
+  
+      setTimeout(() => {
+        setSnackbarData({ show: false });
+      }, 2000);
+    });
+  }
+
   return (
     <OrderProvider value={{ setOrder, isUserBusiness, setProductModalInfo }}>
       <Layout>
@@ -214,9 +245,9 @@ const BusinessDetail = () => {
         { !isLoading &&
         <>
         <Snackbar
-          type="success"
-          show={snackbar}
-          message="¡Tu suscripción fue registrada correctamente!"
+          type={snackbarData.type}
+          show={snackbarData.show}
+          message={snackbarData.message}
         />
       <Container className="business-detail">
           <Link onClick={() => history.push('/home')}>Volver al listado</Link>
@@ -271,6 +302,7 @@ const BusinessDetail = () => {
               <Icon type="edit" className="edit-button__icon" />
             </EditBusinessButton>
           }
+          {!isUserBusiness && order && <Button primary onClick={() => sendOrder()}>Enviar pedido</Button>}
         </Container>
         <Modal open={productModal.visible} setVisibility={setModalVisibility}>
           <ProductDetail product={productModal.product}/>

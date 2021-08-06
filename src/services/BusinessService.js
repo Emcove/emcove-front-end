@@ -3,19 +3,19 @@ import axios from 'axios'
 import { API_URL } from '../Constants'
 
 class BusinessService {
-    async createBusiness(data) {
-      try {
-        const resp =  await axios.post(`${API_URL}/entrepreneurships`, data, { headers: {
-          authorization: localStorage.getItem('token'),
-        }});
-        let user = JSON.parse(localStorage.getItem("user"));
-        user.entrepreneurship = resp.data;
-        localStorage.setItem("user",JSON.stringify(user));
-        return resp;
-      } catch(error) {
-          return error.response;
-      }
+  async createBusiness(data) {
+    try {
+      const resp =  await axios.post(`${API_URL}/entrepreneurships`, data, { headers: {
+        authorization: localStorage.getItem('token'),
+      }});
+      let user = JSON.parse(localStorage.getItem("user"));
+      user.entrepreneurship = resp.data;
+      localStorage.setItem("user",JSON.stringify(user));
+      return resp;
+    } catch(error) {
+        return error.response;
     }
+  }
     
   async registerFeedback(feedbackData) {
     const { entityId, username, title, description, value } = feedbackData;
@@ -72,6 +72,19 @@ class BusinessService {
     }});
     } catch (error) {
         return error.response;
+    }
+  }
+
+  async sendOrder(order, businessId){
+    debugger;
+    try {
+      const response = await axios.post(`${API_URL}/entrepreneurships/${businessId}/order`, order, { headers: {
+        authorization: localStorage.getItem('token'),
+      }});
+      debugger;
+      return response;
+    } catch (error) {
+      return error.response;
     }
   }
 }
