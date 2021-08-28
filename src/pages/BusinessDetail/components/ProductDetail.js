@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import styled, { css } from "styled-components";
 
 import Title from "../../../components/Title";
 import Dropdown from "../../../components/Dropdown";
+import TextInput from "../../../components/TextInput";
 
 import { colors } from "../../../styles/palette";
+import OrderContext from "../../../context/Order";
+import Button from "../../../components/Button";
 
 const Container = styled.div`
   display: flex;
@@ -94,6 +97,47 @@ const DropdownContainer = styled.div`
 const ProductDetail = ({ product }) => {
   const { name, description, productionTime, hasStock, props } = product;
   const images = product.images.map(image => image.image);
+
+  const [orderDetail, setOrderDetail] = useState('');
+  const [chosenProps, setChosenProps] = useState([]);
+
+  const { setOrder, isUserBusiness, setProductModalInfo } = useContext(OrderContext);
+
+  const persistChosenProps = (value, name) => {
+    let props = [ ...chosenProps ];
+    const newProp = props.find(prop => prop.name === name);
+
+    if (newProp) {
+      const index = props.findIndex((prop, index) => {
+        if (prop.name === name) return index;
+
+        return -1;
+      });
+      newProp.chosenOption = value;
+
+      props.splice((index - 1), 1, newProp);
+    } else {
+      props = [ ...props, { name, chosenOption: value }]
+    }
+
+    setChosenProps(props);
+  }
+
+  const setOrderData = () => {
+    const orderObj = {
+      product,
+      productSnapshot: {
+        productName: name,
+        chosenProps,
+        images,
+      },
+      details: orderDetail, 
+    };
+
+    setOrder(orderObj);
+    setProductModalInfo({ visible: false });
+  }
+
   return (
     <Container>
       <Title>{name}</Title>
@@ -116,10 +160,27 @@ const ProductDetail = ({ product }) => {
       <PropertiesContainer>
         {props.map(prop => (
           <DropdownContainer key={`${prop.name}Dropdown`} >
-            <Dropdown options={prop.options} label={prop.name} placeholder={prop.options[0]} />
+            <Dropdown
+              options={prop.options}
+              label={prop.name}
+              placeholder="Seleccioná una opción"
+              onClickOption={persistChosenProps}
+            />
           </DropdownContainer>
         ))}
       </PropertiesContainer>
+      {!isUserBusiness &&
+        <TextInput
+          id="order-details"
+          label="Observaciones"
+          placeholder="Agregá cualquier aclaración que consideres necesaria"
+          type="text"
+          value={orderDetail}
+          onChange={setOrderDetail}
+          full
+          multiline
+        />}
+      {!isUserBusiness && <Button primary onClick={() => setOrderData()}>Pedir este producto</Button>}
     </Container>
   );
 }

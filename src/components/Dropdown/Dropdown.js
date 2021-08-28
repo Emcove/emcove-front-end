@@ -78,7 +78,7 @@ const Dropdown = ({ label, options, placeholder, onClickOption, feedbackDropdown
 
   const optionClicked = (option) => {
     setPlaceholder(option);
-    onClickOption && onClickOption(option);
+    onClickOption && onClickOption(option, label);
     setShowOptions(false);
   };
 
