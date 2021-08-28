@@ -51,6 +51,11 @@ const ImagePlaceholder = styled.div`
   border-radius: 100%;
   background-color: ${colors.skeletonGray};
   animation: ${pulse} 0.7s infinite alternate;
+
+  ${props => props.squaredImage && css `
+    width: 100px;
+    border-radius: 3px;
+  `}
 `;
 
 const TextPlaceholderContainer = styled.div`
@@ -58,24 +63,26 @@ const TextPlaceholderContainer = styled.div`
   margin-left: 12px;
 `;
 
-const ListSkeleton = ({ height, businessList }) => (
+const ListSkeleton = ({ height, businessList, squaredImage, tertiaryData }) => (
   <Container>
     <Card>
       <ListItem height={height}>
-        {businessList && <ImagePlaceholder />}
+        {businessList && <ImagePlaceholder squaredImage />}
         <TextPlaceholderContainer>
           <TextPlaceholder width="30%" />
           <TextPlaceholder width="15%" />
         </TextPlaceholderContainer>
+        {tertiaryData && <TextPlaceholder width="20%" />}
       </ListItem>
     </Card>
     <Card>
     <ListItem height={height}>
-        {businessList && <ImagePlaceholder />}
+        {businessList && <ImagePlaceholder squaredImage />}
         <TextPlaceholderContainer>
           <TextPlaceholder width="30%" />
           <TextPlaceholder width="15%" />
         </TextPlaceholderContainer>
+        {tertiaryData && <TextPlaceholder width="20%" />}
       </ListItem>
     </Card>
   </Container>

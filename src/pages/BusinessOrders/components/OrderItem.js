@@ -9,33 +9,17 @@ import Card from "../../../components/Card";
 import Icon from "../../../components/Icons";
 
 import { colors } from "../../../styles/palette";
+import Carrousel from "../../../components/Carrousel/Carrousel";
 
 const SingleOrder = styled.div`
   margin-bottom: 12px;
 `;
 
-const ProductImageContainer = styled.div`
-  width: 50px;
-  height: 50px;
-  border-radius: 100%;
-  margin-right: 12px;
-`;
-
-const ProductImage = styled.img`
-  height: 100%;
-  width: fit-content;
-  display: inline;
-  font-size: 12px;
-
-  @media (max-width: 768px) {
-    font-size: 10px;
-  }
-`;
-
 const OrderData = styled.div`
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: calc(70% - 12px);
+  margin-left: 12px;
 
   @media (max-width: 768px) {
     width: 40%;
@@ -92,7 +76,6 @@ const ProductProps = styled.p`
 const OrderStatus = styled.div`
   display: flex;
   align-items: center;
-  width: 15%;
 `;
 
 const Status = styled.button`
@@ -109,7 +92,7 @@ const Status = styled.button`
     cursor: pointer;
   }
 
-  ${props => props.type === "Pendiente" && css`
+  ${props => props.type === "PENDIENTE" && css`
     color: ${colors.warning};
 
     &:hover {
@@ -117,7 +100,7 @@ const Status = styled.button`
     }
   `}
 
-  ${props => props.type === "Rechazado" && css`
+  ${props => props.type === "RECHAZADO" && css`
     color: ${colors.error};
 
     &:hover {
@@ -125,7 +108,7 @@ const Status = styled.button`
     }
   `}
   
-  ${props => props.type === "Cancelado" && css`
+  ${props => props.type === "CANCELADO" && css`
     color: ${colors.error};
 
     &:hover {
@@ -133,7 +116,7 @@ const Status = styled.button`
     }
   `}
 
-  ${props => props.type === "Aprobado" && css`
+  ${props => props.type === "EN_PREPARACION" && css`
     color: ${colors.success};
 
     &:hover {
@@ -141,7 +124,7 @@ const Status = styled.button`
     }
   `}
   
-  ${props => props.type === "Finalizado" && css`
+  ${props => props.type === "ENTREGADO" && css`
     color: ${colors.primary};
 
     &:hover {
@@ -201,32 +184,31 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
   const history = useHistory();
   const [options, showOptions] = useState(false);
 
+  const { createDate, user, productSnapshot, currentState, product } = order;
+  const displayDate = new Date(createDate).toLocaleDateString();
+  const images = product.images.map(image => image.image);
+
   return (
     <SingleOrder key={order.id}>
       <Card alignment="flex-start">
-        <ProductImageContainer>
-          <ProductImage
-            src={""}
-            alt="product image"
-          />
-        </ProductImageContainer>
+        <Carrousel images={images} />
         <OrderData>
-          <OrderDate>{order.sendDate}</OrderDate>
-          <Buyer>{order.user.name} {order.user.surname}</Buyer>
-          <Product>{order.product.name}</Product>
+          <OrderDate>{displayDate}</OrderDate>
+          <Buyer>{user.name} {user.surname}</Buyer>
+          <Product>{productSnapshot.productName}</Product>
           <PropertiesContainer>
-            {order.product.properties.map(prop => 
-              <ProductProps>{prop.name}: {prop.value}</ProductProps>
+            {productSnapshot.chosenProps.map(prop => 
+              <ProductProps>{prop.name}: {prop.chosenOption}</ProductProps>
             )}
           </PropertiesContainer>
         </OrderData>
         <>
         <OrderStatus>
           <Status
-            type={order.status[order.status.length - 1].name}
+            type={currentState}
             onClick={() => onClickStatus(order)}
           >
-            {order.status[order.status.length - 1].name}
+            {currentState}
           </Status>
           <MoreOptions>
             <Button backgroundColor="transparent" onClick={() => showOptions(!options)}>
@@ -237,7 +219,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
                 <OrderOption onClick={() => history.push(`/reputation?from=business-orders&user=${order.user.id}`)}>
                   Ver reputación de usuario
                 </OrderOption>
-                {order.status[order.status.length - 1].name === 'Finalizado' &&
+                {currentState === 'ENTREGADO' &&
                   <OrderOption onClick={() => openEvaluationModal(order.business.id)}>Calificar comprador</OrderOption>
                 }
               </Options>
