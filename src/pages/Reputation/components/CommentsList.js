@@ -61,6 +61,18 @@ const CommentTitle = styled.span`
   }
 `;
 
+const CommentDate = styled.div`
+  width: 100%;
+  font-size: 15px;
+  font-weight: 200;
+  margin-bottom: 8px;
+  text-align: left;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+`;
+
 const CommentDescription = styled.p`
   font-size: 16px;
   margin: 0;
@@ -72,6 +84,7 @@ const CommentsList = ({ comments, wording }) => (
     <Container className="comment-list__container">
       {comments && comments.map(comment => (
         <Card animated vertical className="comment-list__card">
+          <CommentDate>{comment.creationDateTime}</CommentDate>
           <UserInfo>
             <User>{comment.username}</User>
             <Icon type={`reputation-${comment.value}`} className="comment-list__icon" />

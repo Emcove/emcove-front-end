@@ -71,6 +71,7 @@ const Reputation = ({ username }) => {
         fetchMyBusinessReputation().then(response => {
           setLoading(false);
           setReputation(response.data);
+          console.log(reputation.comments)
         });
         break;
       case "business-orders":
@@ -86,6 +87,7 @@ const Reputation = ({ username }) => {
         });
         break;
     }
+
   }, [from, user]);
  
   const setPageSubtitle = () => {

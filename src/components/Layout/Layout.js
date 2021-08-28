@@ -120,8 +120,6 @@ const Layout = ({ children, login, registry, className }) => {
 
   const user = UserData.getUserFromStorage();
 
-  const business = user.entrepreneurship.name;
-  
   return (
     <Container className={className}>
       {!login &&
@@ -135,7 +133,7 @@ const Layout = ({ children, login, registry, className }) => {
               {user && <Option onClick={() => history.push('/userProfile')}>Mi perfil</Option>}
               {user && <Option onClick={() => history.push('/reputation?from=nav-header')}>Mi reputación</Option>}
               {user && <Option onClick={() => history.push('/orders')}>Ver pedidos que hice</Option>}
-              {user && user.entrepreneurship && <Option onClick={() => history.push(`/business/${business}`)}>Gestionar mi emprendimiento</Option>}
+              {user && user.entrepreneurship && <Option onClick={() => history.push(`/business/${user.entrepreneurship.name}`)}>Gestionar mi emprendimiento</Option>}
               {user && user.entrepreneurship && <Option onClick={() => history.push('/businessOrders')}>Pedidos que recibí</Option>}
               {!user && <Option onClick={() => history.push('/')}>Iniciar sesión</Option>}
             </ProfileOptions>
