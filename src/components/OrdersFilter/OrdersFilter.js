@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import classNames from 'classnames';
 
@@ -108,27 +108,53 @@ const OrdersFilter = ({ filterOrders }) => {
   const [showingStatus, setShowingStatus] = useState('TODOS');
   const [showOptions, setShowOptions] = useState(false);
 
-  const updateFilter = (option) => {
+  useEffect(() => {
+    document.addEventListener('click', () => {
+      setShowOptions(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if(event.key === "Escape") {
+        setShowOptions(false);
+      }
+    });
+
+    return () => {
+      document.removeEventListener('keydown', () => {});
+      document.removeEventListener('click', () => {});
+    }
+  }, [setShowOptions]);
+
+
+  const updateFilter = (option, e) => {
+    e.stopPropagation();
+    e.preventDefault();
     setShowingStatus(option);
     if (filterOrders) filterOrders(option.replace(' ', '_'));
     setShowOptions(false);
+  }
+
+  const showOptionsFunc = event => {
+    event.stopPropagation();
+    event.preventDefault();
+    setShowOptions(!showOptions);
   }
 
   return (
     <Container className="filter-orders__container">
       <Wording>Mostrar: </Wording>
       <DropdownContainer>
-        <DropdownButton onClick={() => setShowOptions(!showOptions)}>
+        <DropdownButton onClick={(event) => showOptionsFunc(event)}>
           <DropdownWording type={showingStatus}>{showingStatus}</DropdownWording>
           <Icons type="arrow-down" className={classNames("filter-orders__dropdown-icon", { "filter-orders__dropdown-icon--open": showOptions })} />
         </DropdownButton>
       {showOptions && 
         <Options>
-          <Status type="PENDIENTE" onClick={() => updateFilter("PENDIENTE")}>PENDIENTE</Status>
-          <Status type="RECHAZADO" onClick={() => updateFilter("RECHAZADO")}>RECHAZADO</Status>
-          <Status type="CANCELADO" onClick={() => updateFilter("CANCELADO")}>CANCELADO</Status>
-          <Status type="EN_PREPARACION" onClick={() => updateFilter("EN PREPARACION")}>EN PREPARACION</Status>
-          <Status type="ENTREGADO" onClick={() => updateFilter("ENTREGADO")}>ENTREGADO</Status>
+          <Status type="PENDIENTE" onClick={(event) => updateFilter("PENDIENTE", event)}>PENDIENTE</Status>
+          <Status type="RECHAZADO" onClick={(event) => updateFilter("RECHAZADO", event)}>RECHAZADO</Status>
+          <Status type="CANCELADO" onClick={(event) => updateFilter("CANCELADO", event)}>CANCELADO</Status>
+          <Status type="EN_PREPARACION" onClick={(event) => updateFilter("EN PREPARACION", event)}>EN PREPARACION</Status>
+          <Status type="ENTREGADO" onClick={(event) => updateFilter("ENTREGADO", event)}>ENTREGADO</Status>
         </Options>
         }
       </DropdownContainer>
