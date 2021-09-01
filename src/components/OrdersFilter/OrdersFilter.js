@@ -128,7 +128,6 @@ const OrdersFilter = ({ filterOrders }) => {
 
   const updateFilter = (option, e) => {
     e.stopPropagation();
-    e.preventDefault();
     setShowingStatus(option);
     if (filterOrders) filterOrders(option.replace(' ', '_'));
     setShowOptions(false);
@@ -136,7 +135,6 @@ const OrdersFilter = ({ filterOrders }) => {
 
   const showOptionsFunc = event => {
     event.stopPropagation();
-    event.preventDefault();
     setShowOptions(!showOptions);
   }
 
