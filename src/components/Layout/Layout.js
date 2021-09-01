@@ -130,11 +130,11 @@ const Layout = ({ children, login, registry, className }) => {
           {!registry && <ProfileAccess onClick={() => showProfileOptions(!profileOptions)}><Icons type="user" /></ProfileAccess>}
           {profileOptions &&
             <ProfileOptions>
+              {user && user.entrepreneurship && <Option onClick={() => history.push('/businessOrders')}>Pedidos que recibí</Option>}
+              {user && user.entrepreneurship && <Option onClick={() => history.push(`/business/${user.entrepreneurship.name}`)}>Gestionar mi emprendimiento</Option>}
               {user && <Option onClick={() => history.push('/userProfile')}>Mi perfil</Option>}
               {user && <Option onClick={() => history.push('/reputation?from=nav-header')}>Mi reputación</Option>}
               {user && <Option onClick={() => history.push('/orders')}>Ver pedidos que hice</Option>}
-              {user && user.entrepreneurship && <Option onClick={() => history.push(`/business/${user.entrepreneurship.name}`)}>Gestionar mi emprendimiento</Option>}
-              {user && user.entrepreneurship && <Option onClick={() => history.push('/businessOrders')}>Pedidos que recibí</Option>}
               {!user && <Option onClick={() => history.push('/')}>Iniciar sesión</Option>}
             </ProfileOptions>
           }
