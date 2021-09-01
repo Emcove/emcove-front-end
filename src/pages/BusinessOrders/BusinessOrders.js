@@ -17,6 +17,7 @@ import OrdersList from "./components/OrdersList";
 import StatusUpdateComponent from "./components/StatusUpdateComponent";
 
 import BusinessService from "../../services/BusinessService";
+import OrdersFilter from "../../components/OrdersFilter";
 
 const Container = styled.div`
   width: 100%;
@@ -87,7 +88,10 @@ const BusinessOrders = () => {
         <Title>Pedidos que recibí</Title>
         <OrdersContainer>
           {isLoading && <ListSkeleton businessList squaredImage tertiaryData />}
-          {!isLoading &&
+          {!isLoading && orders.length &&
+            <OrdersFilter />
+          }
+          {!isLoading && orders.length &&
           <OrdersList
             orders={orders}
             onClickStatus={onClickStatus}

@@ -36,7 +36,6 @@ const Card = styled.div`
   ${props => props.alignment && css `
       justify-content: ${props.alignment};
   `}
-
 `;
 
 

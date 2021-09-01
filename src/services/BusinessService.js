@@ -46,9 +46,10 @@ class BusinessService {
           authorization: localStorage.getItem('token'),
       }});
       } else {
-        resp = await axios.get(`${API_URL}/entrepreneurships`);
-        
-      } 
+        resp = await axios.get(`${API_URL}/entrepreneurships`, { headers: {
+          authorization: localStorage.getItem('token'),
+      }});
+      }
       return resp;
     } catch (error) {
         return error.response;
@@ -76,12 +77,10 @@ class BusinessService {
   }
 
   async sendOrder(order, businessId) {
-    debugger;
     try {
       const response = await axios.post(`${API_URL}/entrepreneurships/${businessId}/order`, order, { headers: {
         authorization: localStorage.getItem('token'),
       }});
-      debugger;
       return response;
     } catch (error) {
       return error.response;
