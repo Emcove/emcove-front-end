@@ -10,6 +10,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 32px;
+  width: 100%;
 `;
 
 const Wording = styled.span`
@@ -35,6 +36,7 @@ const Status = styled.button`
 
   &:hover {
     cursor: pointer;
+    background-color: ${colors.primaryTen};
   }
 
   ${props => props.type === "PENDIENTE" && css`
@@ -86,6 +88,7 @@ const DropdownButton = styled.button`
   background: ${colors.white};
   padding: 8px 12px;
   border-radius: 2px;
+  font-size: 16px;
 
   &:hover {
     cursor: pointer;
@@ -104,9 +107,17 @@ const Options = styled.div`
   border: solid 1px ${colors.grayBorder};
 `;
 
-const OrdersFilter = ({ filterOrders }) => {
-  const [showingStatus, setShowingStatus] = useState('TODOS');
+const FilterGroup = styled.div`
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+`;
+
+const OrdersFilter = ({ filterOrders, orderByDate }) => {
+  const [showingStatus, setShowingStatus] = useState('Todos');
   const [showOptions, setShowOptions] = useState(false);
+  const [dateOrder, setDateOrder] = useState('Descendente');
+  const [showDateOptions, setShowDateOptions] = useState(false);
 
   useEffect(() => {
     document.addEventListener('click', () => {
@@ -129,33 +140,57 @@ const OrdersFilter = ({ filterOrders }) => {
   const updateFilter = (option, e) => {
     e.stopPropagation();
     setShowingStatus(option);
-    if (filterOrders) filterOrders(option.replace(' ', '_'));
+    if (filterOrders) filterOrders(option.replace(' ', '_').toUpperCase());
     setShowOptions(false);
   }
 
-  const showOptionsFunc = event => {
+  const showOptionsFunc = (event, showOptionsFunction, prevState) => {
     event.stopPropagation();
-    setShowOptions(!showOptions);
+    showOptionsFunction(!prevState);
+  }
+
+  const updateOrder = (option, e) => {
+    e.stopPropagation();
+    setDateOrder(option);
+    if (orderByDate) orderByDate(option);
+    setShowDateOptions(false);
   }
 
   return (
     <Container className="filter-orders__container">
-      <Wording>Mostrar: </Wording>
-      <DropdownContainer>
-        <DropdownButton onClick={(event) => showOptionsFunc(event)}>
-          <DropdownWording type={showingStatus}>{showingStatus}</DropdownWording>
-          <Icons type="arrow-down" className={classNames("filter-orders__dropdown-icon", { "filter-orders__dropdown-icon--open": showOptions })} />
-        </DropdownButton>
-      {showOptions && 
-        <Options>
-          <Status type="PENDIENTE" onClick={(event) => updateFilter("PENDIENTE", event)}>PENDIENTE</Status>
-          <Status type="RECHAZADO" onClick={(event) => updateFilter("RECHAZADO", event)}>RECHAZADO</Status>
-          <Status type="CANCELADO" onClick={(event) => updateFilter("CANCELADO", event)}>CANCELADO</Status>
-          <Status type="EN_PREPARACION" onClick={(event) => updateFilter("EN PREPARACION", event)}>EN PREPARACION</Status>
-          <Status type="ENTREGADO" onClick={(event) => updateFilter("ENTREGADO", event)}>ENTREGADO</Status>
-        </Options>
-        }
-      </DropdownContainer>
+      <>
+        <Wording>Mostrar: </Wording>
+        <DropdownContainer>
+          <DropdownButton onClick={(event) => showOptionsFunc(event, setShowOptions, showOptions)}>
+            <DropdownWording type={showingStatus}>{showingStatus}</DropdownWording>
+            <Icons type="arrow-down" className={classNames("filter-orders__dropdown-icon", { "filter-orders__dropdown-icon--open": showOptions })} />
+          </DropdownButton>
+        {showOptions && 
+          <Options>
+            <Status key="PENDIENTE" type="PENDIENTE" onClick={(event) => updateFilter("Pendientes", event)}>Pendientes</Status>
+            <Status key="RECHAZADO" type="RECHAZADO" onClick={(event) => updateFilter("Rechazados", event)}>Rechazados</Status>
+            <Status key="CANCELADO" type="CANCELADO" onClick={(event) => updateFilter("Cancelados", event)}>Cancelados</Status>
+            <Status key="EN_PREPARACION" type="EN_PREPARACION" onClick={(event) => updateFilter("En preparación", event)}>En preparación</Status>
+            <Status key="ENTREGADO" type="ENTREGADO" onClick={(event) => updateFilter("Entregados", event)}>Entregados</Status>
+          </Options>
+          }
+        </DropdownContainer>
+      </>
+      <FilterGroup>
+        <Wording>Ordernar por fecha: </Wording>
+        <DropdownContainer>
+          <DropdownButton onClick={(event) => showOptionsFunc(event, setShowDateOptions, showDateOptions)}>
+            <DropdownWording>{dateOrder}</DropdownWording>
+            <Icons type="arrow-down" className={classNames("order-date__dropdown-icon", { "order-date__dropdown-icon--open": showDateOptions })} />
+          </DropdownButton>
+          {showDateOptions && 
+          <Options>
+            <Status key="Descendente" onClick={(event) => updateOrder("Descendente", event)}>Descendente</Status>
+            <Status key="Ascendente" onClick={(event) => updateOrder("Ascendente", event)}>Ascendente</Status>
+          </Options>
+          }
+        </DropdownContainer>
+      </FilterGroup>
     </Container>
   )
 }
