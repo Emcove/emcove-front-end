@@ -75,5 +75,15 @@ class UserService {
             return error.response;
         }
     }
+
+    async getUserOrders() {
+        try {
+          return await axios.get(`${API_URL}/users/orders`, { headers: {
+            authorization: localStorage.getItem('token'),
+        }});
+        } catch (error) {
+            return error.response;
+        }
+      }
 }
 export default new UserService()

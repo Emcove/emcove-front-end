@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ReactLoading from "react-loading";
 
 import styled from "styled-components";
 
@@ -17,7 +18,17 @@ import FeedbackForm from "../../components/FeedbackForm";
 
 import { colors } from "../../styles/palette";
 
+import UserService from '../../services/UserService';
 import BusinessService from "../../services/BusinessService"
+
+
+const Loading = styled.div`
+  width: 100%;
+  padding: 15% 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -115,24 +126,22 @@ const Orders = () => {
   const [options, showOptions] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [evaluatedUser, setEvaluatedUser] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+  const [orders, setOrders] = useState({});
 
-  const orders = [{
-    id: 4,
-    business: {
-      image: undefined,
-      name: 'Dulcinea Tortas Artesanales',
-      id: 4,
-    },
-    product: {
-      name: 'Torta decorada',
-    },
-    status: 'FINALIZADA',
-  }];
+  
 
   useEffect(() => {
-    // get orders from userId
-    console.log(user);
-  });
+    async function fetchUserOrders() {
+      const response = await UserService.getUserOrders();
+      return response;
+    }
+
+    fetchUserOrders().then(response => {
+      setOrders(response.data);
+      setLoading(false);
+    });
+  }, []);
 
   const openEvaluationModal = (businessId) => {
     setEvaluatedUser(businessId);
@@ -143,32 +152,39 @@ const Orders = () => {
   return (
     <Layout>
       <Container className="orders__container">
+      {isLoading && 
+          <Loading>
+            <ReactLoading className="login-button__loading" type="spin" color={colors.primary} height="10%" width="10%" />
+          </Loading>
+        }
+        { !isLoading &&
+        <>
         <Link onClick={() => history.push('/home')}>Volver a la home</Link>
         <Title>Pedidos que hice</Title>
         <OrdersContainer>
           {orders.map(order => (
             <SingleOrder key={order.id}>
               <Card alignment="space-between">
-                {order.business.images && 
+                {order.entrepreneurship.logo && 
                 <LogoContainer>
                   <BusinessLogo
-                    src={order.business.image}
+                    src={order.entrepreneurship.logo}
                     alt="business logo"
                   />
                 </LogoContainer>
                 }
                 <OrderData>
-                  <BusinessName>{order.business.name}</BusinessName>
+                  <BusinessName>{order.entrepreneurship.name}</BusinessName>
                   <Product>{order.product.name}</Product>
                 </OrderData>
                 <OrderStatus>
-                  <Status>{order.status}</Status>
+                <Status>{order.currentState}</Status>
                   <Button backgroundColor="transparent" onClick={() => showOptions(!options)}>
                     <Icon className="orders__more-options--icon" type="more-options"/>
                   </Button>
                  {options &&
                     <Options>
-                      <OrderOption onClick={() => openEvaluationModal(order.business.id)}>Calificar emprendimiento</OrderOption>
+                      <OrderOption onClick={() => openEvaluationModal(order.entrepreneurship.id)}>Calificar emprendimiento</OrderOption>
                     </Options>
                   }
                 </OrderStatus>
@@ -176,6 +192,8 @@ const Orders = () => {
             </SingleOrder>
           ))}
         </OrdersContainer>
+        </>
+        }
       </Container>
       <Modal open={modalVisible} setVisibility={setModalVisible}>
         <FeedbackForm

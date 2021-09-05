@@ -76,7 +76,6 @@ class BusinessService {
   }
 
   async sendOrder(order, businessId) {
-    debugger;
     try {
       const response = await axios.post(`${API_URL}/entrepreneurships/${businessId}/order`, order, { headers: {
         authorization: localStorage.getItem('token'),
