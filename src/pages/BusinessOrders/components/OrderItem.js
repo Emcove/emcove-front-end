@@ -79,7 +79,7 @@ const OrderStatus = styled.div`
 `;
 
 const Status = styled.button`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   text-align: right;
   border: none;
@@ -198,7 +198,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
           <Product>{productSnapshot.productName}</Product>
           <PropertiesContainer>
             {productSnapshot.chosenProps.map(prop => 
-              <ProductProps>{prop.name}: {prop.chosenOption}</ProductProps>
+              <ProductProps key={prop}>{prop.name}: {prop.chosenOption}</ProductProps>
             )}
           </PropertiesContainer>
         </OrderData>
@@ -208,7 +208,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
             type={currentState}
             onClick={() => onClickStatus(order)}
           >
-            {currentState}
+            {currentState.replace('_', ' ')}
           </Status>
           <MoreOptions>
             <Button backgroundColor="transparent" onClick={() => showOptions(!options)}>

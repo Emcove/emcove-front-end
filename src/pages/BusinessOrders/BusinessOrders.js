@@ -71,6 +71,26 @@ const BusinessOrders = () => {
     setOrderStatusModalVisibility(true);
   };
 
+  const filterOrdersByStatus = (status) => {
+    setLoading(true);
+    BusinessService.getBusinessOrders(status).then(response => {
+      if (response.status === 200) {
+        setOrders(response.data);
+      }
+      setLoading(false);
+    });
+  };
+
+  const sortOrdersByDate = (asc) => {
+    setLoading(true);
+    BusinessService.getBusinessOrders("", asc).then(response => {
+      if (response.status === 200) {
+        setOrders(response.data);
+      }
+      setLoading(false);
+    });
+  };
+
   const updateOrderStatus = (newStatus) => {
     console.log('orden a actualizar:');
     console.log(evaluatedOrder);
@@ -89,7 +109,7 @@ const BusinessOrders = () => {
         <OrdersContainer>
           {isLoading && <ListSkeleton businessList squaredImage tertiaryData />}
           {!isLoading && orders.length &&
-            <OrdersFilter />
+            <OrdersFilter filterOrders={filterOrdersByStatus} orderByDate={sortOrdersByDate} />
           }
           {!isLoading && orders.length &&
           <OrdersList
