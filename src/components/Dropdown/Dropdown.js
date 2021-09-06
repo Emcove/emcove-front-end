@@ -42,7 +42,6 @@ const Label = styled.span`
 const Options = styled.div`
   position: absolute;
   margin-top: -17px;
-  width: 100%;
   border: solid 1px ${colors.grayBorder};
   border-radius: 3px;
   background-color: ${colors.white};

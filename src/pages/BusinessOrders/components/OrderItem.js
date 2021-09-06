@@ -81,7 +81,7 @@ const OrderStatus = styled.div`
 const Status = styled.button`
   font-size: 14px;
   font-weight: 600;
-  text-align: right;
+  text-align: center;
   border: none;
   background-color: transparent;
   font-family: 'Raleway';
@@ -117,10 +117,10 @@ const Status = styled.button`
   `}
 
   ${props => props.type === "EN_PREPARACION" && css`
-    color: ${colors.success};
+    color: ${colors.primary};
 
     &:hover {
-      background-color: ${colors.successHover};
+      background-color: ${colors.primaryHover};
     }
   `}
   
@@ -129,6 +129,14 @@ const Status = styled.button`
 
     &:hover {
       cursor: default;
+    }
+  `}
+
+  ${props => props.type === "LISTO_PARA_ENTREGAR" && css `
+    color: ${colors.success};
+
+    &:hover {
+      background-color: ${colors.successHover};
     }
   `}
 
@@ -208,7 +216,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
             type={currentState}
             onClick={() => onClickStatus(order)}
           >
-            {currentState.replace('_', ' ')}
+            {currentState.replaceAll('_', ' ')}
           </Status>
           <MoreOptions>
             <Button backgroundColor="transparent" onClick={() => showOptions(!options)}>

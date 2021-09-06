@@ -60,10 +60,9 @@ const BusinessOrders = () => {
   };
 
   const onClickStatus = (order) => {
-    const { status } = order;
-    const currentStatus = status[status.length - 1].name;
-    
-    if (currentStatus === 'Cancelado' || currentStatus === 'Finalizado') {
+    const { currentState } = order;
+  
+    if (currentState === 'CANCELADO' || currentState === 'FINALIZADO') {
       return null;
     }
 
@@ -92,11 +91,10 @@ const BusinessOrders = () => {
   };
 
   const updateOrderStatus = (newStatus) => {
-    console.log('orden a actualizar:');
-    console.log(evaluatedOrder);
-
-    console.log('nuevo estado:');
-    console.log(newStatus);
+    BusinessService.updateOrderStatus(evaluatedOrder.id, newStatus).then(response => {
+      debugger;
+      console.log(response);
+    });
 
     setOrderStatusModalVisibility(false);
   };
