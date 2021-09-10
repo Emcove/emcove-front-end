@@ -267,7 +267,7 @@ const BusinessDetail = () => {
                   <SubscriptionInfo>Suscripción activa hasta: {subExpirationDate}</SubscriptionInfo>
                 </SubscriptionInfoContainer>
               }
-              <Link onClick={() => history.push('/reputation?from=business-detail')}>Ver reputación</Link>
+              <Link onClick={() => history.push(`/reputation?from=business-detail&id=${business.id}`)}>Ver reputación</Link>
               {!business.hasSubscription && !plan &&
                 <ButtonContainer>
                   <Button primary onClick={() => openModalSubscription(true)}>Publicitar mi emprendimiento</Button>

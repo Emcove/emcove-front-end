@@ -40,13 +40,11 @@ const Reputation = ({ username }) => {
   const history = useHistory();
   const [reputation, setReputation] = useState({});
   const [isLoading, setLoading] = useState(true);
-  const { from, user } = queryString.parse(location.search);
+  const { from, id } = queryString.parse(location.search);
 
   useEffect(() => {
-    async function fetchMyBusinessReputation() {
-      const user = UserData.getUserFromStorage();
-      
-      const response = await UserService.getMyBusinessReputation(user.entrepreneurship.id);
+    async function fetchBusinessReputation(id) {      
+      const response = await UserService.getBusinessReputation(id);
       return response;
     }
 
@@ -68,14 +66,14 @@ const Reputation = ({ username }) => {
         });
         break;
       case "business-detail":
-        fetchMyBusinessReputation().then(response => {
+        fetchBusinessReputation(id).then(response => {
           setLoading(false);
           setReputation(response.data);
           console.log(reputation.comments)
         });
         break;
       case "business-orders":
-        getUserReputation(user).then(response => {
+        getUserReputation(id).then(response => {
           setLoading(false);
           setReputation((response && response.data) || {})
         });
@@ -88,7 +86,7 @@ const Reputation = ({ username }) => {
         break;
     }
 
-  }, [from, user]);
+  }, [from, id]);
  
   const setPageSubtitle = () => {
     switch (from) {

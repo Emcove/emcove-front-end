@@ -54,7 +54,7 @@ class UserService {
         }
     }
 
-    async getMyBusinessReputation(businessId) {
+    async getBusinessReputation(businessId) {
         try {
             const resp = await axios.get(`${API_URL}/entrepreneurships/${businessId}/reputation`, { headers: {
                 authorization: localStorage.getItem('token'),

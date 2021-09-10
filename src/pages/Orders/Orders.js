@@ -179,7 +179,7 @@ const Orders = () => {
                 </OrderData>
                 <OrderStatus>
                 <Status>{order.currentState}</Status>
-                  <Button backgroundColor="transparent" onClick={() => showOptions(!options)}>
+                  <Button  key={order.id} backgroundColor="transparent" onClick={() => showOptions(!options)}>
                     <Icon className="orders__more-options--icon" type="more-options"/>
                   </Button>
                  {options &&
