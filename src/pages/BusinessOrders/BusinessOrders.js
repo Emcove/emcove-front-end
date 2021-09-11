@@ -92,12 +92,11 @@ const BusinessOrders = () => {
 
   const updateOrderStatus = (newStatus) => {
     BusinessService.updateOrderStatus(evaluatedOrder.id, newStatus).then(response => {
-      debugger;
       console.log(response);
     });
 
     setOrderStatusModalVisibility(false);
-  };
+  };  
 
   return (
     <Layout>
