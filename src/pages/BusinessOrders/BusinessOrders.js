@@ -82,12 +82,9 @@ const BusinessOrders = () => {
 
   const sortOrdersByDate = (asc) => {
     setLoading(true);
-    BusinessService.getBusinessOrders("", asc).then(response => {
-      if (response.status === 200) {
-        setOrders(response.data);
-      }
-      setLoading(false);
-    });
+    
+
+    setLoading(false);
   };
 
   const updateOrderStatus = (newStatus) => {
@@ -104,10 +101,8 @@ const BusinessOrders = () => {
         <Link onClick={() => history.push('/home')}>Volver a la home</Link>
         <Title>Pedidos que recibí</Title>
         <OrdersContainer>
+          <OrdersFilter filterOrders={filterOrdersByStatus} orderByDate={sortOrdersByDate} />
           {isLoading && <ListSkeleton businessList squaredImage tertiaryData />}
-          {!isLoading && orders.length &&
-            <OrdersFilter filterOrders={filterOrdersByStatus} orderByDate={sortOrdersByDate} />
-          }
           {!isLoading && orders.length &&
           <OrdersList
             orders={orders}

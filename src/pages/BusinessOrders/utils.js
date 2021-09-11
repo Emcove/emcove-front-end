@@ -5,7 +5,7 @@ export function buildPossibleStatusForOrder(order) {
     case "PENDIENTE":
       return ["EN PREPARACION", "RECHAZADO", "CANCELAR"];
     case "EN_PREPARACION":
-      return ["LISTO_PARA_ENTREGAR", "CANCELADO"];
+      return ["LISTO PARA ENTREGAR", "CANCELADO"];
     case "LISTO_PARA_ENTREGAR":
       return ["ENTREGADO", "CANCELADO"];
     default: 

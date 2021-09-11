@@ -87,9 +87,9 @@ class BusinessService {
     }
   }
 
-  async getBusinessOrders(status, asc = false) {
+  async getBusinessOrders(status) {
     try {
-      return await axios.get(`${API_URL}/entrepreneurships/orders`, { params: { orderState: status, asc }, headers: {
+      return await axios.get(`${API_URL}/entrepreneurships/orders`, { params: { orderState: status }, headers: {
         authorization: localStorage.getItem('token'),
     }});
     } catch (error) {

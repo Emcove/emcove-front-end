@@ -192,8 +192,8 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
   const history = useHistory();
   const [options, showOptions] = useState(false);
 
-  const { createDate, user, productSnapshot, currentState, product } = order;
-  const displayDate = new Date(createDate).toLocaleDateString();
+  const { updateDate, user, productSnapshot, currentState, product } = order;
+  const displayDate = new Date(updateDate).toLocaleDateString();
   const images = product.images.map(image => image.image);
 
   return (
@@ -201,7 +201,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
       <Card alignment="flex-start">
         <Carrousel images={images} />
         <OrderData>
-          <OrderDate>{displayDate}</OrderDate>
+          <OrderDate>Última modificación {displayDate}</OrderDate>
           <Buyer>{user.name} {user.surname}</Buyer>
           <Product>{productSnapshot.productName}</Product>
           <PropertiesContainer>
