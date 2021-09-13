@@ -8,6 +8,7 @@ import Button from "../../../components/Button";
 
 import { buildPossibleStatusForOrder } from "../utils";
 import { colors } from "../../../styles/palette";
+import OrderStatusEvolution from "../../../components/OrderStatusEvolution";
 
 const ModalContent = styled.div`
   padding: 12px 0 40px;
@@ -29,12 +30,12 @@ const Text = styled.div`
 
 const StatusUpdateComponent = ({ order, handleCancel, handleAccept }) => {
   const [selectedStatus, updateSelectedStatus] = useState();
-  console.log(order);
 
   return (
     <ModalContent>
       <Subtitle fontSize="24px">Actualizar estado del pedido Nº {order.id}</Subtitle>
       <Text>Recibiste el pedido el <strong>{order.createDate}</strong></Text>
+      <OrderStatusEvolution orderTrackingData={order.orderTrackingData} />
       <Dropdown
         label="Próximo estado"
         placeholder="Seleccioná el próximo estado"
