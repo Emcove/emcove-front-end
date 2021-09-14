@@ -64,6 +64,8 @@ const Setup = () => {
   const [categories, setCategories] = useState([]);
   const [products, updateProducts] = useState([]);
 
+  const [pageId, setPageId] = useState('');
+
   const [snackbarData, setSnackbarData] = useState({});
 
   const [modalProductVisible, setModalVisible] = useState(false);
@@ -87,6 +89,8 @@ const Setup = () => {
         setCity(business.city);
         setDoesShipments(business.doesShipments);
         setCategories(business.categories.map(c => c.charAt(0) + c.slice(1).toLowerCase()));
+        console.log(business.facebook_page_id);
+        setPageId(business.facebook_page_id);
         updateProducts(business.products);
       });
       setLoading(false);
@@ -100,6 +104,7 @@ const Setup = () => {
        logo,
        city,
        doesShipments,
+       facebook_page_id:pageId,
        categories: categories.map(c => c.toUpperCase()),
        products
      };
@@ -186,6 +191,16 @@ const Setup = () => {
                 checked={doesShipments}
                 onClick={() => setDoesShipments(!doesShipments)}
               />
+              <TextInputContainer>
+                <TextInput
+                  id="facebook_page_id"
+                  value={pageId}
+                  required={false}
+                  type="text"
+                  onChange={setPageId}
+                  placeholder="Id página de facbook"
+                />
+              </TextInputContainer>
             </div>
           </div>
           <div className="setup-business__properties">
