@@ -130,13 +130,13 @@ const BusinessOrders = () => {
         />}
       </Modal>
       <Modal open={orderStatusModal} setVisibility={setOrderStatusModalVisibility}>
-          {evaluatedOrder &&
-            <StatusUpdateComponent
-              order={evaluatedOrder}
-              handleAccept={(newStatus) => updateOrderStatus(newStatus)}
-              handleCancel={() => { setOrderStatusModalVisibility(false); setEvaluatedOrder(null); }}
-            />
-          }
+        {evaluatedOrder &&
+          <StatusUpdateComponent
+            order={evaluatedOrder}
+            handleAccept={(newStatus) => updateOrderStatus(newStatus)}
+            handleCancel={() => { setOrderStatusModalVisibility(false); setEvaluatedOrder(null); }}
+          />
+        }
       </Modal>
     </Layout>
   );
