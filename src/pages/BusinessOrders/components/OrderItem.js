@@ -81,7 +81,7 @@ const OrderStatus = styled.div`
 const Status = styled.button`
   font-size: 14px;
   font-weight: 600;
-  text-align: right;
+  text-align: center;
   border: none;
   background-color: transparent;
   font-family: 'Raleway';
@@ -117,10 +117,10 @@ const Status = styled.button`
   `}
 
   ${props => props.type === "EN_PREPARACION" && css`
-    color: ${colors.success};
+    color: ${colors.primary};
 
     &:hover {
-      background-color: ${colors.successHover};
+      background-color: ${colors.primaryHover};
     }
   `}
   
@@ -129,6 +129,14 @@ const Status = styled.button`
 
     &:hover {
       cursor: default;
+    }
+  `}
+
+  ${props => props.type === "LISTO_PARA_ENTREGAR" && css `
+    color: ${colors.success};
+
+    &:hover {
+      background-color: ${colors.successHover};
     }
   `}
 
@@ -184,8 +192,8 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
   const history = useHistory();
   const [options, showOptions] = useState(false);
 
-  const { createDate, user, productSnapshot, currentState, product } = order;
-  const displayDate = new Date(createDate).toLocaleDateString();
+  const { updateDate, user, productSnapshot, currentState, product } = order;
+  const displayDate = new Date(updateDate).toLocaleDateString();
   const images = product.images.map(image => image.image);
 
   return (
@@ -193,7 +201,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
       <Card alignment="flex-start">
         <Carrousel images={images} />
         <OrderData>
-          <OrderDate>{displayDate}</OrderDate>
+          <OrderDate>Última modificación {displayDate}</OrderDate>
           <Buyer>{user.name} {user.surname}</Buyer>
           <Product>{productSnapshot.productName}</Product>
           <PropertiesContainer>
@@ -208,7 +216,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
             type={currentState}
             onClick={() => onClickStatus(order)}
           >
-            {currentState.replace('_', ' ')}
+            {currentState.replaceAll('_', ' ')}
           </Status>
           <MoreOptions>
             <Button backgroundColor="transparent" onClick={() => showOptions(!options)}>
@@ -216,7 +224,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
             </Button>
             {options &&
               <Options>
-                <OrderOption onClick={() => history.push(`/reputation?from=business-orders&user=${order.user.id}`)}>
+                <OrderOption onClick={() => history.push(`/reputation?from=business-orders&id=${order.user.id}`)}>
                   Ver reputación de usuario
                 </OrderOption>
                 {currentState === 'ENTREGADO' &&

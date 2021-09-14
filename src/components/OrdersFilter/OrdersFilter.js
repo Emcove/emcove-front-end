@@ -65,10 +65,10 @@ const Status = styled.button`
   `}
 
   ${props => props.type === "EN_PREPARACION" && css`
-    color: ${colors.success};
+  color: ${colors.primary};
 
     &:hover {
-      background-color: ${colors.successHover};
+      background-color: ${colors.primaryHover};
     }
   `}
   
@@ -77,6 +77,14 @@ const Status = styled.button`
 
     &:hover {
       background-color: ${colors.primaryTen};
+    }
+  `}
+
+  ${props => props.type === "LISTO_PARA_ENTREGAR" && css`
+    color: ${colors.success};
+
+    &:hover {
+      background-color: ${colors.successHover};
     }
   `}
 `;
@@ -172,6 +180,7 @@ const OrdersFilter = ({ filterOrders, orderByDate }) => {
             <Status key="RECHAZADO" type="RECHAZADO" onClick={(event) => updateFilter("Rechazados", "RECHAZADO", event)}>Rechazados</Status>
             <Status key="CANCELADO" type="CANCELADO" onClick={(event) => updateFilter("Cancelados", "CANCELADO", event)}>Cancelados</Status>
             <Status key="EN_PREPARACION" type="EN_PREPARACION" onClick={(event) => updateFilter("En preparación", "EN_PREPARACION", event)}>En preparación</Status>
+            <Status key="LISTO_PARA_ENTREGAR" type="LISTO_PARA_ENTREGAR" onClick={(event) => updateFilter("Listos para entregar", "LISTO_PARA_ENTREGAR", event)}>Listos para entregar</Status>
             <Status key="ENTREGADO" type="ENTREGADO" onClick={(event) => updateFilter("Entregados", "ENTREGADO", event)}>Entregados</Status>
             <Status key="TODOS" type="TODOS" onClick={(event) => updateFilter("Todos", "", event)}>Todos</Status>
           </Options>

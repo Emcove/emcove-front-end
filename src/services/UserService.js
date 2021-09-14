@@ -54,7 +54,7 @@ class UserService {
         }
     }
 
-    async getMyBusinessReputation(businessId) {
+    async getBusinessReputation(businessId) {
         try {
             const resp = await axios.get(`${API_URL}/entrepreneurships/${businessId}/reputation`, { headers: {
                 authorization: localStorage.getItem('token'),
@@ -75,5 +75,15 @@ class UserService {
             return error.response;
         }
     }
+
+    async getUserOrders() {
+        try {
+          return await axios.get(`${API_URL}/users/orders`, { headers: {
+            authorization: localStorage.getItem('token'),
+        }});
+        } catch (error) {
+            return error.response;
+        }
+      }
 }
 export default new UserService()

@@ -48,7 +48,7 @@ const BusinessOrders = () => {
   useEffect(() => {
     BusinessService.getBusinessOrders().then(response => {
       if (response.status === 200) {
-        setOrders(response.data);
+        setOrders(response.data.sort((a, b) => new Date(b.updateDate) - new Date(a.updateDate)));
       }
       setLoading(false);
     })
@@ -60,10 +60,9 @@ const BusinessOrders = () => {
   };
 
   const onClickStatus = (order) => {
-    const { status } = order;
-    const currentStatus = status[status.length - 1].name;
-    
-    if (currentStatus === 'Cancelado' || currentStatus === 'Finalizado') {
+    const { currentState } = order;
+  
+    if (currentState === 'CANCELADO' || currentState === 'FINALIZADO') {
       return null;
     }
 
@@ -82,24 +81,28 @@ const BusinessOrders = () => {
   };
 
   const sortOrdersByDate = (asc) => {
+    let sortedOrders;
     setLoading(true);
-    BusinessService.getBusinessOrders("", asc).then(response => {
-      if (response.status === 200) {
-        setOrders(response.data);
+
+    setTimeout(() => {
+      if (asc) {
+        sortedOrders = orders.sort((order1, order2) => new Date(order1.updateDate) - new Date(order2.updateDate))
+        setOrders(sortedOrders);
+      } else {
+        sortedOrders = orders.sort((order1, order2) => new Date(order2.updateDate) - new Date(order1.updateDate))
+        setOrders(sortedOrders);
       }
       setLoading(false);
-    });
+    }, 1000);
   };
 
   const updateOrderStatus = (newStatus) => {
-    console.log('orden a actualizar:');
-    console.log(evaluatedOrder);
-
-    console.log('nuevo estado:');
-    console.log(newStatus);
+    BusinessService.updateOrderStatus(evaluatedOrder.id, newStatus).then(response => {
+      console.log(response);
+    });
 
     setOrderStatusModalVisibility(false);
-  };
+  };  
 
   return (
     <Layout>
@@ -107,10 +110,8 @@ const BusinessOrders = () => {
         <Link onClick={() => history.push('/home')}>Volver a la home</Link>
         <Title>Pedidos que recibí</Title>
         <OrdersContainer>
+          <OrdersFilter filterOrders={filterOrdersByStatus} orderByDate={sortOrdersByDate} />
           {isLoading && <ListSkeleton businessList squaredImage tertiaryData />}
-          {!isLoading && orders.length &&
-            <OrdersFilter filterOrders={filterOrdersByStatus} orderByDate={sortOrdersByDate} />
-          }
           {!isLoading && orders.length &&
           <OrdersList
             orders={orders}
@@ -129,13 +130,13 @@ const BusinessOrders = () => {
         />}
       </Modal>
       <Modal open={orderStatusModal} setVisibility={setOrderStatusModalVisibility}>
-          {evaluatedOrder &&
-            <StatusUpdateComponent
-              order={evaluatedOrder}
-              handleAccept={(newStatus) => updateOrderStatus(newStatus)}
-              handleCancel={() => { setOrderStatusModalVisibility(false); setEvaluatedOrder(null); }}
-            />
-          }
+        {evaluatedOrder &&
+          <StatusUpdateComponent
+            order={evaluatedOrder}
+            handleAccept={(newStatus) => updateOrderStatus(newStatus)}
+            handleCancel={() => { setOrderStatusModalVisibility(false); setEvaluatedOrder(null); }}
+          />
+        }
       </Modal>
     </Layout>
   );

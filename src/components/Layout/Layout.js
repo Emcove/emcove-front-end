@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+
 import styled, { css } from 'styled-components'
 
 import { useHistory } from 'react-router-dom';
@@ -74,6 +75,19 @@ const ProfileAccess = styled.button`
   :hover {
     cursor: pointer;
   }
+  padding: 0;
+`;
+
+const Avatar = styled.img`
+  width: 48px;
+  height: 48px;
+  border-radius: 100%;
+  border: none;
+  :hover {
+    cursor: pointer;
+  }
+  margin: 0;
+  padding: 0;
 `;
 
 const ProfileOptions = styled.div`
@@ -113,6 +127,9 @@ const Option = styled.div`
 
 const Layout = ({ children, login, registry, className }) => {
   const [profileOptions, showProfileOptions] = useState(false);
+
+  const loggedUser = JSON.parse(localStorage.getItem("user"));
+
   const history = useHistory();
   const redirectHome = () => {
     history.push("/home");
@@ -127,7 +144,12 @@ const Layout = ({ children, login, registry, className }) => {
           <div className="components-container" onClick={redirectHome}>
             <Icons type="horizontal-color-logo" className="header-color-logo"/>
           </div>
-          {!registry && <ProfileAccess onClick={() => showProfileOptions(!profileOptions)}><Icons type="user" /></ProfileAccess>}
+          {!registry && 
+            <ProfileAccess onClick={() => showProfileOptions(!profileOptions)}>
+              {loggedUser.avatar && <Avatar src={loggedUser.avatar} />} 
+              {!loggedUser.avatar && <Icons type="user" />}
+            </ProfileAccess>
+          }
           {profileOptions &&
             <ProfileOptions>
               {user && user.entrepreneurship && <Option onClick={() => history.push('/businessOrders')}>Pedidos que recibí</Option>}

@@ -16,7 +16,21 @@ class BusinessService {
         return error.response;
     }
   }
-    
+  
+  async patchBusiness(data){
+    try {
+      const resp =  await axios.patch(`${API_URL}/entrepreneurships`, data, { headers: {
+        authorization: localStorage.getItem('token'),
+      }});
+      let user = JSON.parse(localStorage.getItem("user"));
+      user.entrepreneurship = resp.data;
+      localStorage.setItem("user",JSON.stringify(user));
+      return resp;
+    } catch(error) {
+        return error.response;
+    }
+  }
+
   async registerFeedback(feedbackData) {
     const { entityId, username, title, description, value } = feedbackData;
     const body = {
@@ -87,13 +101,25 @@ class BusinessService {
     }
   }
 
-  async getBusinessOrders(status, asc = false) {
+  async getBusinessOrders(status) {
     try {
-      return await axios.get(`${API_URL}/entrepreneurships/orders`, { params: { orderState: status, asc }, headers: {
+      return await axios.get(`${API_URL}/entrepreneurships/orders`, { params: { orderState: status }, headers: {
         authorization: localStorage.getItem('token'),
     }});
     } catch (error) {
         return error.response;
+    }
+  }
+
+  async updateOrderStatus(orderId, newStatus) {
+    try {
+      const response = await axios.post(`${API_URL}/entrepreneurships/orders/${orderId}/orderTracking?newOrderState=${newStatus}`, { headers: {
+        authorization: localStorage.getItem('token'),
+      }});
+
+      return response;
+    } catch (error) {
+      return error.response;
     }
   }
 }

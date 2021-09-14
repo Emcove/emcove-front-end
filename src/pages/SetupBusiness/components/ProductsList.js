@@ -25,8 +25,8 @@ const Container = styled.div`
 `;
 
 const ProductsList = ({ onClickNewProduct }) => {
-  const { products } = useContext(BusinessContext);
-
+  const { isUpdate, products } = useContext(BusinessContext);
+  console.log(isUpdate);
   return (
     <Container>
       <Subtitle>Productos</Subtitle>
@@ -37,7 +37,7 @@ const ProductsList = ({ onClickNewProduct }) => {
             name={product.name}
             description={product.description}
             properties={product.props}
-            images={product.images}
+            images={isUpdate ? product.images.map(img => img.image) : product.images}
             hasStock={product.hasStock}
             productionTime={product.productionTime}
             index={index}
