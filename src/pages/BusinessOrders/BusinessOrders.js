@@ -48,7 +48,7 @@ const BusinessOrders = () => {
   useEffect(() => {
     BusinessService.getBusinessOrders().then(response => {
       if (response.status === 200) {
-        setOrders(response.data);
+        setOrders(response.data.sort((a, b) => new Date(b.updateDate) - new Date(a.updateDate)));
       }
       setLoading(false);
     })
@@ -81,10 +81,19 @@ const BusinessOrders = () => {
   };
 
   const sortOrdersByDate = (asc) => {
+    let sortedOrders;
     setLoading(true);
-    
 
-    setLoading(false);
+    setTimeout(() => {
+      if (asc) {
+        sortedOrders = orders.sort((order1, order2) => new Date(order1.updateDate) - new Date(order2.updateDate))
+        setOrders(sortedOrders);
+      } else {
+        sortedOrders = orders.sort((order1, order2) => new Date(order2.updateDate) - new Date(order1.updateDate))
+        setOrders(sortedOrders);
+      }
+      setLoading(false);
+    }, 1000);
   };
 
   const updateOrderStatus = (newStatus) => {
