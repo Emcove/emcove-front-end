@@ -6,6 +6,8 @@ import ReactLoading from "react-loading";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import queryString from "query-string";
 
+import MessengerCustomerChat from "react-messenger-customer-chat";
+
 import { OrderProvider } from '../../context/Order';
 
 import Carrousel from "../../components/Carrousel/Carrousel";
