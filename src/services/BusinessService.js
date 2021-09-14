@@ -16,7 +16,21 @@ class BusinessService {
         return error.response;
     }
   }
-    
+  
+  async patchBusiness(data){
+    try {
+      const resp =  await axios.patch(`${API_URL}/entrepreneurships`, data, { headers: {
+        authorization: localStorage.getItem('token'),
+      }});
+      let user = JSON.parse(localStorage.getItem("user"));
+      user.entrepreneurship = resp.data;
+      localStorage.setItem("user",JSON.stringify(user));
+      return resp;
+    } catch(error) {
+        return error.response;
+    }
+  }
+
   async registerFeedback(feedbackData) {
     const { entityId, username, title, description, value } = feedbackData;
     const body = {
@@ -76,7 +90,6 @@ class BusinessService {
   }
 
   async sendOrder(order, businessId) {
-    debugger;
     try {
       const response = await axios.post(`${API_URL}/entrepreneurships/${businessId}/order`, order, { headers: {
         authorization: localStorage.getItem('token'),

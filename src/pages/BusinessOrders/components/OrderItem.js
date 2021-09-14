@@ -216,7 +216,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
             </Button>
             {options &&
               <Options>
-                <OrderOption onClick={() => history.push(`/reputation?from=business-orders&user=${order.user.id}`)}>
+                <OrderOption onClick={() => history.push(`/reputation?from=business-orders&id=${order.user.id}`)}>
                   Ver reputación de usuario
                 </OrderOption>
                 {currentState === 'ENTREGADO' &&
