@@ -154,6 +154,8 @@ const BusinessDetail = () => {
   const history = useHistory();
   const location = useLocation();
   const params = useParams();
+
+  const app_id = "388558709649689";
   const { collection_status, plan } = queryString.parse(location.search);
 
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
@@ -301,6 +303,13 @@ const BusinessDetail = () => {
             <EditBusinessButton onClick={() => history.push('/createBusiness?from=businessDetail')}>
               <Icon type="edit" className="edit-button__icon" />
             </EditBusinessButton>
+            
+          }
+          {!isUserBusiness && business.facebook_page_id &&
+            <MessengerCustomerChat
+              pageId={business.facebook_page_id}
+              appId={app_id}
+            />
           }
           {!isUserBusiness && order && <Button primary onClick={() => sendOrder()}>Enviar pedido</Button>}
         </Container>
