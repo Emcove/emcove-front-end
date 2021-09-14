@@ -54,6 +54,9 @@ const Setup = () => {
   const location = useLocation();
   const history = useHistory();
 
+  const [isUpdate, setIsUpdate] = useState(false);
+
+  const [businessId, setBusinessId] = useState('');
   const [name, setName] = useState('');
   const [logo, setLogo] = useState();
   const [city, setCity] = useState('');
@@ -71,9 +74,13 @@ const Setup = () => {
 
   useEffect(() => {
     if (from === "businessDetail"){
+      setLoading(true);
+
+      setIsUpdate(true);
+
       BusinessService.getLoggedBusiness().then(response => {
         const business = response.data;
-        console.log(business)
+        setBusinessId(business.id);
         setName(business.name);
         setLogo(business.logo);
         setCity(business.city);
@@ -81,11 +88,13 @@ const Setup = () => {
         setCategories(business.categories.map(c => c.charAt(0) + c.slice(1).toLowerCase()));
         updateProducts(business.products);
       });
+      setLoading(false);
     }
   }, [from]);
 
-  const createBusiness = async () => {
+  const saveBusiness = async () => {
      const data = {
+       id:businessId,
        name,
        logo,
        city,
@@ -93,15 +102,25 @@ const Setup = () => {
        categories: categories.map(c => c.toUpperCase()),
        products
      };
-      setLoading(true);
-      const resp = await BusinessService.createBusiness(data);
 
-      if (resp.status === 201){
+      setLoading(true);
+      
+      const saveFunction = isUpdate ?  BusinessService.patchBusiness : BusinessService.createBusiness;
+
+      const resp = await saveFunction(data);
+
+      if (resp.status === 201 || resp.status === 200){
         setLoading(false);
-        setSnackbarData({type: "success", message:"Emprendimiento creado con éxito", show: true});
+        let message = "Emprendimiento creado con éxito";
+
+        if (isUpdate){
+          message = "Emprendimiento actualizado con éxito"
+        }
+
+        setSnackbarData({type: "success", message: message, show: true});
         setTimeout(() => {
           setSnackbarData({show:false});
-          history.push("/business?from=nav-header")
+          history.push(`/business/${resp.data.name}`)
         }, 1500);
       } else {
         setLoading(false);
@@ -130,8 +149,8 @@ const Setup = () => {
   return (
     <Layout>
       {isLoading && <Loading backgroundColor="transparent" />}
-      <BusinessProvider value={{ name, logo, city, categories, products, addNewProduct, updateProducts }}>
-        <Content>
+      <BusinessProvider value={{ isUpdate, name, logo, city, categories, products, addNewProduct, updateProducts }}>
+        <Content>          
           <div className="setup-business__essentials">
             <ImageUploader
               id="logoBusiness"
@@ -173,8 +192,8 @@ const Setup = () => {
             <Categories categories={categories} onClick={handleCategoriesClick} />
           </div>
           <div className="setup-business__submit">
-            <Button primary onClick={() => createBusiness()}>
-              Crear Emprendimiento
+            <Button primary onClick={() => saveBusiness()}>
+              {isUpdate ? "Actualizar Emprendimiento" : "Crear Emprendimiento"}
             </Button>
             <Link onClick={() => history.push("/home")}>Cancelar</Link>
           </div>
