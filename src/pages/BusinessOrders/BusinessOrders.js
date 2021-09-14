@@ -18,6 +18,7 @@ import StatusUpdateComponent from "./components/StatusUpdateComponent";
 
 import BusinessService from "../../services/BusinessService";
 import OrdersFilter from "../../components/OrdersFilter";
+import OrderDetail from "../../components/OrderDetail";
 
 const Container = styled.div`
   width: 100%;
@@ -43,6 +44,7 @@ const BusinessOrders = () => {
   const [orderStatusModal, setOrderStatusModalVisibility] = useState(false);
   const [evaluatedOrder, setEvaluatedOrder] = useState(null);
 
+  const [orderDetailModal, setOrderDetailModalVisibility] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -102,7 +104,12 @@ const BusinessOrders = () => {
     });
 
     setOrderStatusModalVisibility(false);
-  };  
+  };
+
+  const displayOrderDetail = (order) => {
+    setEvaluatedOrder(order);
+    setOrderDetailModalVisibility(true);
+  };
 
   return (
     <Layout>
@@ -117,6 +124,7 @@ const BusinessOrders = () => {
             orders={orders}
             onClickStatus={onClickStatus}
             openEvaluationModal={openEvaluationModal}
+            displayOrderDetail={displayOrderDetail}
           />}
         </OrdersContainer>
       </Container>
@@ -137,6 +145,9 @@ const BusinessOrders = () => {
             handleCancel={() => { setOrderStatusModalVisibility(false); setEvaluatedOrder(null); }}
           />
         }
+      </Modal>
+      <Modal open={orderDetailModal} setVisibility={setOrderDetailModalVisibility}>
+        {evaluatedOrder && <OrderDetail order={evaluatedOrder}/>}
       </Modal>
     </Layout>
   );
