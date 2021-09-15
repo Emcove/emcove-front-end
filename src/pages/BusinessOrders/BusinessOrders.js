@@ -128,7 +128,7 @@ const BusinessOrders = () => {
           />}
         </OrdersContainer>
       </Container>
-      <Modal open={modalFeedbackVisible} setVisibility={setModalFeedbackVisible}>
+      <Modal key="feedback-modal" open={modalFeedbackVisible} setVisibility={setModalFeedbackVisible}>
         {user && user.entrepreneurship &&
         <FeedbackForm
           evaluatedEntity={evaluatedUser}
@@ -137,7 +137,7 @@ const BusinessOrders = () => {
           sender={user && user.username}
         />}
       </Modal>
-      <Modal open={orderStatusModal} setVisibility={setOrderStatusModalVisibility}>
+      <Modal key="status-modal" open={orderStatusModal} setVisibility={setOrderStatusModalVisibility}>
         {evaluatedOrder &&
           <StatusUpdateComponent
             order={evaluatedOrder}
@@ -146,7 +146,7 @@ const BusinessOrders = () => {
           />
         }
       </Modal>
-      <Modal open={orderDetailModal} setVisibility={setOrderDetailModalVisibility}>
+      <Modal key="order-detail-modal" open={orderDetailModal} setVisibility={setOrderDetailModalVisibility}>
         {evaluatedOrder && <OrderDetail order={evaluatedOrder}/>}
       </Modal>
     </Layout>

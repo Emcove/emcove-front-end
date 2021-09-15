@@ -1,3 +1,3 @@
-import OrderDetail from './index.js';
+import OrderDetail from './OrderDetail.js';
 
 export default OrderDetail;

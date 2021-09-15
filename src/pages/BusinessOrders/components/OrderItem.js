@@ -13,6 +13,10 @@ import Carrousel from "../../../components/Carrousel/Carrousel";
 
 const SingleOrder = styled.div`
   margin-bottom: 12px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const OrderData = styled.div`
@@ -188,7 +192,7 @@ const OrderOption = styled.div`
   }
 `;
 
-const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
+const OrderItem = ({ order, openEvaluationModal, onClickStatus, displayOrderDetail }) => {
   const history = useHistory();
   const [options, showOptions] = useState(false);
 
@@ -197,7 +201,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
   const images = product.images.map(image => image.image);
 
   return (
-    <SingleOrder key={order.id}>
+    <SingleOrder>
       <Card alignment="flex-start">
         <Carrousel images={images} />
         <OrderData>
@@ -206,7 +210,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
           <Product>{productSnapshot.productName}</Product>
           <PropertiesContainer>
             {productSnapshot.chosenProps.map(prop => 
-              <ProductProps key={prop}>{prop.name}: {prop.chosenOption}</ProductProps>
+              <ProductProps key={prop.name}>{prop.name}: {prop.chosenOption}</ProductProps>
             )}
           </PropertiesContainer>
         </OrderData>
@@ -224,11 +228,14 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus }) => {
             </Button>
             {options &&
               <Options>
-                <OrderOption onClick={() => history.push(`/reputation?from=business-orders&id=${order.user.id}`)}>
+                <OrderOption key="order-detail" onClick={() => displayOrderDetail(order)}>
+                  Ver detalle del pedido
+                </OrderOption>
+                <OrderOption key="user-reputation" onClick={() => history.push(`/reputation?from=business-orders&id=${order.user.id}`)}>
                   Ver reputación de usuario
                 </OrderOption>
                 {currentState === 'ENTREGADO' &&
-                  <OrderOption onClick={() => openEvaluationModal(order.business.id)}>Calificar comprador</OrderOption>
+                  <OrderOption key="rate-user" onClick={() => openEvaluationModal(order.business.id)}>Calificar comprador</OrderOption>
                 }
               </Options>
             }

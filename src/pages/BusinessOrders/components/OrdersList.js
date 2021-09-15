@@ -2,7 +2,7 @@ import React from "react";
 
 import OrderItem from "./OrderItem";
 
-const UpdateOrderStatus = ({ orders, openEvaluationModal, onClickStatus }) => {
+const UpdateOrderStatus = ({ orders, openEvaluationModal, onClickStatus, displayOrderDetail }) => {
   if (!orders || orders.length === 0) return null;
 
   return (
@@ -13,6 +13,7 @@ const UpdateOrderStatus = ({ orders, openEvaluationModal, onClickStatus }) => {
           key={order.id}
           onClickStatus={onClickStatus}
           openEvaluationModal={openEvaluationModal}
+          displayOrderDetail={displayOrderDetail}
         />
       ))}
     </>
