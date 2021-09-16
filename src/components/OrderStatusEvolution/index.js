@@ -1,3 +1,3 @@
-import OrderStatusEvolution from './index.js';
+import OrderStatusEvolution from './OrderStatusEvolution.js';
 
 export default OrderStatusEvolution;

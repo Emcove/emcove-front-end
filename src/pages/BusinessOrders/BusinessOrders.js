@@ -17,6 +17,7 @@ import OrdersList from "./components/OrdersList";
 import StatusUpdateComponent from "./components/StatusUpdateComponent";
 
 import BusinessService from "../../services/BusinessService";
+import UserService from "../../services/UserService";
 import OrdersFilter from "../../components/OrdersFilter";
 import OrderDetail from "../../components/OrderDetail";
 
@@ -56,8 +57,8 @@ const BusinessOrders = () => {
     })
   }, []);
 
-  const openEvaluationModal = (businessId) => {
-    setEvaluatedUser(businessId);
+  const openEvaluationModal = (clientId) => {
+    setEvaluatedUser(clientId);
     setModalFeedbackVisible(true);
   };
 
@@ -133,8 +134,8 @@ const BusinessOrders = () => {
         <FeedbackForm
           evaluatedEntity={evaluatedUser}
           onClickCancel={() => setModalFeedbackVisible(false)}
-          sendFeedback={BusinessService.registerFeedback}
-          sender={user && user.username}
+          sendFeedback={UserService.registerFeedback}
+          sender={user && user.entrepreneurship.name}
         />}
       </Modal>
       <Modal key="status-modal" open={orderStatusModal} setVisibility={setOrderStatusModalVisibility}>
