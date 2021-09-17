@@ -272,7 +272,7 @@ const BusinessDetail = () => {
                 </SubscriptionInfoContainer>
               }
               <Link onClick={() => history.push(`/reputation?from=business-detail&id=${business.id}`)}>Ver reputación</Link>
-              {business.hasSubscription === '0' && !plan &&
+              {isUserBusiness && business.hasSubscription === '0' && !plan &&
                 <ButtonContainer>
                   <Button primary onClick={() => openModalSubscription(true)}>Publicitar mi emprendimiento</Button>
                 </ButtonContainer>
