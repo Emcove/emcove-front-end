@@ -29,8 +29,7 @@ const Text = styled.div`
 `;
 
 const StatusUpdateComponent = ({ order, handleCancel, handleAccept }) => {
-  const [selectedStatus, updateSelectedStatus] = useState();
-
+  const [selectedStatus, updateSelectedStatus] = useState('');
   return (
     <ModalContent>
       <Subtitle fontSize="24px">Actualizar estado del pedido Nº {order.id}</Subtitle>

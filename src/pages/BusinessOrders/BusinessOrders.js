@@ -17,7 +17,9 @@ import OrdersList from "./components/OrdersList";
 import StatusUpdateComponent from "./components/StatusUpdateComponent";
 
 import BusinessService from "../../services/BusinessService";
+import UserService from "../../services/UserService";
 import OrdersFilter from "../../components/OrdersFilter";
+import OrderDetail from "../../components/OrderDetail";
 
 const Container = styled.div`
   width: 100%;
@@ -43,6 +45,7 @@ const BusinessOrders = () => {
   const [orderStatusModal, setOrderStatusModalVisibility] = useState(false);
   const [evaluatedOrder, setEvaluatedOrder] = useState(null);
 
+  const [orderDetailModal, setOrderDetailModalVisibility] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -54,8 +57,8 @@ const BusinessOrders = () => {
     })
   }, []);
 
-  const openEvaluationModal = (businessId) => {
-    setEvaluatedUser(businessId);
+  const openEvaluationModal = (clientId) => {
+    setEvaluatedUser(clientId);
     setModalFeedbackVisible(true);
   };
 
@@ -102,7 +105,12 @@ const BusinessOrders = () => {
     });
 
     setOrderStatusModalVisibility(false);
-  };  
+  };
+
+  const displayOrderDetail = (order) => {
+    setEvaluatedOrder(order);
+    setOrderDetailModalVisibility(true);
+  };
 
   return (
     <Layout>
@@ -117,19 +125,20 @@ const BusinessOrders = () => {
             orders={orders}
             onClickStatus={onClickStatus}
             openEvaluationModal={openEvaluationModal}
+            displayOrderDetail={displayOrderDetail}
           />}
         </OrdersContainer>
       </Container>
-      <Modal open={modalFeedbackVisible} setVisibility={setModalFeedbackVisible}>
+      <Modal key="feedback-modal" open={modalFeedbackVisible} setVisibility={setModalFeedbackVisible}>
         {user && user.entrepreneurship &&
         <FeedbackForm
           evaluatedEntity={evaluatedUser}
           onClickCancel={() => setModalFeedbackVisible(false)}
-          sendFeedback={BusinessService.registerFeedback}
-          sender={user && user.username}
+          sendFeedback={UserService.registerFeedback}
+          sender={user && user.entrepreneurship.name}
         />}
       </Modal>
-      <Modal open={orderStatusModal} setVisibility={setOrderStatusModalVisibility}>
+      <Modal key="status-modal" open={orderStatusModal} setVisibility={setOrderStatusModalVisibility}>
         {evaluatedOrder &&
           <StatusUpdateComponent
             order={evaluatedOrder}
@@ -137,6 +146,9 @@ const BusinessOrders = () => {
             handleCancel={() => { setOrderStatusModalVisibility(false); setEvaluatedOrder(null); }}
           />
         }
+      </Modal>
+      <Modal key="order-detail-modal" open={orderDetailModal} setVisibility={setOrderDetailModalVisibility}>
+        {evaluatedOrder && <OrderDetail order={evaluatedOrder}/>}
       </Modal>
     </Layout>
   );
