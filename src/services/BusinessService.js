@@ -60,9 +60,10 @@ class BusinessService {
           authorization: localStorage.getItem('token'),
       }});
       } else {
-        resp = await axios.get(`${API_URL}/entrepreneurships`);
-        
-      } 
+        resp = await axios.get(`${API_URL}/entrepreneurships`, { headers: {
+          authorization: localStorage.getItem('token'),
+      }});
+      }
       return resp;
     } catch (error) {
         return error.response;
@@ -94,20 +95,31 @@ class BusinessService {
       const response = await axios.post(`${API_URL}/entrepreneurships/${businessId}/order`, order, { headers: {
         authorization: localStorage.getItem('token'),
       }});
-      debugger;
       return response;
     } catch (error) {
       return error.response;
     }
   }
 
-  async getBusinessOrders() {
+  async getBusinessOrders(status) {
     try {
-      return await axios.get(`${API_URL}/entrepreneurships/orders`, { headers: {
+      return await axios.get(`${API_URL}/entrepreneurships/orders`, { params: { orderState: status }, headers: {
         authorization: localStorage.getItem('token'),
     }});
     } catch (error) {
         return error.response;
+    }
+  }
+
+  async updateOrderStatus(orderId, newStatus) {
+    try {
+      const response = await axios.post(`${API_URL}/entrepreneurships/orders/${orderId}/orderTracking?newOrderState=${newStatus}`, { headers: {
+        authorization: localStorage.getItem('token'),
+      }});
+
+      return response;
+    } catch (error) {
+      return error.response;
     }
   }
 }

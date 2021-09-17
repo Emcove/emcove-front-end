@@ -75,7 +75,6 @@ const Setup = () => {
   const { from } = queryString.parse(location.search);
 
   useEffect(() => {
-    
     if (from === "businessDetail"){
       setLoading(true);
 
@@ -132,7 +131,7 @@ const Setup = () => {
         setLoading(false);
         setSnackbarData({type: "error", message:resp.data, show: true});
         setTimeout(() => {
-        setSnackbarData({show:false});
+          setSnackbarData({show:false});
         }, 1500);
       }
   }

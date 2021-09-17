@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components'
 
 import { colors } from '../../styles/palette';
@@ -41,9 +41,7 @@ const Label = styled.span`
 
 const Options = styled.div`
   position: absolute;
-  top: 6px;
-  left: 0;
-  width: 100%;
+  margin-top: -17px;
   border: solid 1px ${colors.grayBorder};
   border-radius: 3px;
   background-color: ${colors.white};
@@ -76,7 +74,26 @@ const Dropdown = ({ label, options, placeholder, onClickOption, feedbackDropdown
   const [showingPlaceholder, setPlaceholder] = useState(placeholder || options[0]);
   const [showOptions, setShowOptions] = useState(false);
 
-  const optionClicked = (option) => {
+  useEffect(() => {
+    document.addEventListener('click', () => {
+      setShowOptions(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if(event.key === "Escape") {
+        setShowOptions(false);
+      }
+    });
+
+    return () => {
+      document.removeEventListener('keydown', () => {});
+      document.removeEventListener('click', () => {});
+    }
+  }, [setShowOptions]);
+
+  const optionClicked = (event, option) => {
+    event.stopPropagation();
+    
     setPlaceholder(option);
     onClickOption && onClickOption(option, label);
     setShowOptions(false);
@@ -85,7 +102,8 @@ const Dropdown = ({ label, options, placeholder, onClickOption, feedbackDropdown
   return (
     <Container className="dropdown-component">
       <Label>{label}</Label>
-      <DropdownDispatcher onClick={() => setShowOptions(!showOptions)}>
+      <div>
+      <DropdownDispatcher onClick={(event) => { event.stopPropagation(); setShowOptions(!showOptions); }}>
         {showingPlaceholder}
         <IconContainer>
           <Icon type="arrow-down" className="dropdown-icon" />
@@ -93,15 +111,16 @@ const Dropdown = ({ label, options, placeholder, onClickOption, feedbackDropdown
       </DropdownDispatcher>
       {showOptions && !feedbackDropdown &&
         <Options>
-          {options.map(option => <Option key={option} onClick={() => optionClicked(option)}>{option}</Option>)}
+          {options.map(option => <Option key={option} onClick={(event) => optionClicked(event, option)}>{option}</Option>)}
         </Options>
       }
 
       {showOptions && feedbackDropdown &&
         <Options>
-          {options.map(option => <Option key={option.text} disabled={!option.enabled} onClick={option.enabled ? () => optionClicked(option.text) : () => {}}>{option.text}</Option>)}
+          {options.map(option => <Option key={option.text} disabled={!option.enabled} onClick={option.enabled ? (event) => optionClicked(event, option.text) : () => {}}>{option.text}</Option>)}
         </Options>
       }
+      </div>
     </Container>
   );
 }

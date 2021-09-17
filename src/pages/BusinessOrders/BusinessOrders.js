@@ -17,6 +17,7 @@ import OrdersList from "./components/OrdersList";
 import StatusUpdateComponent from "./components/StatusUpdateComponent";
 
 import BusinessService from "../../services/BusinessService";
+import OrdersFilter from "../../components/OrdersFilter";
 
 const Container = styled.div`
   width: 100%;
@@ -47,7 +48,7 @@ const BusinessOrders = () => {
   useEffect(() => {
     BusinessService.getBusinessOrders().then(response => {
       if (response.status === 200) {
-        setOrders(response.data);
+        setOrders(response.data.sort((a, b) => new Date(b.updateDate) - new Date(a.updateDate)));
       }
       setLoading(false);
     })
@@ -59,10 +60,9 @@ const BusinessOrders = () => {
   };
 
   const onClickStatus = (order) => {
-    const { status } = order;
-    const currentStatus = status[status.length - 1].name;
-    
-    if (currentStatus === 'Cancelado' || currentStatus === 'Finalizado') {
+    const { currentState } = order;
+  
+    if (currentState === 'CANCELADO' || currentState === 'FINALIZADO') {
       return null;
     }
 
@@ -70,15 +70,39 @@ const BusinessOrders = () => {
     setOrderStatusModalVisibility(true);
   };
 
-  const updateOrderStatus = (newStatus) => {
-    console.log('orden a actualizar:');
-    console.log(evaluatedOrder);
+  const filterOrdersByStatus = (status) => {
+    setLoading(true);
+    BusinessService.getBusinessOrders(status).then(response => {
+      if (response.status === 200) {
+        setOrders(response.data);
+      }
+      setLoading(false);
+    });
+  };
 
-    console.log('nuevo estado:');
-    console.log(newStatus);
+  const sortOrdersByDate = (asc) => {
+    let sortedOrders;
+    setLoading(true);
+
+    setTimeout(() => {
+      if (asc) {
+        sortedOrders = orders.sort((order1, order2) => new Date(order1.updateDate) - new Date(order2.updateDate))
+        setOrders(sortedOrders);
+      } else {
+        sortedOrders = orders.sort((order1, order2) => new Date(order2.updateDate) - new Date(order1.updateDate))
+        setOrders(sortedOrders);
+      }
+      setLoading(false);
+    }, 1000);
+  };
+
+  const updateOrderStatus = (newStatus) => {
+    BusinessService.updateOrderStatus(evaluatedOrder.id, newStatus).then(response => {
+      console.log(response);
+    });
 
     setOrderStatusModalVisibility(false);
-  };
+  };  
 
   return (
     <Layout>
@@ -86,8 +110,9 @@ const BusinessOrders = () => {
         <Link onClick={() => history.push('/home')}>Volver a la home</Link>
         <Title>Pedidos que recibí</Title>
         <OrdersContainer>
+          <OrdersFilter filterOrders={filterOrdersByStatus} orderByDate={sortOrdersByDate} />
           {isLoading && <ListSkeleton businessList squaredImage tertiaryData />}
-          {!isLoading &&
+          {!isLoading && orders.length &&
           <OrdersList
             orders={orders}
             onClickStatus={onClickStatus}
@@ -105,13 +130,13 @@ const BusinessOrders = () => {
         />}
       </Modal>
       <Modal open={orderStatusModal} setVisibility={setOrderStatusModalVisibility}>
-          {evaluatedOrder &&
-            <StatusUpdateComponent
-              order={evaluatedOrder}
-              handleAccept={(newStatus) => updateOrderStatus(newStatus)}
-              handleCancel={() => { setOrderStatusModalVisibility(false); setEvaluatedOrder(null); }}
-            />
-          }
+        {evaluatedOrder &&
+          <StatusUpdateComponent
+            order={evaluatedOrder}
+            handleAccept={(newStatus) => updateOrderStatus(newStatus)}
+            handleCancel={() => { setOrderStatusModalVisibility(false); setEvaluatedOrder(null); }}
+          />
+        }
       </Modal>
     </Layout>
   );

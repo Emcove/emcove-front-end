@@ -1,12 +1,14 @@
 export function buildPossibleStatusForOrder(order) {
-  const { status } = order;
+  const { currentState } = order;
 
-  switch(status[status.length - 1].name) {
-    case "Pendiente":
-      return ["Aprobado", "Rechazado"];
-    case "Aprobado":
-      return ["Finalizado", "Cancelado"];
+  switch (currentState) {
+    case "PENDIENTE":
+      return ["EN PREPARACION", "RECHAZADO", "CANCELAR"];
+    case "EN_PREPARACION":
+      return ["LISTO PARA ENTREGAR", "CANCELADO"];
+    case "LISTO_PARA_ENTREGAR":
+      return ["ENTREGADO", "CANCELADO"];
     default: 
-      return ["Aprobado", "Rechazado"];
+      return ["EN PREPARACION", "RECHAZADO", "CANCELAR"];
   }
 }
