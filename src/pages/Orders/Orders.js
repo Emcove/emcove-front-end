@@ -134,11 +134,16 @@ const Orders = () => {
   useEffect(() => {
     async function fetchUserOrders() {
       const response = await UserService.getUserOrders();
+      debugger;
       return response;
     }
 
     fetchUserOrders().then(response => {
-      setOrders(response.data);
+      if(response.data.status === 200)
+        setOrders(response.data);
+      else {
+        setOrders([]);
+      }
       setLoading(false);
     });
   }, []);
@@ -162,7 +167,8 @@ const Orders = () => {
         <Link onClick={() => history.push('/home')}>Volver a la home</Link>
         <Title>Pedidos que hice</Title>
         <OrdersContainer>
-          {orders.map(order => (
+          {!orders.length && <Product>No encontramos pedidos realizados en tu cuenta</Product>}
+          {!!orders.length && orders.map(order => (
             <SingleOrder key={order.id}>
               <Card alignment="space-between">
                 {order.entrepreneurship.logo && 
