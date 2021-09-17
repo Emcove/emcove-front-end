@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import { colors } from '../../styles/palette';
 
+import OrderStatusEvolution from '../OrderStatusEvolution';
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -53,16 +55,65 @@ const PropText = styled.span`
   margin: 6px 0;
 `;
 
-const OrderDetail = ({ order }) => {
-  const { id, product, createDate, updateDate, currentState, details, totalPrice, productSnapshot, user } = order;
+const ImagesContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0 20px -8px;
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  border: solid 1px #b3aeae14;
+  background-color: #fff;
+  min-width: 100px;
+  max-width: 100px;
+  height: 80px;
+  border-radius: 3px;
+  margin: 0 8px;
+  justify-content: center;
+`;
+
+const Image = styled.img`
+  height: 100%;
+  max-width: 100%;
+  width: auto;
+  display: inline;
+`;
+
+const OrderDetail = ({ order, buyerView = false }) => {
+  const { id, product, createDate, updateDate, currentState, details, totalPrice, productSnapshot, user, entrepreneurship } = order;
+  const images = product.images.map(image => image.image);
+
   return (
     <Container>
       <OrderTitle>Pedido {id} - {product.name}</OrderTitle>
-      <OrderSubtitle>Hecho por {user.name} {user.surname}</OrderSubtitle>
-      <Text>Recibido el {createDate}</Text>
+      {!buyerView && <OrderSubtitle>Hecho por {user.name} {user.surname}</OrderSubtitle>}
+      {buyerView && <OrderSubtitle>Pedido para {entrepreneurship.name}</OrderSubtitle>}
+      <Text>{buyerView ? "Enviado" : "Recibido"} el {createDate}</Text>
       <Text>Última actualización <strong>{updateDate}</strong> a <strong>{currentState.replaceAll('_', ' ')}</strong></Text>
+      { buyerView &&
+        <>
+          <Separator />
+          <OrderStatusEvolution orderTrackingData={order.orderTrackingData} />
+        </>
+      }
       <Separator />
       <OrderSubtitle>Detalles</OrderSubtitle>
+      {buyerView && !!images.length && (
+        <ImagesContainer>
+          {images.map((image, idx) => (
+            <ImageContainer key={`${product.name}Image${idx}`}>
+              <Image
+                src={image}
+                alt="viewProduct"
+              />
+            </ImageContainer>
+          ))}
+        </ImagesContainer>
+      )}
       <PropsContainer>
         {productSnapshot.chosenProps.map(prop => <PropText key={`${prop.name}-${prop.chosenOption}`}>{prop.name}: <strong>{prop.chosenOption}</strong></PropText>)}
         <PropText key="order-details">Aclaraciones: <strong>{details}</strong></PropText>
