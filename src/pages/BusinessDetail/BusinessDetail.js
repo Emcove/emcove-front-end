@@ -266,13 +266,13 @@ const BusinessDetail = () => {
             />
             <TitleContainer>
               <Title>{business.name}</Title>
-              {(business.hasSubscription || subExpirationDate) && isUserBusiness &&
+              {business.hasSubscription !== '0' && isUserBusiness &&
                 <SubscriptionInfoContainer>
                   <SubscriptionInfo>Suscripción activa hasta: {subExpirationDate}</SubscriptionInfo>
                 </SubscriptionInfoContainer>
               }
               <Link onClick={() => history.push(`/reputation?from=business-detail&id=${business.id}`)}>Ver reputación</Link>
-              {!business.hasSubscription && !plan &&
+              {business.hasSubscription === '0' && !plan &&
                 <ButtonContainer>
                   <Button primary onClick={() => openModalSubscription(true)}>Publicitar mi emprendimiento</Button>
                 </ButtonContainer>

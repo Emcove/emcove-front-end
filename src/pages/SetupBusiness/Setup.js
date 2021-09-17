@@ -129,7 +129,7 @@ const Setup = () => {
         }, 1500);
       } else {
         setLoading(false);
-        setSnackbarData({type: "error", message:resp.data, show: true});
+        setSnackbarData({type: "error", message: "Algo salió mal, intentá de nuevo en unos minutos.", show: true});
         setTimeout(() => {
           setSnackbarData({show:false});
         }, 1500);

@@ -189,7 +189,6 @@ const NewProduct = () => {
 
   const [productionTime, setProductionTime] = useState('');
   const [stockCheckbox, setStockCheckbox] = useState(true);
-  const [stockQuantity, setStockQuantity] = useState(0);
 
   const [newProperty, setNewProperty] = useState({ name: '', options: '' });
 
@@ -288,7 +287,7 @@ const NewProduct = () => {
       description,
       images: productImages,
       hasStock: stockCheckbox,
-      stockQuantity,
+      newProduct: true,
       productionTime,
       props: properties,
     };
@@ -347,22 +346,10 @@ const NewProduct = () => {
       <ProductionDataContainer>
         <Checkbox
             id="stockCheckbox"
-            label="Tengo el producto en stock"
+            label="Entrega inmediata"
             checked={stockCheckbox}
             onClick={() => setStockCheckbox(!stockCheckbox)}
           />
-          {stockCheckbox && 
-          <ProductionTimeContainer>
-            <Label>Cantidad de productos en stock:</Label>
-            <TextInput
-              type="number"
-              value={stockQuantity}
-              id="stockQuantity"
-              onChange={setStockQuantity}
-              className="production-time__input"
-            />
-          </ProductionTimeContainer>
-          }
          <ProductionTimeContainer>
             <Label>Días de producción:</Label>
             <TextInput
