@@ -45,6 +45,7 @@ const Options = styled.div`
   border: solid 1px ${colors.grayBorder};
   border-radius: 3px;
   background-color: ${colors.white};
+  z-index: 10;
 `;
 
 const Option = styled.div`

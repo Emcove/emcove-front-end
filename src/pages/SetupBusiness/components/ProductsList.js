@@ -20,7 +20,7 @@ const Card = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 60%;
   margin-right: 8%;
 `;
 
@@ -34,13 +34,10 @@ const ProductsList = ({ onClickNewProduct }) => {
         {products.map((product, index) => 
           <ProductCard
             key={product.name}
-            name={product.name}
-            description={product.description}
             properties={product.props}
             images={product.newProduct ? product.images : product.images.map(img => img.image)}
-            hasStock={product.hasStock}
-            productionTime={product.productionTime}
             index={index}
+            {...product}
           />
         )}
         <NewProduct onClickNewProduct={onClickNewProduct} />
