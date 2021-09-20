@@ -299,7 +299,7 @@ const BusinessDetail = () => {
                   <MoreInfo className="business-detail__button" onClick={() => handleProductClick(product)}>
                     <Icon type="more-options" className="business-detail__product-detail-icon"/>
                   </MoreInfo>
-                  <Carrousel width="200px" height="180px" images={images} />
+                  <Carrousel width="200px" height="180px" images={images} buttonsWidth="20px" />
                   <Text clickeable>{product.name}</Text>
                   <Text clickeable bold>Desde ${product.basePrice}</Text>
                 </ProductContainer>
