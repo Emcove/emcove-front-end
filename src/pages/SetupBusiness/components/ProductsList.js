@@ -33,11 +33,11 @@ const ProductsList = ({ onClickNewProduct }) => {
       <Card>
         {products.map((product, index) => 
           <ProductCard
+            {...product}
             key={product.name}
             properties={product.props}
             images={product.newProduct ? product.images : product.images.map(img => img.image)}
             index={index}
-            {...product}
           />
         )}
         <NewProduct onClickNewProduct={onClickNewProduct} />
