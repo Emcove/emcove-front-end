@@ -83,12 +83,16 @@ const PropertyData = styled.div`
 
 const PropertyGroup = styled.div`
   display: flex;
-  min-width: 50%;
+  width: 50%;
   align-items: flex-start;
   justify-content: flex-start;
 
   ${props => props.alignment && css `
     justify-content: ${props.alignment};
+  `}
+
+  ${props => props.width && css `
+    width: ${props.width};
   `}
 `;
 
@@ -183,6 +187,7 @@ const NewProduct = () => {
 
   const [name, setProductName] = useState('');
   const [description, setProductDescription] = useState('');
+  const [basePrice, setBasePrice] = useState('');
   
   const [productImages, setProductImages] = useState([]);
   const [showAddNewImage, setShowAddImage] = useState(productImages.length < 4);
@@ -302,6 +307,7 @@ const NewProduct = () => {
       newProduct: true,
       productionTime,
       props: properties,
+      basePrice,
     };
 
     addNewProduct(product);
@@ -352,6 +358,16 @@ const NewProduct = () => {
             onChange={setProductDescription}
             multiline
           />
+          <PropertyGroup width="25%">
+            <TextInput
+              type="text"
+              value={basePrice}
+              label="Precio base"
+              placeholder="Precio base"
+              id="productDescription"
+              onChange={setBasePrice}
+            />
+          </PropertyGroup>
         </InputContainer>
       </Group>
       <Group>
