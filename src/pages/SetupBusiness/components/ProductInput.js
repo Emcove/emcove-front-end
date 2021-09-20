@@ -83,8 +83,8 @@ const PropertyData = styled.div`
 
 const PropertyGroup = styled.div`
   display: flex;
-  width: 50%;
-  align-items: center;
+  min-width: 50%;
+  align-items: flex-start;
   justify-content: flex-start;
 
   ${props => props.alignment && css `
@@ -190,7 +190,7 @@ const NewProduct = () => {
   const [productionTime, setProductionTime] = useState('');
   const [stockCheckbox, setStockCheckbox] = useState(true);
 
-  const [newProperty, setNewProperty] = useState({ name: '', options: '' });
+  const [newProperty, setNewProperty] = useState({ name: '', options: { descriptions: '', prices: '' } });
 
   const [properties, setProductProperties] = useState([]);
 
@@ -202,15 +202,27 @@ const NewProduct = () => {
   }
 
   const handleValuePropertyChange = (values) => {
-    setNewProperty({ ...newProperty, options: values });
+    setNewProperty({ ...newProperty, options: { ...newProperty.options, descriptions: values } });
+  }
+
+  const handlePricePropertyChange = (values) => {
+    setNewProperty({ ...newProperty, options: { ...newProperty.options, prices: values } });
   }
 
   const addNewProperty = () => {
     if ( newProperty.name !== '' && newProperty.options !== '') {
-      const newProp = {
-        name: newProperty.name,
-        options:  newProperty.options.replace(/\s/g, '').split(","),
-      };
+      const options = newProperty.options.descriptions.replace(/\s/g, '').split(",");
+      const prices = newProperty.options.prices.replace(/\s/g, '').split(",");
+
+      const newProp = { name: newProperty.name };
+      newProp.options = options.map((option, idx) => {
+        const obj = {
+          description: option,
+          price: parseFloat(prices[idx]) || 0.0,
+        };
+
+        return obj;
+      });
 
       let existentKey = false;
 
@@ -218,7 +230,7 @@ const NewProduct = () => {
       // si lo hacen, se acumulan los valores con la propiedad anterior
       const newProperties = properties.map(prop => {
         if (prop.name === newProperty.name) {
-          prop.name = [...prop.options, ...newProp.options];
+          prop.options = [ ...prop.options, ...newProp.options ];
           existentKey = true;
         }
 
@@ -231,7 +243,7 @@ const NewProduct = () => {
         setProductProperties([ ...newProperties, newProp]);
       }
   
-      setNewProperty({name: '', options: ''});
+      setNewProperty({ name: '', options: { descriptions: '', prices: '' } });
       showAddNewProp(false);
     }
   }
@@ -379,11 +391,19 @@ const NewProduct = () => {
               />
               <TextInput 
                 type="text"
-                value={newProperty.options}
+                value={newProperty.options.descriptions}
                 id="propertyValues"
                 onChange={handleValuePropertyChange}
                 hint="Valores posibles separados por coma"
                 placeholder="Valores posibles"
+              />
+              <TextInput 
+                type="text"
+                value={newProperty.options.prices}
+                id="propertyPrice"
+                onChange={handlePricePropertyChange}
+                hint="Separados por coma usá el punto para centavos (10.50)"
+                placeholder="Precios"
               />
             </PropertyGroup>
             <Button backgroundColor={colors.success} onClick={addNewProperty} alignment="flex-start">
@@ -404,7 +424,7 @@ const NewProduct = () => {
                   />
                   <TextInput 
                     type="text"
-                    value={property.options.join(', ')}
+                    value={property.options.map(option => option.description).join(', ')}
                     id={`${property.name}ValuesPreview`}
                     label="Valores"
                     disabled
@@ -413,7 +433,7 @@ const NewProduct = () => {
                 <PropertyGroup alignment="flex-end">
                   <Dropdown
                     label={property.name}
-                    options={property.options}
+                    options={property.options.map(option => `${option.description} - $${option.price}`)}
                   />
                   <Button
                     backgroundColor="transparent"
