@@ -72,6 +72,9 @@ const ProfileAccess = styled.button`
   border: none;
   background-color: ${colors.white};
   margin-right: 3%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   :hover {
     cursor: pointer;
   }
@@ -147,7 +150,7 @@ const Layout = ({ children, login, registry, className }) => {
           {!registry && 
             <ProfileAccess onClick={() => showProfileOptions(!profileOptions)}>
               {loggedUser.avatar && <Avatar src={loggedUser.avatar} />} 
-              {!loggedUser.avatar && <Icons type="user" />}
+              {!loggedUser.avatar && <Icons className="header-user-icon" type="user" />}
             </ProfileAccess>
           }
           {profileOptions &&
