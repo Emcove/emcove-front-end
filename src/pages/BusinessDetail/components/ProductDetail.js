@@ -65,7 +65,7 @@ const Tag = styled.div`
   width: fit-content;
   display: flex;
   align-items: center;
-  padding: 4px 6px;
+  padding: 6px;
   border-radius: 10px;
   
   ${props => props.success && css `
@@ -79,7 +79,7 @@ const Tag = styled.div`
 
 const TagLabel = styled.span`
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
   color: ${colors.white};
 `;
 
@@ -155,13 +155,13 @@ const ProductDetail = ({ product }) => {
       )}
       <Text key="descriptionText">{description}</Text>
       {!hasStock && <Tag info><TagLabel>{`${productionTime} días de elaboración`}</TagLabel></Tag>}
-      {hasStock && <Tag success><TagLabel>En stock</TagLabel></Tag>}
+      {hasStock && <Tag success><TagLabel>Entrega inmediata</TagLabel></Tag>}
       <Subtitle>Características</Subtitle>
       <PropertiesContainer>
         {props.map(prop => (
           <DropdownContainer key={`${prop.name}Dropdown`} >
             <Dropdown
-              options={prop.options}
+              options={prop.options.map(opt => opt.price > 0 ? `${opt.description} - $${opt.price}` : opt.description )}
               label={prop.name}
               placeholder="Seleccioná una opción"
               onClickOption={persistChosenProps}

@@ -54,6 +54,10 @@ const Text = styled.p `
       cursor: pointer;
     }
   `}
+
+  ${props => props.bold && css `
+    font-weight: 500;
+  `}
 `;
 
 const Subtitle = styled.h2 `
@@ -200,7 +204,7 @@ const BusinessDetail = () => {
       }
     });
   }, []);
-
+  
   const handleProductClick = (product) => {
     setProductModalInfo({ visible: true, product });
   }
@@ -295,8 +299,9 @@ const BusinessDetail = () => {
                   <MoreInfo className="business-detail__button" onClick={() => handleProductClick(product)}>
                     <Icon type="more-options" className="business-detail__product-detail-icon"/>
                   </MoreInfo>
-                  <Carrousel width="132px" height="112px" images={images} />
+                  <Carrousel width="200px" height="180px" images={images} />
                   <Text clickeable>{product.name}</Text>
+                  <Text clickeable bold>Desde ${product.basePrice}</Text>
                 </ProductContainer>
               )})}
             </ProductsContainer>
