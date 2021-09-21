@@ -68,45 +68,30 @@ const ListGroup = styled.div`
   justify-content: space-between;
 `;
 
-// const TertiaryTitle = styled.span`
-//   font-size: 20px;
-//   font-weight: 600;
-// `;
-
-// const TertiaryDescription = styled.span`
-//   font-size: 13px;
-//   color: rgba(0, 0, 0, 0.4);
-// `;
-
 const BusinessListItem = ({ business }) => {
-  
   const history = useHistory();
+  console.log(business);
 
+  const { name, logo, city, reputation, categories } = business;
   return (
-    <div onClick={() => history.push(`/business/${business.name}`)}>
-    <Card animated >
+    <div onClick={() => history.push(`/business/${name}`)} className="business-list__item">
+    <Card animated>
       <ImageContainer>
-        {business.logo && <Image src={business.logo} />}
-        {!business.logo && <Icon type="default-image" className="default-logo-list" />}
+        {logo && <Image src={logo} />}
+        {!logo && <Icon type="default-image" className="default-logo-list" />}
       </ImageContainer>
       <ListGroup>
         <Content>
           <Title>
-            {business.name}
+            {name}
           </Title>
           <Description>
-            {business.city}
+            {city}
           </Description>
-          <CategoriesList categories={business.categories.map(s => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase())}/>
+          <CategoriesList categories={categories.map(s => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase())}/>
         </Content>
         <Content tertiary>
-          {/* Esto lo dejé porque lo habías hecho vos antes por si en un futuro lo usas
-          <div className="home-page__complete-orders">
-            <TertiaryTitle>2</TertiaryTitle>
-            <TertiaryDescription>Encargos</TertiaryDescription>
-            <TertiaryDescription>realizados</TertiaryDescription>
-          </div>
-          */}
+          <Icon className="reputation-icon" type={`reputation-${Math.round(reputation.averagePoints)}`} />
         </Content>
       </ListGroup>
     </Card>
