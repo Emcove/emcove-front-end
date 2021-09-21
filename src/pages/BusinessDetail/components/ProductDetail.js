@@ -95,7 +95,7 @@ const DropdownContainer = styled.div`
 `;
 
 const ProductDetail = ({ product }) => {
-  const { name, description, productionTime, hasStock, props } = product;
+  const { name, description, productionTime, immediateDelivery, props } = product;
   const images = product.images.map(image => image.image);
 
   const [orderDetail, setOrderDetail] = useState('');
@@ -154,8 +154,8 @@ const ProductDetail = ({ product }) => {
         </ImagesContainer>
       )}
       <Text key="descriptionText">{description}</Text>
-      {!hasStock && <Tag info><TagLabel>{`${productionTime} días de elaboración`}</TagLabel></Tag>}
-      {hasStock && <Tag success><TagLabel>Entrega inmediata</TagLabel></Tag>}
+      {!immediateDelivery && <Tag info><TagLabel>{`${productionTime} días de elaboración`}</TagLabel></Tag>}
+      {immediateDelivery && <Tag success><TagLabel>Entrega inmediata</TagLabel></Tag>}
       <Subtitle>Características</Subtitle>
       <PropertiesContainer>
         {props.map(prop => (
