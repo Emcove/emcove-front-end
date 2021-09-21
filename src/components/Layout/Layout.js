@@ -158,6 +158,7 @@ const Layout = ({ children, login, registry, className }) => {
               {user && <Option onClick={() => history.push('/reputation?from=nav-header')}>Mi reputación</Option>}
               {user && <Option onClick={() => history.push('/orders')}>Ver pedidos que hice</Option>}
               {!user && <Option onClick={() => history.push('/')}>Iniciar sesión</Option>}
+              {user && <Option onClick={() => history.push('/')}>Cerrar sesión</Option>}
             </ProfileOptions>
           }
         </Header>
