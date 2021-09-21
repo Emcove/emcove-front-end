@@ -117,7 +117,7 @@ const ProductCard = ({ images, name, description, properties, hasStock, producti
       <SmallContainer>
         <Name>{name}</Name>
         <Description>{description}</Description>
-        {hasStock && <Tag success><TagLabel>En stock</TagLabel></Tag> }
+        {hasStock && <Tag success><TagLabel>Entrega inmediata</TagLabel></Tag> }
         {productionTime && <Tag transparent><TagLabel info>Elaboración: {productionTime} días</TagLabel></Tag>}
       </SmallContainer>
       <SmallContainer>
