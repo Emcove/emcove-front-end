@@ -303,7 +303,7 @@ const NewProduct = () => {
       name,
       description,
       images: productImages,
-      hasStock: stockCheckbox,
+      immediateDelivery: stockCheckbox,
       newProduct: true,
       productionTime,
       props: properties,
