@@ -24,6 +24,10 @@ const Description = styled.p`
 
 const Options = styled.div`
   width: 50%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const PlanTitle = styled.span`

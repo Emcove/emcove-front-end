@@ -40,6 +40,11 @@ const Container = styled.div`
   ${props => props.height && css `
     height ${props.height};
   `}
+
+  @media (max-width: 768px) {
+    max-width: 49px;
+    max-height: 135px;
+  }
 `;
 
 const Preview = styled.img`
