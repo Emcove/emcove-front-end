@@ -33,8 +33,10 @@ const ModalCard = styled.div`
   `}
 
   @media (max-width: 768px) {
-    width: calc(100% - 80px);
+    width: 100%;
     border-radius: 0;
+    margin: 0;
+    padding: 28px 20px 20px;
   }
 `;
 
@@ -54,6 +56,11 @@ const CloseModalButton = styled.button`
 
   &:hover {
     cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    height: 28px;
+    width: 28px;
   }
 `;
 
