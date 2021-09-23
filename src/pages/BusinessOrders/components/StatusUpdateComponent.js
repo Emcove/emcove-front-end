@@ -37,7 +37,7 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept }) => {
       <OrderStatusEvolution orderTrackingData={order.orderTrackingData} />
       <Dropdown
         label="Próximo estado"
-        placeholder="Seleccioná el próximo estado"
+        placeholder="Elegí el próximo estado"
         options={buildPossibleStatusForOrder(order)}
         onClickOption={(status) => updateSelectedStatus(status)}
       />
