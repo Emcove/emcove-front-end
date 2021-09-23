@@ -21,11 +21,14 @@ const Subtitle = styled.h2`
   color: ${colors.textColor};
   font-size: 18px;
   font-weight: 500;
+  margin-bottom: 0;
+  margin-top: 20px;
 `;
 
 const Text = styled.p`
   font-size: 18px;
   color: ${colors.textColor};
+  margin: 0;
 
   ${props => props.info && css `
     color: ${colors.primary};
@@ -36,8 +39,7 @@ const ImagesContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  margin-left: -8px;
+  margin: 20px 0 12px -8px;
 `;
 
 const ImageContainer = styled.div`
@@ -67,7 +69,8 @@ const Tag = styled.div`
   align-items: center;
   padding: 6px;
   border-radius: 10px;
-  
+  margin: 12px 0;
+
   ${props => props.success && css `
     background-color: ${colors.success};
   `}
@@ -94,41 +97,57 @@ const DropdownContainer = styled.div`
   margin: 16px;
 `;
 
+const Group = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const ProductDetail = ({ product }) => {
-  const { name, description, productionTime, immediateDelivery, props } = product;
+  const { name, description, productionTime, immediateDelivery, props, basePrice } = product;
   const images = product.images.map(image => image.image);
 
   const [orderDetail, setOrderDetail] = useState('');
-  const [chosenProps, setChosenProps] = useState([]);
+  const [chosenProps, setChosenProps] = useState({});
+  const [totalPrice, setTotalPrice] = useState(basePrice);
 
   const { setOrder, isUserBusiness, setProductModalInfo } = useContext(OrderContext);
 
   const persistChosenProps = (value, name) => {
-    let props = [ ...chosenProps ];
-    const newProp = props.find(prop => prop.name === name);
+    const props = { ...chosenProps };
+    const chosenValues = value.split('-').map((word) => word.trim().replace("$", ""))
+    
+    props[name] = {
+      price: parseFloat(chosenValues[1]) || 0,
+      description: chosenValues[0],
+    };
+    console.log(props);
 
-    if (newProp) {
-      const index = props.findIndex((prop, index) => {
-        if (prop.name === name) return index;
+    const extraPrice = Object.keys(props).length === 1 ? props[Object.keys(props)[0]].price : Object.keys(props)
+    .reduce((prevValue, currValue) => props[prevValue].price + props[currValue].price);
 
-        return -1;
-      });
-      newProp.chosenOption = value;
+    const newTotalPrice = basePrice + extraPrice;
 
-      props.splice((index - 1), 1, newProp);
-    } else {
-      props = [ ...props, { name, chosenOption: value }]
-    }
-
+    setTotalPrice(newTotalPrice);
     setChosenProps(props);
   }
 
   const setOrderData = () => {
+    const props = Object.keys(chosenProps).map(key => {
+      const aux = {
+        name: key,
+        description: chosenProps[key].description,
+        price: chosenProps[key].price,
+      };
+      return aux;
+    });
+
     const orderObj = {
       product,
       productSnapshot: {
         productName: name,
-        chosenProps,
+        chosenProps: props,
         images,
       },
       details: orderDetail, 
@@ -153,9 +172,10 @@ const ProductDetail = ({ product }) => {
           ))}
         </ImagesContainer>
       )}
-      <Text key="descriptionText">{description}</Text>
+      {description && <Text key="descriptionText">{description}</Text>}
       {!immediateDelivery && <Tag info><TagLabel>{`${productionTime} días de elaboración`}</TagLabel></Tag>}
       {immediateDelivery && <Tag success><TagLabel>Entrega inmediata</TagLabel></Tag>}
+      <Text>Precio base ${basePrice}</Text>
       <Subtitle>Características</Subtitle>
       <PropertiesContainer>
         {props.map(prop => (
@@ -163,7 +183,7 @@ const ProductDetail = ({ product }) => {
             <Dropdown
               options={prop.options.map(opt => opt.price > 0 ? `${opt.description} - $${opt.price}` : opt.description )}
               label={prop.name}
-              placeholder="Seleccioná una opción"
+              placeholder="Elegí una opción"
               onClickOption={persistChosenProps}
             />
           </DropdownContainer>
@@ -180,7 +200,10 @@ const ProductDetail = ({ product }) => {
           full
           multiline
         />}
-      {!isUserBusiness && <Button primary onClick={() => setOrderData()}>Pedir este producto</Button>}
+      <Group>
+        <Text>Total ${totalPrice}</Text>
+        {!isUserBusiness && <Button primary onClick={() => setOrderData()}>Pedir este producto</Button>}
+      </Group>
     </Container>
   );
 }
