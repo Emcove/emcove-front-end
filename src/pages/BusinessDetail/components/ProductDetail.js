@@ -15,6 +15,11 @@ const Container = styled.div`
   align-items: flex-start;
   justify-content: center;
   margin-bottom: 32px;
+
+  @media (max-width: 768px) {
+    width: calc(100% - 20px);
+    padding: 0 20px;
+  }
 `;
 
 const Subtitle = styled.h2`
