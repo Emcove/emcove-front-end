@@ -137,7 +137,7 @@ const ProductDetail = ({ product }) => {
     const props = Object.keys(chosenProps).map(key => {
       const aux = {
         name: key,
-        description: chosenProps[key].description,
+        chosenOption: chosenProps[key].description,
         price: chosenProps[key].price,
       };
       return aux;
@@ -150,6 +150,7 @@ const ProductDetail = ({ product }) => {
         chosenProps: props,
         images,
       },
+      totalPrice,
       details: orderDetail, 
     };
 
