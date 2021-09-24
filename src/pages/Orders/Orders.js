@@ -161,7 +161,7 @@ const Orders = () => {
   const history = useHistory();
   const user = UserData.getUserFromStorage();
   
-  const [options, showOptions] = useState(false);
+  const [options, showOptions] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [detailModalVisible, setDetailModalVisible] = useState(false);
   const [evaluatedUser, setEvaluatedUser] = useState(null);
@@ -179,7 +179,11 @@ const Orders = () => {
       if(response.data.status === 500)
         setOrders([]);
       else {
+        let objOptions = {};
+
+        response.data.reduce((_, curr) => objOptions[curr.id] = { visible: false }, objOptions)
         setOrders(response.data);
+        showOptions(objOptions)
       }
       setLoading(false);
     });
@@ -194,6 +198,14 @@ const Orders = () => {
   const openOrderDetailModal = (order) => {
     setOrder(order);
     setDetailModalVisible(true);
+  }
+
+  const handleOptionsClick = (event, orderId) => {
+    event.stopPropagation();
+    const newOptions = { ...options };
+    newOptions[orderId].visible = !options[orderId].visible;
+
+    showOptions(newOptions);
   }
 
   return (
@@ -230,10 +242,10 @@ const Orders = () => {
 
                 <OrderStatus>
                   <Status type={order.currentState}>{order.currentState}</Status>
-                  <Button  key={order.id} backgroundColor="transparent" onClick={(event) => { event.stopPropagation(); showOptions(!options); }}>
+                  <Button  key={order.id} backgroundColor="transparent" onClick={(event) => handleOptionsClick(event, order.id)}>
                     <Icon className="orders__more-options--icon" type="more-options"/>
                   </Button>
-                 {options &&
+                 {options[order.id].visible &&
                     <Options>
                       <OrderOption onClick={() => openEvaluationModal(order.entrepreneurship.id)}>Calificar emprendimiento</OrderOption>
                     </Options>
