@@ -1,6 +1,6 @@
 
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { colors } from '../../styles/palette';
 
@@ -42,6 +42,14 @@ const Text = styled.span`
   font-size: 14px;
   color: ${colors.textColor};
   margin: 4px 0 4px;
+
+  ${props => props.bold && css `
+    font-weight: 600;
+  `}
+
+  ${props => props.important && css `
+    font-size: 20px;
+  `}
 `;
 
 const PropsContainer = styled.div`
@@ -116,14 +124,14 @@ const OrderDetail = ({ order, buyerView = false }) => {
       )}
       <PropsContainer>
         {productSnapshot.chosenProps.map(prop => <PropText key={`${prop.name}-${prop.chosenOption}`}>{prop.name}: <strong>{prop.chosenOption}</strong></PropText>)}
-        <PropText key="order-details">Aclaraciones: <strong>{details}</strong></PropText>
+        <PropText key="order-details">Aclaraciones: <strong>{details ? details : "Sin aclaraciones"}</strong></PropText>
       </PropsContainer>
       {totalPrice &&
       <>
         <Separator />
         <Group>
-          <Text>Precio total:</Text>
-          <Text>{totalPrice}</Text>
+          <Text important>Precio total:</Text>
+          <Text bold important>${totalPrice}</Text>
         </Group>
       </>
       }
