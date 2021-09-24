@@ -17,7 +17,7 @@ const Card = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 40%;
   margin-right: 8%;
 `;
 

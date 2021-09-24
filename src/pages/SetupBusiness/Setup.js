@@ -88,11 +88,10 @@ const Setup = () => {
         setCity(business.city);
         setDoesShipments(business.doesShipments);
         setCategories(business.categories.map(c => c.charAt(0) + c.slice(1).toLowerCase()));
-        console.log(business.facebook_page_id);
         setPageId(business.facebook_page_id);
         updateProducts(business.products);
+        setLoading(false);
       });
-      setLoading(false);
     }
   }, [from]);
 
@@ -111,7 +110,6 @@ const Setup = () => {
       setLoading(true);
       
       const saveFunction = isUpdate ?  BusinessService.patchBusiness : BusinessService.createBusiness;
-
       const resp = await saveFunction(data);
 
       if (resp.status === 201 || resp.status === 200){
@@ -122,16 +120,16 @@ const Setup = () => {
           message = "Emprendimiento actualizado con éxito"
         }
 
-        setSnackbarData({type: "success", message: message, show: true});
+        setSnackbarData({ type: "success", message: message, show: true });
         setTimeout(() => {
-          setSnackbarData({show:false});
+          setSnackbarData({ show:false });
           history.push(`/business/${resp.data.name}`)
         }, 1500);
       } else {
         setLoading(false);
-        setSnackbarData({type: "error", message: "Algo salió mal, intentá de nuevo en unos minutos.", show: true});
+        setSnackbarData({ type: "error", message: "Algo salió mal, intentá de nuevo en unos minutos.", show: true });
         setTimeout(() => {
-          setSnackbarData({show:false});
+          setSnackbarData({ show:false });
         }, 1500);
       }
   }
@@ -210,7 +208,7 @@ const Setup = () => {
             <Button primary onClick={() => saveBusiness()}>
               {isUpdate ? "Actualizar Emprendimiento" : "Crear Emprendimiento"}
             </Button>
-            <Link onClick={() => history.push("/home")}>Cancelar</Link>
+            <Link onClick={() => history.push(isUpdate ? `/business/${name}` : "/home")}>Cancelar</Link>
           </div>
           <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />
         </Content>

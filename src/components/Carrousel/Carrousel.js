@@ -40,6 +40,11 @@ const Container = styled.div`
   ${props => props.height && css `
     height ${props.height};
   `}
+
+  @media (max-width: 768px) {
+    max-width: 49px;
+    max-height: 135px;
+  }
 `;
 
 const Preview = styled.img`
@@ -75,12 +80,17 @@ const DirectionButton = styled.button`
     right: -4px;
   `}
 
+  ${props => props.buttonsWidth && css `
+    width: ${props.buttonsWidth};
+    height: ${props.buttonsWidth};
+  `}
+  
   &:hover {
     cursor: pointer;
   }
 `;
 
-const Carrousel = ({ images = [], width, height }) => {
+const Carrousel = ({ images = [], width, height, buttonsWidth }) => {
   const [actual, setNewActual] = useState({ image: images[0], index: 0 });
   
   const updateActual = (direction) => {
@@ -101,6 +111,7 @@ const Carrousel = ({ images = [], width, height }) => {
         left
         className="direction-button"
         onClick={() => updateActual(-1)}
+        buttonsWidth={buttonsWidth}
       >
         {'<'}
       </DirectionButton>}
@@ -117,6 +128,7 @@ const Carrousel = ({ images = [], width, height }) => {
         right
         className="direction-button"
         onClick={() => updateActual(1)}
+        buttonsWidth={buttonsWidth}
       >
         {'>'}
       </DirectionButton>

@@ -35,6 +35,10 @@ const DataContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   margin-top: 20px;
+  
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
 `;
 
 const TitleContainer = styled.div`
@@ -48,10 +52,20 @@ const Text = styled.p `
   font-size: 16px;
   color: ${colors.textColor};
   margin: 4px 0 ;
-
+  
   ${props => props.clickeable && css `
     &:hover {
       cursor: pointer;
+    }
+  `}
+
+  ${props => props.bold && css `
+    font-weight: 500;
+  `}
+
+  ${props => props.productText && css `
+    @media (max-width: 768px) {
+      text-align: center;
     }
   `}
 `;
@@ -78,6 +92,10 @@ const ProductsContainer = styled.div`
   flex-wrap: wrap;
   margin-top: 10px;
   margin-left: -17px;
+
+  @media (max-width: 768px) {
+    justify-content: space-between;
+  }
 `;
 
 const ProductContainer = styled.div`
@@ -91,6 +109,11 @@ const ProductContainer = styled.div`
     .business-detail__button {
       visibility: visible;
     }
+  }
+
+  @media (max-width: 768px) {
+    max-width: 135px;
+    max-height: 135px;
   }
 `;
 
@@ -132,6 +155,10 @@ const EditBusinessButton = styled.button`
   &:hover {
     cursor: pointer;
     box-shadow: 0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%);
+  }
+
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -200,7 +227,7 @@ const BusinessDetail = () => {
       }
     });
   }, []);
-
+  
   const handleProductClick = (product) => {
     setProductModalInfo({ visible: true, product });
   }
@@ -295,8 +322,7 @@ const BusinessDetail = () => {
                   <MoreInfo className="business-detail__button" onClick={() => handleProductClick(product)}>
                     <Icon type="more-options" className="business-detail__product-detail-icon"/>
                   </MoreInfo>
-                  <Carrousel width="132px" height="112px" images={images} />
-                  <Text clickeable>{product.name}</Text>
+                  <Carrousel width="200px" height="180px" images={images} buttonsWidth="20px" />
                 </ProductContainer>
               )})}
             </ProductsContainer>

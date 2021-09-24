@@ -81,10 +81,21 @@ const DeleteRowButton = styled.button`
   &:hover {
     cursor: pointer;
   }
-
 `;
 
-const ProductCard = ({ images, name, description, properties, hasStock, productionTime, index }) => {
+const Group = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Price = styled.span`
+  font-size: 16px;
+  color: rgba(0,0,0,0.6);
+  margin-top: 12px;
+  font-weight: 500;
+`;
+
+const ProductCard = ({ images, name, description, properties, hasStock, productionTime, index, basePrice }) => {
   const { products, updateProducts } = useContext(BusinessContext);
 
   const deleteProductRow = () => {
@@ -97,17 +108,20 @@ const ProductCard = ({ images, name, description, properties, hasStock, producti
   return (
     <Container key={name}>
       {/* El id lo hice así para cuando tengamos muchos productos no haya ids repetidos */}
-      <Carrousel
-        images={images}
-      />
+      <Group>
+        <Carrousel
+          images={images}
+        />
+        <Price>Desde ${basePrice}</Price>
+      </Group>
       <SmallContainer>
         <Name>{name}</Name>
         <Description>{description}</Description>
-        {hasStock && <Tag success><TagLabel>En stock</TagLabel></Tag> }
+        {hasStock && <Tag success><TagLabel>Entrega inmediata</TagLabel></Tag> }
         {productionTime && <Tag transparent><TagLabel info>Elaboración: {productionTime} días</TagLabel></Tag>}
       </SmallContainer>
       <SmallContainer>
-        {properties.map(prop => <Dropdown key={`${prop.name}Dropdown`} options={prop.options} placeholder={prop.name} />)}
+        {properties.map(prop => <Dropdown key={`${prop.name}Dropdown`} options={prop.options.map(opt => `${opt.description} - $${opt.price}`)} placeholder={prop.name} />)}
       </SmallContainer>
       <DeleteRowButton className="delete-row__button" onClick={deleteProductRow}><Icon type="cross" className="delete-row__icon" /></DeleteRowButton>
     </Container>
