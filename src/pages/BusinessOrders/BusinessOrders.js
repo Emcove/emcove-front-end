@@ -12,14 +12,14 @@ import Link from "../../components/Link";
 import Modal from "../../components/Modal";
 import FeedbackForm from "../../components/FeedbackForm";
 import ListSkeleton from "../../components/List/ListSkeleton";
+import OrdersFilter from "../../components/OrdersFilter";
+import OrderDetail from "../../components/OrderDetail";
 
 import OrdersList from "./components/OrdersList";
 import StatusUpdateComponent from "./components/StatusUpdateComponent";
 
 import BusinessService from "../../services/BusinessService";
 import UserService from "../../services/UserService";
-import OrdersFilter from "../../components/OrdersFilter";
-import OrderDetail from "../../components/OrderDetail";
 
 const Container = styled.div`
   width: 100%;
