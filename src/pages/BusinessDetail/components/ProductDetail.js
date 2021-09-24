@@ -17,8 +17,7 @@ const Container = styled.div`
   margin-bottom: 32px;
 
   @media (max-width: 768px) {
-    width: calc(100% - 20px);
-    padding: 0 20px;
+    width: 100%;
   }
 `;
 
@@ -45,6 +44,12 @@ const ImagesContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 20px 0 12px -8px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    overflow: scroll;
+    justify-content: flex-start;
+  }
 `;
 
 const ImageContainer = styled.div`

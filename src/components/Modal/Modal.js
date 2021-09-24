@@ -33,8 +33,8 @@ const ModalCard = styled.div`
   `}
 
   @media (max-width: 768px) {
-    width: 100%;
-    height: calc(100vh - 28px - 20px);
+    width: calc(100% - 40px);
+    min-height: calc(100vh - 28px - 20px);
     border-radius: 0;
     margin: 0;
     padding: 28px 20px 20px;
