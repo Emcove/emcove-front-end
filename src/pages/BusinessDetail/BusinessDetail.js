@@ -35,6 +35,10 @@ const DataContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   margin-top: 20px;
+  
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
 `;
 
 const TitleContainer = styled.div`
