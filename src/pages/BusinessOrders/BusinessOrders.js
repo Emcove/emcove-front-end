@@ -100,8 +100,13 @@ const BusinessOrders = () => {
   };
 
   const updateOrderStatus = (newStatus) => {
+    const updatedOrders = [ ...orders ];
+
     BusinessService.updateOrderStatus(evaluatedOrder.id, newStatus).then(response => {
-      console.log(response);
+      if (response.status === 200) {
+        updatedOrders.splice(orders.indexOf(evaluatedOrder), 1, response.data);
+        setOrders(updatedOrders);
+      }
     });
 
     setOrderStatusModalVisibility(false);
