@@ -113,7 +113,7 @@ class BusinessService {
 
   async updateOrderStatus(orderId, newStatus) {
     try {
-      const response = await axios.post(`${API_URL}/entrepreneurships/orders/${orderId}/orderTracking?newOrderState=${newStatus}`, { headers: {
+      const response = await axios.post(`${API_URL}/entrepreneurships/orders/${orderId}/orderTracking?newOrderState=${newStatus}`, {}, { headers: {
         authorization: localStorage.getItem('token'),
       }});
 
