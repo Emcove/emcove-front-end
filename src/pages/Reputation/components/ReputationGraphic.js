@@ -19,7 +19,7 @@ const LevelContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  opacity: 0.5;
+  opacity: 0.6;
 
   + .reputation-graphic__level {
     margin-left: 16px;
