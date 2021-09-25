@@ -341,10 +341,10 @@ const BusinessDetail = () => {
           }
           {!isUserBusiness && order && <Button primary onClick={() => sendOrder()}>Enviar pedido</Button>}
         </Container>
-        <Modal open={productModal.visible} setVisibility={setModalVisibility}>
+        <Modal open={productModal.visible} setVisibility={setModalVisibility} minWidth="40%">
           <ProductDetail product={productModal.product}/>
         </Modal>
-        <Modal open={modalSubscription} setVisibility={openModalSubscription}>
+        <Modal open={modalSubscription} setVisibility={openModalSubscription} minWidth="40%">
           <SubscriptionDetail />
         </Modal>
         </>

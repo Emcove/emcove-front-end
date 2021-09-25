@@ -20,6 +20,7 @@ import StatusUpdateComponent from "./components/StatusUpdateComponent";
 
 import BusinessService from "../../services/BusinessService";
 import UserService from "../../services/UserService";
+import { colors } from "../../styles/palette";
 
 const Container = styled.div`
   width: 100%;
@@ -31,6 +32,12 @@ const OrdersContainer = styled.div`
   @media (max-width: 768px) {
     width: 100%;
   }
+`;
+
+const Text = styled.span`
+  font-size: 16px;
+  color: ${colors.textColor};
+  margin: 0;
 `;
 
 const BusinessOrders = () => {
@@ -125,13 +132,14 @@ const BusinessOrders = () => {
         <OrdersContainer>
           <OrdersFilter filterOrders={filterOrdersByStatus} orderByDate={sortOrdersByDate} />
           {isLoading && <ListSkeleton businessList squaredImage tertiaryData />}
-          {!isLoading && orders.length &&
+          {!isLoading && !!orders.length &&
           <OrdersList
             orders={orders}
             onClickStatus={onClickStatus}
             openEvaluationModal={openEvaluationModal}
             displayOrderDetail={displayOrderDetail}
           />}
+          {!isLoading && !orders.length && <Text>No encontramos pedidos</Text>}
         </OrdersContainer>
       </Container>
       <Modal key="feedback-modal" open={modalFeedbackVisible} setVisibility={setModalFeedbackVisible}>

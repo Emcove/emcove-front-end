@@ -65,14 +65,14 @@ const OrderData = styled.div`
   flex-direction: column;
 `;
 
-const BusinessName = styled.p`
+const Product = styled.p`
   font-size: 20px;
   font-weight: 600;
   color: ${colors.textColor};
   margin: 0 0 4px;
 `;
 
-const Product = styled.p`
+const BusinessName = styled.p`
   font-size: 16px;
   color: ${colors.textColor};
   margin: 0;
@@ -157,6 +157,23 @@ const Group = styled.div`
   display: flex;
 `;
 
+const PropertiesContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const ProductProps = styled.p`
+  font-size: 14px;
+  font-weight: 600;
+  color: ${colors.lightGray};
+  margin: 4px 4px 4px 0;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+`;
+
+
 const Orders = () => {
   const history = useHistory();
   const user = UserData.getUserFromStorage();
@@ -208,6 +225,8 @@ const Orders = () => {
     showOptions(newOptions);
   }
 
+  console.log(orders);
+
   return (
     <Layout>
       <Container className="orders__container">
@@ -235,8 +254,13 @@ const Orders = () => {
                   </LogoContainer>
                   }
                   <OrderData>
+                    <Product>{order.product.name}{order.totalPrice && ` - $${order.totalPrice}`}</Product>
                     <BusinessName>{order.entrepreneurship.name}</BusinessName>
-                    <Product>{order.product.name}</Product>
+                    <PropertiesContainer>
+                        {order.productSnapshot.chosenProps.map(prop => 
+                          <ProductProps key={prop.name}>{prop.name}: {prop.chosenOption}</ProductProps>
+                        )}
+                    </PropertiesContainer>
                   </OrderData>
                 </Group>
 
@@ -258,10 +282,10 @@ const Orders = () => {
         </>
         }
       </Container>
-      <Modal key="order-detail-modal" open={detailModalVisible} setVisibility={setDetailModalVisible}>
+      <Modal key="order-detail-modal" open={detailModalVisible} setVisibility={setDetailModalVisible} minWidth="40%">
           {order && <OrderDetail order={order} buyerView={true} />}
       </Modal>
-      <Modal open={modalVisible} setVisibility={setModalVisible}>
+      <Modal open={modalVisible} setVisibility={setModalVisible} minWidth="40%">
         <FeedbackForm
           evaluatedEntity={evaluatedUser}
           onClickCancel={() => setModalVisible(false)}
