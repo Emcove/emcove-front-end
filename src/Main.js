@@ -21,7 +21,6 @@ import "./styles/index.scss";
 
 const Main = () => {
   const gapi = window.gapi;
-
   
   useEffect(() => {
     new window.MercadoPago('APP_USR-4eb4381b-24ab-4627-bb4b-6c2b2d9f1504', {
