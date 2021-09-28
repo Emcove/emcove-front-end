@@ -351,9 +351,11 @@ const BusinessDetail = () => {
             }
             <Text>{`Localidad: ${business.city}`}</Text>
             <Text>{shipmentText}</Text>
+            {business.googleCalendarId &&
             <LinkContainer>
               <Link bold onClick={() => openAvailabilityModal(true)}>Ver disponibilidad del negocio</Link>
             </LinkContainer>
+            }
           </Info>
           <Info>
             <Subtitle>Productos</Subtitle>
