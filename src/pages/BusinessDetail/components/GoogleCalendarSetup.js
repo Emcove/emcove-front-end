@@ -51,7 +51,7 @@ const GoogleCalendarSetup = ({ business, handleCancel, handleSuccess, handleErro
         scope: GSCOPES,
       });
       
-      gapi.auth2.getAuthInstance().signIn().then(() => {
+      gapi.auth2.getAuthInstance().signIn().then(() => { 
         setLoading(true);
         gapi.client.calendar.calendars.insert({
           summary: business.name,
@@ -69,22 +69,7 @@ const GoogleCalendarSetup = ({ business, handleCancel, handleSuccess, handleErro
             handleError();
           }
         });
-    });
-
-    
-    // GET EVENT LIST FROM CALENDAR
-      // gapi.client.calendar.events.list({
-      //   'calendarId': business.googleCalendarId,
-      //   'timeMin': (new Date()).toISOString(),
-      //   'showDeleted': false,
-      //   'singleEvents': true,
-      //   'maxResults': 60,
-      //   'orderBy': 'startTime',
-      // }).then(response => {
-      //   const events = response.result.items;
-
-      //   console.log('events: ', events);
-      // });
+      });
     });
   }
   

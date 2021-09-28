@@ -23,13 +23,14 @@ import CategoriesList from "../../components/CategoriesList";
 
 import ProductDetail from "./components/ProductDetail";
 import SubscriptionDetail from "./components/SubscriptionDetail";
+import GoogleCalendarSetup from "./components/GoogleCalendarSetup";
+import Calendar from "./components/Calendar";
 
 import { colors } from "../../styles/palette";
 
 import UserData from '../../utils/userData';
 import BusinessService from "../../services/BusinessService";
 import SubscriptionService from "../../services/SubscriptionService";
-import GoogleCalendarSetup from "./components/GoogleCalendarSetup";
 
 const DataContainer = styled.div`
   display: flex;
@@ -196,6 +197,7 @@ const BusinessDetail = () => {
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
   const [modalSubscription, openModalSubscription] = useState(false);
   const [gCalModal, openGCalModal] = useState(false);
+  const [availabilityModal, openAvailabilityModal] = useState(false);
 
   const [snackbarData, setSnackbarData] = useState(false);
   const [isLoading, setLoading] = useState(true);
@@ -349,6 +351,9 @@ const BusinessDetail = () => {
             }
             <Text>{`Localidad: ${business.city}`}</Text>
             <Text>{shipmentText}</Text>
+            <LinkContainer>
+              <Link bold onClick={() => openAvailabilityModal(true)}>Ver disponibilidad del negocio</Link>
+            </LinkContainer>
           </Info>
           <Info>
             <Subtitle>Productos</Subtitle>
@@ -394,6 +399,9 @@ const BusinessDetail = () => {
             handleSuccess={calendarSuccess}
             handleError={calendarError}
           />
+        </Modal>
+        <Modal open={availabilityModal} setVisibility={openAvailabilityModal} minWidth="40%">
+          <Calendar business={business} handleReject={() => openAvailabilityModal(false)} />
         </Modal>
         </>
       }
