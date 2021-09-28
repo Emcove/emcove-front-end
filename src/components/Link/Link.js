@@ -1,5 +1,5 @@
 
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { colors } from '../../styles/palette';
 
@@ -12,6 +12,11 @@ const Link = styled.button`
   &:hover {
     cursor: pointer;
   }
+
+  ${props => props.bold && css `
+    font-size: 14px;
+    font-weight: 600;
+  `}
 
   @media (max-width: 768px) {
     font-size: 12px;

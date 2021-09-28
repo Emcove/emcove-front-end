@@ -86,6 +86,7 @@ const Info = styled.div `
   display: flex;
   flex-direction: column;
   padding: 16px 0;
+  align-items: flex-start;
 `;
 
 const ProductsContainer = styled.div`
@@ -178,6 +179,10 @@ const SubscriptionInfoContainer = styled.span`
   font-size: 0;
   margin-bottom: 14px;
   margin-top: -10px;
+`;
+
+const LinkContainer = styled.div`
+  margin-left: -6px;
 `;
 
 const BusinessDetail = () => {
@@ -334,14 +339,14 @@ const BusinessDetail = () => {
                   <Button primary onClick={() => openModalSubscription(true)}>Publicitar mi emprendimiento</Button>
                 </ButtonContainer>
               }
-              {isUserBusiness && business.googleCalendarId &&
-                <ButtonContainer>
-                  <Button primary onClick={() => openGCalModal(!gCalModal)}>Asociar Google Calendar</Button>
-                </ButtonContainer>
-              }
             </TitleContainer>
           </DataContainer>
           <Info>
+            {isUserBusiness && !business.googleCalendarId &&
+              <LinkContainer>
+                <Link bold primary onClick={() => openGCalModal(!gCalModal)}>Asociar Google Calendar</Link>
+              </LinkContainer>
+            }
             <Text>{`Localidad: ${business.city}`}</Text>
             <Text>{shipmentText}</Text>
           </Info>
