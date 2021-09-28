@@ -29,6 +29,7 @@ import { colors } from "../../styles/palette";
 import UserData from '../../utils/userData';
 import BusinessService from "../../services/BusinessService";
 import SubscriptionService from "../../services/SubscriptionService";
+import GoogleCalendarSetup from "./components/GoogleCalendarSetup";
 
 const DataContainer = styled.div`
   display: flex;
@@ -189,6 +190,8 @@ const BusinessDetail = () => {
 
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
   const [modalSubscription, openModalSubscription] = useState(false);
+  const [gCalModal, openGCalModal] = useState(false);
+
   const [snackbarData, setSnackbarData] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [business, setBusiness] = useState();
@@ -265,6 +268,33 @@ const BusinessDetail = () => {
     });
   }
 
+  const calendarSuccess = (updatedBusiness) => {
+    setBusiness(updatedBusiness);
+    setSnackbarData({
+      type: 'success',
+      show: true,
+      message: '¡Calendario creado con éxito!'
+    });
+    openGCalModal(false);
+
+    setTimeout(() => {
+      setSnackbarData({ ...snackbarData, show: false });
+    }, 2000);
+  }
+  
+  const calendarError = () => {
+    setSnackbarData({
+      type: 'error',
+      show: true,
+      message: 'Ocurrió un error creando tu calendario, por favor intentá más tarde.'
+    });
+    openGCalModal(false);
+
+    setTimeout(() => {
+      setSnackbarData({ ...snackbarData, show: false });
+    }, 2000);
+  }
+
   return (
     <OrderProvider value={{ setOrder, isUserBusiness, setProductModalInfo }}>
       <Layout>
@@ -302,6 +332,11 @@ const BusinessDetail = () => {
               {isUserBusiness && business.hasSubscription === '0' && !plan &&
                 <ButtonContainer>
                   <Button primary onClick={() => openModalSubscription(true)}>Publicitar mi emprendimiento</Button>
+                </ButtonContainer>
+              }
+              {isUserBusiness && business.googleCalendarId &&
+                <ButtonContainer>
+                  <Button primary onClick={() => openGCalModal(!gCalModal)}>Asociar Google Calendar</Button>
                 </ButtonContainer>
               }
             </TitleContainer>
@@ -346,6 +381,14 @@ const BusinessDetail = () => {
         </Modal>
         <Modal open={modalSubscription} setVisibility={openModalSubscription} minWidth="40%">
           <SubscriptionDetail />
+        </Modal>
+        <Modal open={gCalModal} setVisibility={openGCalModal} minWidth="40%">
+          <GoogleCalendarSetup
+            business={business}
+            handleCancel={() => openGCalModal(false)}
+            handleSuccess={calendarSuccess}
+            handleError={calendarError}
+          />
         </Modal>
         </>
       }
