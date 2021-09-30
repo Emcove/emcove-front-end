@@ -51,19 +51,33 @@ const GoogleCalendarSetup = ({ business, handleCancel, handleSuccess, handleErro
         scope: GSCOPES,
       });
       
+      // Perdon por toda esta cadena de promesas chiquis
       gapi.auth2.getAuthInstance().signIn().then(() => { 
         setLoading(true);
         gapi.client.calendar.calendars.insert({
           summary: business.name,
         }).then(response => {
-          console.log(response);
           if (response.status === 200) {
             const calendarId = response.result.id;
-            BusinessService.createBusinessCalendar(business.id, calendarId).then(resp => {
-              if (resp.status === 200) {
-                setLoading(false);
-                handleSuccess(resp.data);
-              } 
+
+            gapi.client.calendar.acl.insert({
+              calendarId: calendarId,
+              sendNotifications: false,
+              resource: {
+                role: "reader",
+                scope: {
+                  type: "default",
+                },
+              },
+            }).then(resp => {
+              if(resp.status === 200) {
+                BusinessService.createBusinessCalendar(business.id, calendarId).then(resp => {
+                  if (resp.status === 200) {
+                    setLoading(false);
+                    handleSuccess(resp.data);
+                  } 
+                });
+              }
             });
           } else {
             handleError();
