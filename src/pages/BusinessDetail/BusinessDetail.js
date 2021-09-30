@@ -403,7 +403,7 @@ const BusinessDetail = () => {
           />
         </Modal>
         <Modal open={availabilityModal} setVisibility={openAvailabilityModal} minWidth="40%">
-          <Calendar business={business} handleReject={() => openAvailabilityModal(false)} />
+          <Calendar business={business} />
         </Modal>
         </>
       }
