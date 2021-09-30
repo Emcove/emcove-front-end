@@ -122,6 +122,18 @@ class BusinessService {
       return error.response;
     }
   }
+
+  async createBusinessCalendar(businessId, calendarId) {
+    try {
+      const response = await axios.post(`${API_URL}/entrepreneurships/${businessId}/calendar?calendarId=${calendarId}`, {}, { headers: {
+        authorization: localStorage.getItem('token'),
+      }});
+
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  }
 }
 
 export default new BusinessService()

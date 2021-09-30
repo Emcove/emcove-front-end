@@ -23,6 +23,8 @@ import CategoriesList from "../../components/CategoriesList";
 
 import ProductDetail from "./components/ProductDetail";
 import SubscriptionDetail from "./components/SubscriptionDetail";
+import GoogleCalendarSetup from "./components/GoogleCalendarSetup";
+import Calendar from "./components/Calendar";
 
 import { colors } from "../../styles/palette";
 
@@ -85,6 +87,7 @@ const Info = styled.div `
   display: flex;
   flex-direction: column;
   padding: 16px 0;
+  align-items: flex-start;
 `;
 
 const ProductsContainer = styled.div`
@@ -179,6 +182,10 @@ const SubscriptionInfoContainer = styled.span`
   margin-top: -10px;
 `;
 
+const LinkContainer = styled.div`
+  margin-left: -6px;
+`;
+
 const BusinessDetail = () => {
   const history = useHistory();
   const location = useLocation();
@@ -189,6 +196,9 @@ const BusinessDetail = () => {
 
   const [productModal, setProductModalInfo] = useState({ visible: false, product: null })
   const [modalSubscription, openModalSubscription] = useState(false);
+  const [gCalModal, openGCalModal] = useState(false);
+  const [availabilityModal, openAvailabilityModal] = useState(false);
+
   const [snackbarData, setSnackbarData] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [business, setBusiness] = useState();
@@ -265,6 +275,33 @@ const BusinessDetail = () => {
     });
   }
 
+  const calendarSuccess = (updatedBusiness) => {
+    setBusiness(updatedBusiness);
+    setSnackbarData({
+      type: 'success',
+      show: true,
+      message: '¡Calendario creado con éxito!'
+    });
+    openGCalModal(false);
+
+    setTimeout(() => {
+      setSnackbarData({ ...snackbarData, show: false });
+    }, 2000);
+  }
+  
+  const calendarError = () => {
+    setSnackbarData({
+      type: 'error',
+      show: true,
+      message: 'Ocurrió un error creando tu calendario, por favor intentá más tarde.'
+    });
+    openGCalModal(false);
+
+    setTimeout(() => {
+      setSnackbarData({ ...snackbarData, show: false });
+    }, 2000);
+  }
+
   return (
     <OrderProvider value={{ setOrder, isUserBusiness, setProductModalInfo }}>
       <Layout>
@@ -307,8 +344,18 @@ const BusinessDetail = () => {
             </TitleContainer>
           </DataContainer>
           <Info>
+            {isUserBusiness && !business.googleCalendarId &&
+              <LinkContainer>
+                <Link bold primary onClick={() => openGCalModal(!gCalModal)}>Asociar Google Calendar</Link>
+              </LinkContainer>
+            }
             <Text>{`Localidad: ${business.city}`}</Text>
             <Text>{shipmentText}</Text>
+            {business.googleCalendarId &&
+            <LinkContainer>
+              <Link bold onClick={() => openAvailabilityModal(true)}>Ver disponibilidad del negocio</Link>
+            </LinkContainer>
+            }
           </Info>
           <Info>
             <Subtitle>Productos</Subtitle>
@@ -346,6 +393,17 @@ const BusinessDetail = () => {
         </Modal>
         <Modal open={modalSubscription} setVisibility={openModalSubscription} minWidth="40%">
           <SubscriptionDetail />
+        </Modal>
+        <Modal open={gCalModal} setVisibility={openGCalModal} minWidth="40%">
+          <GoogleCalendarSetup
+            business={business}
+            handleCancel={() => openGCalModal(false)}
+            handleSuccess={calendarSuccess}
+            handleError={calendarError}
+          />
+        </Modal>
+        <Modal open={availabilityModal} setVisibility={openAvailabilityModal} minWidth="40%">
+          <Calendar business={business} />
         </Modal>
         </>
       }
