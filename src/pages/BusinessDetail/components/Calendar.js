@@ -46,6 +46,7 @@ const Calendar = ({ business }) => {
         plugins={[ dayGridPlugin ]}
         initialView="dayGridMonth"
         weekends
+        locale="es"
         events={events}
       />
     </Container>
