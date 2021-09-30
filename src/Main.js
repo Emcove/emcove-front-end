@@ -17,10 +17,22 @@ import BusinessOrders from "./pages/BusinessOrders";
 
 import "./styles/index.scss";
 
-const Main = () => {  
+import { GAPI_KEY, GCLIENT_ID, GDISCOVERY_DOCS, GSCOPES } from "./Constants";
+
+const Main = () => {
   useEffect(() => {
     new window.MercadoPago('APP_USR-4eb4381b-24ab-4627-bb4b-6c2b2d9f1504', {
       locale: 'es-AR'
+    });
+    const gapi = window.gapi;
+
+    gapi.load('client:auth2', () => {
+      gapi.client.init({
+        apiKey: GAPI_KEY,
+        clientId: GCLIENT_ID,
+        discoveryDocs: GDISCOVERY_DOCS,
+        scope: GSCOPES,
+      });
     });
   }, []);
 
