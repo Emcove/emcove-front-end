@@ -8,7 +8,6 @@ import BusinessService from "../../../services/BusinessService";
 
 import { colors } from "../../../styles/palette";
 
-import { GAPI_KEY, GCLIENT_ID, GDISCOVERY_DOCS, GSCOPES } from "../../../Constants";
 import Loading from "../../../components/Loading/Loading";
 
 const Container = styled.div`
@@ -43,46 +42,37 @@ const GoogleCalendarSetup = ({ business, handleCancel, handleSuccess, handleErro
   const [isLoading, setLoading] = useState(false);
 
   const handleCreateEvent = () => {
-    gapi.load('client:auth2', () => {
-      gapi.client.init({
-        apiKey: GAPI_KEY,
-        clientId: GCLIENT_ID,
-        discoveryDocs: GDISCOVERY_DOCS,
-        scope: GSCOPES,
-      });
-      
-      // Perdon por toda esta cadena de promesas chiquis
-      gapi.auth2.getAuthInstance().signIn().then(() => { 
-        setLoading(true);
-        gapi.client.calendar.calendars.insert({
-          summary: business.name,
-        }).then(response => {
-          if (response.status === 200) {
-            const calendarId = response.result.id;
+    // Perdon por toda esta cadena de promesas chiquis
+    gapi.auth2.getAuthInstance().signIn().then(() => { 
+      setLoading(true);
+      gapi.client.calendar.calendars.insert({
+        summary: business.name,
+      }).then(response => {
+        if (response.status === 200) {
+          const calendarId = response.result.id;
 
-            gapi.client.calendar.acl.insert({
-              calendarId: calendarId,
-              sendNotifications: false,
-              resource: {
-                role: "reader",
-                scope: {
-                  type: "default",
-                },
+          gapi.client.calendar.acl.insert({
+            calendarId: calendarId,
+            sendNotifications: false,
+            resource: {
+              role: "reader",
+              scope: {
+                type: "default",
               },
-            }).then(resp => {
-              if(resp.status === 200) {
-                BusinessService.createBusinessCalendar(business.id, calendarId).then(resp => {
-                  if (resp.status === 200) {
-                    setLoading(false);
-                    handleSuccess(resp.data);
-                  } 
-                });
-              }
-            });
-          } else {
-            handleError();
-          }
-        });
+            },
+          }).then(resp => {
+            if(resp.status === 200) {
+              BusinessService.createBusinessCalendar(business.id, calendarId).then(resp => {
+                if (resp.status === 200) {
+                  setLoading(false);
+                  handleSuccess(resp.data);
+                } 
+              });
+            }
+          });
+        } else {
+          handleError();
+        }
       });
     });
   }
