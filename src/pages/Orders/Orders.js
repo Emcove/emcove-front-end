@@ -198,7 +198,7 @@ const Orders = () => {
       else {
         let objOptions = {};
 
-        response.data.reduce((_, curr) => objOptions[curr.id] = { visible: false }, objOptions)
+        response.data.reduce((_, curr) => objOptions[curr.id] = { visible: false }, objOptions);
         setOrders(response.data);
         showOptions(objOptions)
       }
@@ -209,7 +209,6 @@ const Orders = () => {
   const openEvaluationModal = (businessId) => {
     setEvaluatedUser(businessId);
     setModalVisible(true);
-    showOptions(false);
   }
 
   const openOrderDetailModal = (order) => {
@@ -271,7 +270,7 @@ const Orders = () => {
                   </Button>
                  {options[order.id].visible &&
                     <Options>
-                      <OrderOption onClick={() => openEvaluationModal(order.entrepreneurship.id)}>Calificar emprendimiento</OrderOption>
+                      <OrderOption onClick={(e) => { openEvaluationModal(order.entrepreneurship.id); handleOptionsClick(e, order.id); }}>Calificar emprendimiento</OrderOption>
                     </Options>
                   }
                 </OrderStatus>
