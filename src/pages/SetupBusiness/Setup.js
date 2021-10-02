@@ -55,6 +55,7 @@ const Setup = () => {
   const history = useHistory();
 
   const [isUpdate, setIsUpdate] = useState(false);
+  const [businessBase, setBusinessBase] = useState(undefined);
 
   const [businessId, setBusinessId] = useState('');
   const [name, setName] = useState('');
@@ -82,6 +83,7 @@ const Setup = () => {
 
       BusinessService.getLoggedBusiness().then(response => {
         const business = response.data;
+        setBusinessBase(business);
         setBusinessId(business.id);
         setName(business.name);
         setLogo(business.logo);
@@ -96,20 +98,35 @@ const Setup = () => {
   }, [from]);
 
   const saveBusiness = async () => {
-     const data = {
-       id:businessId,
-       name,
-       logo,
-       city,
-       doesShipments,
-       facebook_page_id:pageId,
-       categories: categories.map(c => c.toUpperCase()),
-       products
-     };
-
+     let data = {};
       setLoading(true);
       
       const saveFunction = isUpdate ?  BusinessService.patchBusiness : BusinessService.createBusiness;
+      if (isUpdate) {
+        data = {
+          ...businessBase,
+          id: businessId,
+          name,
+          logo,
+          city,
+          doesShipments,
+          facebook_page_id: pageId,
+          categories: categories.map(c => c.toUpperCase()),
+          products,
+        };
+      } else {
+        data = {       
+          id:businessId,
+          name,
+          logo,
+          city,
+          doesShipments,
+          facebook_page_id: pageId,
+          categories: categories.map(c => c.toUpperCase()),
+          products,
+        }
+      }
+
       const resp = await saveFunction(data);
 
       if (resp.status === 201 || resp.status === 200){
