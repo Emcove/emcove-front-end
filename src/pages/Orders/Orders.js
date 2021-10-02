@@ -209,12 +209,12 @@ const Orders = () => {
   const openEvaluationModal = (businessId) => {
     setEvaluatedUser(businessId);
     setModalVisible(true);
-  }
+  };
 
   const openOrderDetailModal = (order) => {
     setOrder(order);
     setDetailModalVisible(true);
-  }
+  };
 
   const handleOptionsClick = (event, orderId) => {
     event.stopPropagation();
@@ -222,9 +222,7 @@ const Orders = () => {
     newOptions[orderId].visible = !options[orderId].visible;
 
     showOptions(newOptions);
-  }
-
-  console.log(orders);
+  };
 
   return (
     <Layout>
@@ -270,7 +268,7 @@ const Orders = () => {
                   </Button>
                  {options[order.id].visible &&
                     <Options>
-                      <OrderOption onClick={(e) => { openEvaluationModal(order.entrepreneurship.id); handleOptionsClick(e, order.id); }}>Calificar emprendimiento</OrderOption>
+                      <OrderOption onClick={(e) => { handleOptionsClick(e, order.id); openEvaluationModal(order.entrepreneurship.id); }}>Calificar emprendimiento</OrderOption>
                     </Options>
                   }
                 </OrderStatus>
