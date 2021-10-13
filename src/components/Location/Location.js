@@ -1,14 +1,17 @@
 
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Modal from '../Modal';
 import TextInput from '../TextInput';
 import Subtitle from '../Subtitle';
 import Button from '../Button';
 import Icon from '../Icons';
+import Loading from '../Loading';
 
 import { colors } from '../../styles/palette';
+
+import BusinessService from '../../services/BusinessService';
 
 const Container = styled.div`
   width: 100%;
@@ -18,6 +21,12 @@ const Container = styled.div`
 const Group = styled.div`
   display: flex;
   align-items: center;
+
+  ${props => props.bottom && css `
+    position: absolute;
+    bottom: 52px;
+    right: 40px;
+  `}
 `;
 
 const AddressItem = styled.div`
@@ -36,10 +45,11 @@ const Text = styled.span`
   color: ${colors.textColor};
 `;
 
-const Location = ({ visible, closeModal, businessLocations, locations }) => {
+const Location = ({ visible, closeModal, businessLocations, locations = [] }) => {
   const [address, setAddress] = useState('');
   const [chosenAddress, setChosenAddress] = useState(undefined);
-  const [addressList, setAddressList] = useState([]);
+  const [addressList, setAddressList] = useState(locations);
+  const [isLoading, setLoading] = useState(false);
 
   const google = window.google;
   const options = {
@@ -83,6 +93,22 @@ const Location = ({ visible, closeModal, businessLocations, locations }) => {
     setAddressList(auxLocations);
   };
 
+  const saveDeliveryPoints = () => {
+    setLoading(true);
+    const promises = addressList.map(addressItem => {
+      const requestObject = {
+
+      };
+
+      return new Promise(BusinessService.addDeliveryPoint(requestObject));
+    });
+    
+    Promise.all(promises).then(responses => {
+      console.log(responses);
+      isLoading(false);
+    });
+  };
+
   return (
     <Modal open={visible} minWidth="70%" setVisibility={closeModal}>
       <Container>
@@ -105,13 +131,20 @@ const Location = ({ visible, closeModal, businessLocations, locations }) => {
           {addressList.map((add, idx) => (
             <AddressItem key={`${add.displayName}-${idx}`}>
               <Text>{add.displayName}</Text>
-              <Button backgroundColor="transparent" onClick={() => deleteLocation(idx)} alignment="center">
-                <Icon type="cross" className="delete-row__icon" />
-              </Button>
+              {!isLoading &&
+                <Button backgroundColor="transparent" onClick={() => deleteLocation(idx)} alignment="center">
+                  <Icon type="cross" className="delete-row__icon" />
+                </Button>
+              }
             </AddressItem>
           ))}
           </AddressList>
         }
+
+        <Group bottom>
+          <Button primary disabled={isLoading} onClick={saveDeliveryPoints}>Guardar</Button>
+          <Button secondary disabled={isLoading} onClick={() => closeModal(false)}>Cancelar</Button>
+        </Group>
       </Container>
     </Modal>
   )

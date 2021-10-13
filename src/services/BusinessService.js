@@ -134,6 +134,18 @@ class BusinessService {
       return error.response;
     }
   }
+
+  async addDeliveryPoint(deliveryPoint) {
+    try {
+      const response = await axios.post(`${API_URL}/entrepreneurships/deliveryPoints`, deliveryPoint, { headers: {
+        authorization: localStorage.getItem('token'),
+      }});
+
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  }
 }
 
 export default new BusinessService()
