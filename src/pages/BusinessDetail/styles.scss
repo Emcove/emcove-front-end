@@ -1,6 +1,11 @@
 @import "../../components/Carrousel/styles.scss";
 @import "./components/styles.scss";
 
+body {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 28px;
+}
+
 .business-detail {
   .upload-logo__icon {
     height: 55px;

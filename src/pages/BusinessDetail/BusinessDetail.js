@@ -354,6 +354,11 @@ const BusinessDetail = () => {
             }
             <Text>{`Localidad: ${business.city}`}</Text>
             <Text>{shipmentText}</Text>
+            {isUserBusiness &&
+            <LinkContainer>
+                <Link bold onClick={() => showLocationModal(true)}>Gestionar puntos de entrega</Link>
+            </LinkContainer>
+            }
             {business.googleCalendarId &&
             <LinkContainer>
               <Link bold onClick={() => openAvailabilityModal(true)}>Ver disponibilidad del negocio</Link>
@@ -408,7 +413,7 @@ const BusinessDetail = () => {
         <Modal open={availabilityModal} setVisibility={openAvailabilityModal} minWidth="40%">
           <Calendar business={business} />
         </Modal>
-        <Location visible={locationModal} closeModal={showLocationModal}/>
+        <Location visible={locationModal} closeModal={showLocationModal} businessLocations locations={business.deliveryPoints} />
         </>
       }
       </Layout>
