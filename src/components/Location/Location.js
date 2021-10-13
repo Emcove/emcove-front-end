@@ -58,6 +58,7 @@ const Location = ({ visible, closeModal, businessLocations, locations }) => {
       const objAddress = {};
       address.reduce((_, curr) => {
         objAddress[curr.types[0]] = curr.long_name;
+        return objAddress;
       }, objAddress);
       
       setChosenAddress({ ...objAddress, displayName: place.formatted_address });
@@ -73,7 +74,14 @@ const Location = ({ visible, closeModal, businessLocations, locations }) => {
       setAddress('');
       setChosenAddress(undefined);
     }
-  }
+  };
+
+  const deleteLocation = (index) => {
+    let auxLocations = [...addressList];
+    auxLocations.splice(index, 1);
+
+    setAddressList(auxLocations);
+  };
 
   return (
     <Modal open={visible} minWidth="70%" setVisibility={closeModal}>
@@ -94,9 +102,12 @@ const Location = ({ visible, closeModal, businessLocations, locations }) => {
         </Group>
         {!!addressList.length &&
           <AddressList>
-          {addressList.map(add => (
-            <AddressItem>
+          {addressList.map((add, idx) => (
+            <AddressItem key={`${add.displayName}-${idx}`}>
               <Text>{add.displayName}</Text>
+              <Button backgroundColor="transparent" onClick={() => deleteLocation(idx)} alignment="center">
+                <Icon type="cross" className="delete-row__icon" />
+              </Button>
             </AddressItem>
           ))}
           </AddressList>
