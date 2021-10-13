@@ -126,7 +126,6 @@ const Home = () => {
     setLoading(true);
     BusinessService.getAllBusiness(key && data).then(response => {
       setLoading(false);
-      console.log(response.data);
       setBusiness(response.data);
     });
   }
@@ -146,7 +145,6 @@ const Home = () => {
   }
   
   return (
-    
     <Layout>
       <Content>
         <Title>Emprendimientos</Title>
@@ -168,8 +166,6 @@ const Home = () => {
         </AddBusinessButton>}
       </Content>
     </Layout>
-    
-    
   );
 }
 

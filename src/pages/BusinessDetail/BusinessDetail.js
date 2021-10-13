@@ -20,6 +20,7 @@ import Modal from "../../components/Modal";
 import Button from "../../components/Button";
 import Snackbar from "../../components/Snackbar";
 import CategoriesList from "../../components/CategoriesList";
+import Location from "../../components/Location";
 
 import ProductDetail from "./components/ProductDetail";
 import SubscriptionDetail from "./components/SubscriptionDetail";
@@ -207,6 +208,8 @@ const BusinessDetail = () => {
   
   const [isUserBusiness, setIsUserBusiness] = useState(false);
   const [order, setOrder] = useState(undefined);
+
+  const [locationModal, showLocationModal] = useState(false);
     
   useEffect(() => {
     setIsUserBusiness(UserData.isUserBusiness(params.business));
@@ -405,6 +408,7 @@ const BusinessDetail = () => {
         <Modal open={availabilityModal} setVisibility={openAvailabilityModal} minWidth="40%">
           <Calendar business={business} />
         </Modal>
+        <Location visible={locationModal} closeModal={showLocationModal}/>
         </>
       }
       </Layout>
