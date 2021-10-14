@@ -113,7 +113,9 @@ const Location = ({ visible, closeModal, businessLocations, locations = [] }) =>
     <Modal open={visible} minWidth="70%" setVisibility={closeModal}>
       <Container>
         <Subtitle>Agregar puntos de entrega</Subtitle>
-        <Group>
+        {businessLocations && <Text>Agregá las direcciones que quieras para que tus clientes retiren sus pedidos.</Text>}
+        {!businessLocations && <Text>Agregá las direcciones que quieras para que los emprendedores que hagan envíos te hagan llegar tu pedido.</Text>}
+        <Group className="first-group">
           <TextInput
             id="locationInput"
             label="Dirección del punto de entrega"

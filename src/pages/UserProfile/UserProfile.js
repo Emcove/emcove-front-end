@@ -12,6 +12,7 @@ import Snackbar from "../../components/Snackbar";
 import Card from "../../components/Card";
 import Loading from "../../components/Loading";
 import ConfirmationModal from "../../components/ConfirmationModal";
+import Location from "../../components/Location";
 
 import UserData from '../../utils';
 import Button from '../../components/Button';
@@ -87,8 +88,6 @@ const DeleteAccountButton = styled.button`
 const UserProfile = () => {
   const loggedUser = JSON.parse(localStorage.getItem("user"));
 
-  //const loggedUser = {};
-
   const history = useHistory();
   const [avatar, setUserAvatar] = useState(loggedUser?.avatar || '');
   const [editState, setEditState] = useState(false);
@@ -115,6 +114,9 @@ const UserProfile = () => {
   const [requiredSurname, setRequiredSurname] = useState('');
   const [city, setCity] = useState(loggedUser?.city || '');
   const [adult, setAdult] = useState(loggedUser?.adult || false);
+
+  // Location
+  const [locationModal, showLocationModal] = useState(false); 
 
   const emptyInputs = () => {
     setUserAvatar('');
@@ -275,6 +277,9 @@ const UserProfile = () => {
               iconClass="upload-logo__icon"
             />
           </ImageContainer>
+          <LinkContainer className="delivery-points__button">
+            <Link bold onClick={() => showLocationModal(true)}>Agregar o editar puntos de entrega</Link>
+          </LinkContainer>
           <Card vertical>
             <InputGroup>
               <TextInput 
@@ -395,6 +400,7 @@ const UserProfile = () => {
         </DataContainer>
       </Container>
       <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />
+      <Location visible={locationModal} closeModal={showLocationModal} />
     </Layout>
     </>
   );
