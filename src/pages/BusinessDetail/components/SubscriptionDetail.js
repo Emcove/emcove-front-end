@@ -44,12 +44,12 @@ const Price = styled.span`
   text-decoration: none;
 `;
 
-const SubscriptionDetail = () => {
+const SubscriptionDetail = ({ businessName }) => {
   const [isLoading, setLoading] = useState(true);
   const [mpPreferences, setMPPreferences] = useState([]);
 
   useEffect(() => {
-    SubscriptionService.getMPPreferences().then(response => {
+    SubscriptionService.getMPPreferences(businessName).then(response => {
       setLoading(false);
       if(response.status !== 200) {
         setMPPreferences([]);

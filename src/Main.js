@@ -26,14 +26,16 @@ const Main = () => {
     });
     const gapi = window.gapi;
 
-    gapi.load('client:auth2', () => {
-      gapi.client.init({
-        apiKey: GAPI_KEY,
-        clientId: GCLIENT_ID,
-        discoveryDocs: GDISCOVERY_DOCS,
-        scope: GSCOPES,
+    if (gapi) {
+      gapi.load('client:auth2', () => {
+        gapi.client.init({
+          apiKey: GAPI_KEY,
+          clientId: GCLIENT_ID,
+          discoveryDocs: GDISCOVERY_DOCS,
+          scope: GSCOPES,
+        });
       });
-    });
+    }
   }, []);
 
   return(
