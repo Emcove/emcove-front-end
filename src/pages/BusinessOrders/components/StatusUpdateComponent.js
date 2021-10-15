@@ -31,6 +31,13 @@ const Text = styled.div`
     font-weight: 500;
     margin: 0;
   `}
+
+  ${props => props.address && css `
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.25;
+    margin: 12px 0;
+  `}
 `;
 
 const DeliveryPointsList = styled.div`
@@ -60,10 +67,16 @@ const RadioButton = styled.div`
   `}
 `;
 
+const ShipmentBox = styled.div`
+  padding: 8px 20px;
+  border-radius: 6px;
+  border: solid 1px ${colors.lightGray};
+`;
+
 const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoints }) => {
   const [selectedStatus, updateSelectedStatus] = useState('');
   const [selectedAddressIdx, setSelectedAddressIdx] = useState(-1);
-
+  console.log('order on status update componet', order);
   return (
     <ModalContent>
       <Subtitle fontSize="24px">Actualizar estado del pedido Nº {order.id}</Subtitle>
@@ -75,7 +88,7 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoin
         options={buildPossibleStatusForOrder(order)}
         onClickOption={(status) => updateSelectedStatus(status)}
       />
-      {selectedStatus === 'LISTO PARA ENTREGAR' && !!deliveryPoints.length &&
+      {selectedStatus === 'LISTO PARA ENTREGAR' && !!deliveryPoints.length && (!order.userDeliveryPoint && order.entrepreneurship.doesShipments) &&
       <>
       <Text>Elegí la dirección en donde deben retirar el pedido:</Text>
       <DeliveryPointsList>
@@ -88,6 +101,14 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoin
       </DeliveryPointsList>
       </>
       }
+      {selectedStatus === 'LISTO PARA ENTREGAR' && order.userDeliveryPoint && order.entrepreneurship.doesShipments && 
+        <ShipmentBox>
+          <Text address>Dirección de entrega:</Text>
+          <Text address>
+            {order.userDeliveryPoint.address.street} {order.userDeliveryPoint.address.number}, {order.userDeliveryPoint.address.department} {order.userDeliveryPoint.address.state}
+          </Text>
+        </ShipmentBox>
+      }      
       <ButtonsContainer>
         <Button
           backgroundColor="transparent"
@@ -100,7 +121,7 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoin
         <Button
           primary
           large
-          onClick={()=> handleAccept(selectedStatus.replaceAll(' ', '_'), deliveryPoints[selectedAddressIdx].id)}
+          onClick={()=> handleAccept(selectedStatus.replaceAll(' ', '_'), deliveryPoints[selectedAddressIdx]?.id)}
         >
           Aceptar
         </Button>

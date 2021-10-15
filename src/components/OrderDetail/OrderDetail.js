@@ -94,7 +94,7 @@ const Image = styled.img`
 const OrderDetail = ({ order, buyerView = false }) => {
   const { id, product, createDate, updateDate, currentState, details, totalPrice, productSnapshot, user, entrepreneurship } = order;
   const images = product.images.map(image => image.image);
-
+  console.log(order);
   return (
     <Container>
       <OrderTitle>Pedido {id} - {product.name}</OrderTitle>
