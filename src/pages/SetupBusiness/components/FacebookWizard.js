@@ -13,6 +13,7 @@ import step3Img from '../../../assets/step3fb.gif';
 import TextInput from '../../../components/TextInput';
 
 const Content = styled.div`
+  width: 100%;
   margin-bottom: 32px;
 `;
 
@@ -38,7 +39,8 @@ const Text = styled.span`
 `;
 
 const ImagesContainer = styled.div`
-  width: 100%;
+  width: fit-content;
+  align-self: center;
   display: flex;
   justify-content: center;
   margin-top: 24px;
@@ -46,7 +48,7 @@ const ImagesContainer = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  height: 300px;
+  height: 350px;
 `;
 
 const Img = styled.img`
@@ -131,7 +133,7 @@ const FacebookWizard = ({ visible, handleVisibility }) => {
 
         <ButtonContainer>
           {step > 1 && <Button secondary onClick={() => setStep(step-1)}>Volver</Button>}
-          <Button primary onClick={() => handleDoneClick()}>{step === 3 ? "Guardar" : "Listo"}</Button>
+          <Button primary onClick={() => handleDoneClick()}>{step === 3 ? "Guardar" : "Siguiente"}</Button>
         </ButtonContainer>
       </Content>
     </Modal>
