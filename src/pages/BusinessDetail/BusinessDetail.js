@@ -192,6 +192,8 @@ const BusinessDetail = () => {
   const location = useLocation();
   const params = useParams();
 
+  const loggedUser = UserData.getUserFromStorage();
+
   const app_id = "388558709649689";
   const { collection_status, plan } = queryString.parse(location.search);
 
@@ -253,8 +255,12 @@ const BusinessDetail = () => {
 
   const sendOrder = () => {
     setLoading(true);
+    let orderObj = { ...order };
+    if (business.doesShipments && loggedUser.deliveryPoints[0]) {
+        orderObj.userDeliveryPoint = loggedUser.deliveryPoints[0];
+    }
 
-    BusinessService.sendOrder(order, business.id).then(response => {
+    BusinessService.sendOrder(orderObj, business.id).then(response => {
       setLoading(false);
 
       if (response.status === 200) {
