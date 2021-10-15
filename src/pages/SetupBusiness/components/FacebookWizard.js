@@ -9,6 +9,8 @@ import Button from '../../../components/Button';
 import Subtitle from '../../../components/Subtitle';
 
 import step2Img from '../../../assets/step2fb.gif';
+import step3Img from '../../../assets/step3fb.gif';
+import TextInput from '../../../components/TextInput';
 
 const Content = styled.div`
   margin-bottom: 32px;
@@ -56,12 +58,37 @@ const Link = styled.a`
   text-decoration: none;  
 `;
 
+const InputGroup = styled.div`
+  margin-top: 24px;
+  width: 60%;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
 const FacebookWizard = ({ visible, handleVisibility }) => {
   const { pageId, setPageId } = useContext(BusinessContext);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(pageId ? 3 : 1);
+
+  const handleDoneClick = () => {
+    if (step === 3) {
+      setStep(1);
+      handleVisibility(false);
+    }
+    
+    setStep(step+1);
+  }
+
+  const closeModal = () => {
+    setStep(1);
+    handleVisibility(false);
+  }
 
   return (
-    <Modal open={visible} setVisibility={handleVisibility} minWidth="70%">
+    <Modal open={visible} setVisibility={closeModal} minWidth="70%">
       <Content>
         <Subtitle>Agregar Facebook Messenger</Subtitle>
         <Container visible={step === 1}>
@@ -80,8 +107,32 @@ const FacebookWizard = ({ visible, handleVisibility }) => {
             </ImageContainer>
           </ImagesContainer>
         </Container>
-        {step > 1 && <Button secondary onClick={() => setStep(step-1)}>Volver</Button>}
-        <Button primary onClick={() => setStep(step+1)}>Listo</Button>
+
+        <Container visible={step === 3}>
+          <Text>Por último, necesitamos conocer el Identificador de tu página de Facebook, ese lo vas a encontrar acá:</Text>
+          <Text steps>{'Perfil de Facebook > Click en botón "Ver más" > Información > Identificador de la página'}</Text>
+          <ImagesContainer>
+            <ImageContainer>
+              <Img src={step3Img} alt="step-3-gif" />
+            </ImageContainer>
+          </ImagesContainer>
+          <InputGroup>
+            <Text>Una vez que encuentres tu Identificador, pegalo acá:</Text>
+            <TextInput
+              id="facebook_page_id"
+              value={pageId}
+              required={false}
+              type="text"
+              onChange={setPageId}
+              placeholder="Identificador de página"
+            />
+          </InputGroup>
+        </Container>
+
+        <ButtonContainer>
+          {step > 1 && <Button secondary onClick={() => setStep(step-1)}>Volver</Button>}
+          <Button primary onClick={() => handleDoneClick()}>{step === 3 ? "Guardar" : "Listo"}</Button>
+        </ButtonContainer>
       </Content>
     </Modal>
   );
