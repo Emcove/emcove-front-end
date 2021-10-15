@@ -137,6 +137,7 @@ class BusinessService {
 
   async addDeliveryPoint(deliveryPoint) {
     try {
+      debugger;
       const response = await axios.post(`${API_URL}/entrepreneurships/deliveryPoints`, deliveryPoint, { headers: {
         authorization: localStorage.getItem('token'),
       }});

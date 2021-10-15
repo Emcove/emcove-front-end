@@ -8,6 +8,7 @@ import Subtitle from '../Subtitle';
 import Button from '../Button';
 import Icon from '../Icons';
 import Loading from '../Loading';
+import Snackbar from '../Snackbar';
 
 import { colors } from '../../styles/palette';
 
@@ -50,6 +51,9 @@ const Location = ({ visible, closeModal, businessLocations, locations = [] }) =>
   const [chosenAddress, setChosenAddress] = useState(undefined);
   const [addressList, setAddressList] = useState(locations);
   const [isLoading, setLoading] = useState(false);
+  const [snackbarData, setSnackbarData] = useState({ show: false });
+
+  console.log(locations);
 
   const google = window.google;
   const options = {
@@ -93,28 +97,67 @@ const Location = ({ visible, closeModal, businessLocations, locations = [] }) =>
     setAddressList(auxLocations);
   };
 
+  const handleCancel = () => {
+    setAddress([]);
+    setChosenAddress(undefined);
+    setAddressList([]);
+    closeModal(false);
+  };
+
   const saveDeliveryPoints = () => {
     setLoading(true);
     const promises = addressList.map(addressItem => {
-      const requestObject = {
+      if (addressItem.displayName) {
+        const requestObject = {
+          phoneNumber: "",
+          address: {
+            street: addressItem.route || "",
+            number: parseInt(addressItem.street_number, 10) || 0,
+            postCode: 0,
+            floor: "",
+            state: addressItem.administrative_area_level_1 || "",
+            department: addressItem.locality || "",
+            isHome: true,
+            isWork: false
+          },
+          attentionAvailability: ["", ""],
+        };
 
-      };
+        return BusinessService.addDeliveryPoint(requestObject);
+      }
 
-      return new Promise(BusinessService.addDeliveryPoint(requestObject));
+      return null;
     });
     
-    Promise.all(promises).then(responses => {
-      console.log(responses);
-      isLoading(false);
+    Promise.all(promises.filter(promise => promise)).then(responses => {
+      const failedRequest = responses.find(promise => promise.status !== 200);
+      if (failedRequest) {
+        setSnackbarData({
+          show: true,
+          message: businessLocations ? "Ocurrió un error guardando tus puntos de entrega, por favor intentá nuevamente." : "Ocurrió un error guardando tu dirección de entrega, intentá nuevamente.",
+          type: "error",
+        });
+      } else {
+        setSnackbarData({
+          show: true,
+          message: businessLocations ? "Puntos de entrega guardados con éxito." : "Dirección guardada correctamente.",
+          type: "success",
+        });
+      }
+
+      setTimeout(() => {
+        setSnackbarData({ show: false });
+      }, 2000);
+      setLoading(false);
     });
   };
 
   return (
-    <Modal open={visible} minWidth="70%" setVisibility={closeModal}>
+    <Modal open={visible} minWidth="70%" setVisibility={handleCancel}>
       <Container>
         <Subtitle>Agregar puntos de entrega</Subtitle>
-        {businessLocations && <Text>Agregá las direcciones que quieras para que tus clientes retiren sus pedidos.</Text>}
-        {!businessLocations && <Text>Agregá las direcciones que quieras para que los emprendedores que hagan envíos te hagan llegar tu pedido.</Text>}
+        {businessLocations && <Text>Agregá o quitá las direcciones que quieras disponibilizar para que tus clientes retiren sus pedidos.</Text>}
+        {!businessLocations && <Text>Agregá o quitá tu dirección para que los emprendedores que hagan envíos te hagan llegar tu pedido.</Text>}
         <Group className="first-group">
           <TextInput
             id="locationInput"
@@ -132,8 +175,9 @@ const Location = ({ visible, closeModal, businessLocations, locations = [] }) =>
           <AddressList>
           {addressList.map((add, idx) => (
             <AddressItem key={`${add.displayName}-${idx}`}>
-              <Text>{add.displayName}</Text>
-              {!isLoading &&
+              {add.displayName && <Text>{add.displayName}</Text>}
+              {!add.displayName && <Text>{add.address.street} {add.address.number}, {add.address.department} {add.address.state}</Text>}
+              {!isLoading && add.displayName &&
                 <Button backgroundColor="transparent" onClick={() => deleteLocation(idx)} alignment="center">
                   <Icon type="cross" className="delete-row__icon" />
                 </Button>
@@ -144,10 +188,14 @@ const Location = ({ visible, closeModal, businessLocations, locations = [] }) =>
         }
 
         <Group bottom>
-          <Button primary disabled={isLoading} onClick={saveDeliveryPoints}>Guardar</Button>
-          <Button secondary disabled={isLoading} onClick={() => closeModal(false)}>Cancelar</Button>
+          <Button primary disabled={isLoading} onClick={saveDeliveryPoints}>
+            {!isLoading && "Guardar"}
+            {isLoading && <Loading component />}
+          </Button>
+          <Button secondary disabled={isLoading} onClick={() => handleCancel()}>Cancelar</Button>
         </Group>
       </Container>
+      <Snackbar message={snackbarData.message} show={snackbarData.show} type={snackbarData.type} />
     </Modal>
   )
 };
