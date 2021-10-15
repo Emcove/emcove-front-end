@@ -68,7 +68,6 @@ const Reputation = ({ username }) => {
         fetchBusinessReputation(id).then(response => {
           setLoading(false);
           setReputation(response.data);
-          console.log(reputation.comments)
         });
         break;
       case "business-orders":
