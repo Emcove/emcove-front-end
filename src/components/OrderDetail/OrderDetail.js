@@ -92,7 +92,7 @@ const Image = styled.img`
 `;
 
 const OrderDetail = ({ order, buyerView = false }) => {
-  const { id, product, createDate, updateDate, currentState, details, totalPrice, productSnapshot, user, entrepreneurship } = order;
+  const { id, product, createDate, updateDate, currentState, details, totalPrice, productSnapshot, user, entrepreneurship, userDeliveryPoint } = order;
   const images = product.images.map(image => image.image);
   console.log(order);
   return (
@@ -107,6 +107,9 @@ const OrderDetail = ({ order, buyerView = false }) => {
           <Separator />
           <OrderStatusEvolution orderTrackingData={order.orderTrackingData} />
         </>
+      }
+      { !buyerView && entrepreneurship.doesShipments && userDeliveryPoint &&
+        <Text>A entregar en <strong>{order.userDeliveryPoint.address.street} {order.userDeliveryPoint.address.number}, {order.userDeliveryPoint.address.department} {order.userDeliveryPoint.address.state}</strong></Text>
       }
       <Separator />
       <OrderSubtitle>Detalles</OrderSubtitle>
