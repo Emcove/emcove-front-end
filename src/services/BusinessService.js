@@ -111,9 +111,10 @@ class BusinessService {
     }
   }
 
-  async updateOrderStatus(orderId, newStatus) {
+  async updateOrderStatus(orderId, newStatus, deliveryPointId = -1) {
     try {
-      const response = await axios.post(`${API_URL}/entrepreneurships/orders/${orderId}/orderTracking?newOrderState=${newStatus}`, {}, { headers: {
+      const response = await axios.post(`${API_URL}/entrepreneurships/orders/${orderId}/orderTracking?newOrderState=${newStatus}&deliveryPointId=${deliveryPointId}`,
+      {}, { headers: {
         authorization: localStorage.getItem('token'),
       }});
 
@@ -126,6 +127,18 @@ class BusinessService {
   async createBusinessCalendar(businessId, calendarId) {
     try {
       const response = await axios.post(`${API_URL}/entrepreneurships/${businessId}/calendar?calendarId=${calendarId}`, {}, { headers: {
+        authorization: localStorage.getItem('token'),
+      }});
+
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  }
+
+  async addDeliveryPoint(deliveryPoint) {
+    try {
+      const response = await axios.post(`${API_URL}/entrepreneurships/deliveryPoints`, deliveryPoint, { headers: {
         authorization: localStorage.getItem('token'),
       }});
 

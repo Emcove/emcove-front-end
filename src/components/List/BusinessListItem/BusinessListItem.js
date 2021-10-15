@@ -70,7 +70,6 @@ const ListGroup = styled.div`
 
 const BusinessListItem = ({ business }) => {
   const history = useHistory();
-  console.log(business);
 
   const { name, logo, city, reputation, categories } = business;
   return (

@@ -165,7 +165,7 @@ const Icons = ({ type, className }) => {
     case 'reputation-1': 
       return (
         <svg className={className} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 512 512" style={{"enable-background":"new 0 0 512 512"}} space="preserve">
+          viewBox="0 0 512 512" style={{"enableBackground":"new 0 0 512 512"}} space="preserve">
           <circle style={{"fill":"#FFE17D"}} cx="256" cy="256" r="256"/>
           <path style={{"fill":"#7D5046"}} d="M169.29,280.774L169.29,280.774c-11.402,0-20.645-9.243-20.645-20.645v-16.516
             c0-11.402,9.243-20.645,20.645-20.645l0,0c11.402,0,20.645,9.243,20.645,20.645v16.516
@@ -198,7 +198,7 @@ const Icons = ({ type, className }) => {
     case 'reputation-2':
       return (
         <svg className={className} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 512 512" style={{"enable-background":"new 0 0 512 512"}} space="preserve">
+          viewBox="0 0 512 512" style={{"enableBackground":"new 0 0 512 512"}} space="preserve">
           <circle style={{"fill":"#FFE17D"}} cx="256" cy="256" r="256"/>
           <path style={{"fill":"#7D5046"}} d="M169.29,256L169.29,256c-11.402,0-20.645-9.243-20.645-20.645v-16.516
             c0-11.402,9.243-20.645,20.645-20.645l0,0c11.402,0,20.645,9.243,20.645,20.645v16.516C189.935,246.757,180.692,256,169.29,256z"/>
@@ -220,7 +220,7 @@ const Icons = ({ type, className }) => {
     case 'reputation-3':
       return (
         <svg className={className} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 512 512" style={{"enable-background":"new 0 0 512 512"}} space="preserve">
+          viewBox="0 0 512 512" style={{"enableBackground":"new 0 0 512 512"}} space="preserve">
           <circle style={{"fill":"#FFE17D"}} cx="256" cy="256" r="256"/>
           <circle style={{"fill":"#FFFFFF"}} cx="165.16" cy="214.71" r="66.06"/>
           <path style={{"fill":"#FFD164"}} d="M293.161,474.839c-141.385,0-256-114.615-256-256c0-61.227,21.521-117.411,57.376-161.463
@@ -236,7 +236,7 @@ const Icons = ({ type, className }) => {
     case 'reputation-4':
       return (
         <svg className={className} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 512 512" style={{"enable-background":"new 0 0 512 512"}} space="preserve">
+          viewBox="0 0 512 512" style={{"enableBackground":"new 0 0 512 512"}} space="preserve">
           <circle style={{"fill":"#FFE17D"}} cx="256" cy="256" r="256"/>
           <path style={{"fill":"#AA7346"}} d="M256,381.935c-35.524,0-69.234-13.597-90.177-36.367c-3.863-4.194-3.589-10.726,0.605-14.585
             c4.194-3.859,10.734-3.589,14.589,0.609C198.121,350.19,226.153,361.29,256,361.29s57.879-11.101,74.984-29.698
@@ -257,7 +257,7 @@ const Icons = ({ type, className }) => {
     case 'reputation-5':
       return (
         <svg className={className} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 512 512" style={{"enable-background": "new 0 0 512 512"}} space="preserve">
+          viewBox="0 0 512 512" style={{"enableBackground": "new 0 0 512 512"}} space="preserve">
           <circle style={{"fill":"#FFE17D"}} cx="256" cy="256" r="256"/>
           <path style={{"fill":"#FFD164"}} d="M293.161,474.839c-141.385,0-256-114.615-256-256c0-61.227,21.521-117.411,57.376-161.463
             C36.863,104.316,0,175.842,0,256c0,141.385,114.615,256,256,256c80.159,0,151.685-36.864,198.626-94.538

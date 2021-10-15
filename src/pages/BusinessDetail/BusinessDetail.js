@@ -20,6 +20,7 @@ import Modal from "../../components/Modal";
 import Button from "../../components/Button";
 import Snackbar from "../../components/Snackbar";
 import CategoriesList from "../../components/CategoriesList";
+import Location from "../../components/Location";
 
 import ProductDetail from "./components/ProductDetail";
 import SubscriptionDetail from "./components/SubscriptionDetail";
@@ -191,6 +192,8 @@ const BusinessDetail = () => {
   const location = useLocation();
   const params = useParams();
 
+  const loggedUser = UserData.getUserFromStorage();
+
   const app_id = "388558709649689";
   const { collection_status, plan } = queryString.parse(location.search);
 
@@ -207,6 +210,8 @@ const BusinessDetail = () => {
   
   const [isUserBusiness, setIsUserBusiness] = useState(false);
   const [order, setOrder] = useState(undefined);
+
+  const [locationModal, showLocationModal] = useState(false);
     
   useEffect(() => {
     const userBusiness = UserData.isUserBusiness(params.business);
@@ -251,8 +256,12 @@ const BusinessDetail = () => {
 
   const sendOrder = () => {
     setLoading(true);
+    let orderObj = { ...order };
+    if (business.doesShipments && loggedUser.deliveryPoints[0]) {
+        orderObj.userDeliveryPoint = loggedUser.deliveryPoints[0];
+    }
 
-    BusinessService.sendOrder(order, business.id).then(response => {
+    BusinessService.sendOrder(orderObj, business.id).then(response => {
       setLoading(false);
 
       if (response.status === 200) {
@@ -352,6 +361,11 @@ const BusinessDetail = () => {
             }
             <Text>{`Localidad: ${business.city}`}</Text>
             <Text>{shipmentText}</Text>
+            {isUserBusiness &&
+            <LinkContainer>
+                <Link bold onClick={() => showLocationModal(true)}>Gestionar puntos de entrega</Link>
+            </LinkContainer>
+            }
             {business.googleCalendarId &&
             <LinkContainer>
               <Link bold onClick={() => openAvailabilityModal(true)}>Ver disponibilidad del negocio</Link>
@@ -406,6 +420,7 @@ const BusinessDetail = () => {
         <Modal open={availabilityModal} setVisibility={openAvailabilityModal} minWidth="40%">
           <Calendar business={business} />
         </Modal>
+        <Location visible={locationModal} closeModal={showLocationModal} businessLocations locations={business.deliveryPoints} />
         </>
       }
       </Layout>

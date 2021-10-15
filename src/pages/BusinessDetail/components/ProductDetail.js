@@ -132,7 +132,6 @@ const ProductDetail = ({ product }) => {
       price: parseFloat(chosenValues[1]) || 0,
       description: chosenValues[0],
     };
-    console.log(props);
 
     const extraPrice = Object.keys(props).length === 1 ? props[Object.keys(props)[0]].price : Object.keys(props)
     .reduce((prevValue, currValue) => props[prevValue].price + props[currValue].price);

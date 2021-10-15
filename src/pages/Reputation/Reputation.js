@@ -16,7 +16,6 @@ import ReputationGraphic from './components/ReputationGraphic';
 import { colors } from '../../styles/palette';
 
 import UserService from '../../services/UserService';
-import UserData from "../../utils";
 
 const Subtitle = styled.h2 `
   font-size: 18px;
@@ -69,7 +68,6 @@ const Reputation = ({ username }) => {
         fetchBusinessReputation(id).then(response => {
           setLoading(false);
           setReputation(response.data);
-          console.log(reputation.comments)
         });
         break;
       case "business-orders":
