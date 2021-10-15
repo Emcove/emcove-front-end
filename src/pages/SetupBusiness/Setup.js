@@ -19,6 +19,7 @@ import Loading from '../../components/Loading';
 import ProductsList from './components/ProductsList';
 import Categories from './components/CategoriesCard';
 import ProductInput from './components/ProductInput';
+import FacebookWizard from './components/FacebookWizard';
 
 import { colors } from '../../styles/palette';
 
@@ -49,7 +50,11 @@ const TextInputContainer = styled.div`
   width: 25%;
 `;
 
-// Acá deberíamos hacer un fetch en caso de que el usuario quiera editar un emprendimiento
+const ButtonContainer = styled.div`
+  margin-top: 12px;
+  font-size: 0;
+`;
+
 const Setup = () => {
   const location = useLocation();
   const history = useHistory();
@@ -70,6 +75,7 @@ const Setup = () => {
   const [snackbarData, setSnackbarData] = useState({});
 
   const [modalProductVisible, setModalVisible] = useState(false);
+  const [modalFb, setModalFbVisible] = useState(false);
 
   const [isLoading, setLoading] = useState(false);
 
@@ -78,7 +84,6 @@ const Setup = () => {
   useEffect(() => {
     if (from === "businessDetail"){
       setLoading(true);
-
       setIsUpdate(true);
 
       BusinessService.getLoggedBusiness().then(response => {
@@ -169,7 +174,7 @@ const Setup = () => {
   return (
     <Layout>
       {isLoading && <Loading backgroundColor="transparent" />}
-      <BusinessProvider value={{ isUpdate, name, logo, city, categories, products, addNewProduct, updateProducts }}>
+      <BusinessProvider value={{ isUpdate, name, logo, city, categories, products, pageId, setPageId, addNewProduct, updateProducts }}>
         <Content>          
           <div className="setup-business__essentials">
             <ImageUploader
@@ -205,16 +210,9 @@ const Setup = () => {
                 checked={doesShipments}
                 onClick={() => setDoesShipments(!doesShipments)}
               />
-              <TextInputContainer>
-                <TextInput
-                  id="facebook_page_id"
-                  value={pageId}
-                  required={false}
-                  type="text"
-                  onChange={setPageId}
-                  placeholder="Id página de facbook"
-                />
-              </TextInputContainer>
+              <ButtonContainer>
+                <Button primary onClick={() => setModalFbVisible(true)}>Configurar Facebook Messenger</Button>
+              </ButtonContainer>
             </div>
           </div>
           <div className="setup-business__properties">
@@ -232,6 +230,7 @@ const Setup = () => {
         <Modal className="new-product__modal" open={modalProductVisible} setVisibility={setModalVisible} minWidth="800px">
           <ProductInput />
         </Modal>
+        <FacebookWizard visible={modalFb} handleVisibility={setModalFbVisible} />
       </BusinessProvider>
     </Layout>
   );
