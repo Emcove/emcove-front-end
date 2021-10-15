@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ReactLoading from "react-loading";
-
 import styled, { css } from "styled-components";
 
 import { useHistory } from "react-router-dom";
@@ -16,20 +14,12 @@ import Icon from "../../components/Icons";
 import Modal from "../../components/Modal";
 import FeedbackForm from "../../components/FeedbackForm";
 import OrderDetail from "../../components/OrderDetail";
+import ListSkeleton from "../../components/List/ListSkeleton";
 
 import { colors } from "../../styles/palette";
 
 import UserService from '../../services/UserService';
 import BusinessService from "../../services/BusinessService"
-
-
-const Loading = styled.div`
-  width: 100%;
-  padding: 15% 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const Container = styled.div`
   width: 100%;
@@ -66,7 +56,7 @@ const OrderData = styled.div`
 `;
 
 const Product = styled.p`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   color: ${colors.textColor};
   margin: 0 0 4px;
@@ -227,18 +217,12 @@ const Orders = () => {
   return (
     <Layout>
       <Container className="orders__container">
-      {isLoading && 
-          <Loading>
-            <ReactLoading className="login-button__loading" type="spin" color={colors.primary} height="10%" width="10%" />
-          </Loading>
-        }
-        { !isLoading &&
-        <>
-        <Link onClick={() => history.push('/home')}>Volver a la home</Link>
+        <Link onClick={() => history.push('/home')} goBackHome>Volver a la home</Link>
         <Title>Pedidos que hice</Title>
         <OrdersContainer>
-          {!orders.length && <Product>No encontramos pedidos realizados en tu cuenta</Product>}
-          {!!orders.length && orders.map(order => (
+          {isLoading && <ListSkeleton businessList squaredImage tertiaryData />}
+          {!isLoading && !orders.length && <Product>No encontramos pedidos realizados en tu cuenta</Product>}
+          {!isLoading && !!orders.length && orders.map(order => (
             <SingleOrder key={order.id}>
               <Card alignment="space-between" animated onClick={() => openOrderDetailModal(order)}>
                 <Group>
@@ -276,8 +260,6 @@ const Orders = () => {
             </SingleOrder>
           ))}
         </OrdersContainer>
-        </>
-        }
       </Container>
       <Modal key="order-detail-modal" open={detailModalVisible} setVisibility={setDetailModalVisible} minWidth="40%">
           {order && <OrderDetail order={order} buyerView={true} />}

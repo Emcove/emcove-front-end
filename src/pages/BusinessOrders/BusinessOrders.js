@@ -108,7 +108,6 @@ const BusinessOrders = () => {
 
   const updateOrderStatus = (newStatus, deliveryPointId) => {
     const updatedOrders = [ ...orders ];
-    debugger;
     setLoading(true);
     BusinessService.updateOrderStatus(evaluatedOrder.id, newStatus, deliveryPointId).then(response => {
       if (response.status === 200) {

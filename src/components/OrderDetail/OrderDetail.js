@@ -92,7 +92,21 @@ const Image = styled.img`
 `;
 
 const OrderDetail = ({ order, buyerView = false }) => {
-  const { id, product, createDate, updateDate, currentState, details, totalPrice, productSnapshot, user, entrepreneurship, userDeliveryPoint } = order;
+  const {
+    id,
+    product,
+    createDate,
+    updateDate,
+    currentState,
+    details,
+    totalPrice,
+    productSnapshot,
+    user,
+    entrepreneurship,
+    userDeliveryPoint,
+    entrepreneurshipDeliveryPoint,
+  } = order;
+
   const images = product.images.map(image => image.image);
   console.log(order);
   return (
@@ -102,6 +116,11 @@ const OrderDetail = ({ order, buyerView = false }) => {
       {buyerView && <OrderSubtitle>Pedido para {entrepreneurship.name}</OrderSubtitle>}
       <Text>{buyerView ? "Enviado" : "Recibido"} el {createDate}</Text>
       <Text>Última actualización <strong>{updateDate}</strong> a <strong>{currentState.replaceAll('_', ' ')}</strong></Text>
+      {buyerView && entrepreneurshipDeliveryPoint && currentState === "LISTO_PARA_ENTREGAR" && (!entrepreneurship.doesShipments || (entrepreneurship.doesShipments && !userDeliveryPoint)) &&
+        <div>
+          <PropText>Retirar en <strong>{entrepreneurshipDeliveryPoint.address.street} {entrepreneurshipDeliveryPoint.address.number}, {entrepreneurshipDeliveryPoint.address.department} {entrepreneurshipDeliveryPoint.address.state}</strong></PropText>
+        </div>
+      }
       { buyerView &&
         <>
           <Separator />
@@ -109,7 +128,7 @@ const OrderDetail = ({ order, buyerView = false }) => {
         </>
       }
       { !buyerView && entrepreneurship.doesShipments && userDeliveryPoint &&
-        <Text>A entregar en <strong>{order.userDeliveryPoint.address.street} {order.userDeliveryPoint.address.number}, {order.userDeliveryPoint.address.department} {order.userDeliveryPoint.address.state}</strong></Text>
+        <Text>A entregar en <strong>{userDeliveryPoint.address.street} {userDeliveryPoint.address.number}, {userDeliveryPoint.address.department} {userDeliveryPoint.address.state}</strong></Text>
       }
       <Separator />
       <OrderSubtitle>Detalles</OrderSubtitle>
