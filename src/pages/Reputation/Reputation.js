@@ -16,7 +16,6 @@ import ReputationGraphic from './components/ReputationGraphic';
 import { colors } from '../../styles/palette';
 
 import UserService from '../../services/UserService';
-import UserData from "../../utils";
 
 const Subtitle = styled.h2 `
   font-size: 18px;

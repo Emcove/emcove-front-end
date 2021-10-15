@@ -13,6 +13,7 @@ import Snackbar from '../Snackbar';
 import { colors } from '../../styles/palette';
 
 import BusinessService from '../../services/BusinessService';
+import UserService from '../../services/UserService';
 
 const Container = styled.div`
   width: 100%;
@@ -27,6 +28,11 @@ const Group = styled.div`
     position: absolute;
     bottom: 52px;
     right: 40px;
+  `}
+
+  ${props => props.hidden && css `
+     visibility: hidden;
+     height: 32px;
   `}
 `;
 
@@ -46,14 +52,12 @@ const Text = styled.span`
   color: ${colors.textColor};
 `;
 
-const Location = ({ visible, closeModal, businessLocations, locations = [] }) => {
+const Location = ({ visible, closeModal, businessLocations, locations = [], limit = 4 }) => {
   const [address, setAddress] = useState('');
   const [chosenAddress, setChosenAddress] = useState(undefined);
   const [addressList, setAddressList] = useState(locations);
   const [isLoading, setLoading] = useState(false);
   const [snackbarData, setSnackbarData] = useState({ show: false });
-
-  console.log(locations);
 
   const google = window.google;
   const options = {
@@ -84,9 +88,11 @@ const Location = ({ visible, closeModal, businessLocations, locations = [] }) =>
 
   const addNewLocation = () => {
     if (chosenAddress) {
-      setAddressList([...addressList, chosenAddress]);
-      setAddress('');
-      setChosenAddress(undefined);
+      if (addressList.length + 1 <= limit) {
+        setAddressList([...addressList, chosenAddress]);
+        setAddress('');
+        setChosenAddress(undefined);
+      }
     }
   };
 
@@ -98,14 +104,13 @@ const Location = ({ visible, closeModal, businessLocations, locations = [] }) =>
   };
 
   const handleCancel = () => {
-    setAddress([]);
     setChosenAddress(undefined);
-    setAddressList([]);
     closeModal(false);
   };
 
   const saveDeliveryPoints = () => {
     setLoading(true);
+    const Service = businessLocations ? BusinessService : UserService;
     const promises = addressList.map(addressItem => {
       if (addressItem.displayName) {
         const requestObject = {
@@ -123,7 +128,7 @@ const Location = ({ visible, closeModal, businessLocations, locations = [] }) =>
           attentionAvailability: ["", ""],
         };
 
-        return BusinessService.addDeliveryPoint(requestObject);
+        return Service.addDeliveryPoint(requestObject);
       }
 
       return null;
@@ -137,17 +142,23 @@ const Location = ({ visible, closeModal, businessLocations, locations = [] }) =>
           message: businessLocations ? "Ocurrió un error guardando tus puntos de entrega, por favor intentá nuevamente." : "Ocurrió un error guardando tu dirección de entrega, intentá nuevamente.",
           type: "error",
         });
+
+        setTimeout(() => {
+          setSnackbarData({ show: false });
+        }, 2000);
       } else {
         setSnackbarData({
           show: true,
           message: businessLocations ? "Puntos de entrega guardados con éxito." : "Dirección guardada correctamente.",
           type: "success",
         });
+
+        setTimeout(() => {
+          handleCancel();
+          setSnackbarData({ show: false });
+        }, 2000);
       }
 
-      setTimeout(() => {
-        setSnackbarData({ show: false });
-      }, 2000);
       setLoading(false);
     });
   };
@@ -156,9 +167,11 @@ const Location = ({ visible, closeModal, businessLocations, locations = [] }) =>
     <Modal open={visible} minWidth="70%" setVisibility={handleCancel}>
       <Container>
         <Subtitle>Agregar puntos de entrega</Subtitle>
-        {businessLocations && <Text>Agregá o quitá las direcciones que quieras disponibilizar para que tus clientes retiren sus pedidos.</Text>}
-        {!businessLocations && <Text>Agregá o quitá tu dirección para que los emprendedores que hagan envíos te hagan llegar tu pedido.</Text>}
-        <Group className="first-group">
+        {businessLocations && <Text>Agregá las direcciones que quieras disponibilizar para que tus clientes retiren sus pedidos.</Text>}
+        {businessLocations && limit <= addressList.length  && <Text>Estas son las direcciones que tenés disponibles para que tus clientes retiren sus pedidos.</Text>}
+        {!businessLocations && limit > addressList.length && <Text>Agregá tu dirección para que los emprendedores que hagan envíos te hagan llegar tus pedidos.</Text>}
+        {!businessLocations && limit <= addressList.length && <Text>Esta es la dirección en la que los emprendedores te van a hacer llegar tus pedidos en caso de que realicen envíos.</Text>}
+        <Group className="first-group" hidden={limit <= addressList.length}>
           <TextInput
             id="locationInput"
             label="Dirección del punto de entrega"
@@ -192,7 +205,7 @@ const Location = ({ visible, closeModal, businessLocations, locations = [] }) =>
             {!isLoading && "Guardar"}
             {isLoading && <Loading component />}
           </Button>
-          <Button secondary disabled={isLoading} onClick={() => handleCancel()}>Cancelar</Button>
+          <Button secondary disabled={isLoading} onClick={() => handleCancel()}>{limit <= addressList.length ? "Cerrar" : "Cancelar"}</Button>
         </Group>
       </Container>
       <Snackbar message={snackbarData.message} show={snackbarData.show} type={snackbarData.type} />

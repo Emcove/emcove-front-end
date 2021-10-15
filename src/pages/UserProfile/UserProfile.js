@@ -278,7 +278,7 @@ const UserProfile = () => {
             />
           </ImageContainer>
           <LinkContainer className="delivery-points__button">
-            <Link bold onClick={() => showLocationModal(true)}>Agregar o editar puntos de entrega</Link>
+            <Link bold onClick={() => showLocationModal(true)}>Agregar/ver dirección de entrega</Link>
           </LinkContainer>
           <Card vertical>
             <InputGroup>
@@ -400,7 +400,7 @@ const UserProfile = () => {
         </DataContainer>
       </Container>
       <Snackbar type={snackbarData.type} message={snackbarData.message} show={snackbarData.show} />
-      <Location visible={locationModal} closeModal={showLocationModal} />
+      <Location visible={locationModal} closeModal={showLocationModal} limit={1} locations={loggedUser.deliveryPoints} />
     </Layout>
     </>
   );
