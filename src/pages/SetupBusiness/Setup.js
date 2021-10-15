@@ -50,6 +50,11 @@ const TextInputContainer = styled.div`
   width: 25%;
 `;
 
+const ButtonContainer = styled.div`
+  margin-top: 12px;
+  font-size: 0;
+`;
+
 const Setup = () => {
   const location = useLocation();
   const history = useHistory();
@@ -205,9 +210,9 @@ const Setup = () => {
                 checked={doesShipments}
                 onClick={() => setDoesShipments(!doesShipments)}
               />
-              <TextInputContainer>
+              <ButtonContainer>
                 <Button primary onClick={() => setModalFbVisible(true)}>Configurar Facebook Messenger</Button>
-              </TextInputContainer>
+              </ButtonContainer>
             </div>
           </div>
           <div className="setup-business__properties">
