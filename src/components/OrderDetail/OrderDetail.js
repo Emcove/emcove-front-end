@@ -17,6 +17,10 @@ const Group = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  ${props => props.flexStart && css `
+    justify-content: flex-start;
+  `}
 `;
 
 const OrderTitle = styled.h1`
@@ -91,6 +95,20 @@ const Image = styled.img`
   display: inline;
 `;
 
+const InfoIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: ${colors.white};
+  background-color: ${colors.primary};
+  padding: 4px;
+  width: 14px;
+  border-radius: 100%;
+  font-size: 11px;
+  margin-right: 12px;
+`;
+
 const OrderDetail = ({ order, buyerView = false }) => {
   const {
     id,
@@ -117,9 +135,10 @@ const OrderDetail = ({ order, buyerView = false }) => {
       <Text>{buyerView ? "Enviado" : "Recibido"} el {createDate}</Text>
       <Text>Última actualización <strong>{updateDate}</strong> a <strong>{currentState.replaceAll('_', ' ')}</strong></Text>
       {buyerView && entrepreneurshipDeliveryPoint && currentState === "LISTO_PARA_ENTREGAR" && (!entrepreneurship.doesShipments || (entrepreneurship.doesShipments && !userDeliveryPoint)) &&
-        <div>
+        <Group flexStart>
+          <InfoIcon>!</InfoIcon>
           <PropText>Retirar en <strong>{entrepreneurshipDeliveryPoint.address.street} {entrepreneurshipDeliveryPoint.address.number}, {entrepreneurshipDeliveryPoint.address.department} {entrepreneurshipDeliveryPoint.address.state}</strong></PropText>
-        </div>
+        </Group>
       }
       { buyerView &&
         <>
@@ -128,7 +147,10 @@ const OrderDetail = ({ order, buyerView = false }) => {
         </>
       }
       { !buyerView && entrepreneurship.doesShipments && userDeliveryPoint &&
-        <Text>A entregar en <strong>{userDeliveryPoint.address.street} {userDeliveryPoint.address.number}, {userDeliveryPoint.address.department} {userDeliveryPoint.address.state}</strong></Text>
+        <Group flexStart>
+          <InfoIcon>!</InfoIcon>
+          <PropText>A entregar en <strong>{userDeliveryPoint.address.street} {userDeliveryPoint.address.number}, {userDeliveryPoint.address.department} {userDeliveryPoint.address.state}</strong></PropText>
+        </Group>
       }
       <Separator />
       <OrderSubtitle>Detalles</OrderSubtitle>
