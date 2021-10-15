@@ -221,12 +221,8 @@ const BusinessDetail = () => {
         setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
       }
     
-      debugger;
-    
       if (userBusiness) {
-        debugger;
         if (collection_status === "approved") {
-          debugger;
           SubscriptionService.subscribeBusiness(response.data.id, plan).then(response => {
             setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
             setSnackbarData({
