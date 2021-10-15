@@ -3,9 +3,9 @@ import axios from 'axios'
 import { API_URL } from '../Constants'
 
 class SubscriptionService {
-  async getMPPreferences() {
+  async getMPPreferences(businessName) {
     try {
-      const resp =  await axios.get(`${API_URL}/entrepreneurships/subscriptions`, { headers: {
+      const resp =  await axios.get(`${API_URL}/entrepreneurships/subscriptions?businessName=${businessName}`, { headers: {
         authorization: localStorage.getItem('token'),
     }});
       return resp;

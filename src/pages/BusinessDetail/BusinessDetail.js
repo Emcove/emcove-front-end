@@ -209,7 +209,8 @@ const BusinessDetail = () => {
   const [order, setOrder] = useState(undefined);
     
   useEffect(() => {
-    setIsUserBusiness(UserData.isUserBusiness(params.business));
+    const userBusiness = UserData.isUserBusiness(params.business);
+    setIsUserBusiness(userBusiness);
 
     BusinessService.getBusinessByName(params.business).then(response => {
       setBusiness(response.data);
@@ -219,9 +220,13 @@ const BusinessDetail = () => {
       if (response.data.hasSubscription) {
         setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
       }
-
-      if (isUserBusiness) {
+    
+      debugger;
+    
+      if (userBusiness) {
+        debugger;
         if (collection_status === "approved") {
+          debugger;
           SubscriptionService.subscribeBusiness(response.data.id, plan).then(response => {
             setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
             setSnackbarData({
@@ -330,7 +335,7 @@ const BusinessDetail = () => {
             />
             <TitleContainer>
               <Title>{business.name}</Title>
-              {business.hasSubscription !== '0' && isUserBusiness &&
+              {business.hasSubscription !== '0' && isUserBusiness && subExpirationDate &&
                 <SubscriptionInfoContainer>
                   <SubscriptionInfo>Suscripción activa hasta: {subExpirationDate}</SubscriptionInfo>
                 </SubscriptionInfoContainer>
@@ -392,7 +397,7 @@ const BusinessDetail = () => {
           <ProductDetail product={productModal.product}/>
         </Modal>
         <Modal open={modalSubscription} setVisibility={openModalSubscription} minWidth="40%">
-          <SubscriptionDetail />
+          <SubscriptionDetail businessName={business.name} />
         </Modal>
         <Modal open={gCalModal} setVisibility={openGCalModal} minWidth="40%">
           <GoogleCalendarSetup
