@@ -1,6 +1,7 @@
 
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 import { colors } from '../../styles/palette';
 
@@ -109,6 +110,15 @@ const InfoIcon = styled.div`
   margin-right: 12px;
 `;
 
+const Link = styled.a`
+  text-decoration: none;
+  color: ${colors.primary};
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const OrderDetail = ({ order, buyerView = false }) => {
   const {
     id,
@@ -124,14 +134,14 @@ const OrderDetail = ({ order, buyerView = false }) => {
     userDeliveryPoint,
     entrepreneurshipDeliveryPoint,
   } = order;
+  const history = useHistory();
 
   const images = product.images.map(image => image.image);
-  console.log(order);
   return (
     <Container>
       <OrderTitle>Pedido {id} - {product.name}</OrderTitle>
       {!buyerView && <OrderSubtitle>Hecho por {user.name} {user.surname}</OrderSubtitle>}
-      {buyerView && <OrderSubtitle>Pedido para {entrepreneurship.name}</OrderSubtitle>}
+      {buyerView && <OrderSubtitle>Pedido para <Link onClick={() => history.push(`/business/${entrepreneurship.name}`)} >{entrepreneurship.name}</Link></OrderSubtitle>}
       <Text>{buyerView ? "Enviado" : "Recibido"} el {createDate}</Text>
       <Text>Última actualización <strong>{updateDate}</strong> a <strong>{currentState.replaceAll('_', ' ')}</strong></Text>
       {buyerView && entrepreneurshipDeliveryPoint && currentState === "LISTO_PARA_ENTREGAR" && (!entrepreneurship.doesShipments || (entrepreneurship.doesShipments && !userDeliveryPoint)) &&
