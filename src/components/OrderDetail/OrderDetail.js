@@ -133,6 +133,7 @@ const OrderDetail = ({ order, buyerView = false }) => {
     entrepreneurship,
     userDeliveryPoint,
     entrepreneurshipDeliveryPoint,
+    closeReason,
   } = order;
   const history = useHistory();
 
@@ -144,6 +145,7 @@ const OrderDetail = ({ order, buyerView = false }) => {
       {buyerView && <OrderSubtitle>Pedido para <Link onClick={() => history.push(`/business/${entrepreneurship.name}`)} >{entrepreneurship.name}</Link></OrderSubtitle>}
       <Text>{buyerView ? "Enviado" : "Recibido"} el {createDate}</Text>
       <Text>Última actualización <strong>{updateDate}</strong> a <strong>{currentState.replaceAll('_', ' ')}</strong></Text>
+      {currentState === "RECHAZADO" && <Text>Motivo del rechazo: <strong>{closeReason}</strong></Text>}
       {buyerView && entrepreneurshipDeliveryPoint && currentState === "LISTO_PARA_ENTREGAR" && (!entrepreneurship.doesShipments || (entrepreneurship.doesShipments && !userDeliveryPoint)) &&
         <Group flexStart>
           <InfoIcon>!</InfoIcon>
