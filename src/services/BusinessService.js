@@ -48,10 +48,6 @@ class BusinessService {
     }
   }
 
-  async getOtherBusinessReputation(businessId) {
-
-  }
-
   async getAllBusiness(data) {
     try {
       let resp;
@@ -111,9 +107,9 @@ class BusinessService {
     }
   }
 
-  async updateOrderStatus(orderId, newStatus, deliveryPointId = -1) {
+  async updateOrderStatus(orderId, newStatus, deliveryPointId = -1, closeReason) {
     try {
-      const response = await axios.post(`${API_URL}/entrepreneurships/orders/${orderId}/orderTracking?newOrderState=${newStatus}&deliveryPointId=${deliveryPointId}`,
+      const response = await axios.post(`${API_URL}/entrepreneurships/orders/${orderId}/orderTracking?newOrderState=${newStatus}&deliveryPointId=${deliveryPointId}&closeReason=${closeReason}`,
       {}, { headers: {
         authorization: localStorage.getItem('token'),
       }});
