@@ -1,19 +1,82 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 
 import Title from "../../../components/Title";
+import Button from "../../../components/Button";
+
+import { colors } from "../../../styles/palette";
 
 const Container = styled.div`
+  position: relative;
   margin-bottom: 40px;
+  width: 100%;
+`;
+
+const EventContainer = styled.div`
+  background-color: ${colors.error};
+  border-radius: 4px;
+  width: 100%;
+  padding: 4px 8px;
+`;
+
+const EventTitle = styled.span`
+  color: ${colors.white};
+  font-weight: 600;
+`;
+
+const DayPopup = styled.div`
+  position: absolute;
+  top: 30%;
+  left: auto;
+  right: auto;
+  background-color: ${colors.white};
+  border-radius: 10px;
+  z-index: 21;
+  padding: 20px;
+  box-shadow: 6px 7px 37px -7px rgba(0,0,0,0.59);
+  -webkit-box-shadow: 6px 7px 37px -7px rgba(0,0,0,0.59);
+  -moz-box-shadow: 6px 7px 37px -7px rgba(0,0,0,0.59);
+
+  @media (max-width: 768px) {
+    height: 100vh;
+    width: 100%;
+    top: -28px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+`;
+
+const DayEventContainer = styled.div`
+  display: flex;
+  padding: 4px 0;
+`;
+
+const Text = styled.span`
+  font-size: 16px;
+  color: ${colors.textColor};
+
+  ${props => props.title && css `
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 2;
+  `}
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  align-self: flex-end;
+  margin-top: 24px;
   width: 100%;
 `;
 
 const Calendar = ({ business }) => {
   const [events, setEvents] = useState([]);
+  const [dayPopup, showDayPopUp] = useState(false);
+  const [dayEvents, setDayEvents] = useState([]);
 
   useEffect(() => {
     const gapi = window.gapi;
@@ -32,6 +95,7 @@ const Calendar = ({ business }) => {
             const auxObj = {
               title: "Ocupado",
               date: event.start.dateTime,
+              endTime: event.end.dateTime,
             };
             return auxObj;
           })
@@ -41,18 +105,53 @@ const Calendar = ({ business }) => {
   }, [business.googleCalendarId]);
   
   const handleDateClick = (arg) => {
-    console.log('click: ', arg);
-  }
+    const clickedDate = new Date(arg.date).toLocaleDateString();
+    const dayEvents = events.filter(event => new Date (event.date).toLocaleDateString() === clickedDate);
+    
+    if (!!dayEvents.length) {
+      setDayEvents(dayEvents);
+      showDayPopUp(true);
+    }
+  };
+
+  const renderEventContent = (event) => (
+    <EventContainer>
+      <EventTitle>{event.event.title}</EventTitle>
+    </EventContainer>
+  )
 
   return (
     <Container className="calendar-container">
       <Title>Disponibilidad de {business.name}</Title>
+      {dayPopup &&
+      <DayPopup>
+        <div>
+        <Text title>Ocupación día {new Date(dayEvents[0].date).toLocaleDateString()}</Text>
+        {dayEvents.map(event => (
+          <DayEventContainer>
+            <Text>
+              {new Date (event.date).getHours()}:{new Date (event.date).getMinutes() < 10 ? `0${new Date (event.date).getMinutes()}` : new Date (event.date).getMinutes()}
+            </Text>
+            <Text>{" - "}</Text>
+            <Text>
+              {new Date (event.endTime).getHours()}:{new Date (event.endTime).getMinutes() < 10 ? `0${new Date (event.endTime).getMinutes()}` : new Date (event.endTime).getMinutes()} No disponible
+            </Text>
+          </DayEventContainer>
+        ))}
+        <ButtonContainer>
+          <Button primary onClick={() => showDayPopUp(false)}>Cerrar</Button>
+        </ButtonContainer>
+        </div>
+      </DayPopup>  
+      }
       <FullCalendar
         plugins={[ dayGridPlugin, interactionPlugin ]}
         initialView="dayGridMonth"
         weekends
         locale="es"
         events={events}
+        eventContent={renderEventContent}
+        dateClick={(e) => handleDateClick(e)}
       />
     </Container>
   );
