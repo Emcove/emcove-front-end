@@ -30,9 +30,9 @@ const EventTitle = styled.span`
 
 const DayPopup = styled.div`
   position: absolute;
-  top: 30%;
-  left: auto;
-  right: auto;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: ${colors.white};
   border-radius: 10px;
   z-index: 21;
@@ -42,11 +42,9 @@ const DayPopup = styled.div`
   -moz-box-shadow: 6px 7px 37px -7px rgba(0,0,0,0.59);
 
   @media (max-width: 768px) {
-    height: 100vh;
     width: 100%;
-    top: -28px;
+    height: 100%;
     border-radius: 0;
-    box-shadow: none;
   }
 `;
 
