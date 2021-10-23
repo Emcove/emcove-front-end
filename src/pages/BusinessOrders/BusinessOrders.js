@@ -106,10 +106,10 @@ const BusinessOrders = () => {
     }, 1000);
   };
 
-  const updateOrderStatus = (newStatus, deliveryPointId) => {
+  const updateOrderStatus = (newStatus, deliveryPointId, reason) => {
     const updatedOrders = [ ...orders ];
     setLoading(true);
-    BusinessService.updateOrderStatus(evaluatedOrder.id, newStatus, deliveryPointId).then(response => {
+    BusinessService.updateOrderStatus(evaluatedOrder.id, newStatus, deliveryPointId, reason).then(response => {
       if (response.status === 200) {
         updatedOrders.splice(orders.indexOf(evaluatedOrder), 1, response.data);
         setOrders(updatedOrders);
@@ -156,7 +156,7 @@ const BusinessOrders = () => {
         {evaluatedOrder &&
           <StatusUpdateComponent
             order={evaluatedOrder}
-            handleAccept={(newStatus, deliveryPointId) => updateOrderStatus(newStatus, deliveryPointId)}
+            handleAccept={(newStatus, deliveryPointId, reason) => updateOrderStatus(newStatus, deliveryPointId, reason)}
             handleCancel={() => { setOrderStatusModalVisibility(false); setEvaluatedOrder(null); }}
             deliveryPoints={user.entrepreneurship.deliveryPoints}
           />

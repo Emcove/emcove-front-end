@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import Subtitle from "../../../components/Subtitle";
 import Dropdown from "../../../components/Dropdown";
 import Button from "../../../components/Button";
+import TextInput from "../../../components/TextInput";
 
 import { buildPossibleStatusForOrder } from "../utils";
 import { colors } from "../../../styles/palette";
@@ -76,7 +77,8 @@ const ShipmentBox = styled.div`
 const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoints }) => {
   const [selectedStatus, updateSelectedStatus] = useState('');
   const [selectedAddressIdx, setSelectedAddressIdx] = useState(-1);
-  console.log('order on status update componet', order);
+  const [reason, setReason] = useState('');
+
   return (
     <ModalContent>
       <Subtitle fontSize="24px">Actualizar estado del pedido Nº {order.id}</Subtitle>
@@ -108,7 +110,18 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoin
             {order.userDeliveryPoint.address.street} {order.userDeliveryPoint.address.number}, {order.userDeliveryPoint.address.department} {order.userDeliveryPoint.address.state}
           </Text>
         </ShipmentBox>
-      }      
+      }
+      {selectedStatus === 'RECHAZADO' &&
+        <TextInput 
+          id="reject-reason"
+          value={reason}
+          placeholder="Motivo del rechazo, cambios y/o sugerencias para poder aprobar el pedido."
+          onChange={setReason}
+          type="text"
+          label="Motivo"
+          multiline
+        />
+      }     
       <ButtonsContainer>
         <Button
           backgroundColor="transparent"
@@ -121,7 +134,7 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoin
         <Button
           primary
           large
-          onClick={()=> handleAccept(selectedStatus.replaceAll(' ', '_'), deliveryPoints[selectedAddressIdx]?.id)}
+          onClick={()=> handleAccept(selectedStatus.replaceAll(' ', '_'), deliveryPoints[selectedAddressIdx]?.id, reason)}
         >
           Aceptar
         </Button>
