@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import Subtitle from "../../../components/Subtitle";
 import Dropdown from "../../../components/Dropdown";
 import Button from "../../../components/Button";
+import TextInput from "../../../components/TextInput";
 
 import { buildPossibleStatusForOrder } from "../utils";
 import { colors } from "../../../styles/palette";
@@ -75,6 +76,7 @@ const ShipmentBox = styled.div`
 
 const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoints }) => {
   const [selectedStatus, updateSelectedStatus] = useState('');
+  const [reason, setReason] = useState('');
   const [selectedAddressIdx, setSelectedAddressIdx] = useState(deliveryPoints.length === 1 ? 0 : -1);
 
   const onAcceptClick = () => {
@@ -84,7 +86,7 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoin
       deliveryPointId = order.userDeliveryPoint.id;
     }
 
-    handleAccept(selectedStatus.replaceAll(' ', '_'), deliveryPointId);
+    handleAccept(selectedStatus.replaceAll(' ', '_'), deliveryPointId, reason);
   }
 
   return (
@@ -118,7 +120,18 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoin
             {order.userDeliveryPoint.address.street} {order.userDeliveryPoint.address.number}, {order.userDeliveryPoint.address.department} {order.userDeliveryPoint.address.state}
           </Text>
         </ShipmentBox>
-      }      
+      }
+      {selectedStatus === 'RECHAZADO' &&
+        <TextInput 
+          id="reject-reason"
+          value={reason}
+          placeholder="Motivo del rechazo, cambios y/o sugerencias para poder aprobar el pedido."
+          onChange={setReason}
+          type="text"
+          label="Motivo"
+          multiline
+        />
+      }     
       <ButtonsContainer>
         <Button
           backgroundColor="transparent"
