@@ -76,8 +76,18 @@ const ShipmentBox = styled.div`
 
 const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoints }) => {
   const [selectedStatus, updateSelectedStatus] = useState('');
-  const [selectedAddressIdx, setSelectedAddressIdx] = useState(-1);
   const [reason, setReason] = useState('');
+  const [selectedAddressIdx, setSelectedAddressIdx] = useState(deliveryPoints.length === 1 ? 0 : -1);
+
+  const onAcceptClick = () => {
+    let deliveryPointId = deliveryPoints[selectedAddressIdx]?.id; 
+    
+    if (selectedStatus === 'LISTO PARA ENTREGAR' && order.userDeliveryPoint && order.entrepreneurship.doesShipments) {
+      deliveryPointId = order.userDeliveryPoint.id;
+    }
+
+    handleAccept(selectedStatus.replaceAll(' ', '_'), deliveryPointId, reason);
+  }
 
   return (
     <ModalContent>
@@ -90,7 +100,7 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoin
         options={buildPossibleStatusForOrder(order)}
         onClickOption={(status) => updateSelectedStatus(status)}
       />
-      {selectedStatus === 'LISTO PARA ENTREGAR' && !!deliveryPoints.length && (!order.userDeliveryPoint && order.entrepreneurship.doesShipments) &&
+      {selectedStatus === 'LISTO PARA ENTREGAR' && !!deliveryPoints.length && !order.userDeliveryPoint &&
       <>
       <Text>Elegí la dirección en donde deben retirar el pedido:</Text>
       <DeliveryPointsList>
@@ -134,7 +144,7 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoin
         <Button
           primary
           large
-          onClick={()=> handleAccept(selectedStatus.replaceAll(' ', '_'), deliveryPoints[selectedAddressIdx]?.id, reason)}
+          onClick={()=> onAcceptClick()}
         >
           Aceptar
         </Button>

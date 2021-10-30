@@ -417,7 +417,7 @@ const BusinessDetail = () => {
             handleError={calendarError}
           />
         </Modal>
-        <Modal open={availabilityModal} setVisibility={openAvailabilityModal} minWidth="40%">
+        <Modal open={availabilityModal} setVisibility={openAvailabilityModal} minWidth="70%">
           <Calendar business={business} />
         </Modal>
         <Location visible={locationModal} closeModal={showLocationModal} businessLocations locations={business.deliveryPoints} />

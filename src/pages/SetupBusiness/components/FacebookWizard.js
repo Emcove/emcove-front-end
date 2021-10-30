@@ -94,8 +94,8 @@ const FacebookWizard = ({ visible, handleVisibility }) => {
       <Content>
         <Subtitle>Agregar Facebook Messenger</Subtitle>
         <Container visible={step === 1}>
-          <Text>Vamos a configurar Facebook Messenger para la página de tu emprendimiento.</Text>
-          <Text>Primero, necesitás tener una página de Facebook de empresa. Si ya tenés, hacé click en "Listo".</Text>
+          <Text>Vamos a configurar Facebook Messenger para la página de tu emprendimiento en 3 simples pasos.</Text>
+          <Text>Primero, necesitás tener una página de Facebook de empresa. Si ya tenés, hacé click en "Siguiente".</Text>
           <Text>En caso de no tener, podés crear una desde <Link href="https://www.facebook.com/pages/creation/?ref_type=facebook_business_website" target="_blank" rel="noreferrer">acá.</Link></Text>
         </Container>
 

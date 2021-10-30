@@ -39,12 +39,15 @@ const Group = styled.div`
 const AddressItem = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 10px 12px;
-  border-bottom: solid 1px ${colors.grayBorder};
+  align-items: flex-end;
+  padding: 10px 0px;
+  width: 100%;
 `;
 
-const AddressList = styled.div``;
+const AddressList = styled.div`
+  align-items: center;
+  width: 100%;
+`;
 
 const Text = styled.span`
   font-size: 16px;
@@ -52,8 +55,22 @@ const Text = styled.span`
   color: ${colors.textColor};
 `;
 
+const AddressText = styled.span`
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  font-size: 16px;
+  line-height: 1.25;
+  color: ${colors.textColor};
+  border-bottom: solid 1px ${colors.grayBorder};
+  margin-right: 16px;
+  padding: 4px 10px;
+  width: 100%;
+`;
+
 const Location = ({ visible, closeModal, businessLocations, locations = [], limit = 4 }) => {
   const [address, setAddress] = useState('');
+  const [description, setDescription] = useState('');
   const [chosenAddress, setChosenAddress] = useState(undefined);
   const [addressList, setAddressList] = useState(locations);
   const [isLoading, setLoading] = useState(false);
@@ -65,6 +82,7 @@ const Location = ({ visible, closeModal, businessLocations, locations = [], limi
     fields: ["formatted_address", "address_components"],
     strictBounds: false,
   };
+
   const input = document.getElementById("locationInput");
   const autocomplete = new google.maps.places.Autocomplete(input, options);
   
@@ -89,8 +107,10 @@ const Location = ({ visible, closeModal, businessLocations, locations = [], limi
   const addNewLocation = () => {
     if (chosenAddress) {
       if (addressList.length + 1 <= limit) {
+        chosenAddress.description = description;
         setAddressList([...addressList, chosenAddress]);
         setAddress('');
+        setDescription('');
         setChosenAddress(undefined);
       }
     }
@@ -123,7 +143,8 @@ const Location = ({ visible, closeModal, businessLocations, locations = [], limi
             state: addressItem.administrative_area_level_1 || "",
             department: addressItem.locality || "",
             isHome: true,
-            isWork: false
+            isWork: false,
+            description: addressItem.description
           },
           attentionAvailability: ["", ""],
         };
@@ -180,6 +201,14 @@ const Location = ({ visible, closeModal, businessLocations, locations = [], limi
             onChange={(value) => setAddress(value)}
             placeholder="Ingresá una dirección para el punto de entrega"
           />
+          <TextInput
+            id="descriptionInput"
+            label="Descripción"
+            value={description}
+            type="text"
+            onChange={(value) => setDescription(value)}
+            placeholder="Piso, depto, entre calles..."
+          />
           <Button backgroundColor={colors.success} onClick={addNewLocation} alignment="center">
             <Icon type="check" className="done-button__icon"/>
           </Button>
@@ -188,8 +217,9 @@ const Location = ({ visible, closeModal, businessLocations, locations = [], limi
           <AddressList>
           {addressList.map((add, idx) => (
             <AddressItem key={`${add.displayName}-${idx}`}>
-              {add.displayName && <Text>{add.displayName}</Text>}
-              {!add.displayName && <Text>{add.address.street} {add.address.number}, {add.address.department} {add.address.state}</Text>}
+              {add.displayName && <AddressText>{add.displayName}</AddressText>}
+              {!add.displayName && <AddressText>{add.address.street} {add.address.number}, {add.address.department} {add.address.state}</AddressText>}
+              <AddressText>{add.description}</AddressText>
               {!isLoading && add.displayName &&
                 <Button backgroundColor="transparent" onClick={() => deleteLocation(idx)} alignment="center">
                   <Icon type="cross" className="delete-row__icon" />
