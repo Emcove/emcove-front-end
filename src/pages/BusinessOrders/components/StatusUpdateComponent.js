@@ -79,7 +79,7 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoin
 
   const onAcceptClick = () => {
     let deliveryPointId = deliveryPoints[selectedAddressIdx]?.id; 
-    debugger;
+    
     if (selectedStatus === 'LISTO PARA ENTREGAR' && order.userDeliveryPoint && order.entrepreneurship.doesShipments) {
       deliveryPointId = order.userDeliveryPoint.id;
     }
