@@ -98,7 +98,7 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoin
         options={buildPossibleStatusForOrder(order)}
         onClickOption={(status) => updateSelectedStatus(status)}
       />
-      {selectedStatus === 'LISTO PARA ENTREGAR' && !!deliveryPoints.length && (!order.userDeliveryPoint && order.entrepreneurship.doesShipments) &&
+      {selectedStatus === 'LISTO PARA ENTREGAR' && !!deliveryPoints.length && !order.userDeliveryPoint &&
       <>
       <Text>Elegí la dirección en donde deben retirar el pedido:</Text>
       <DeliveryPointsList>
