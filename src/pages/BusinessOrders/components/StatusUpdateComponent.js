@@ -75,8 +75,18 @@ const ShipmentBox = styled.div`
 
 const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoints }) => {
   const [selectedStatus, updateSelectedStatus] = useState('');
-  const [selectedAddressIdx, setSelectedAddressIdx] = useState(-1);
-  console.log('order on status update componet', order);
+  const [selectedAddressIdx, setSelectedAddressIdx] = useState(deliveryPoints.length === 1 ? 0 : -1);
+
+  const onAcceptClick = () => {
+    let deliveryPointId = deliveryPoints[selectedAddressIdx]?.id; 
+    debugger;
+    if (selectedStatus === 'LISTO PARA ENTREGAR' && order.userDeliveryPoint && order.entrepreneurship.doesShipments) {
+      deliveryPointId = order.userDeliveryPoint.id;
+    }
+
+    handleAccept(selectedStatus.replaceAll(' ', '_'), deliveryPointId);
+  }
+
   return (
     <ModalContent>
       <Subtitle fontSize="24px">Actualizar estado del pedido Nº {order.id}</Subtitle>
@@ -121,7 +131,7 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoin
         <Button
           primary
           large
-          onClick={()=> handleAccept(selectedStatus.replaceAll(' ', '_'), deliveryPoints[selectedAddressIdx]?.id)}
+          onClick={()=> onAcceptClick()}
         >
           Aceptar
         </Button>
