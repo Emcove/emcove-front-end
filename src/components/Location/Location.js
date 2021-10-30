@@ -39,7 +39,7 @@ const Group = styled.div`
 const AddressItem = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   padding: 10px 0px;
   width: 100%;
 `;
