@@ -144,7 +144,7 @@ const BusinessOrders = () => {
         </OrdersContainer>
       </Container>
       <Modal key="feedback-modal" open={modalFeedbackVisible} setVisibility={setModalFeedbackVisible}>
-        {user && user.entrepreneurship &&
+        {user && user.entrepreneurship && evaluatedUser &&
         <FeedbackForm
           evaluatedEntity={evaluatedUser}
           onClickCancel={() => setModalFeedbackVisible(false)}

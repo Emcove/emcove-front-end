@@ -234,7 +234,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus, displayOrderDeta
                   Ver reputación de usuario
                 </OrderOption>
                 {currentState === 'ENTREGADO' &&
-                  <OrderOption key="rate-user" onClick={() => openEvaluationModal(order.business.id)}>Calificar comprador</OrderOption>
+                  <OrderOption key="rate-user" onClick={() => openEvaluationModal(order.user.id)}>Calificar comprador</OrderOption>
                 }
               </Options>
             }
