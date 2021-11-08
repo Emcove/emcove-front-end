@@ -250,7 +250,7 @@ const Orders = () => {
                   <Button  key={order.id} backgroundColor="transparent" onClick={(event) => handleOptionsClick(event, order.id)}>
                     <Icon className="orders__more-options--icon" type="more-options"/>
                   </Button>
-                 {options[order.id].visible &&
+                 {options[order.id].visible && (order.currentState === 'ENTREGADO' || order.currentState === 'CANCELADO' || order.currentState === 'RECHAZADO') &&
                     <Options>
                       <OrderOption onClick={(e) => { handleOptionsClick(e, order.id); openEvaluationModal(order.entrepreneurship.id); }}>Calificar emprendimiento</OrderOption>
                     </Options>
