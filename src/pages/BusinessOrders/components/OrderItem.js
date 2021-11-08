@@ -196,8 +196,8 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus, displayOrderDeta
   const history = useHistory();
   const [options, showOptions] = useState(false);
 
-  const { updateDate, user, productSnapshot, currentState, product } = order;
-  const images = product.images.map(image => image.image);
+  const { updateDate, user, productSnapshot, currentState } = order;
+  const images = productSnapshot.images.map(image => image.image);
 
   return (
     <SingleOrder>
