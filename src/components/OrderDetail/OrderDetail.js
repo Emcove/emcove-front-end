@@ -122,7 +122,6 @@ const Link = styled.a`
 const OrderDetail = ({ order, buyerView = false }) => {
   const {
     id,
-    product,
     createDate,
     updateDate,
     currentState,
@@ -137,10 +136,10 @@ const OrderDetail = ({ order, buyerView = false }) => {
   } = order;
   const history = useHistory();
 
-  const images = product.images.map(image => image.image);
+  const images = productSnapshot.images.map(image => image.image);
   return (
     <Container>
-      <OrderTitle>Pedido {id} - {product.name}</OrderTitle>
+      <OrderTitle>Pedido {id} - {productSnapshot.productName}</OrderTitle>
       {!buyerView && <OrderSubtitle>Hecho por {user.name} {user.surname}</OrderSubtitle>}
       {buyerView && <OrderSubtitle>Pedido para <Link onClick={() => history.push(`/business/${entrepreneurship.name}`)} >{entrepreneurship.name}</Link></OrderSubtitle>}
       <Text>{buyerView ? "Enviado" : "Recibido"} el {createDate}</Text>
@@ -169,7 +168,7 @@ const OrderDetail = ({ order, buyerView = false }) => {
       {buyerView && !!images.length && (
         <ImagesContainer>
           {images.map((image, idx) => (
-            <ImageContainer key={`${product.name}Image${idx}`}>
+            <ImageContainer key={`${productSnapshot.productName}Image${idx}`}>
               <Image
                 src={image}
                 alt="viewProduct"
