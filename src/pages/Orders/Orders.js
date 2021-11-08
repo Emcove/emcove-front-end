@@ -235,7 +235,7 @@ const Orders = () => {
                   </LogoContainer>
                   }
                   <OrderData>
-                    <Product>{order.product.name}{order.totalPrice && ` - $${order.totalPrice}`}</Product>
+                    <Product>{order.productSnapshot.productName}{order.totalPrice && ` - $${order.totalPrice}`}</Product>
                     <BusinessName>{order.entrepreneurship.name}</BusinessName>
                     <PropertiesContainer>
                         {order.productSnapshot.chosenProps.map(prop => 
