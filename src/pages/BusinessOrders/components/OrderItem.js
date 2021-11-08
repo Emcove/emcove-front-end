@@ -227,14 +227,14 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus, displayOrderDeta
             </Button>
             {options &&
               <Options>
-                <OrderOption key="order-detail" onClick={() => displayOrderDetail(order)}>
+                <OrderOption key="order-detail" onClick={() => { showOptions(!options); displayOrderDetail(order); }}>
                   Ver detalle del pedido
                 </OrderOption>
                 <OrderOption key="user-reputation" onClick={() => history.push(`/reputation?from=business-orders&id=${order.user.id}`)}>
                   Ver reputación de usuario
                 </OrderOption>
                 {(currentState === 'ENTREGADO' || currentState === 'CANCELADO' || currentState === 'RECHAZADO') &&
-                  <OrderOption key="rate-user" onClick={() => {showOptions(!options); openEvaluationModal(order.user.id);}}>Calificar comprador</OrderOption>
+                  <OrderOption key="rate-user" onClick={() => { showOptions(!options); openEvaluationModal(order.user.id); }}>Calificar comprador</OrderOption>
                 }
               </Options>
             }
