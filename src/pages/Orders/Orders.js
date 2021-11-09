@@ -235,7 +235,7 @@ const Orders = () => {
                   </LogoContainer>
                   }
                   <OrderData>
-                    <Product>{order.product.name}{order.totalPrice && ` - $${order.totalPrice}`}</Product>
+                    <Product>{order.productSnapshot.productName}{order.totalPrice && ` - $${order.totalPrice}`}</Product>
                     <BusinessName>{order.entrepreneurship.name}</BusinessName>
                     <PropertiesContainer>
                         {order.productSnapshot.chosenProps.map(prop => 
@@ -250,7 +250,7 @@ const Orders = () => {
                   <Button  key={order.id} backgroundColor="transparent" onClick={(event) => handleOptionsClick(event, order.id)}>
                     <Icon className="orders__more-options--icon" type="more-options"/>
                   </Button>
-                 {options[order.id].visible &&
+                 {options[order.id].visible && (order.currentState === 'ENTREGADO' || order.currentState === 'CANCELADO' || order.currentState === 'RECHAZADO') &&
                     <Options>
                       <OrderOption onClick={(e) => { handleOptionsClick(e, order.id); openEvaluationModal(order.entrepreneurship.id); }}>Calificar emprendimiento</OrderOption>
                     </Options>

@@ -30,7 +30,7 @@ const UserInfo = styled.div`
 const User = styled.p`
   font-weight: 600;
   color: ${colors.textColor};
-  font-size: 20px;
+  font-size: 18px;
   margin: 0 0 10px;
 
   @media (max-width: 768px) {
@@ -52,12 +52,13 @@ const CommentContent = styled.div`
 `;
 
 const CommentTitle = styled.span`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   margin-bottom: 8px;
+  color: ${colors.textColor};
 
   @media (max-width: 768px) {
-    font-size: 18px;
+    font-size: 16px;
   }
 `;
 
@@ -69,13 +70,14 @@ const CommentDate = styled.div`
   text-align: left;
 
   @media (max-width: 768px) {
-    font-size: 18px;
+    font-size: 14px;
   }
 `;
 
 const CommentDescription = styled.p`
   font-size: 16px;
   margin: 0;
+  color: ${colors.textColor};
 `;
 
 const CommentsList = ({ comments, wording }) => (
