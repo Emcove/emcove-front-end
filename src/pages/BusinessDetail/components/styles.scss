@@ -45,3 +45,9 @@
 .fc-h-event {
   border-color: #E55934;
 }
+
+@media screen and (max-width: 768px) {
+  .fc-view-harness.fc-view-harness-active {
+    height: 346.148px !important;
+  }
+}
