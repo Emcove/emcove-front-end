@@ -149,7 +149,7 @@ const Layout = ({ children, login, registry, className }) => {
           </div>
           {!registry && 
             <ProfileAccess onClick={() => showProfileOptions(!profileOptions)}>
-              {loggedUser.avatar && <Avatar src={loggedUser.avatar} />} 
+              {loggedUser?.avatar && <Avatar src={loggedUser.avatar} />} 
               {!loggedUser.avatar && <Icons className="header-user-icon" type="user" />}
             </ProfileAccess>
           }
