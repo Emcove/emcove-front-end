@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components';
 import Icon from '../Icons';
 
 const Container = styled.div`
-  min-height: 100vh;
+  min-height: 100vmax;
   width: 100vw;
   position: absolute;
   top: 0;
@@ -67,6 +67,7 @@ const CloseModalButton = styled.button`
 
 const Modal = ({ open, setVisibility, children, minWidth }) => {
   useEffect(() => {
+    window.scrollTo(0, 0);
     document.addEventListener('keydown', (event) => {
       if(event.key === "Escape") {
         setVisibility(false);

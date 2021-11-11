@@ -214,6 +214,7 @@ const BusinessDetail = () => {
   const [locationModal, showLocationModal] = useState(false);
     
   useEffect(() => {
+    setLoading(true);
     const userBusiness = UserData.isUserBusiness(params.business);
     setIsUserBusiness(userBusiness);
 
@@ -242,7 +243,7 @@ const BusinessDetail = () => {
         }
       }
     });
-  }, []);
+  }, [params.business]);
   
   const handleProductClick = (product) => {
     setProductModalInfo({ visible: true, product });
