@@ -58,7 +58,12 @@ const BusinessOrders = () => {
   useEffect(() => {
     BusinessService.getBusinessOrders().then(response => {
       if (response.status === 200) {
-        setOrders(response.data.sort((a, b) => new Date(b.updateDate) - new Date(a.updateDate)));
+        setOrders(response.data.sort((a, b) => {
+          const arrayADate = a.updateDate.split('-');
+          const arrayBDate = b.updateDate.split('-');
+          
+          return new Date(`${arrayBDate[2]}-${arrayBDate[1]}-${arrayBDate[0]}`) - new Date(`${arrayADate[2]}-${arrayADate[1]}-${arrayADate[0]}`);
+        }));
       }
       setLoading(false);
     })
@@ -96,10 +101,20 @@ const BusinessOrders = () => {
 
     setTimeout(() => {
       if (asc) {
-        sortedOrders = orders.sort((order1, order2) => new Date(order1.updateDate) - new Date(order2.updateDate))
+        sortedOrders = orders.sort((a, b) => {
+          const arrayADate = a.updateDate.split('-');
+          const arrayBDate = b.updateDate.split('-');
+          
+          return new Date(`${arrayADate[2]}-${arrayADate[1]}-${arrayADate[0]}`) - new Date(`${arrayBDate[2]}-${arrayBDate[1]}-${arrayBDate[0]}`);
+        });
         setOrders(sortedOrders);
       } else {
-        sortedOrders = orders.sort((order1, order2) => new Date(order2.updateDate) - new Date(order1.updateDate))
+        sortedOrders = orders.sort((a, b) => {
+          const arrayADate = a.updateDate.split('-');
+          const arrayBDate = b.updateDate.split('-');
+          
+          return new Date(`${arrayBDate[2]}-${arrayBDate[1]}-${arrayBDate[0]}`) - new Date(`${arrayADate[2]}-${arrayADate[1]}-${arrayADate[0]}`);
+        });
         setOrders(sortedOrders);
       }
       setLoading(false);
