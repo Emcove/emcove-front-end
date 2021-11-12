@@ -100,6 +100,7 @@ const Home = () => {
 
   useEffect(() => {
     // Con esto hago que se filtren los emprendimientos cada vez que se clickea una categoria
+    setLoading(true);
     async function filterBusiness () {
       const data = {
         name:encodeURI(searchText),
