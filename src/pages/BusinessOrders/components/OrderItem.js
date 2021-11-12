@@ -219,7 +219,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus, displayOrderDeta
             type={currentState}
             onClick={() => onClickStatus(order)}
           >
-            {currentState.replaceAll('_', ' ')}
+            {currentState..replace(/_/g, " ")}
           </Status>
           <MoreOptions>
             <Button backgroundColor="transparent" onClick={() => showOptions(!options)}>

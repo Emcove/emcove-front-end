@@ -246,7 +246,7 @@ const Orders = () => {
                 </Group>
 
                 <OrderStatus>
-                  <Status type={order.currentState}>{order.currentState.replaceAll('_', ' ')}</Status>
+                  <Status type={order.currentState}>{order.currentState..replace(/_/g, " ")}</Status>
                   <Button  key={order.id} backgroundColor="transparent" onClick={(event) => handleOptionsClick(event, order.id)}>
                     <Icon className="orders__more-options--icon" type="more-options"/>
                   </Button>

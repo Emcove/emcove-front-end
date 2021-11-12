@@ -45,7 +45,7 @@ const OrderStatusEvolution = ({ orderTrackingData }) => {
     {orderTrackingData.map((status, index) => (
       <Status>
         <EvolutionGraphic type={status.state} length={calculateGraphicLenght(status.creationDate, orderTrackingData[index+1]?.creationDate)}/>
-        <StatusText>{status.creationDate} - <strong>{status.state.replaceAll('_', ' ')}</strong></StatusText>
+        <StatusText>{status.creationDate} - <strong>{status.state..replace(/_/g, " ")}</strong></StatusText>
       </Status>
     ))}
   </EvolutionContainer>
