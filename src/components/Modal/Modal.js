@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components';
 import Icon from '../Icons';
 
 const Container = styled.div`
-  min-height: 100vmax;
+  min-height: 100vh;
   width: 100vw;
   position: absolute;
   top: 0;
