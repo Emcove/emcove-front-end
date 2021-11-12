@@ -169,9 +169,7 @@ const Layout = ({ children, login, registry, className }) => {
       <Content loginContent={login}>
         {children}
       </Content>
-      <Footer>
-        <Link>Términos y condiciones</Link>
-      </Footer>
+      <Footer />
     </Container>
   )
 }
