@@ -86,7 +86,7 @@ const StatusUpdateComponent = ({ order, handleCancel, handleAccept, deliveryPoin
       deliveryPointId = order.userDeliveryPoint.id;
     }
 
-    handleAccept(selectedStatus..replace(/ /g, "_"), deliveryPointId, reason);
+    handleAccept(selectedStatus.replace(/ /g, "_"), deliveryPointId, reason);
   }
 
   return (

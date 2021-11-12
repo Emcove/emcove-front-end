@@ -143,7 +143,7 @@ const OrderDetail = ({ order, buyerView = false }) => {
       {!buyerView && <OrderSubtitle>Hecho por {user.name} {user.surname}</OrderSubtitle>}
       {buyerView && <OrderSubtitle>Pedido para <Link onClick={() => history.push(`/business/${entrepreneurship.name}`)} >{entrepreneurship.name}</Link></OrderSubtitle>}
       <Text>{buyerView ? "Enviado" : "Recibido"} el {createDate}</Text>
-      <Text>Última actualización <strong>{updateDate}</strong> a <strong>{currentState..replace(/_/g, " ")}</strong></Text>
+      <Text>Última actualización <strong>{updateDate}</strong> a <strong>{currentState.replace(/_/g, " ")}</strong></Text>
       {currentState === "RECHAZADO" && <Text>Motivo del rechazo: <strong>{closeReason}</strong></Text>}
       {buyerView && entrepreneurshipDeliveryPoint && currentState === "LISTO_PARA_ENTREGAR" && (!entrepreneurship.doesShipments || (entrepreneurship.doesShipments && !userDeliveryPoint)) &&
         <Group flexStart>
