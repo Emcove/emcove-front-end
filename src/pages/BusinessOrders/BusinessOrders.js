@@ -173,7 +173,7 @@ const BusinessOrders = () => {
             order={evaluatedOrder}
             handleAccept={(newStatus, deliveryPointId, reason) => updateOrderStatus(newStatus, deliveryPointId, reason)}
             handleCancel={() => { setOrderStatusModalVisibility(false); setEvaluatedOrder(null); }}
-            deliveryPoints={user.entrepreneurship.deliveryPoints}
+            deliveryPoints={evaluatedOrder.entrepreneurship.deliveryPoints}
           />
         }
       </Modal>
