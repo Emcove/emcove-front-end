@@ -231,6 +231,10 @@ const BusinessDetail = () => {
         if (collection_status === "approved") {
           SubscriptionService.subscribeBusiness(response.data.id, plan).then(response => {
             setExpirationDate(new Date(response.data.subscriptionExpirationDate).toLocaleDateString());
+            setBusiness({
+              ...business,
+              hasSubscription: 1,
+            });
             setSnackbarData({
               show: true,
               type: 'success',
