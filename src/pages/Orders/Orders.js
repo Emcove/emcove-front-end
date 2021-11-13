@@ -38,16 +38,27 @@ const SingleOrder = styled.div`
 `;
 
 const LogoContainer = styled.div`
-  width: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  position: relative;
+  overflow: hidden;
+  border: solid 1px rgba(0,0,0,0.05);
+  background-color: ${colors.white};
+  min-width: 50px;
+  max-width: 50px;
   height: 50px;
-  border-radius: 100%;
+  border-radius: 5px;
   margin-right: 16px;
 `;
 
 const BusinessLogo = styled.img`
-  height: 100%;
-  width: fit-content;
-  display: inline;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  background-color: transparent;
+  display: inline-table;
 `;
 
 const OrderData = styled.div`
