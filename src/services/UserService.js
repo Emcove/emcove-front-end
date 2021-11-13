@@ -31,9 +31,9 @@ class UserService {
         }
     }
 
-    async getUserReputation(username) {
+    async getUserReputation(userId) {
         try {
-            const resp = await axios.get(`${API_URL}/users/reputation/${username}`, { headers: {
+            const resp = await axios.get(`${API_URL}/users/${userId}/reputation`, { headers: {
                 authorization: localStorage.getItem('token'),
             }});
             return resp;

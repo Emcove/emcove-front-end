@@ -52,8 +52,8 @@ const Reputation = ({ username }) => {
       return response;
     }
 
-    async function getUserReputation(username) {
-      const response = await UserService.getUserReputation(username);
+    async function getUserReputation(userId) {
+      const response = await UserService.getUserReputation(userId);
       return response;
     }
 
