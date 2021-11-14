@@ -404,6 +404,7 @@ const BusinessDetail = () => {
             <MessengerCustomerChat
               pageId={business.facebook_page_id}
               appId={app_id}
+              language={'es_ES'}
             />
           }
           {!isUserBusiness && order && <Button primary onClick={() => sendOrder()}>Enviar pedido</Button>}
