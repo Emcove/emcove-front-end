@@ -9,6 +9,7 @@ import Title from "../../../components/Title";
 import Button from "../../../components/Button";
 
 import { colors } from "../../../styles/palette";
+import { GAPI_KEY, GCLIENT_ID, GDISCOVERY_DOCS, GSCOPES } from "../../../Constants";
 
 const Container = styled.div`
   position: relative;
@@ -78,29 +79,46 @@ const Calendar = ({ business }) => {
 
   useEffect(() => {
     const gapi = window.gapi;
-    gapi.client.calendar.events.list({
-        'calendarId': business.googleCalendarId,
-        'timeMin': (new Date()).toISOString(),
-        'showDeleted': false,
-        'singleEvents': true,
-        'maxResults': 60,
-        'orderBy': 'startTime',
-      }).then(response => {
-        if (response.status === 200) {
-          const gcalEvents = response.result.items;
-
-          const auxArray = gcalEvents.map(event => {
-            const auxObj = {
-              title: "Ocupado",
-              date: event.start.dateTime,
-              endTime: event.end.dateTime,
-            };
-            return auxObj;
-          })
-          setEvents(auxArray);
-        }
+    if (gapi && gapi.client){
+      fetchCalendarEvents(gapi);
+    } else {
+      gapi.load('client:auth2', () => {
+        gapi.client.init({
+          apiKey: GAPI_KEY,
+          clientId: GCLIENT_ID,
+          discoveryDocs: GDISCOVERY_DOCS,
+          scope: GSCOPES,
+        }).then(() => {
+          fetchCalendarEvents(gapi);
+        });
       });
+    }
   }, [business.googleCalendarId]);
+
+  const fetchCalendarEvents = (gapi) => {
+    gapi.client.calendar.events.list({
+      'calendarId': business.googleCalendarId,
+      'timeMin': (new Date()).toISOString(),
+      'showDeleted': false,
+      'singleEvents': true,
+      'maxResults': 60,
+      'orderBy': 'startTime',
+    }).then(response => {
+      if (response.status === 200) {
+        const gcalEvents = response.result.items;
+
+        const auxArray = gcalEvents.map(event => {
+          const auxObj = {
+            title: "Ocupado",
+            date: event.start.dateTime,
+            endTime: event.end.dateTime,
+          };
+          return auxObj;
+        })
+        setEvents(auxArray);
+      }
+    });
+  }
   
   const handleDateClick = (arg) => {
     const clickedDate = new Date(arg.date).toLocaleDateString();
