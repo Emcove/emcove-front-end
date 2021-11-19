@@ -196,7 +196,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus, displayOrderDeta
   const history = useHistory();
   const [options, showOptions] = useState(false);
 
-  const { updateDate, user, productSnapshot, currentState } = order;
+  const { updateDate,userId, userPersonalName,userPersonalSurname, productSnapshot, currentState } = order;
   const images = productSnapshot.images.map(image => image.image);
 
   return (
@@ -205,7 +205,7 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus, displayOrderDeta
         <Carrousel images={images} />
         <OrderData>
           <OrderDate>Última modificación {updateDate}</OrderDate>
-          <Buyer>{user.name} {user.surname}</Buyer>
+          <Buyer>{userPersonalName} {userPersonalSurname}</Buyer>
           <Product>{productSnapshot.productName}</Product>
           <PropertiesContainer>
             {productSnapshot.chosenProps.map(prop => 
@@ -230,11 +230,11 @@ const OrderItem = ({ order, openEvaluationModal, onClickStatus, displayOrderDeta
                 <OrderOption key="order-detail" onClick={() => { showOptions(!options); displayOrderDetail(order); }}>
                   Ver detalle del pedido
                 </OrderOption>
-                <OrderOption key="user-reputation" onClick={() => history.push(`/reputation?from=business-orders&id=${user.id}`)}>
+                <OrderOption key="user-reputation" onClick={() => history.push(`/reputation?from=business-orders&id=${userId}`)}>
                   Ver reputación de usuario
                 </OrderOption>
                 {(currentState === 'ENTREGADO' || currentState === 'CANCELADO' || currentState === 'RECHAZADO') &&
-                  <OrderOption key="rate-user" onClick={() => { showOptions(!options); openEvaluationModal(user.id); }}>Calificar comprador</OrderOption>
+                  <OrderOption key="rate-user" onClick={() => { showOptions(!options); openEvaluationModal(userId); }}>Calificar comprador</OrderOption>
                 }
               </Options>
             }

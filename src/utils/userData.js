@@ -5,10 +5,7 @@ class UserData {
   static hasBusiness(){
     const user = localStorage.getItem('user');
     if(user){
-      const business = JSON.parse(user).entrepreneurship;
-      if(business){
-        return true;
-      }
+      return JSON.parse(user).hasEntrepreneurship;
     }
     return false;
   }
@@ -25,9 +22,9 @@ class UserData {
     const user = localStorage.getItem('user');
     
     if (user) {
-      const business = JSON.parse(user).entrepreneurship;
-      if(business){
-        return business.name === businessName;
+      const parseUser = JSON.parse(user);
+      if(parseUser.hasEntrepreneurship){
+        return parseUser.entrepreneurshipName === businessName;
       }
     }
 

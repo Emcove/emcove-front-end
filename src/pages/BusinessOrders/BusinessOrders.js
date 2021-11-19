@@ -159,12 +159,12 @@ const BusinessOrders = () => {
         </OrdersContainer>
       </Container>
       <Modal key="feedback-modal" open={modalFeedbackVisible} setVisibility={setModalFeedbackVisible}>
-        {user && user.entrepreneurship && evaluatedUser &&
+        {user && user.hasEntrepreneurship && evaluatedUser &&
         <FeedbackForm
           evaluatedEntity={evaluatedUser}
           onClickCancel={() => setModalFeedbackVisible(false)}
           sendFeedback={UserService.registerFeedback}
-          sender={user && user.entrepreneurship.name}
+          sender={user && user.entrepreneurshipName}
         />}
       </Modal>
       <Modal key="status-modal" open={orderStatusModal} setVisibility={setOrderStatusModalVisibility}>
@@ -173,7 +173,7 @@ const BusinessOrders = () => {
             order={evaluatedOrder}
             handleAccept={(newStatus, deliveryPointId, reason) => updateOrderStatus(newStatus, deliveryPointId, reason)}
             handleCancel={() => { setOrderStatusModalVisibility(false); setEvaluatedOrder(null); }}
-            deliveryPoints={evaluatedOrder.entrepreneurship.deliveryPoints}
+            deliveryPoints={user.entrepreneurship.deliveryPoints}
           />
         }
       </Modal>
