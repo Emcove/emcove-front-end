@@ -218,14 +218,16 @@ const NewProduct = () => {
   }
 
   const addNewOptionToProperty = () => {
-    const property = { ...newProperty };
+    if (editingValue !== '') {
+      const property = { ...newProperty };
 
-    property.options.descriptions = [ editingValue, ...newProperty.options.descriptions ];
-    property.options.prices = [ editingPrice || '0', ...newProperty.options.prices ];
+      property.options.descriptions = [ editingValue, ...newProperty.options.descriptions ];
+      property.options.prices = [ editingPrice || '0', ...newProperty.options.prices ];
 
-    setNewProperty(property);
-    setEditingPrice('');
-    setEditingValue('');
+      setNewProperty(property);
+      setEditingPrice('');
+      setEditingValue('');
+    }
   }
   
   const addNewProperty = () => {
