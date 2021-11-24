@@ -10,6 +10,8 @@ import { colors } from "../../../styles/palette";
 
 import Loading from "../../../components/Loading/Loading";
 
+import { GAPI_KEY, GCLIENT_ID, GDISCOVERY_DOCS, GSCOPES } from "../../../Constants";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -43,6 +45,23 @@ const GoogleCalendarSetup = ({ business, handleCancel, handleSuccess, handleErro
 
   const handleCreateEvent = () => {
     // Perdon por toda esta cadena de promesas chiquis
+    if (gapi.auth2) {
+      calendarAuthRequest(gapi);
+    } else {
+      gapi.load('client:auth2', () => {
+        gapi.client.init({
+          apiKey: GAPI_KEY,
+          clientId: GCLIENT_ID,
+          discoveryDocs: GDISCOVERY_DOCS,
+          scope: GSCOPES,
+        }).then(() => {
+          calendarAuthRequest(gapi);
+        });
+      });
+    }
+  };
+
+  const calendarAuthRequest = (gapi) => {
     gapi.auth2.getAuthInstance().signIn().then(() => { 
       setLoading(true);
       gapi.client.calendar.calendars.insert({
