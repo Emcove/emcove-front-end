@@ -487,7 +487,7 @@ const NewProduct = () => {
                       disabled
                     />
                   </div>
-                  <Subtitle>{property.options.map(option => option.description).join(', ')}</Subtitle>
+                  <Subtitle>{property.options.map((option) => option.description + ` - $ ${option.price}`).join(', ')}</Subtitle>
                 </PropertyGroup>
                 <PropertyGroup alignment="flex-end" width="10%">
                   <Button
