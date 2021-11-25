@@ -96,6 +96,10 @@ const PropertyGroup = styled.div`
   ${props => props.width && css `
     width: ${props.width};
   `}
+
+  ${props => props.verticalAligment && css `
+    align-items: ${props.verticalAligment};
+  `}
 `;
 
 const PreviewImgContainer = styled.div`
@@ -473,27 +477,19 @@ const NewProduct = () => {
           }
           {!!properties && properties.map((property, index) => (
               <PropertyData key={property.name}>
-                <PropertyGroup>
-                  <TextInput 
-                    type="text"
-                    value={property.name}
-                    id={`${property.name}Preview`}
-                    label="Característica"
-                    disabled
-                  />
-                  <TextInput 
-                    type="text"
-                    value={property.options.map(option => option.description).join(', ')}
-                    id={`${property.name}ValuesPreview`}
-                    label="Valores"
-                    disabled
-                  />
+                <PropertyGroup verticalAligment="center" width="80%">
+                  <div style={{ width: "45%", marginRight: "20px" }}>
+                    <TextInput 
+                      type="text"
+                      value={property.name}
+                      id={`${property.name}Preview`}
+                      label="Característica"
+                      disabled
+                    />
+                  </div>
+                  <Subtitle>{property.options.map(option => option.description).join(', ')}</Subtitle>
                 </PropertyGroup>
-                <PropertyGroup alignment="flex-end">
-                  <Dropdown
-                    label={property.name}
-                    options={property.options.map(option => `${option.description} - $${option.price}`)}
-                  />
+                <PropertyGroup alignment="flex-end" width="10%">
                   <Button
                     backgroundColor="transparent"
                     alignment="center"
