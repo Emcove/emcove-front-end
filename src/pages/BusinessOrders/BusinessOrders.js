@@ -55,7 +55,16 @@ const BusinessOrders = () => {
   const [orderDetailModal, setOrderDetailModalVisibility] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
+  const [business, setBusiness] = useState(null);
+
   useEffect(() => {
+    BusinessService.getBusinessByName(user.entrepreneurshipName).then(response => {
+      debugger;
+      if (response.status === 200) {
+        setBusiness(response.data);
+      }
+    });
+
     BusinessService.getBusinessOrders().then(response => {
       if (response.status === 200) {
         setOrders(response.data.sort((a, b) => {
@@ -173,7 +182,7 @@ const BusinessOrders = () => {
             order={evaluatedOrder}
             handleAccept={(newStatus, deliveryPointId, reason) => updateOrderStatus(newStatus, deliveryPointId, reason)}
             handleCancel={() => { setOrderStatusModalVisibility(false); setEvaluatedOrder(null); }}
-            deliveryPoints={user.entrepreneurship.deliveryPoints}
+            deliveryPoints={business.deliveryPoints}
           />
         }
       </Modal>
