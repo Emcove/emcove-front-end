@@ -59,23 +59,23 @@ const BusinessOrders = () => {
 
   useEffect(() => {
     BusinessService.getBusinessByName(user.entrepreneurshipName).then(response => {
-      debugger;
       if (response.status === 200) {
         setBusiness(response.data);
+        
+        BusinessService.getBusinessOrders().then(response => {
+        if (response.status === 200) {
+          setOrders(response.data.sort((a, b) => {
+              const arrayADate = a.updateDate.split('-');
+              const arrayBDate = b.updateDate.split('-');
+              
+              return new Date(`${arrayBDate[2]}-${arrayBDate[1]}-${arrayBDate[0]}`) - new Date(`${arrayADate[2]}-${arrayADate[1]}-${arrayADate[0]}`);
+            }));
+          }
+          setLoading(false);
+        })
       }
     });
 
-    BusinessService.getBusinessOrders().then(response => {
-      if (response.status === 200) {
-        setOrders(response.data.sort((a, b) => {
-          const arrayADate = a.updateDate.split('-');
-          const arrayBDate = b.updateDate.split('-');
-          
-          return new Date(`${arrayBDate[2]}-${arrayBDate[1]}-${arrayBDate[0]}`) - new Date(`${arrayADate[2]}-${arrayADate[1]}-${arrayADate[0]}`);
-        }));
-      }
-      setLoading(false);
-    })
   }, []);
 
   const openEvaluationModal = (clientId) => {
