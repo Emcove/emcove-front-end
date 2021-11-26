@@ -139,12 +139,6 @@ class BusinessService {
         authorization: localStorage.getItem('token'),
       }});
 
-      let user = JSON.parse(localStorage.getItem("user"));
-
-      user.entrepreneurship.deliveryPoints = response.data.deliveryPoints;
-
-      localStorage.setItem("user",JSON.stringify(user));
-
       return response;
     } catch (error) {
       return error.response;
