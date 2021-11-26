@@ -9,7 +9,8 @@ class BusinessService {
         authorization: localStorage.getItem('token'),
       }});
       let user = JSON.parse(localStorage.getItem("user"));
-      user.entrepreneurship = resp.data;
+      user.entrepreneurshipName = resp.data.name;
+      user.hasEntrepreneurship = true;
       localStorage.setItem("user",JSON.stringify(user));
       return resp;
     } catch(error) {
@@ -23,7 +24,7 @@ class BusinessService {
         authorization: localStorage.getItem('token'),
       }});
       let user = JSON.parse(localStorage.getItem("user"));
-      user.entrepreneurship = resp.data;
+      user.entrepreneurshipName = resp.data.name;
       localStorage.setItem("user",JSON.stringify(user));
       return resp;
     } catch(error) {

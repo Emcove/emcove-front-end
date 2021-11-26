@@ -55,18 +55,27 @@ const BusinessOrders = () => {
   const [orderDetailModal, setOrderDetailModalVisibility] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
+  const [business, setBusiness] = useState(null);
+
   useEffect(() => {
-    BusinessService.getBusinessOrders().then(response => {
+    BusinessService.getBusinessByName(user.entrepreneurshipName).then(response => {
       if (response.status === 200) {
-        setOrders(response.data.sort((a, b) => {
-          const arrayADate = a.updateDate.split('-');
-          const arrayBDate = b.updateDate.split('-');
-          
-          return new Date(`${arrayBDate[2]}-${arrayBDate[1]}-${arrayBDate[0]}`) - new Date(`${arrayADate[2]}-${arrayADate[1]}-${arrayADate[0]}`);
-        }));
+        setBusiness(response.data);
+        
+        BusinessService.getBusinessOrders().then(response => {
+        if (response.status === 200) {
+          setOrders(response.data.sort((a, b) => {
+              const arrayADate = a.updateDate.split('-');
+              const arrayBDate = b.updateDate.split('-');
+              
+              return new Date(`${arrayBDate[2]}-${arrayBDate[1]}-${arrayBDate[0]}`) - new Date(`${arrayADate[2]}-${arrayADate[1]}-${arrayADate[0]}`);
+            }));
+          }
+          setLoading(false);
+        })
       }
-      setLoading(false);
-    })
+    });
+
   }, []);
 
   const openEvaluationModal = (clientId) => {
@@ -159,12 +168,12 @@ const BusinessOrders = () => {
         </OrdersContainer>
       </Container>
       <Modal key="feedback-modal" open={modalFeedbackVisible} setVisibility={setModalFeedbackVisible}>
-        {user && user.entrepreneurship && evaluatedUser &&
+        {user && user.hasEntrepreneurship && evaluatedUser &&
         <FeedbackForm
           evaluatedEntity={evaluatedUser}
           onClickCancel={() => setModalFeedbackVisible(false)}
           sendFeedback={UserService.registerFeedback}
-          sender={user && user.entrepreneurship.name}
+          sender={user && user.entrepreneurshipName}
         />}
       </Modal>
       <Modal key="status-modal" open={orderStatusModal} setVisibility={setOrderStatusModalVisibility}>
@@ -173,7 +182,7 @@ const BusinessOrders = () => {
             order={evaluatedOrder}
             handleAccept={(newStatus, deliveryPointId, reason) => updateOrderStatus(newStatus, deliveryPointId, reason)}
             handleCancel={() => { setOrderStatusModalVisibility(false); setEvaluatedOrder(null); }}
-            deliveryPoints={evaluatedOrder.entrepreneurship.deliveryPoints}
+            deliveryPoints={business.deliveryPoints}
           />
         }
       </Modal>

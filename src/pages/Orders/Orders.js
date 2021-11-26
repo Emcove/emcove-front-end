@@ -237,17 +237,17 @@ const Orders = () => {
             <SingleOrder key={order.id}>
               <Card alignment="space-between" animated onClick={() => openOrderDetailModal(order)}>
                 <Group>
-                  {order.entrepreneurship.logo && 
+                  {order.entrepreneurshipLogo && 
                   <LogoContainer>
                     <BusinessLogo
-                      src={order.entrepreneurship.logo}
+                      src={order.entrepreneurshipLogo}
                       alt="business logo"
                     />
                   </LogoContainer>
                   }
                   <OrderData>
                     <Product>{order.productSnapshot.productName}{order.totalPrice && ` - $${order.totalPrice}`}</Product>
-                    <BusinessName>{order.entrepreneurship.name}</BusinessName>
+                    <BusinessName>{order.entrepreneurshipName}</BusinessName>
                     <PropertiesContainer>
                         {order.productSnapshot.chosenProps.map(prop => 
                           <ProductProps key={prop.name}>{prop.name}: {prop.chosenOption}</ProductProps>
@@ -265,7 +265,7 @@ const Orders = () => {
                     </Button>
                     {options[order.id].visible && 
                       <Options>
-                        <OrderOption onClick={(e) => { handleOptionsClick(e, order.id); openEvaluationModal(order.entrepreneurship.id); }}>Calificar emprendimiento</OrderOption>
+                        <OrderOption onClick={(e) => { handleOptionsClick(e, order.id); openEvaluationModal(order.entrepreneurshipId); }}>Calificar emprendimiento</OrderOption>
                       </Options>
                     }
                     </>

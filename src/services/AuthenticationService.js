@@ -12,7 +12,7 @@ class AuthenticationService {
                     authorization: basicAuthHeader
                 }
             });
-            
+            console.log(resp.data);
             localStorage.setItem('user', JSON.stringify(resp.data));
             return resp;
         }catch(error){

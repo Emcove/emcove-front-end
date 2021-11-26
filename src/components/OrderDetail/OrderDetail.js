@@ -128,24 +128,27 @@ const OrderDetail = ({ order, buyerView = false }) => {
     details,
     totalPrice,
     productSnapshot,
-    user,
-    entrepreneurship,
+    username,
+    userPersonalName,
+    userPersonalSurname,
+    entrepreneurshipName,
+    entrepreneurshipDoesShipments,
     userDeliveryPoint,
     entrepreneurshipDeliveryPoint,
     closeReason,
   } = order;
   const history = useHistory();
-
+  console.log(order)
   const images = productSnapshot.images.map(image => image.image);
   return (
     <Container>
       <OrderTitle>Pedido {id} - {productSnapshot.productName}</OrderTitle>
-      {!buyerView && <OrderSubtitle>Hecho por {user.name} {user.surname}</OrderSubtitle>}
-      {buyerView && <OrderSubtitle>Pedido para <Link onClick={() => history.push(`/business/${entrepreneurship.name}`)} >{entrepreneurship.name}</Link></OrderSubtitle>}
+      {!buyerView && <OrderSubtitle>Hecho por {userPersonalName} {userPersonalSurname}</OrderSubtitle>}
+      {buyerView && <OrderSubtitle>Pedido para <Link onClick={() => history.push(`/business/${entrepreneurshipName}`)} >{entrepreneurshipName}</Link></OrderSubtitle>}
       <Text>{buyerView ? "Enviado" : "Recibido"} el {createDate}</Text>
       <Text>Última actualización <strong>{updateDate}</strong> a <strong>{currentState.replace(/_/g, " ")}</strong></Text>
       {currentState === "RECHAZADO" && <Text>Motivo del rechazo: <strong>{closeReason}</strong></Text>}
-      {buyerView && entrepreneurshipDeliveryPoint && currentState === "LISTO_PARA_ENTREGAR" && (!entrepreneurship.doesShipments || (entrepreneurship.doesShipments && !userDeliveryPoint)) &&
+      {buyerView && entrepreneurshipDeliveryPoint && currentState === "LISTO_PARA_ENTREGAR" && (!entrepreneurshipDoesShipments || (entrepreneurshipDoesShipments && !userDeliveryPoint)) &&
         <Group flexStart>
           <InfoIcon>!</InfoIcon>
           <PropText>Retirar en <strong>{entrepreneurshipDeliveryPoint.address.street} {entrepreneurshipDeliveryPoint.address.number}, {entrepreneurshipDeliveryPoint.address.department} {entrepreneurshipDeliveryPoint.address.state}</strong></PropText>
@@ -157,7 +160,7 @@ const OrderDetail = ({ order, buyerView = false }) => {
           <OrderStatusEvolution orderTrackingData={order.orderTrackingData} />
         </>
       }
-      { !buyerView && entrepreneurship.doesShipments && userDeliveryPoint &&
+      { !buyerView && entrepreneurshipDoesShipments && userDeliveryPoint &&
         <Group flexStart>
           <InfoIcon>!</InfoIcon>
           <PropText>A entregar en <strong>{userDeliveryPoint.address.street} {userDeliveryPoint.address.number}, {userDeliveryPoint.address.department} {userDeliveryPoint.address.state}</strong></PropText>
