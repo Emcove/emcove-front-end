@@ -48,6 +48,7 @@ const ProductionTimeContainer = styled.div`
 
 const PropertiesContainer = styled.div`
   width: 100%;
+  height: 500px;
   border-bottom: solid 1px #b3aeae3b;
 `;
 
@@ -55,6 +56,7 @@ const Subtitle = styled.p`
   font-size: 18px;
   font-family: 'Raleway', sans-serif;
   color: ${colors.textColor};
+  margin: 8px 0;
 `;
 
 const Label = styled.p`
@@ -64,8 +66,8 @@ const Label = styled.p`
 `;
 
 const Properties = styled.div`
-  max-height: 180px;
-  height: 180px;
+  max-height: 410px;
+  height: 410px;
   display: flex;
   flex-direction: column;
   margin-top: 16px;
@@ -93,6 +95,10 @@ const PropertyGroup = styled.div`
 
   ${props => props.width && css `
     width: ${props.width};
+  `}
+
+  ${props => props.verticalAligment && css `
+    align-items: ${props.verticalAligment};
   `}
 `;
 
@@ -181,9 +187,16 @@ const DeleteImageButton = styled.button`
   }
 `;
 
+const TextHint = styled.span`
+  font-size: 14px;
+  color: ${colors.textColor};
+`;
+
 const NewProduct = () => {
   const imagesUploaderRef = useRef('multipleUploader');
   const { addNewProduct } = useContext(BusinessContext);
+
+  const [step, setStep] = useState(1);
 
   const [name, setProductName] = useState('');
   const [description, setProductDescription] = useState('');
@@ -195,7 +208,9 @@ const NewProduct = () => {
   const [productionTime, setProductionTime] = useState('');
   const [stockCheckbox, setStockCheckbox] = useState(true);
 
-  const [newProperty, setNewProperty] = useState({ name: '', options: { descriptions: '', prices: '' } });
+  const [newProperty, setNewProperty] = useState({ name: '', options: { descriptions: [], prices: [] } });
+  const [editingValue, setEditingValue] = useState('');
+  const [editingPrice, setEditingPrice] = useState('');
 
   const [properties, setProductProperties] = useState([]);
 
@@ -206,21 +221,27 @@ const NewProduct = () => {
     setNewProperty({ ...newProperty, name });
   }
 
-  const handleValuePropertyChange = (values) => {
-    setNewProperty({ ...newProperty, options: { ...newProperty.options, descriptions: values } });
-  }
+  const addNewOptionToProperty = () => {
+    if (editingValue !== '') {
+      const property = { ...newProperty };
 
-  const handlePricePropertyChange = (values) => {
-    setNewProperty({ ...newProperty, options: { ...newProperty.options, prices: values } });
-  }
+      property.options.descriptions = [ editingValue, ...newProperty.options.descriptions ];
+      property.options.prices = [ editingPrice || '0', ...newProperty.options.prices ];
 
+      setNewProperty(property);
+      setEditingPrice('');
+      setEditingValue('');
+    }
+  }
+  
   const addNewProperty = () => {
-    if ( newProperty.name !== '' && newProperty.options !== '') {
-      const options = newProperty.options.descriptions.replace(/\s/g, '').split(",");
-      const prices = newProperty.options.prices.replace(/\s/g, '').split(",");
+    addNewOptionToProperty();
+    
+    if ( newProperty.name !== '') {
+      const { descriptions, prices } = newProperty.options;
 
       const newProp = { name: newProperty.name };
-      newProp.options = options.map((option, idx) => {
+      newProp.options = descriptions.map((option, idx) => {
         const obj = {
           description: option,
           price: parseFloat(prices[idx]) || 0.0,
@@ -248,7 +269,7 @@ const NewProduct = () => {
         setProductProperties([ ...newProperties, newProp]);
       }
   
-      setNewProperty({ name: '', options: { descriptions: '', prices: '' } });
+      setNewProperty({ name: '', options: { descriptions: [], prices: [] } });
       showAddNewProp(false);
     }
   }
@@ -315,6 +336,8 @@ const NewProduct = () => {
 
   return (
     <Container>
+      { step === 1 &&
+      <>
       <Group>
         <ImagesContainer>
           {showAddNewImage && 
@@ -371,27 +394,31 @@ const NewProduct = () => {
         </InputContainer>
       </Group>
       <Group>
-      <ProductionDataContainer>
-        <Checkbox
-            id="stockCheckbox"
-            label="Entrega inmediata"
-            checked={stockCheckbox}
-            onClick={() => setStockCheckbox(!stockCheckbox)}
-          />
-         <ProductionTimeContainer>
-            <Label>Días de producción:</Label>
-            <TextInput
-              type="number"
-              value={productionTime}
-              id="productionTime"
-              onChange={setProductionTime}
-              className="production-time__input"
+        <ProductionDataContainer>
+          <Checkbox
+              id="stockCheckbox"
+              label="Entrega inmediata"
+              checked={stockCheckbox}
+              onClick={() => setStockCheckbox(!stockCheckbox)}
             />
-          </ProductionTimeContainer>
-      </ProductionDataContainer>
+          <ProductionTimeContainer>
+              <Label>Días de producción:</Label>
+              <TextInput
+                type="number"
+                value={productionTime}
+                id="productionTime"
+                onChange={setProductionTime}
+                className="production-time__input"
+              />
+            </ProductionTimeContainer>
+        </ProductionDataContainer>
       </Group>
+      </>
+      }
+      {step === 2 && 
       <PropertiesContainer>
         <Subtitle>Características</Subtitle>
+        <TextHint>Acá vamos a completar las distintas variantes que puede tener tu producto y el valor agregado por cada una.</TextHint>
         <Properties>
         {addNew && 
           <PropertyData>
@@ -405,52 +432,64 @@ const NewProduct = () => {
                 placeholder="Nombre"
                 className="new-property__name"
               />
-              <TextInput 
-                type="text"
-                value={newProperty.options.descriptions}
-                id="propertyValues"
-                onChange={handleValuePropertyChange}
-                hint="Valores posibles separados por coma"
-                placeholder="Valores posibles"
-              />
-              <TextInput 
-                type="text"
-                value={newProperty.options.prices}
-                id="propertyPrice"
-                onChange={handlePricePropertyChange}
-                hint="Separados por coma usá el punto para centavos (10.50)"
-                placeholder="Precios"
-              />
+              <div>
+                <PropertyGroup>
+                  <TextInput 
+                    type="text"
+                    value={editingValue}
+                    id="propertyVariant"
+                    onChange={setEditingValue}
+                    hint="Rojo, Azul, Amarillo, etc."
+                    placeholder="Valor"
+                    className="new-property__name"
+                  />
+                  <TextInput 
+                    type="text"
+                    value={editingPrice}
+                    id="variantPrice"
+                    onChange={setEditingPrice}
+                    hint="El monto en el que aumenta el precio al elegir esta opción"
+                    placeholder="Precio"
+                    className="new-property__name"
+                  />
+                  <Link onClick={addNewOptionToProperty}>Nuevo valor</Link>
+                </PropertyGroup>
+                {!!newProperty.options.descriptions.length && newProperty.options.descriptions.map((desc, idx) => 
+                  <PropertyGroup hiddenLine>
+                    <TextInput
+                      type="text"
+                      disabled
+                      value={desc}
+                    />
+                    <TextInput
+                      type="text"
+                      disabled
+                      value={newProperty.options.prices[idx]}
+                    />
+                  </PropertyGroup>
+                )}
+              </div>
             </PropertyGroup>
             <Button backgroundColor={colors.success} onClick={addNewProperty} alignment="flex-start">
               <Icon type="check" className="done-button__icon"/>
             </Button>
           </PropertyData>
           }
-          {!addNew && <Link onClick={() => showAddNewProp(true)} className="add-prop__button">+ Nueva característica</Link>}
           {!!properties && properties.map((property, index) => (
               <PropertyData key={property.name}>
-                <PropertyGroup>
-                  <TextInput 
-                    type="text"
-                    value={property.name}
-                    id={`${property.name}Preview`}
-                    label="Característica"
-                    disabled
-                  />
-                  <TextInput 
-                    type="text"
-                    value={property.options.map(option => option.description).join(', ')}
-                    id={`${property.name}ValuesPreview`}
-                    label="Valores"
-                    disabled
-                  />
+                <PropertyGroup verticalAligment="center" width="80%">
+                  <div style={{ width: "45%", marginRight: "20px" }}>
+                    <TextInput 
+                      type="text"
+                      value={property.name}
+                      id={`${property.name}Preview`}
+                      label="Característica"
+                      disabled
+                    />
+                  </div>
+                  <Subtitle>{property.options.map((option) => option.description + ` - $ ${option.price}`).join(', ')}</Subtitle>
                 </PropertyGroup>
-                <PropertyGroup alignment="flex-end">
-                  <Dropdown
-                    label={property.name}
-                    options={property.options.map(option => `${option.description} - $${option.price}`)}
-                  />
+                <PropertyGroup alignment="flex-end" width="10%">
                   <Button
                     backgroundColor="transparent"
                     alignment="center"
@@ -461,9 +500,16 @@ const NewProduct = () => {
                 </PropertyGroup>
               </PropertyData>
           ))}
+          {!addNew && <Link onClick={() => showAddNewProp(true)} className="add-prop__button">+ Nueva característica</Link>}
         </Properties>
-      </PropertiesContainer>
-      <Button primary onClick={createProduct} style={{"width": "25%", "alignSelf": "center", "marginTop": "20px" }}>Aceptar</Button>
+      </PropertiesContainer>}
+      {step === 1 && <Button primary onClick={() => setStep(step + 1)} style={{"width": "25%", "alignSelf": "center", "marginTop": "20px" }}>Siguiente</Button>}
+      {step === 2 && 
+      <ProductionDataContainer>
+        <Button secondary onClick={() => setStep(step - 1)} style={{"width": "25%", "alignSelf": "center", "marginTop": "20px" }}>Atrás</Button>
+        <Button primary onClick={createProduct} style={{"width": "25%", "alignSelf": "center", "marginTop": "20px" }}>Aceptar</Button>
+      </ProductionDataContainer>
+      }
     </Container>
   );
 }
